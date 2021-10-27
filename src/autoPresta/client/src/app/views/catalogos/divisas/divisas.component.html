@@ -1,0 +1,128 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{datos.componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{datos.icono}}"></i> {{datos.modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{datos.componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+          <div class="body">
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>
+                            {{datos.titulo}}
+                          </strong>
+                        </h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label>
+                          <i class="material-icons search-icon"></i>
+                        </label>
+                        <input placeholder="Buscar..." type="text" #filter class="browser-default search-field">
+                      </li>
+                      <li>
+                        <div class="icon-button m-l-10" [hidden]=!selection.hasValue()>
+                          <button mat-mini-fab color="warn" matTooltip="Eliminar {{datos.componente.toLowerCase()}} seleccionados">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button">
+                          <button mat-mini-fab color="primary" matTooltip="Agregar {{datos.titulo.toLowerCase()}}" (click)="save()">
+                            <mat-icon>add</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                      <li>
+                        <div class="icon-button">
+                          <button mat-mini-fab color="accent" matTooltip="Recargar {{datos.componente.toLowerCase()}}" (click)="loadData()">
+                            <mat-icon>refresh</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
+                <!--                Container del checkbox-->
+                <ng-container matColumnDef="select">
+                  <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                    <mat-checkbox (change)="$event ? masterToggle() : null"
+                                  [checked]="selection.hasValue() && isAllSelected()"
+                                  [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+                    </mat-checkbox>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                    <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                  [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                    </mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+
+                <!--                Columnas del catalogo-->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell [ngClass]="'tbl-col-width-per-6'" *matHeaderCellDef mat-sort-header>Folio</mat-header-cell>
+                  <mat-cell [ngClass]="'tbl-col-width-per-6'" *matCellDef="let row">{{row.id}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="clave">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Clave</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.clave}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="descripcion">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.descripcion}}</mat-cell>
+                </ng-container>
+                <!--                Acciones-->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell [ngClass]="'tbl-col-width-per-6'" *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
+                  <mat-cell [ngClass]="'tbl-col-width-per-6'" *matCellDef="let row; let i=index" class="pr-0">
+                    <button mat-icon-button color="primary" (click)="$event.stopPropagation(); save(row)" matTooltip="Editar {{datos.titulo}}">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="$event.stopPropagation(); delete(row)" matTooltip="Eliminar {{datos.titulo}}">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="save(row)"
+                         [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+
+                <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se encontraron Resultados</div>
+                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </mat-table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

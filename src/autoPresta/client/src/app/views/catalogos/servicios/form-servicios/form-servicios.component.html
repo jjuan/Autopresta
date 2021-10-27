@@ -1,0 +1,110 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Folio</mat-label>
+            <input matInput formControlName="id" readonly>
+            <mat-icon matSuffix>turned_in_not</mat-icon>
+            <mat-error *ngIf="formulario.get('id').hasError('required')">
+              Folio es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>GPS 1</mat-label>
+            <mat-select formControlName="gps1">
+              <mat-option *ngFor="let item of gps1Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('gps1').hasError('required')">
+              GPS 1 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Proveedor 1</mat-label>
+            <mat-select formControlName="proveedor1">
+              <mat-option *ngFor="let item of proveedores1Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('proveedor1').hasError('required')">
+              Proveedor 1 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>GPS 1</mat-label>
+            <mat-select formControlName="gps1">
+              <mat-option *ngFor="let item of gps1Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('gps1').hasError('required')">
+              GPS 1 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Proveedor 2</mat-label>
+            <mat-select formControlName="proveedor2">
+              <mat-option *ngFor="let item of proveedores2Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('proveedor2').hasError('required')">
+              Proveedor 2 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>GPS 2</mat-label>
+            <mat-select formControlName="gps2">
+              <mat-option *ngFor="let item of gps2Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('gps2').hasError('required')">
+              GPS 2 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Proveedor 3</mat-label>
+            <mat-select formControlName="proveedor3">
+              <mat-option *ngFor="let item of proveedores3Combo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('proveedor3').hasError('required')">
+              Proveedor 3 es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

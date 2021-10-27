@@ -1,0 +1,95 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Folio</mat-label>
+            <input matInput formControlName="id" readonly>
+            <mat-icon matSuffix>turned_in_not</mat-icon>
+            <mat-error *ngIf="formulario.get('id').hasError('required')">
+              Folio es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre">
+            <mat-error *ngIf="formulario.get('nombre').hasError('required')">
+              Nombre es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Sucursal</mat-label>
+            <mat-select formControlName="sucursal">
+              <mat-option *ngFor="let item of sucursalCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('sucursal').hasError('required')">
+              Sucursal es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Region</mat-label>
+            <mat-select formControlName="region">
+              <mat-option *ngFor="let item of regionCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('region').hasError('required')">
+              Region es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Portafolio</mat-label>
+            <mat-select formControlName="portafolio">
+              <mat-option *ngFor="let item of portafolioCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('portafolio').hasError('required')">
+              Portafolio es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Clave</mat-label>
+            <input matInput formControlName="clave">
+            <mat-error *ngIf="formulario.get('clave').hasError('required')">
+              clave es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

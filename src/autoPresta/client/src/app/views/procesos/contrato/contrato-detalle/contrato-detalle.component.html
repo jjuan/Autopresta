@@ -1,0 +1,37 @@
+<div class="container">
+  <h3 mat-dialog-title>¿Estas seguro?</h3>
+  <div mat-dialog-content>
+    <ul class="clearfix">
+      <li>
+        <p><span class="font-weight-bold"> Nombre(s): </span>{{data.descripcionCorta}}  </p>
+        <p><span class="font-weight-bold"> Apellido Paterno: </span>{{data.descripcionCorta}} </p>
+        <p><span class="font-weight-bold"> Apellido Materno: </span>{{data.descripcionCorta}} </p>
+      </li>
+    </ul>
+
+    <div class="tableBody">
+      <div class="table-responsive">
+        <table class="table table-hover dashboard-task-infos align-right">
+          <thead>
+          <tr>
+            <th>Pago</th>
+            <th>Fecha de Pago</th>
+            <th>Interes</th>
+            <th>Monitoreo</th>
+            <th>GPS</th>
+            <th>Capital</th>
+            <th>IVA</th>
+            <th>Total con IVA</th>
+            <th>Saldo Final</th>
+          </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div mat-dialog-actions class="mb-1">
+      <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="confirmDelete()">
+        Imprimir Reporte
+      </button>
+    </div>
+  </div>
+</div>

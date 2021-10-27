@@ -1,0 +1,196 @@
+<nav #navbar class="navbar" [ngClass]="isNavbarShow ? 'active' : 'inactive'">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="#" onClick="return false;" class="navbar-toggle collapsed"
+         (click)="isNavbarCollapsed = !isNavbarCollapsed" aria-expanded="false"></a>
+      <!-- mobile menu bars -->
+      <a href="#" onClick="return false;" class="bars" (click)="mobileMenuSidebarOpen($event,'overlay-open')"></a>
+      <a class="navbar-brand" routerLink="Procesos/Contrato">
+        <img src="assets/images/logo.png" alt=""/>
+        <span class="logo-name">{{logoName}}</span>
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed">
+      <ul class="pull-left collapse-menu-icon">
+        <li>
+          <button mat-icon-button (click)="callSidemenuCollapse()" class="sidemenu-collapse">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <!-- Full Screen Button -->
+        <li class="fullscreen">
+          <form class="register-form m-2" [formGroup]="formulario">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  m-b-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha Portafolio</mat-label>
+                <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="fecha" name="fecha" formControlName="fecha" (dateChange)="actualizarPortafolio()">
+                <mat-datepicker-toggle matSuffix [for]="fecha"></mat-datepicker-toggle>
+                <mat-datepicker #fecha></mat-datepicker>
+                <mat-error *ngIf="formulario.get('fecha').hasError('required')">
+                  Fecha Portafolio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </form>
+        </li>
+        <!-- #END# Full Screen Button -->
+        <!--        <li class="nav-item" ngbDropdown>-->
+        <!--          <a ngbDropdownToggle class="lang-dropdown">-->
+        <!--            &lt;!&ndash;            <span class="country-name"> <mat-icon size="16">work</mat-icon> SACCSA Soluciones en Computo de Mexico SA de CV</span>&ndash;&gt;-->
+
+        <!--            &lt;!&ndash;          <div class="row clearfix demo-icon-container">&ndash;&gt;-->
+        <!--            <div class="row clearfix demo-icon-container">-->
+        <!--              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+        <!--                <div>-->
+        <!--                  <div class="demo-google-material-icon">-->
+        <!--                    <i class="material-icons">work</i>-->
+        <!--                    <span class="icon-name">Saccsa Soluciones en Computo de Mexico SA de CV</span>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--            </div>-->
+        <!--            &lt;!&ndash;          </div>&ndash;&gt;-->
+        <!--            &lt;!&ndash;            <img *ngIf="flagvalue === undefined" src="{{defaultFlag}}" height="16">&ndash;&gt;-->
+        <!--            &lt;!&ndash;            <span *ngIf="flagvalue === undefined" class="country-name">English</span>&ndash;&gt;-->
+        <!--          </a>-->
+        <!--          <div ngbDropdownMenu class="dropdown-menu lang-item dropdown-menu-right pullDown">-->
+        <!--            <a href="javascript:void(0);" class="dropdown-item lang-item-list" *ngFor="let item of listLang"-->
+        <!--               [ngClass]="{'active': langStoreValue === item.lang}">-->
+        <!--              <div class="row clearfix demo-icon-container">-->
+        <!--                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
+        <!--                  <div>-->
+        <!--                    <div class="demo-google-material-icon">-->
+        <!--                      <i class="material-icons">work</i>-->
+        <!--                      <span class="icon-name">Saccsa Soluciones en Computo de Mexico SA de CV</span>-->
+        <!--                    </div>-->
+        <!--                  </div>-->
+        <!--                </div>-->
+        <!--              </div>-->
+        <!--              &lt;!&ndash;              <img src="{{item.flag}}" class="flag-img" height="12"> <span class="align-middle">{{item.text}}</span>&ndash;&gt;-->
+        <!--            </a>-->
+        <!--          </div>-->
+        <!--          &lt;!&ndash;          </div>&ndash;&gt;-->
+        <!--        </li>-->
+        <!-- #START# Notifications-->
+        <!--        <li class="nav-item" ngbDropdown>-->
+        <!--          <button mat-icon-button ngbDropdownToggle class="nav-notification-icons" *ngIf="!notifications">-->
+        <!--            <mat-icon>notifications_none</mat-icon>-->
+        <!--            &lt;!&ndash;            <span class="label-count bg-orange"></span>&ndash;&gt;-->
+        <!--          </button>-->
+        <!--          <button mat-icon-button ngbDropdownToggle class="nav-notification-icons" *ngIf="notifications">-->
+        <!--            <mat-icon>notifications</mat-icon>-->
+        <!--            <span class="label-count bg-orange"></span>-->
+        <!--          </button>-->
+        <!--          <div ngbDropdownMenu class="notification-dropdown pullDown">-->
+        <!--            <div class="noti-list" style="position: relative; max-width: 600px; max-height: 250px;" [perfectScrollbar]>-->
+        <!--              <ul class="menu">-->
+        <!--                <li>-->
+        <!--                  <a href="#" *ngFor="let notification of notifications" onClick="return false;">-->
+        <!--                    <span class="table-img msg-user">-->
+        <!--                      <img src="{{notification.userImg}}" alt="">-->
+        <!--                    </span>-->
+        <!--                    <span class="menu-info">-->
+        <!--                      <span class="menu-title">{{notification.userName}}</span>-->
+        <!--                      <span class="menu-desc">-->
+        <!--                        <i class="material-icons">access_time</i> {{notification.time}}-->
+        <!--                      </span>-->
+        <!--                      <span class="menu-desc">{{notification.message}}</span>-->
+        <!--                    </span>-->
+        <!--                  </a>-->
+        <!--                </li>-->
+        <!--              </ul>-->
+        <!--            </div>-->
+        <!--            <a class="text-center d-block border-top py-1" href="#"-->
+        <!--               onClick="return false;">{{notifications ? 'Marcar como leidas' : 'No hay notificaciones aun'}}</a>-->
+        <!--          </div>-->
+        <!--        </li>-->
+        <!-- #END# Notifications-->
+        <li class="nav-item user_profile" ngbDropdown>
+          <a href="#" onClick="return false;" ngbDropdownToggle role="button" class="nav-notification-icons pt-0">
+            <img src="assets/images/user/64x64/{{avatar}}.png" class="rounded-circle" width="32" height="32" alt="User">
+          </a>
+          <div ngbDropdownMenu class="notification-dropdown pullDown">
+            <div class="noti-list" style="position: relative; max-width: 600px; max-height: 300px;" [perfectScrollbar]>
+              <ul class="menu">
+                <li class="body">
+                  <ul class="user_dw_menu">
+                    <li>
+                      <a href="#" onClick="return false;">
+                        <mat-icon aria-hidden="false" class="mr-2">person</mat-icon>
+                        Perfil
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick="return false;">
+                        <mat-icon aria-hidden="false" class="mr-2">feedback</mat-icon>
+                        Soporte
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#" onClick="return false;">
+                        <mat-icon aria-hidden="false" class="mr-2">help</mat-icon>
+                        Ayuda
+                      </a>
+                    </li>
+                    <li>
+                      <a href="javascript:void(0);" (click)="logout()">
+                        <mat-icon aria-hidden="false" class="mr-2">power_settings_new</mat-icon>
+                        Salir
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </li>
+        <!-- #END# Tasks -->
+        <!--        <li ngbDropdown #myDrop="ngbDropdown">-->
+        <!--          &lt;!&ndash;          <button mat-icon-button (click)="toggleRightSidebar()" class="nav-notification-icons">&ndash;&gt;-->
+        <!--          &lt;!&ndash;            <mat-icon id="settingBtn">search</mat-icon>&ndash;&gt;-->
+        <!--          &lt;!&ndash;          </button>&ndash;&gt;-->
+        <!--          <button mat-icon-button ngbDropdownToggle class="nav-notification-icons">-->
+        <!--            <mat-icon>search</mat-icon>-->
+        <!--            &lt;!&ndash;            <span class="label-count bg-orange"></span>&ndash;&gt;-->
+        <!--          </button>-->
+        <!--          &lt;!&ndash;          <div ngbDropdownMenu class="buscador">&ndash;&gt;-->
+        <!--          &lt;!&ndash;            <div>&ndash;&gt;-->
+        <!--          &lt;!&ndash;              <mat-form-field appearance="outline">&ndash;&gt;-->
+        <!--          &lt;!&ndash;                <mat-label>Interface</mat-label>&ndash;&gt;-->
+        <!--          &lt;!&ndash;                <input matInput formControlName="id" readonly>&ndash;&gt;-->
+        <!--          &lt;!&ndash;                <mat-icon matSuffix>dvr</mat-icon>&ndash;&gt;-->
+        <!--          &lt;!&ndash;              </mat-form-field>&ndash;&gt;-->
+        <!--          &lt;!&ndash;            </div>&ndash;&gt;-->
+        <!--          &lt;!&ndash;          </div>&ndash;&gt;-->
+        <!--          <div ngbDropdownMenu>-->
+        <!--              <ng-autocomplete-->
+        <!--                [data]="rutas"-->
+        <!--                class="padding-0"-->
+        <!--                searchKeyword="descripcion"-->
+        <!--                (selected)='ruta($event); myDrop.close()'-->
+        <!--                [itemTemplate]="itemTemplate"-->
+        <!--                placeholder="Receptor"-->
+        <!--                [notFoundTemplate]="notFoundTemplate">-->
+        <!--              </ng-autocomplete>-->
+
+        <!--              <ng-template #itemTemplate let-item class="buscador">-->
+        <!--                <a [innerHTML]="item.descripcion"></a>-->
+        <!--              </ng-template>-->
+
+        <!--              <ng-template #notFoundTemplate let-notFound class="buscador">-->
+        <!--                <div [innerHTML]="notFound"></div>-->
+        <!--              </ng-template>-->
+        <!--          </div>-->
+        <!--        </li>-->
+        <!-- Full Screen Button -->
+        <li class="fullscreen">
+          <button mat-icon-button (click)="callFullscreen()" class=" nav-notification-icons">
+            <mat-icon>fullscreen</mat-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
