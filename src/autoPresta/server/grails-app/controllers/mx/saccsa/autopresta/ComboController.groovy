@@ -105,4 +105,13 @@ class ComboController {
         respond(lista)
     }
 
+    def comboColonias(String id){
+        respond(Cp.findAllByCodigoPostal(id).collect({
+            [
+                    id: it.asentamiento,
+                    descripcion: it.asentamiento
+            ]
+        }))
+    }
+
 }

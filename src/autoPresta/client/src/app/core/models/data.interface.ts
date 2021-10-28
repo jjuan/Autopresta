@@ -129,6 +129,7 @@ export class _comboCp {
   municipio: any;
   ciudad: any;
   asentamiento: any;
+  cp: string
 }
 
 export class Contrato {
@@ -157,7 +158,6 @@ export class Contrato {
   modelo: Modelos;
   versionAuto: string;
   color: string;
-  numeroDeSerie: string;
   placas: string;
   numeroDeMotor: string;
   numeroDeFactura: string;

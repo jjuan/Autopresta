@@ -24,7 +24,6 @@ class Contrato {
     String versionAuto
 
     String color
-    String numeroDeSerie
     String placas
     String numeroDeMotor
     String numeroDeFactura
@@ -80,7 +79,6 @@ class Contrato {
         versionAuto nullable: true, blank: true
 
         color nullable: true, blank: true
-        numeroDeSerie nullable: true, blank: true
         placas nullable: true, blank: true
         numeroDeMotor nullable: true, blank: true
         numeroDeFactura nullable: true, blank: true
@@ -135,7 +133,6 @@ class Contrato {
         versionAuto column: 'versionAuto', name: 'versionAuto'
 
         color name: 'color', column: 'color'
-        numeroDeSerie name: 'numeroDeSerie', column: 'numeroDeSerie'
         placas name: 'placas', column: 'placas'
         numeroDeMotor name: 'numeroDeMotor', column: 'numeroDeMotor'
         numeroDeFactura name: 'numeroDeFactura', column: 'numeroDeFactura'

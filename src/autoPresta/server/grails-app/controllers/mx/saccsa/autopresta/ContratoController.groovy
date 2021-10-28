@@ -23,8 +23,6 @@ class ContratoController extends RestfulController<Contrato>{
         params
         request.JSON
         Boolean principal = true
-        def portafolio = Portafolios.findByCvePortafolio(1) as Portafolios
-        def fecha = portafolio.fecha
         Contrato contrato = resource.newInstance()
         bindData contrato, request.JSON
         contrato.validate()
@@ -49,8 +47,8 @@ class ContratoController extends RestfulController<Contrato>{
             principal = false
         }
 
-        for (Integer i = 1; i < tcontrato.duracion; i++){
-            fecha = contratoService.calcularFechaPago(i)
+        for (Integer i = 1; i <= tcontrato.duracion; i++){
+            def fecha = contratoService.calcularFechaPago(i)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
             contratoDetalle.contrato = contrato
             contratoDetalle.parcialidad = i
@@ -58,28 +56,12 @@ class ContratoController extends RestfulController<Contrato>{
             contratoDetalle.interes = contrato.costoMensualInteres
             contratoDetalle.monitoreo = contrato.costoMensualMonitoreo
             contratoDetalle.gps = contrato.costoMensualGPS
-            contratoDetalle.capital = 0
-            contratoDetalle.subtotal = ( contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS)
+            contratoDetalle.capital = i == 12 ? contrato.montoRequerido : 0
+            contratoDetalle.subtotal = i == 12 ? ( contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS + contrato.montoRequerido) : ( contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS)
             contratoDetalle.iva = (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS) * 0.16
-            contratoDetalle.saldoFinal = contrato.montoRequerido
+            contratoDetalle.saldoFinal = i == 12 ? 0 : contrato.montoRequerido
             contratoDetalle.save(flush: true, failOnError: true)
         }
-
-
-        fecha = contratoService.calcularFechaPago(12)
-        ContratoDetalle contratoDetalle = new ContratoDetalle()
-        contratoDetalle.contrato = contrato
-        contratoDetalle.parcialidad = tcontrato.duracion
-        contratoDetalle.fecha = fecha
-        contratoDetalle.interes = contrato.costoMensualInteres
-        contratoDetalle.monitoreo = contrato.costoMensualMonitoreo
-        contratoDetalle.gps = contrato.costoMensualGPS
-        contratoDetalle.capital = contrato.montoRequerido
-        contratoDetalle.subtotal = ( contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS + contrato.montoRequerido)
-        contratoDetalle.iva = (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS) * 0.16
-        contratoDetalle.saldoFinal = 0
-        contratoDetalle.save(flush: true, failOnError: true)
-
         respond(contrato)
     }
 }

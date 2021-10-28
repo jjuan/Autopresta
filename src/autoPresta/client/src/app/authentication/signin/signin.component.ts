@@ -61,7 +61,7 @@ export class SigninComponent implements OnInit {
       this.submitButton.disabled = false;
       if ( error.error.mensaje !== undefined) {
         this.dialogService.snack('danger', error.error.mensaje == 'Sorry, you have exceeded your maximum number of open sessions.' ?
-          'Lo sentimos, Usted ha excedido el numero maximo de sesiones':'');
+          'Lo sentimos, Usted ha excedido el numero maximo de sesiones':error.error.mensaje);
       }
     });
   }

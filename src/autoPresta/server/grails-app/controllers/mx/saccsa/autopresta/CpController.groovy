@@ -20,4 +20,17 @@ class CpController extends RestfulController<Cp>{
             ]
         }.unique()
     }
+
+    def cargarDatos(String cp) {
+        respond(Cp.findAllByCodigoPostal(cp).collect({
+            [
+                    codigoPostal: it.codigoPostal,
+                    ciudad: it.ciudad,
+                    municipio: it.municipio,
+                    estado: it.estado,
+//                    asentamiento: it.asentamiento,
+            ]
+        }).unique()
+        )
+    }
 }
