@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {Gps} from "../../../../core/models/data.interface";
+import {Combo, Gps} from "../../../../core/models/data.interface";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RestService} from "../../../../core/service/rest.service";
 
@@ -14,6 +14,7 @@ export class FormModelosComponent implements OnInit {
   formulario: FormGroup;
   dialogTitle: string;
   advanceTable: Gps;
+  marcaCombo: Combo[];
   constructor(
     public dialogRef: MatDialogRef<FormModelosComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,10 +32,13 @@ export class FormModelosComponent implements OnInit {
 
   ngOnInit(): void {
     this.action = this.data.action;
+    this.restService.combo<Combo[]>({id: 'Marcas'}, 'comboAutoPresta').subscribe(res => this.marcaCombo = res)
     this.dialogTitle = this.data.action + ' ' + this.data.title.toLowerCase();
     this.formulario = this.restService.buildForm({
       id: [this.data.data.id ? this.data.data.id : ''],
+      marca: [this.data.data.marca ? this.data.data.marca.id : ''],
       nombre: [this.data.data.nombre ? this.data.data.nombre : ''],
+      slug: [this.data.data.slug ? this.data.data.slug : ''],
     });
   }
 }

@@ -1,11 +1,10 @@
 package mx.saccsa.autopresta
 
 class Marcas {
-    Agencias agencia
     String nombre
+    String slug
 
     static constraints = {
-        agencia nullable: true, blank: true
         nombre nullable: true, blank: true
     }
 
@@ -13,8 +12,8 @@ class Marcas {
         table('Marcas')
         version(false)
         id generator: 'identity'
-        agencia column: 'agencia', name: 'agencia'
         nombre column: 'nombre', name: 'nombre'
+        slug column: 'slug', name: 'slug'
     }
 
     static transients = ['descLabel']

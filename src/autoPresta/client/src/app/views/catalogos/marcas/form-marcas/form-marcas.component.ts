@@ -32,12 +32,10 @@ export class FormMarcasComponent implements OnInit {
 
   ngOnInit(): void {
     this.action = this.data.action;
-    this.restService.combo<Combo[]>({id: 'Agencias'}, 'comboAutoPresta').subscribe(result =>
-      this.agenciasCombo = result);
     this.dialogTitle = this.data.action + ' ' + this.data.title.toLowerCase();
     this.formulario = this.restService.buildForm({
       id: [this.data.data.id ? this.data.data.id : ''],
-      agencia: [this.data.data.agencia ? this.data.data.agencia.id : '', Validators.required],
+      slug: [this.data.data.slug ? this.data.data.slug : '', Validators.required],
       nombre: [this.data.data.nombre ? this.data.data.nombre : '', Validators.required],
     });
   }

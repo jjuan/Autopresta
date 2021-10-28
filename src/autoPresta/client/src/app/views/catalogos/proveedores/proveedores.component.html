@@ -132,8 +132,8 @@
                 </ng-container>
                 <!--                Acciones-->
                 <ng-container matColumnDef="actions">
-                  <mat-header-cell [ngClass]="'tbl-col-width-per-6'" *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
-                  <mat-cell [ngClass]="'tbl-col-width-per-6'" *matCellDef="let row; let i=index" class="pr-0">
+                  <mat-header-cell  *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
+                  <mat-cell  *matCellDef="let row; let i=index" class="pr-0">
                     <button mat-icon-button color="primary" (click)="$event.stopPropagation(); save(row)" matTooltip="Editar {{datos.titulo}}">
                       <mat-icon>edit</mat-icon>
                     </button>

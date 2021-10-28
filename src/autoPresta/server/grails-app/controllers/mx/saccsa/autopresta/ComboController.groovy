@@ -69,16 +69,6 @@ class ComboController {
         respond data
     }
 
-    def comboModelos(){
-        def data = Modelos.list().collect{
-            [
-                    id:it.id,
-                    descripcion: it.getDescLabel()
-            ]
-        }
-        respond data
-    }
-
     def comboFactura(String id){
         String groupId = 'mx.saccsa.autopresta'
         Class c = Class.forName(groupId + "." + id.capitalize())
@@ -110,6 +100,15 @@ class ComboController {
             [
                     id: it.asentamiento,
                     descripcion: it.asentamiento
+            ]
+        }))
+    }
+
+    def comboModelos(Long id){
+        respond(Modelos.findAllByMarca(Marcas.findById(id)).collect({
+            [
+                    id: it.id,
+                    descripcion: it.nombre
             ]
         }))
     }

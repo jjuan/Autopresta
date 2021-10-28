@@ -12,7 +12,7 @@ class MarcasController extends RestfulController<Marcas> {
                 {
                     [
                             id: it.id,
-                            agencia: it.agencia.descLabel,
+                            slug: it.slug,
                             nombre: it.nombre
                     ]
                 }

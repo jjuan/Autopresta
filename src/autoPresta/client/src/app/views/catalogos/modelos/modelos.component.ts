@@ -25,7 +25,9 @@ export class ModelosComponent implements OnInit {
   displayedColumns = [
     'select',
     'id',
+    'marca',
     'nombre',
+    'slug',
     'actions'
   ];
   selection = new SelectionModel<Modelos>(true, []);
@@ -110,7 +112,9 @@ export class ModelosComponent implements OnInit {
   delete(row: Modelos) {
     const html ='<div class="align-left mt-3">'+
       '<h5>Detalles del ' + this.datos.titulo.toLowerCase() + ': ' + row.id + '</h5>'+
+      '<p><span class="font-weight-bold">Marca: </span>' + row.marca + '</p>' +
       '<p><span class="font-weight-bold">Nombre: </span>' + row.nombre + '</p>' +
+      '<p><span class="font-weight-bold">Slug: </span>' + row.slug + '</p>' +
       '</div>';
     Swal.fire({
       titleText: this.datos.titulo,
@@ -158,7 +162,8 @@ export class registros extends DataSource<Modelos> {
         this.filteredData = this.ds.data.slice().filter((campo: Modelos) => {
           const searchStr = (
             // campo.id +
-            campo.nombre
+            campo.nombre +
+            campo.slug
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -182,6 +187,9 @@ export class registros extends DataSource<Modelos> {
           break;
         case 'nombre':
           [propertyA, propertyB] = [a.nombre, b.nombre]
+          break;
+        case 'slug':
+          [propertyA, propertyB] = [a.slug, b.slug]
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

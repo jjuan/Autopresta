@@ -23,8 +23,8 @@ export class MarcasComponent implements OnInit {
   datos = {modulo: 'Catalogos', componente: 'Marcas', icono: 'fas fa-folder-open', titulo: 'Marcas', controlador: 'Marcas'}
   displayedColumns = [
     'select',
-    'agencia',
     'nombre',
+    'slug',
     'actions'
   ];
   selection = new SelectionModel<Marcas>(true, []);
@@ -110,7 +110,7 @@ export class MarcasComponent implements OnInit {
     const html ='<div class="align-left mt-3">'+
       '<h5>Detalles del ' + this.datos.titulo.toLowerCase() + ': ' + row.id + '</h5>'+
       '<p><span class="font-weight-bold">Nombre: </span>' + row.nombre + '</p>' +
-      '<p><span class="font-weight-bold">Agencia: </span>' + row.agencia + '</p>' +
+      '<p><span class="font-weight-bold">Slug: </span>' + row.slug + '</p>' +
       '</div>';
     Swal.fire({
       titleText: this.datos.titulo,
@@ -159,7 +159,7 @@ export class registros extends DataSource<Marcas> {
           const searchStr = (
             campo.id +
             campo.nombre+
-            campo.agencia
+            campo.slug
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -183,6 +183,9 @@ export class registros extends DataSource<Marcas> {
           break;
         case 'nombre':
           [propertyA, propertyB] = [a.nombre, b.nombre]
+          break;
+        case 'slug':
+          [propertyA, propertyB] = [a.slug, b.slug]
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

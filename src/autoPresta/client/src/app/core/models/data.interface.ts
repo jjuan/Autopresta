@@ -58,7 +58,7 @@ export class Gps {
 
 export class Marcas {
   id: number;
-  agencia: Agencias;
+  slug: string;
   nombre: string;
 }
 
@@ -70,6 +70,8 @@ export class Mercados {
 
 export interface Modelos {
   id: number;
+  marca: Marcas;
+  slug: string;
   nombre: string;
 }
 

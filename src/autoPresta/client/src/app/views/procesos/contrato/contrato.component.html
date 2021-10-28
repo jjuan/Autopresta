@@ -343,7 +343,7 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Marca</mat-label>
-              <mat-select formControlName="marca">
+              <mat-select formControlName="marca" (selectionChange)="cargarModelos($event.value)">
                 <mat-option *ngFor="let item of marcasCombo" [value]="item.id">{{item.descripcion}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formulario.get('marca').hasError('required')">

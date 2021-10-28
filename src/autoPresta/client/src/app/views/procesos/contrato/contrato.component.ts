@@ -76,7 +76,6 @@ export class ContratoComponent implements OnInit {
     this.iva = 0
     this.costoMensualTotal = 0
     this.genericRestService.combo<Combo[]>({id: 'Marcas'}, 'comboAutoPresta').subscribe(res => this.marcasCombo = res);
-    this.genericRestService.combo<Combo[]>({id: 'Modelos'}, 'comboAutoPresta').subscribe(res => this.modelosCombo = res);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps1Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores1Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps2Combo = result);
@@ -203,6 +202,9 @@ export class ContratoComponent implements OnInit {
       this.codigoPostalCombo = result
       this.showNotification('snackbar-success', 'Puede seleccionar su codigo postal', 'bottom', 'center')
     });
+  }
+  cargarModelos(value) {
+    this.genericRestService.combo<Combo[]>({id: value}, 'comboModelos').subscribe(res => this.modelosCombo = res);
   }
 
   selectEventEmisor(value: _comboCp) {
