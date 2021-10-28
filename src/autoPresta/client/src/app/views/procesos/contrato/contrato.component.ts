@@ -115,7 +115,7 @@ export class ContratoComponent implements OnInit {
       edad: [data ? data.edad : ''],
       rfc: [data ? data.rfc : ''],
       fechaNacimiento: [data ? data.fechaNacimiento : ''],
-      curp: [data ? data.curp : ''],
+      curp: [data ? data.curp : '', [Validators.required, Validators.maxLength(18), Validators.minLength(18)]],
       claveElector: [data ? data.claveElector : ''],
       telefonoFijo: [data ? data.telefonoFijo : ''],
       telefonoCelular: [data ? data.telefonoCelular : ''],
@@ -197,23 +197,8 @@ export class ContratoComponent implements OnInit {
     })
   }
 
-  cp(id) {
-    this.genericRestService.combo<_comboCp[]>({id: id}, 'comboCp').subscribe(result => {
-      this.codigoPostalCombo = result
-      this.showNotification('snackbar-success', 'Puede seleccionar su codigo postal', 'bottom', 'center')
-    });
-  }
   cargarModelos(value) {
     this.genericRestService.combo<Combo[]>({id: value}, 'comboModelos').subscribe(res => this.modelosCombo = res);
-  }
-
-  selectEventEmisor(value: _comboCp) {
-    this.direccion.patchValue({
-      cp: value.id,
-      entidad: value.estado,
-      municipio: value.municipio,
-      colonia: value.asentamiento,
-    });
   }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
@@ -283,10 +268,24 @@ export class ContratoComponent implements OnInit {
             municipio: r[0].municipio,
           })
 
-          this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => this.coloniasCombo = res);
-
+          this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+            this.coloniasCombo = res
+            if (this.coloniasCombo.length == 1) {
+              this.direccion.patchValue({
+                colonia: this.coloniasCombo[0].id
+              })
+            } else {
+              this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+            }
+          });
         }
       )
+    } else {
+      this.direccion.patchValue({
+        entidad: '',
+        municipio: '',
+        colonia: ''
+      })
     }
   }
 }
