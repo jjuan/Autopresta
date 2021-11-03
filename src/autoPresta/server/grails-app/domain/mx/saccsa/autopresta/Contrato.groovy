@@ -55,6 +55,7 @@ class Contrato {
     String estatus
     String referencia
     String clabe
+    RazonesSociales razonesSociales
 
     static constraints = {
         regimenFiscal nullable: true, blank: true
@@ -105,6 +106,7 @@ class Contrato {
         estatus nullable: true, blank: true
         referencia nullable: true, blank: true
         clabe nullable: true, blank: true
+        razonesSociales nullable: true, blank: true
     }
 
     static mapping = {
@@ -159,5 +161,6 @@ class Contrato {
         tipoContrato name: 'tipoContrato', column: 'tipoContrato'
         referencia name: 'referencia', column: 'referencia'
         clabe name: 'clabe', column: 'clabe'
+        razonesSociales name: 'razonesSociales', column: 'razonesSociales'
     }
 }

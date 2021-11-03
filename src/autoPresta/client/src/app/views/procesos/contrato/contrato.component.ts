@@ -40,7 +40,6 @@ export class ContratoComponent implements OnInit {
   public regimenFiscalCombo: Combo[];
   public modelosCombo: Combo[];
   public marcasCombo: Combo[];
-  public codigoPostalCombo: _comboCp[] = [];
   direccion: FormGroup;
 
   costoMensualInteres = 0
@@ -58,6 +57,7 @@ export class ContratoComponent implements OnInit {
   public estadosCombo: Combo[];
   keyword = 'descripcion';
   coloniasCombo: Combo[];
+  public coloniasMoralCombo: Combo[];
 
   constructor(
     private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
@@ -105,9 +105,48 @@ export class ContratoComponent implements OnInit {
     });
   }
 
+  formRazonSocial(value: any) {
+    if (value == 'PM') {
+      this.formulario.get('razonSocialMoral').setValidators(Validators.required)
+      this.formulario.get('rfcMoral').setValidators(Validators.required)
+      this.formulario.get('telefonoFijoMoral').setValidators(Validators.required)
+      this.formulario.get('telefonoCelularMoral').setValidators(Validators.required)
+      this.formulario.get('telefonoOficinaMoral').setValidators(Validators.required)
+      this.formulario.get('calleDireccionFiscalMoral').setValidators(Validators.required)
+      this.formulario.get('codigoPostalMoral').setValidators(Validators.required)
+      this.formulario.get('coloniaMoral').setValidators(Validators.required)
+      this.formulario.get('municipioMoral').setValidators(Validators.required)
+      this.formulario.get('entidadMoral').setValidators(Validators.required)
+    } else {
+      this.formulario.get('razonSocialMoral').clearValidators();
+      this.formulario.get('rfcMoral').clearValidators();
+      this.formulario.get('telefonoFijoMoral').clearValidators();
+      this.formulario.get('telefonoCelularMoral').clearValidators();
+      this.formulario.get('telefonoOficinaMoral').clearValidators();
+      this.formulario.get('calleDireccionFiscalMoral').clearValidators();
+      this.formulario.get('codigoPostalMoral').clearValidators();
+      this.formulario.get('coloniaMoral').clearValidators();
+      this.formulario.get('municipioMoral').clearValidators();
+      this.formulario.get('entidadMoral').clearValidators();
+    }
+  }
+
+
   form(data?) {
     this.formulario = this.genericRestService.buildForm({
       regimenFiscal: [data ? data.regimenFiscal : '', Validators.required],
+      razonSocialMoral: [''],
+      rfcMoral: [''],
+      telefonoFijoMoral: [''],
+      telefonoCelularMoral: [''],
+      telefonoOficinaMoral: [''],
+      calleDireccionFiscalMoral: [''],
+      numeroExteriorMoral: [''],
+      numeroInteriorMoral: [''],
+      codigoPostalMoral: [''],
+      coloniaMoral: [''],
+      municipioMoral: [''],
+      entidadMoral: [''],
       nombres: [data ? data.nombres : ''],
       primerApellido: [data ? data.primerApellido : ''],
       segundoApellido: [data ? data.segundoApellido : ''],
@@ -260,32 +299,62 @@ export class ContratoComponent implements OnInit {
     }
   }
 
-  cargarDatos(value: string) {
-    if (value.length == 5) {
-      this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
-          this.direccion.patchValue({
-            entidad: r[0].estado,
-            municipio: r[0].municipio,
-          })
+  cargarDatos(value: string, moral: boolean) {
+    if (moral) {
+      if (value.length == 5) {
+        this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+            this.formulario.patchValue({
+              entidadMoral: r[0].estado,
+              municipioMoral: r[0].municipio,
+            })
 
-          this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
-            this.coloniasCombo = res
-            if (this.coloniasCombo.length == 1) {
-              this.direccion.patchValue({
-                colonia: this.coloniasCombo[0].id
-              })
-            } else {
-              this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
-            }
-          });
-        }
-      )
+            this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+              this.coloniasMoralCombo = res
+              if (this.coloniasMoralCombo.length == 1) {
+                this.formulario.patchValue({
+                  coloniaMoral: this.coloniasMoralCombo[0].id
+                })
+              } else {
+                this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+              }
+            });
+          }
+        )
+      } else {
+        this.formulario.patchValue({
+          entidadMoral: '',
+          municipioMoral: '',
+          coloniaMoral: ''
+        })
+      }
+
     } else {
-      this.direccion.patchValue({
-        entidad: '',
-        municipio: '',
-        colonia: ''
-      })
+      if (value.length == 5) {
+        this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+            this.direccion.patchValue({
+              entidad: r[0].estado,
+              municipio: r[0].municipio,
+            })
+
+            this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+              this.coloniasCombo = res
+              if (this.coloniasCombo.length == 1) {
+                this.direccion.patchValue({
+                  colonia: this.coloniasCombo[0].id
+                })
+              } else {
+                this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+              }
+            });
+          }
+        )
+      } else {
+        this.direccion.patchValue({
+          entidad: '',
+          municipio: '',
+          colonia: ''
+        })
+      }
     }
   }
 }

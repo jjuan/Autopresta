@@ -29,7 +29,25 @@ class ContratoController extends RestfulController<Contrato>{
         contrato.save(flush: true, failOnError: true)
 
         TipoContrato tcontrato = TipoContrato.findById(request.JSON.tipoContrato as long)
+        if (request.JSON.regimenFiscal == 'PM'){
+            RazonesSociales instance = new RazonesSociales()
+            instance.razonSocial = request.JSON.razonSocialMoral
+            instance.rfc = request.JSON.rfcMoral
+            instance.telefonoFijo = request.JSON.telefonoFijoMoral
+            instance.telefonoCelular = request.JSON.telefonoCelularMoral
+            instance.telefonoOficina = request.JSON.telefonoOficinaMoral
+            instance.calleDireccionFiscal = request.JSON.calleDireccionFiscalMoral
+            instance.numeroExterior = request.JSON.numeroExteriorMoral
+            instance.numeroInterior = request.JSON.numeroInteriorMoral
+            instance.codigoPostal = request.JSON.codigoPostalMoral
+            instance.colonia = request.JSON.coloniaMoral
+            instance.entidad = request.JSON.entidadMoral
+            instance.municipio = request.JSON.municipioMoral
 
+
+            contrato.razonesSociales = instance
+            contrato.save(flush: true, failOnError: true)
+        }
         for (dir in request.JSON.direccion) {
             Direccion direccion = new Direccion()
             direccion.contrato = contrato

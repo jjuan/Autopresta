@@ -50,15 +50,17 @@
 	<field name="fechaLimiteFiniquito" class="java.lang.String"/>
 	<field name="fecha" class="java.lang.String"/>
 	<field name="notasDescuentos" class="java.lang.String"/>
+	<field name="nombreRazonSocial" class="java.lang.String"/>
+	<field name="rfcRazonSocial" class="java.lang.String"/>
 	<detail>
-		<band height="325" splitType="Immediate">
+		<band height="353" splitType="Immediate">
 			<subreport>
-				<reportElement x="0" y="260" width="579" height="61" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
+				<reportElement x="1" y="287" width="579" height="61" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{listaDatos})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ContratoAP_sub.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ContratoAPMoral_sub.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="0" y="1" width="390" height="30" uuid="f672cb51-b616-4c83-8117-c3febb12a0a7"/>
+				<reportElement x="0" y="15" width="390" height="30" uuid="f672cb51-b616-4c83-8117-c3febb12a0a7"/>
 				<textElement textAlignment="Center">
 					<font size="6"/>
 				</textElement>
@@ -66,14 +68,14 @@
 correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="440" y="21" width="136" height="10" uuid="968007a0-ac1d-4741-afc8-0cb5895f3e27"/>
+				<reportElement x="440" y="35" width="136" height="10" uuid="968007a0-ac1d-4741-afc8-0cb5895f3e27"/>
 				<textElement>
 					<font size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="34" width="579" height="10" backcolor="#E8E8E8" uuid="e988f6ea-8b73-4ef1-8007-970432f51469"/>
+				<reportElement mode="Opaque" x="0" y="50" width="579" height="10" backcolor="#E8E8E8" uuid="e988f6ea-8b73-4ef1-8007-970432f51469"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -86,7 +88,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[DATOS DEL CONSUMIDOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="44" width="159" height="8" uuid="e443636d-1c55-4db6-8db6-c30cbbd05887"/>
+				<reportElement x="0" y="83" width="159" height="8" uuid="e443636d-1c55-4db6-8db6-c30cbbd05887"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -99,7 +101,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="44" width="230" height="8" uuid="829faa26-75bd-49d1-b862-f283fb44397a"/>
+				<reportElement x="160" y="83" width="230" height="8" uuid="829faa26-75bd-49d1-b862-f283fb44397a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -112,7 +114,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[APELLIDOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="44" width="119" height="8" uuid="18c23cbb-aa21-4eec-abc5-1407d88aafac"/>
+				<reportElement x="390" y="83" width="119" height="8" uuid="18c23cbb-aa21-4eec-abc5-1407d88aafac"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -125,7 +127,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[RFC]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="509" y="44" width="70" height="8" uuid="86c2ae98-1e40-4f9b-9ce9-9e8c4c4c3b3b"/>
+				<reportElement x="509" y="83" width="70" height="8" uuid="86c2ae98-1e40-4f9b-9ce9-9e8c4c4c3b3b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -138,7 +140,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[EDAD]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="52" width="159" height="15" uuid="ff6285e0-8c02-4fff-813c-cffe876b53f2"/>
+				<reportElement x="0" y="91" width="159" height="15" uuid="ff6285e0-8c02-4fff-813c-cffe876b53f2"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -151,7 +153,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="160" y="52" width="230" height="15" uuid="b1713105-d7de-4680-83f4-85cdbbe33cc5"/>
+				<reportElement x="160" y="91" width="230" height="15" uuid="b1713105-d7de-4680-83f4-85cdbbe33cc5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -164,7 +166,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{apellidos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="52" width="119" height="15" uuid="7152b9b5-a70a-43c7-9826-c51d1429e782"/>
+				<reportElement x="390" y="91" width="119" height="15" uuid="7152b9b5-a70a-43c7-9826-c51d1429e782"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -177,7 +179,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{rfc}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="509" y="52" width="70" height="15" uuid="e79b05ba-2256-4e4a-98f7-11fb8990af10"/>
+				<reportElement x="509" y="91" width="70" height="15" uuid="e79b05ba-2256-4e4a-98f7-11fb8990af10"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -190,7 +192,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{edad}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="67" width="159" height="8" uuid="401af228-7024-4bb1-9284-2cd89575bb77"/>
+				<reportElement x="0" y="106" width="159" height="8" uuid="401af228-7024-4bb1-9284-2cd89575bb77"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -203,7 +205,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[Whatsapp]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="67" width="230" height="8" uuid="e696e5fe-2c68-4eee-8ee5-3fc304f0531a"/>
+				<reportElement x="160" y="106" width="230" height="8" uuid="e696e5fe-2c68-4eee-8ee5-3fc304f0531a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -216,7 +218,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[Tel de Trabajo y/o Casa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="67" width="189" height="8" uuid="5b8ffcad-b225-41a8-8c43-4167b30ea1ce"/>
+				<reportElement x="390" y="106" width="189" height="8" uuid="5b8ffcad-b225-41a8-8c43-4167b30ea1ce"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -229,7 +231,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[No. De identificación oficial]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="75" width="159" height="15" uuid="2d952ba6-4723-4e16-9652-4d894f77e730"/>
+				<reportElement x="0" y="114" width="159" height="15" uuid="2d952ba6-4723-4e16-9652-4d894f77e730"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -242,7 +244,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{whatsapp}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="160" y="75" width="230" height="15" uuid="6f5fde2d-b0d1-4d8e-8438-d8f3278f8bd5"/>
+				<reportElement x="160" y="114" width="230" height="15" uuid="6f5fde2d-b0d1-4d8e-8438-d8f3278f8bd5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -255,7 +257,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{telTrabajoCasa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="75" width="189" height="15" uuid="f1d682ae-9617-491b-909a-79985ce63e41"/>
+				<reportElement x="390" y="114" width="189" height="15" uuid="f1d682ae-9617-491b-909a-79985ce63e41"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -268,7 +270,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{noIdentificacionOficial}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="360" y="103" width="71" height="8" uuid="2774294f-a136-4d04-9890-e9d7549f6249"/>
+				<reportElement x="360" y="142" width="71" height="8" uuid="2774294f-a136-4d04-9890-e9d7549f6249"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -281,7 +283,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[CODIGO POSTAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="360" y="111" width="71" height="15" uuid="e9b43b42-4fd3-4125-84be-a26cdc932eeb"/>
+				<reportElement x="360" y="150" width="71" height="15" uuid="e9b43b42-4fd3-4125-84be-a26cdc932eeb"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -294,7 +296,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{codigoPostal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="93" width="579" height="10" backcolor="#E8E8E8" uuid="95b86ec0-8357-4d6b-90c0-b5c17a5ed32c"/>
+				<reportElement mode="Opaque" x="0" y="132" width="579" height="10" backcolor="#E8E8E8" uuid="95b86ec0-8357-4d6b-90c0-b5c17a5ed32c"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -307,7 +309,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[DIRECCION]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="103" width="160" height="8" uuid="b1e0dd7a-6cee-4a05-9226-bdda6b56b97e"/>
+				<reportElement x="0" y="142" width="160" height="8" uuid="b1e0dd7a-6cee-4a05-9226-bdda6b56b97e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -320,7 +322,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[CALLE Y NO. EXTERIOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="231" y="103" width="129" height="8" uuid="ab43dea4-1edf-40a0-8d46-a9a78a871dac"/>
+				<reportElement x="231" y="142" width="129" height="8" uuid="ab43dea4-1edf-40a0-8d46-a9a78a871dac"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -333,7 +335,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[COLONIA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="431" y="103" width="148" height="8" uuid="061932c6-3348-46c0-80ca-22bf90120041"/>
+				<reportElement x="431" y="142" width="148" height="8" uuid="061932c6-3348-46c0-80ca-22bf90120041"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -346,7 +348,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[ALCALDÍA ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="111" width="160" height="15" uuid="df15e040-fc2c-42f3-bf86-c0e6e88369df"/>
+				<reportElement x="0" y="150" width="160" height="15" uuid="df15e040-fc2c-42f3-bf86-c0e6e88369df"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -359,7 +361,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{calleNoExterior}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="231" y="111" width="129" height="15" uuid="9a2d2b16-fdef-4aef-ae92-2b9702ad846d"/>
+				<reportElement x="231" y="150" width="129" height="15" uuid="9a2d2b16-fdef-4aef-ae92-2b9702ad846d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -372,7 +374,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{colonia}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="431" y="111" width="148" height="15" uuid="f4837954-5ff2-45a5-8c88-825f6230aeba"/>
+				<reportElement x="431" y="150" width="148" height="15" uuid="f4837954-5ff2-45a5-8c88-825f6230aeba"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -385,7 +387,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{alcaldia}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="160" y="103" width="71" height="8" uuid="6bf25af6-b751-4251-93ab-b76d65e9a75b"/>
+				<reportElement x="160" y="142" width="71" height="8" uuid="6bf25af6-b751-4251-93ab-b76d65e9a75b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -398,7 +400,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<text><![CDATA[NO. INTERIOR]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="160" y="111" width="71" height="15" uuid="6ceaff8f-4650-4f73-8335-52aa934ad403"/>
+				<reportElement x="160" y="150" width="71" height="15" uuid="6ceaff8f-4650-4f73-8335-52aa934ad403"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -411,7 +413,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textFieldExpression><![CDATA[$F{noInterior}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="139" width="39" height="24" uuid="56329cfd-afc9-4f27-83da-bdde469c9c7a"/>
+				<reportElement x="0" y="178" width="39" height="24" uuid="56329cfd-afc9-4f27-83da-bdde469c9c7a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -426,7 +428,7 @@ CONTRATO
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="159" y="139" width="59" height="24" uuid="0bc6c9e2-e0fd-4a67-97d2-8ca3d8f5a7ae"/>
+				<reportElement x="159" y="178" width="59" height="24" uuid="0bc6c9e2-e0fd-4a67-97d2-8ca3d8f5a7ae"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -441,7 +443,7 @@ Costo Anual Total
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="163" width="40" height="48" uuid="0fbcba28-262e-4d49-a62c-20df5e0dd3b8"/>
+				<reportElement x="0" y="202" width="40" height="48" uuid="0fbcba28-262e-4d49-a62c-20df5e0dd3b8"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -454,7 +456,7 @@ Costo Anual Total
 				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="159" y="163" width="59" height="48" uuid="177afcb5-4d2f-4dcf-8322-1396d997be58"/>
+				<reportElement x="159" y="202" width="59" height="48" uuid="177afcb5-4d2f-4dcf-8322-1396d997be58"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -472,7 +474,7 @@ ciento) 88% FIJO SIN
 IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="40" y="139" width="59" height="24" uuid="8b215a07-7efb-4d2f-8191-23bf4649cd47"/>
+				<reportElement x="40" y="178" width="59" height="24" uuid="8b215a07-7efb-4d2f-8191-23bf4649cd47"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -485,7 +487,7 @@ IVA]]></text>
 				<text><![CDATA[TASA DE INTERÉS MENSUAL FIJA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="40" y="163" width="59" height="48" uuid="64d971eb-bcb7-4b0c-87cc-0f828ae2f46b"/>
+				<reportElement x="40" y="202" width="59" height="48" uuid="64d971eb-bcb7-4b0c-87cc-0f828ae2f46b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -502,7 +504,7 @@ comparación
 FIJO SIN IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="139" width="59" height="24" uuid="ca31870f-5850-4924-814b-f350572f12d8"/>
+				<reportElement x="99" y="178" width="59" height="24" uuid="ca31870f-5850-4924-814b-f350572f12d8"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -518,7 +520,7 @@ ANUAL FIJA
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="163" width="60" height="48" uuid="598af84e-63d7-49ce-9f4e-eeed3901de44"/>
+				<reportElement x="99" y="202" width="60" height="48" uuid="598af84e-63d7-49ce-9f4e-eeed3901de44"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -536,7 +538,7 @@ ciento) 60% FIJO
 SIN IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="218" y="139" width="152" height="24" uuid="09378bba-894c-438c-9729-ab831ec8f681"/>
+				<reportElement x="218" y="178" width="152" height="24" uuid="09378bba-894c-438c-9729-ab831ec8f681"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -549,7 +551,7 @@ SIN IVA]]></text>
 				<text><![CDATA[MONTO DEL PRESTAMO (TRANSFERENCIA)]]></text>
 			</staticText>
 			<textField pattern="$###,##0.00">
-				<reportElement x="218" y="163" width="152" height="48" uuid="32a176e8-7cbe-471a-bc2e-7004082d716d"/>
+				<reportElement x="218" y="202" width="152" height="48" uuid="32a176e8-7cbe-471a-bc2e-7004082d716d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -562,7 +564,7 @@ SIN IVA]]></text>
 				<textFieldExpression><![CDATA[$F{montoPrestamo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="370" y="139" width="50" height="24" uuid="82d155ee-2587-44a3-9d61-660b2f127113"/>
+				<reportElement x="370" y="178" width="50" height="24" uuid="82d155ee-2587-44a3-9d61-660b2f127113"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -578,7 +580,7 @@ PAGAR
 ]]></text>
 			</staticText>
 			<textField pattern="$###,##0.00">
-				<reportElement x="370" y="163" width="50" height="48" uuid="471da1f2-0dd1-469d-b604-6c439f6f2deb"/>
+				<reportElement x="370" y="202" width="50" height="48" uuid="471da1f2-0dd1-469d-b604-6c439f6f2deb"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -591,7 +593,7 @@ PAGAR
 				<textFieldExpression><![CDATA[$F{montoTotalPagar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="420" y="139" width="81" height="24" uuid="187b27ae-ebe3-4291-9ef2-f194e8faa63e"/>
+				<reportElement x="420" y="178" width="81" height="24" uuid="187b27ae-ebe3-4291-9ef2-f194e8faa63e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -606,7 +608,7 @@ PARA IDENTIFICAR LOS
 PAGOS]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="420" y="163" width="81" height="48" uuid="f2183b18-9814-4304-8247-340ace8191a7"/>
+				<reportElement x="420" y="202" width="81" height="48" uuid="f2183b18-9814-4304-8247-340ace8191a7"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -619,7 +621,7 @@ PAGOS]]></text>
 				<textFieldExpression><![CDATA[$F{referenciaBancaria}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="501" y="139" width="78" height="24" uuid="8b993af8-8e07-4e64-a462-fc56ae4ef78b"/>
+				<reportElement x="501" y="178" width="78" height="24" uuid="8b993af8-8e07-4e64-a462-fc56ae4ef78b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -634,7 +636,7 @@ INTERBANCARIA
 BBVA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="501" y="163" width="78" height="48" uuid="a7340510-64e3-42f1-8a20-336eb35ff074"/>
+				<reportElement x="501" y="202" width="78" height="48" uuid="a7340510-64e3-42f1-8a20-336eb35ff074"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -647,7 +649,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{clabe}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="129" width="579" height="10" backcolor="#E8E8E8" uuid="093e89b5-abfc-4855-ac0c-576c9fca55e4"/>
+				<reportElement mode="Opaque" x="0" y="168" width="579" height="10" backcolor="#E8E8E8" uuid="093e89b5-abfc-4855-ac0c-576c9fca55e4"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -660,7 +662,7 @@ BBVA]]></text>
 				<text><![CDATA[DATOS DEL CONSUMIDOR]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement mode="Opaque" x="330" y="221" width="171" height="8" backcolor="#E8E8E8" uuid="06e6aaa0-9c17-4254-b58b-ee6d33eaff3c"/>
+				<reportElement mode="Opaque" x="331" y="254" width="171" height="8" backcolor="#E8E8E8" uuid="06e6aaa0-9c17-4254-b58b-ee6d33eaff3c"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -673,7 +675,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{desempeño}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="221" width="99" height="8" uuid="9c6a96a3-03a4-422c-bbc7-80f38ad0f85d"/>
+				<reportElement x="1" y="254" width="99" height="8" uuid="9c6a96a3-03a4-422c-bbc7-80f38ad0f85d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -686,7 +688,7 @@ BBVA]]></text>
 				<text><![CDATA[Plazo del préstamo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="217" y="221" width="113" height="8" uuid="61e45096-d396-45f6-9d7d-fb951f2dd9d9"/>
+				<reportElement x="218" y="254" width="113" height="8" uuid="61e45096-d396-45f6-9d7d-fb951f2dd9d9"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -700,7 +702,7 @@ BBVA]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="501" y="221" width="78" height="8" uuid="664d53fc-75a8-458d-9c74-53c553df4a83"/>
+				<reportElement x="502" y="254" width="78" height="8" uuid="664d53fc-75a8-458d-9c74-53c553df4a83"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -713,7 +715,7 @@ BBVA]]></text>
 				<text><![CDATA[]]></text>
 			</staticText>
 			<textField>
-				<reportElement mode="Opaque" x="99" y="221" width="118" height="8" backcolor="#E8E8E8" uuid="a4668f5a-5553-4468-a8f4-550ae1b9bd1d"/>
+				<reportElement mode="Opaque" x="100" y="254" width="118" height="8" backcolor="#E8E8E8" uuid="a4668f5a-5553-4468-a8f4-550ae1b9bd1d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -726,7 +728,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="229" width="579" height="22" backcolor="#A2C7E6" uuid="5fecb544-6230-4178-b13f-d23648e4f7d2"/>
+				<reportElement mode="Transparent" x="1" y="262" width="579" height="22" backcolor="#A2C7E6" uuid="5fecb544-6230-4178-b13f-d23648e4f7d2"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -739,8 +741,60 @@ BBVA]]></text>
 				<text><![CDATA[OPCIONES DE PAGO PARA REFRENDO O DESEMPEÑO
 ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="60" width="390" height="8" uuid="66837235-4f39-4a76-a6ea-7dd1fd691b9e"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOMBRE]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="68" width="390" height="15" uuid="958c4a37-5607-47ee-8fd2-390a042e8933"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreRazonSocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="390" y="68" width="189" height="15" uuid="1aeea81a-eef2-4329-9bb5-042cf9919adb"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rfcRazonSocial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="390" y="60" width="189" height="8" uuid="0161859f-8eda-46db-a8a9-db32fbd179b2"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RFC]]></text>
+			</staticText>
 		</band>
-		<band height="374">
+		<band height="351">
 			<staticText>
 				<reportElement x="-1" y="115" width="150" height="8" uuid="fcea4624-8489-44a3-815c-de1b5ab31e1b"/>
 				<box>
