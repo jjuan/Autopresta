@@ -41,13 +41,13 @@ export class GeneracionContratoComponent implements OnInit {
 
     this.restService.combo<Combo[]>({id: 'CalificacionCliente'}, 'comboAutoPresta').subscribe(r => this.calificacionClientesCombo = r)
     this.formulario = this.restService.buildForm({
-      calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : ''],
-      fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : ''],
-      contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false],
-      numeroContrato: [this.folios ? this.folios.folio : ''],
-      referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : ''],
+      calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : '', Validators.required],
+      fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
+      contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
+      numeroContrato: [this.folios ? this.folios.folio : '', Validators.required],
+      referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : '', Validators.required],
       montoTransferencia: [this.data.data.montoTransferencia ? this.data.data.montoTransferencia : ''],
-      descuentosRetenciones: [this.data.data.descuentosRetenciones ? this.data.data.descuentosRetenciones : 'N/A'],
+      descuentosRetenciones: [this.data.data.descuentosRetenciones ? this.data.data.descuentosRetenciones : 'N/A', Validators.required],
       fechaSolicitud: [this.data.data.fechaSolicitud ? this.data.data.fechaSolicitud : ''],
       montoLiquidar: [this.data.data.montoLiquidar ? this.data.data.montoLiquidar : ''],
       fechaCompromiso: [this.data.data.fechaCompromiso ? this.data.data.fechaCompromiso : ''],

@@ -146,14 +146,14 @@ export class ContratoComponent implements OnInit {
       segundoApellido: [data ? data.segundoApellido : ''],
       genero: [data ? data.genero : ''],
       edad: [data ? data.edad : ''],
-      rfc: [data ? data.rfc : ''],
+      rfc: [data ? data.rfc : '', Validators.required],
       fechaNacimiento: [data ? data.fechaNacimiento : ''],
       curp: [data ? data.curp : '', [Validators.required, Validators.maxLength(18), Validators.minLength(18)]],
-      claveElector: [data ? data.claveElector : ''],
+      claveElector: [data ? data.claveElector : '', Validators.required],
       telefonoFijo: [data ? data.telefonoFijo : ''],
       telefonoCelular: [data ? data.telefonoCelular : ''],
       telefonoOficina: [data ? data.telefonoOficina : ''],
-      correoElectronico: [data ? data.correoElectronico : ''],
+      correoElectronico: [data ? data.correoElectronico : '', Validators.required],
       nombresCoacreditado: [data ? data.nombresCoacreditado : ''],
       primerApellidoCoacreditado: [data ? data.primerApellidoCoacreditado : ''],
       segundoApellidoCoacreditado: [data ? data.segundoApellidoCoacreditado : ''],
@@ -168,10 +168,10 @@ export class ContratoComponent implements OnInit {
       telefonoOficinaCoacreditado: [data ? data.telefonoOficinaCoacreditado : ''],
       correoElectronicoCoacreditado: [data ? data.correoElectronicoCoacreditado : ''],
       direccion: [data ? data.direccion : ''],
-      anio: [data ? data.anio : ''],
-      marca: [data ? data.marca?.id : ''],
-      modelo: [data ? data.modelo?.id : ''],
-      versionAuto: [data ? data.versionAuto : ''],
+      anio: [data ? data.anio : '', Validators.required],
+      marca: [data ? data.marca?.id : '', Validators.required],
+      modelo: [data ? data.modelo?.id : '', Validators.required],
+      versionAuto: [data ? data.versionAuto : '', Validators.required],
       color: [data ? data.color : '', Validators.required],
       placas: [data ? data.placas : '', Validators.required],
       numeroDeMotor: [data ? data.numeroDeMotor : '', Validators.required],
@@ -316,6 +316,7 @@ export class ContratoComponent implements OnInit {
   }
 
   datos(d: string, coacreditado: boolean) {
+    console.log(d)
     const data = d.split('');
     if (data.length == 18) {
       const a = Number(data[4])
@@ -342,6 +343,16 @@ export class ContratoComponent implements OnInit {
         })
       } else {
         this.formulario.patchValue({genero: data[10] == 'H' ? 'M' : 'F', edad: age, fechaNacimiento: newDate})
+      }
+    }else {
+      if (coacreditado) {
+        this.formulario.patchValue({
+          generoCoacreditado: '',
+          edadCoacreditado: '',
+          fechaNacimientoCoacreditado: ''
+        })
+      } else {
+        this.formulario.patchValue({genero: '', edad: '', fechaNacimiento: ''})
       }
     }
   }
@@ -423,6 +434,34 @@ export class ContratoComponent implements OnInit {
         telefonoOficinaCoacreditado: '',
         correoElectronicoCoacreditado: '',
       })
+    //   this.formulario.get('nombresCoacreditado').clearValidators();
+    //   this.formulario.get('primerApellidoCoacreditado').clearValidators();
+    //   // this.formulario.get('segundoApellidoCoacreditado').clearValidators();
+    //   this.formulario.get('generoCoacreditado').clearValidators();
+    //   this.formulario.get('edadCoacreditado').clearValidators();
+    //   this.formulario.get('rfcCoacreditado').clearValidators();
+    //   this.formulario.get('fechaNacimientoCoacreditado').clearValidators();
+    //   this.formulario.get('curpCoacreditado').clearValidators();
+    //   this.formulario.get('claveElectorCoacreditado').clearValidators();
+    //   // this.formulario.get('telefonoFijoCoacreditado').clearValidators();
+    //   // this.formulario.get('telefonoCelularCoacreditado').clearValidators();
+    //   // this.formulario.get('telefonoOficinaCoacreditado').clearValidators();
+    //   this.formulario.get('correoElectronicoCoacreditado').clearValidators();
+    // } else {
+    //
+    //   this.formulario.get('nombresCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('primerApellidoCoacreditado').setValidators(Validators.required);
+    //   // this.formulario.get('segundoApellidoCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('generoCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('edadCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('rfcCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('fechaNacimientoCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('curpCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('claveElectorCoacreditado').setValidators(Validators.required);
+    //   // this.formulario.get('telefonoFijoCoacreditado').setValidators(Validators.required);
+    //   // this.formulario.get('telefonoCelularCoacreditado').setValidators(Validators.required);
+    //   // this.formulario.get('telefonoOficinaCoacreditado').setValidators(Validators.required);
+    //   this.formulario.get('correoElectronicoCoacreditado').setValidators(Validators.required);
     }
   }
 

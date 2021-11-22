@@ -228,10 +228,10 @@
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>F. de Nac.</mat-label>
-                <input matInput [matDatepicker]="fechaNacimiento" name="fechaNacimiento"
+                <input matInput [matDatepicker]="fechaNacimiento" name="fechaNacimiento" disabled
                        formControlName="fechaNacimiento">
                 <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
-                <mat-datepicker #fechaNacimiento></mat-datepicker>
+                <mat-datepicker #fechaNacimiento disabled></mat-datepicker>
                 <!--mat-icon matSuffix>turned_in_not</mat-icon--->
                 <mat-error *ngIf="formulario.get('fechaNacimiento').hasError('required')">
                   F. Nac. es requerida
@@ -243,7 +243,7 @@
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Edad</mat-label>
-                <input matInput formControlName="edad">
+                <input matInput formControlName="edad" readonly>
                 <mat-error *ngIf="formulario.get('edad').hasError('required')">
                   Edad es requerido
                 </mat-error>
@@ -252,7 +252,7 @@
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Genero</mat-label>
-                <mat-select formControlName="genero">
+                <mat-select formControlName="genero" disabled>
                   <mat-option value="M">Masculino</mat-option>
                   <mat-option value="F">Femenino</mat-option>
                 </mat-select>
@@ -361,7 +361,7 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>CURP</mat-label>
-              <input matInput formControlName="curpCoacreditado" (keyup)="datos(formulario.get('curp').value, true)">
+              <input matInput formControlName="curpCoacreditado" (keyup)="datos(formulario.get('curpCoacreditado').value, true)">
               <mat-error *ngIf="formulario.get('curpCoacreditado').hasError('required')">
                 curp es requerido
               </mat-error>
@@ -379,10 +379,10 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>F. de Nac.</mat-label>
-              <input matInput [matDatepicker]="fechaNacimientoCoacreditado" name="fechaNacimientoCoacreditado"
+              <input matInput [matDatepicker]="fechaNacimientoCoacreditado" name="fechaNacimientoCoacreditado" disabled
                      formControlName="fechaNacimientoCoacreditado">
               <mat-datepicker-toggle matSuffix [for]="fechaNacimientoCoacreditado"></mat-datepicker-toggle>
-              <mat-datepicker #fechaNacimientoCoacreditado></mat-datepicker>
+              <mat-datepicker #fechaNacimientoCoacreditado disabled></mat-datepicker>
               <!--mat-icon matSuffix>turned_in_not</mat-icon--->
               <mat-error *ngIf="formulario.get('fechaNacimientoCoacreditado').hasError('required')">
                 F. Nac. es requerida
@@ -394,7 +394,7 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Edad</mat-label>
-              <input matInput formControlName="edadCoacreditado">
+              <input matInput formControlName="edadCoacreditado" readonly>
               <mat-error *ngIf="formulario.get('edadCoacreditado').hasError('required')">
                 Edad es requerido
               </mat-error>
@@ -403,7 +403,7 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Genero</mat-label>
-              <mat-select formControlName="generoCoacreditado">
+              <mat-select formControlName="generoCoacreditado" disabled>
                 <mat-option value="M">Masculino</mat-option>
                 <mat-option value="F">Femenino</mat-option>
               </mat-select>
