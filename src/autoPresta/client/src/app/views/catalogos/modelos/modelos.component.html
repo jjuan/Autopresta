@@ -17,60 +17,41 @@
       </div>
     </div>
 
-
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
           <div class="body">
             <div class="responsive_table">
               <div class="materialTableHeader">
                 <div class="row">
+
                   <div class="col-8">
                     <ul class="header-buttons-left ml-0">
-                      <li class="dropdown">
-                        <h2>
-                          <strong>
-                            {{datos.titulo}}
-                          </strong>
-                        </h2>
-                      </li>
+                      <li class="dropdown"><h2><strong>{{datos.titulo}}</strong></h2></li>
                       <li class="dropdown m-l-20">
-                        <label>
-                          <i class="material-icons search-icon"></i>
-                        </label>
-                        <input placeholder="Buscar..." type="text" #filter class="browser-default search-field">
+                        <label><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Buscar..." type="text" #filter class="browser-default search-field" aria-label="Search box">
                       </li>
                       <li>
-                        <div class="icon-button m-l-10" [hidden]=!selection.hasValue()>
-                          <button mat-mini-fab color="warn" matTooltip="Eliminar {{datos.componente.toLowerCase()}} seleccionados">
-                            <mat-icon>delete</mat-icon>
-                          </button>
+                        <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
+                          <button mat-mini-fab color="warn" (click)="removeSelectedRows()"><mat-icon class="col-white" matTooltip="Eliminar filas seleccionadas">delete</mat-icon></button>
                         </div>
                       </li>
                     </ul>
                   </div>
+
                   <div class="col-4">
                     <ul class="header-buttons">
-                      <li>
-                        <div class="icon-button">
-                          <button mat-mini-fab color="primary" matTooltip="Agregar {{datos.titulo.toLowerCase()}}" (click)="save()">
-                            <mat-icon>add</mat-icon>
-                          </button>
-                        </div>
-                      </li>
-                      <li>
-                        <div class="icon-button">
-                          <button mat-mini-fab color="accent" matTooltip="Recargar {{datos.componente.toLowerCase()}}" (click)="loadData()">
-                            <mat-icon>refresh</mat-icon>
-                          </button>
-                        </div>
-                      </li>
+                      <li><div class="icon-button-demo"><button mat-mini-fab color="primary" (click)="save()" matTooltip="Agregar {{datos.titulo}}"><mat-icon class="col-white">add</mat-icon></button></div></li>
+                      <li><div class="icon-button-demo"><button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Actualizar datos"><mat-icon class="col-white">refresh</mat-icon></button></div></li>
                     </ul>
                   </div>
+
                 </div>
               </div>
-              <mat-table [dataSource]="dataSource" matSort class="mat-cell">
-                <!--                Container del checkbox-->
+
+              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                   <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
                     <mat-checkbox (change)="$event ? masterToggle() : null"
@@ -102,16 +83,19 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Slug</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row.slug}}</mat-cell>
                 </ng-container>
-                <!--                Acciones-->
+                <!-- actions -->
                 <ng-container matColumnDef="actions">
                   <mat-header-cell *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
-                  <mat-cell *matCellDef="let row; let i=index" class="pr-0">
-                    <button mat-icon-button color="primary" (click)="$event.stopPropagation(); save(row)" matTooltip="Editar {{datos.titulo}}">
-                      <mat-icon>edit</mat-icon>
+
+                  <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
+                    <button mat-icon-button color="primary" (click)="$event.stopPropagation()" (click)="save(row)" matTooltip="Editar {{datos.titulo}}">
+                      <mat-icon aria-label="Edit">edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="warn" (click)="$event.stopPropagation(); delete(row)" matTooltip="Eliminar {{datos.titulo}}">
-                      <mat-icon>delete</mat-icon>
+
+                    <button mat-icon-button color="warn" (click)="$event.stopPropagation()" (click)="delete(row)" matTooltip="Eliminar {{datos.titulo}}">
+                      <mat-icon aria-label="Delete">delete</mat-icon>
                     </button>
+
                   </mat-cell>
                 </ng-container>
 
@@ -119,10 +103,10 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="save(row)"
                          [style.cursor]="'pointer'" matRipple>
                 </mat-row>
-
-                <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se encontraron Resultados</div>
-                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
               </mat-table>
+
+              <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se encontraron Resultados</div>
+              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
             </div>
           </div>
         </div>

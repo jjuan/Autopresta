@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Automoviles} from "../../../core/models/data.interface";
+import {CalificacionCliente} from "../../../core/models/data.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -12,23 +12,22 @@ import {MatSort} from "@angular/material/sort";
 import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
 import Swal from "sweetalert2";
 import {map} from "rxjs/operators";
-import {FormAutomovilesComponent} from "./form-automoviles/form-automoviles.component";
+import {CalificacionClienteFormComponent} from "./calificacion-cliente-form/calificacion-cliente-form.component";
 
 @Component({
-  selector: 'app-automoviles',
-  templateUrl: './automoviles.component.html',
-  styleUrls: ['./automoviles.component.sass']
+  selector: 'app-calificacion-cliente',
+  templateUrl: './calificacion-cliente.component.html',
+  styleUrls: ['./calificacion-cliente.component.sass']
 })
-export class AutomovilesComponent implements OnInit {
-  datos = {modulo: 'Catalogos', componente: 'Automoviles', icono: 'fas fa-folder-open', titulo: 'Automoviles', controlador: 'Automoviles'}
+export class CalificacionClienteComponent implements OnInit {
+  datos = {modulo: 'Catalogos', componente: 'Calificación Cliente', icono: 'fas fa-folder-open', titulo: 'CalificacionCliente', controlador: 'CalificacionCliente'}
   displayedColumns = [
     'select',
-    'marca',
-    'modelo',
-    'anio',
+    'nombre',
+    'descripcion',
     'actions'
   ];
-  selection = new SelectionModel<Automoviles>(true, []);
+  selection = new SelectionModel<CalificacionCliente>(true, []);
   dataSource: registros | null;
   constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar,
               private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService) { }
@@ -48,11 +47,11 @@ export class AutomovilesComponent implements OnInit {
   }
   private refreshTable() { this.paginator._changePageSize(this.paginator.pageSize); }
 
-  save(row?: Automoviles) {
+  save(row?: CalificacionCliente) {
     if (row){
-      this.restService.edit<Automoviles>(row.id, this.datos.controlador).subscribe(result => {
-        const dialogRef = this.dialog.open(FormAutomovilesComponent, {
-          data: { title: row.marca , disableClose: true, data: result, action: 'Editar' }, height: 'auto', width: '40%'
+      this.restService.edit<CalificacionCliente>(row.id, this.datos.controlador).subscribe(result => {
+        const dialogRef = this.dialog.open(CalificacionClienteFormComponent, {
+          data: { title: row.nombre , disableClose: true, data: result, action: 'Editar' }, height: 'auto', width: '40%'
         });
         dialogRef.afterClosed().subscribe(result => {
           if (!result) { return; }
@@ -67,8 +66,8 @@ export class AutomovilesComponent implements OnInit {
         });
       });
     } else {
-      this.restService.create<Automoviles>(this.datos.controlador).subscribe(result => {
-        const dialogRef = this.dialog.open(FormAutomovilesComponent, {
+      this.restService.create<CalificacionCliente>( this.datos.controlador).subscribe(result => {
+        const dialogRef = this.dialog.open(CalificacionClienteFormComponent, {
           data: { title: this.datos.titulo, disableClose: true, data: result, action: 'Agregar' }, height: 'auto', width: '40%'
         });
         dialogRef.afterClosed().subscribe((result) => {
@@ -102,17 +101,16 @@ export class AutomovilesComponent implements OnInit {
       const index: number = this.dataSource.renderedData.findIndex( (d) => d === item );
       this.restService.dataChange.value.splice(index, 1);
       this.refreshTable();
-      this.selection = new SelectionModel<Automoviles>(true, []);
+      this.selection = new SelectionModel<CalificacionCliente>(true, []);
     });
     this.dialogService.snack( 'danger', totalSelect + ' registros eliminados' );
   }
 
-  delete(row: Automoviles) {
+  delete(row: CalificacionCliente) {
     const html ='<div class="align-left mt-3">'+
       '<h5>Detalles del ' + this.datos.titulo.toLowerCase() + ': ' + row.id + '</h5>'+
-      '<p><span class="font-weight-bold">Marca: </span>' + row.marca + '</p>' +
-      '<p><span class="font-weight-bold">Modelo: </span>' + row.modelo + '</p>' +
-      '<p><span class="font-weight-bold">Año: </span>' + row.anio + '</p>' +
+      '<p><span class="font-weight-bold">Nombre: </span>' + row.nombre + '</p>' +
+      '<p><span class="font-weight-bold">Slug: </span>' + row.descripcion + '</p>' +
       '</div>';
     Swal.fire({
       titleText: this.datos.titulo,
@@ -135,12 +133,12 @@ export class AutomovilesComponent implements OnInit {
 }
 
 
-export class registros extends DataSource<Automoviles> {
+export class registros extends DataSource<CalificacionCliente> {
   filterChange = new BehaviorSubject('');
   get filter(): string { return this.filterChange.value; }
   set filter(filter: string) { this.filterChange.next(filter); }
-  filteredData: Automoviles[] = [];
-  renderedData: Automoviles[] = [];
+  filteredData: CalificacionCliente[] = [];
+  renderedData: CalificacionCliente[] = [];
   constructor( private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string) {
     super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -149,7 +147,7 @@ export class registros extends DataSource<Automoviles> {
   disconnect() {
   }
 
-  connect(): Observable<Automoviles[]> {
+  connect(): Observable<CalificacionCliente[]> {
 
     const displayDataChanges = [
       this.ds.dataChange, this._sort.sortChange, this.filterChange, this.paginator.page
@@ -157,12 +155,11 @@ export class registros extends DataSource<Automoviles> {
 
     this.ds.getAdvancedTable<any>(this.controller,{'max': 100});
     return merge(...displayDataChanges).pipe( map(() => {
-        this.filteredData = this.ds.data.slice().filter((campo: Automoviles) => {
+        this.filteredData = this.ds.data.slice().filter((campo: CalificacionCliente) => {
           const searchStr = (
-            campo.id + '' +
-            campo.marca+
-            campo.modelo+
-            campo.anio
+            campo.id +
+            campo.nombre+
+            campo.descripcion
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -175,7 +172,7 @@ export class registros extends DataSource<Automoviles> {
     );
   }
 
-  sortData(data: Automoviles[]): Automoviles[] {
+  sortData(data: CalificacionCliente[]): CalificacionCliente[] {
     if (!this._sort.active || this._sort.direction === '') { return data; }
     return data.sort((a, b) => {
       let propertyA: number| Date | string = '';
@@ -184,8 +181,11 @@ export class registros extends DataSource<Automoviles> {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id]
           break;
-        case 'anio':
-          [propertyA, propertyB] = [a.anio, b.anio]
+        case 'nombre':
+          [propertyA, propertyB] = [a.nombre, b.nombre]
+          break;
+        case 'descripcion':
+          [propertyA, propertyB] = [a.descripcion, b.descripcion]
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
@@ -194,3 +194,4 @@ export class registros extends DataSource<Automoviles> {
     });
   }
 }
+

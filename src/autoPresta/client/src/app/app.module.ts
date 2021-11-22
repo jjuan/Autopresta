@@ -26,7 +26,6 @@ import {RightSidebarService} from "./core/service/rightsidebar.service";
 import {RestService} from "./core/service/rest.service";
 import {GlobalService} from "./core/service/global.service";
 import {ConfigService} from "./config/config.service";
-
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = { suppressScrollX: true, wheelPropagation: false };
 
 @NgModule({

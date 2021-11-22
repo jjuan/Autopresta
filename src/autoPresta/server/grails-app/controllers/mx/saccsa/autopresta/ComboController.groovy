@@ -66,6 +66,8 @@ class ComboController {
                     descripcion: it.getDescLabel()
             ]
         }
+
+        data = data.sort({ it.descripcion })
         respond data
     }
 
@@ -105,12 +107,25 @@ class ComboController {
     }
 
     def comboModelos(Long id){
-        respond(Modelos.findAllByMarca(Marcas.findById(id)).collect({
+        def data = Modelos.findAllByMarca(Marcas.findById(id)).collect({
             [
                     id: it.id,
                     descripcion: it.nombre
             ]
-        }))
+        })
+        data = data.sort({ it.descripcion })
+        respond(data)
+    }
+
+    def comboAutos(Long id){
+        def data = Automoviles.findAllByModelo(Modelos.findById(id)).collect({
+            [
+                    id: it.id,
+                    descripcion: it.anio
+            ]
+        })
+        data = data.sort({ it.descripcion })
+        respond(data)
     }
 
 }

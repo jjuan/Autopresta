@@ -3,7 +3,7 @@ package mx.saccsa.autopresta
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class RazonesSocialesSpec extends Specification implements DomainUnitTest<RazonesSociales> {
+class ContactoAutototalSpec extends Specification implements DomainUnitTest<ContactoAutototal> {
 
     def setup() {
     }

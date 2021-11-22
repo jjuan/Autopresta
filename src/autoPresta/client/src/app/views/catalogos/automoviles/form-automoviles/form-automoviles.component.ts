@@ -41,7 +41,7 @@ export class FormAutomovilesComponent implements OnInit {
       anio: [this.data.data.anio?this.data.data.anio:''],
       marca: [this.data.data.marca?this.data.data.marca.id:''],
       modelo: [this.data.data.modelo?this.data.data.modelo.id:''],
-      versionAuto: [this.data.data.versionAuto?this.data.data.versionAuto:''],
+      // versionAuto: [this.data.data.versionAuto?this.data.data.versionAuto:''],
     });
   }
 }

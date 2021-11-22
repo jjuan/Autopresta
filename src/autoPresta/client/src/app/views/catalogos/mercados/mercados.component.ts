@@ -138,8 +138,8 @@ export class MercadosComponent implements OnInit {
 
 export class registros extends DataSource<Mercados> {
   filterChange = new BehaviorSubject('');
-  get filter(): string { return this.filterChange.value; }
-  set filter(filter: string) { this.filterChange.next(filter); }
+  get filter(): any { return this.filterChange.value; }
+  set filter(filter: any) { this.filterChange.next(filter); }
   filteredData: Mercados[] = [];
   renderedData: Mercados[] = [];
   constructor( private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string) {
@@ -160,7 +160,7 @@ export class registros extends DataSource<Mercados> {
     return merge(...displayDataChanges).pipe( map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Mercados) => {
           const searchStr = (
-            campo.cveMercado.toString() +
+            campo.cveMercado +
             campo.descripcion
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -177,8 +177,8 @@ export class registros extends DataSource<Mercados> {
   sortData(data: Mercados[]): Mercados[] {
     if (!this._sort.active || this._sort.direction === '') { return data; }
     return data.sort((a, b) => {
-      let propertyA: number| Date | string = '';
-      let propertyB: number| Date | string = '';
+      let propertyA: any = '';
+      let propertyB: any = '';
       switch (this._sort.active) {
         case 'cveMercado':
           [propertyA, propertyB] = [a.cveMercado, b.cveMercado]

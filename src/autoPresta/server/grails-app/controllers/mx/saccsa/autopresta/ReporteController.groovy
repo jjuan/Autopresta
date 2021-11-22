@@ -18,7 +18,15 @@ class ReporteController {
         Contrato contrato = Contrato.findById(id)
         def contexto = grailsApplication.mainContext.getResource("${grailsApplication.config.jasper.dir.reports}")
         params.SUBREPORT_DIR = contexto.file.getAbsolutePath() + contexto.file.separator
-        params._file = contrato.regimenFiscal.clave == 'PM'?'ContratoAPMoral':'ContratoAP'
+        String archivo
+        if (contrato.regimenFiscal.clave == 'PM'){
+            archivo = 'ContratoAPMoral'
+        } else if (contrato.regimenFiscal.clave != 'PM' && contrato.nombresCoacreditado != null){
+            archivo = 'ContratoAPCoacreditado'
+        } else {
+            archivo = 'ContratoAP'
+        }
+        params._file = archivo
         params._format = 'PDF'
         params._name = 'Contrato Auto Presta'
         params._reporteTitulo = 'Contrato Auto Presta'

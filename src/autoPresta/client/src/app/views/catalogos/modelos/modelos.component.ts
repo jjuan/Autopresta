@@ -161,7 +161,7 @@ export class registros extends DataSource<Modelos> {
     return merge(...displayDataChanges).pipe( map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Modelos) => {
           const searchStr = (
-            // campo.id +
+            campo.id +
             campo.nombre +
             campo.slug
           ).toLowerCase();

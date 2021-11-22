@@ -29,10 +29,12 @@ import { SucursalesComponent } from './sucursales/sucursales.component';
 import { RegionesComponent } from './regiones/regiones.component';
 import { ModelosComponent } from './modelos/modelos.component';
 import { FormModelosComponent } from './modelos/form-modelos/form-modelos.component';
+import { CalificacionClienteComponent } from './calificacion-cliente/calificacion-cliente.component';
+import { CalificacionClienteFormComponent } from './calificacion-cliente/calificacion-cliente-form/calificacion-cliente-form.component';
 
 
 @NgModule({
-  declarations: [ ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent, ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent, AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent, FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent, DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent],
+  declarations: [ ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent, ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent, AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent, FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent, DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent, CalificacionClienteComponent, CalificacionClienteFormComponent],
   imports: [
     CommonModule, SharedModule,
     CatalogosRoutingModule

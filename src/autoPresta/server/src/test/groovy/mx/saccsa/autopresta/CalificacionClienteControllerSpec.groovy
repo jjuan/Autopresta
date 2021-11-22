@@ -10,7 +10,7 @@ import grails.validation.ValidationException
 import grails.testing.web.controllers.ControllerUnitTest
 import grails.testing.gorm.DomainUnitTest
 
-class ContratoControllerSpec extends Specification implements ControllerUnitTest<ContratoController>, DomainUnitTest<Contrato> {
+class CalificacionClienteControllerSpec extends Specification implements ControllerUnitTest<CalificacionClienteController>, DomainUnitTest<CalificacionCliente> {
 
     def populateValidParams(params) {
         assert params != null
@@ -22,7 +22,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the index action returns the correct response"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
             1 * list(_) >> []
             1 * count() >> 0
         }
@@ -47,8 +47,8 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the save action correctly persists"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
-            1 * save(_ as Contrato)
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
+            1 * save(_ as CalificacionCliente)
         }
 
         when:
@@ -56,7 +56,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'POST'
         populateValidParams(params)
-        request.json = new Contrato(params)
+        request.json = new CalificacionCliente(params)
         controller.save()
 
         then:
@@ -66,9 +66,9 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the save action with an invalid instance"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
-            1 * save(_ as Contrato) >> { Contrato contrato ->
-                throw new ValidationException("Invalid instance", contrato.errors)
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
+            1 * save(_ as CalificacionCliente) >> { CalificacionCliente calificacionCliente ->
+                throw new ValidationException("Invalid instance", calificacionCliente.errors)
             }
         }
 
@@ -76,7 +76,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'POST'
         populateValidParams(params)
-        request.json = new Contrato(params)
+        request.json = new CalificacionCliente(params)
         controller.save()
 
         then:
@@ -86,7 +86,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the show action with a null id"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
             1 * get(null) >> null
         }
 
@@ -99,8 +99,8 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the show action with a valid id"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
-            1 * get(2) >> new Contrato()
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
+            1 * get(2) >> new CalificacionCliente()
         }
 
         when:"A domain instance is passed to the show action"
@@ -124,8 +124,8 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the update action correctly persists"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
-            1 * save(_ as Contrato)
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
+            1 * save(_ as CalificacionCliente)
         }
 
         when:
@@ -133,7 +133,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'PUT'
         populateValidParams(params)
-        def instance = new Contrato(params)
+        def instance = new CalificacionCliente(params)
         instance.id = 1
         instance.version = 0
         controller.update(instance)
@@ -145,16 +145,16 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the update action with an invalid instance"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
-            1 * save(_ as Contrato) >> { Contrato contrato ->
-                throw new ValidationException("Invalid instance", contrato.errors)
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
+            1 * save(_ as CalificacionCliente) >> { CalificacionCliente calificacionCliente ->
+                throw new ValidationException("Invalid instance", calificacionCliente.errors)
             }
         }
 
         when:
         request.contentType = JSON_CONTENT_TYPE
         request.method = 'PUT'
-        def instance = new Contrato(params)
+        def instance = new CalificacionCliente(params)
         instance.id = 1
         instance.version = 0
         controller.update(instance)
@@ -176,7 +176,7 @@ class ContratoControllerSpec extends Specification implements ControllerUnitTest
 
     void "Test the delete action with an instance"() {
         given:
-        controller.contratoService = Mock(ContratoService) {
+        controller.calificacionClienteService = Mock(CalificacionClienteService) {
             1 * delete(2)
         }
 

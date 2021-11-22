@@ -17,6 +17,7 @@ class ContratoController extends RestfulController<Contrato>{
         super(Contrato)
     }
     def contratoService
+    def folioService
 
     @Transactional
     def save() {
@@ -25,10 +26,16 @@ class ContratoController extends RestfulController<Contrato>{
         Boolean principal = true
         Contrato contrato = resource.newInstance()
         bindData contrato, request.JSON
+
+        if(contrato.contratoPrueba){
+            contrato.numeroContrato = folioService.generaFolio('ContratoPruebas').toString() + 'P'
+        } else {
+            contrato.numeroContrato = folioService.generaFolio('Contrato').toString()
+        }
+
         contrato.validate()
         contrato.save(flush: true, failOnError: true)
 
-        TipoContrato tcontrato = TipoContrato.findById(request.JSON.tipoContrato as long)
         if (request.JSON.regimenFiscal == 'PM'){
             RazonesSociales instance = new RazonesSociales()
             instance.razonSocial = request.JSON.razonSocialMoral
@@ -65,7 +72,7 @@ class ContratoController extends RestfulController<Contrato>{
             principal = false
         }
 
-        for (Integer i = 1; i <= tcontrato.duracion; i++){
+        for (Integer i = 1; i <= 12; i++){
             def fecha = contratoService.calcularFechaPago(i)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
             contratoDetalle.contrato = contrato
@@ -81,5 +88,13 @@ class ContratoController extends RestfulController<Contrato>{
             contratoDetalle.save(flush: true, failOnError: true)
         }
         respond(contrato)
+    }
+
+    def folios() {
+        Folios contrato = Folios.findByCveTipo('Contrato')
+        Folios contratoPrueba = Folios.findByCveTipo('ContratoPruebas')
+        String folio = contrato != null ? (contrato.folio + 1).toString(): '1'
+        String folioPrueba = contratoPrueba != null ? (contrato.folio + 1).toString() + 'P': '1P'
+        respond(folio:  folio,  folioPrueba: folioPrueba)
     }
 }

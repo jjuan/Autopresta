@@ -96,7 +96,7 @@
                 </ng-container>
                 <ng-container matColumnDef="fecha">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.fecha}}</mat-cell>
+                  <mat-cell *matCellDef="let row">{{row.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
                 </ng-container>
                 <!--                Acciones-->
                 <ng-container matColumnDef="actions">

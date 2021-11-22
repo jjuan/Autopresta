@@ -3,6 +3,7 @@ package mx.saccsa.autopresta
 class Contrato {
     //datos del cliente
     C_RegimenFiscal regimenFiscal
+    Date fechaContrato
     String nombres
     String primerApellido
     String segundoApellido
@@ -17,8 +18,22 @@ class Contrato {
     String telefonoOficina
     String correoElectronico
 
+    String nombresCoacreditado
+    String primerApellidoCoacreditado
+    String segundoApellidoCoacreditado
+    String generoCoacreditado
+    String rfcCoacreditado
+    Long edadCoacreditado
+    String fechaNacimientoCoacreditado
+    String curpCoacreditado
+    String claveElectorCoacreditado
+    String telefonoFijoCoacreditado
+    String telefonoCelularCoacreditado
+    String telefonoOficinaCoacreditado
+    String correoElectronicoCoacreditado
+
     //datos del automovil
-    String anio
+    Automoviles anio
     Marcas marca
     Modelos modelo
     String versionAuto
@@ -57,8 +72,18 @@ class Contrato {
     String clabe
     RazonesSociales razonesSociales
 
+    CalificacionCliente calificacionCliente
+    String numeroContrato
+    Boolean contratoPrueba = false
+    BigDecimal montoTransferencia
+    String detalleDescuentos = 'N/A'
+    Date fechaSolicitud
+    BigDecimal montoLiquidar
+    Date fechaCompromiso
+
     static constraints = {
         regimenFiscal nullable: true, blank: true
+        fechaContrato nullable: true, blank: true
 
         nombres nullable: true, blank: true
         primerApellido nullable: true, blank: true
@@ -73,6 +98,20 @@ class Contrato {
         telefonoCelular nullable: true, blank: true
         telefonoOficina nullable: true, blank: true
         correoElectronico nullable: true, blank: true
+
+        nombresCoacreditado nullable: true, blank: true
+        primerApellidoCoacreditado nullable: true, blank: true
+        segundoApellidoCoacreditado nullable: true, blank: true
+        generoCoacreditado nullable: true, blank: true
+        rfcCoacreditado nullable: true, blank: true
+        edadCoacreditado nullable: true, blank: true
+        fechaNacimientoCoacreditado nullable: true, blank: true
+        curpCoacreditado nullable: true, blank: true
+        claveElectorCoacreditado nullable: true, blank: true
+        telefonoFijoCoacreditado nullable: true, blank: true
+        telefonoCelularCoacreditado nullable: true, blank: true
+        telefonoOficinaCoacreditado nullable: true, blank: true
+        correoElectronicoCoacreditado nullable: true, blank: true
 
         anio nullable: true, blank: true
         marca nullable: true, blank: true
@@ -107,6 +146,15 @@ class Contrato {
         referencia nullable: true, blank: true
         clabe nullable: true, blank: true
         razonesSociales nullable: true, blank: true
+
+        calificacionCliente nullable: true, blank: true
+        numeroContrato nullable: true, blank: true
+        contratoPrueba nullable: true, blank: true
+        montoTransferencia nullable: true, blank: true
+        detalleDescuentos nullable: true, blank: true
+        fechaSolicitud nullable: true, blank: true
+        montoLiquidar nullable: true, blank: true
+        fechaCompromiso nullable: true, blank: true
     }
 
     static mapping = {
@@ -114,6 +162,7 @@ class Contrato {
         version(false)
         id generator: 'identity'
         regimenFiscal name: 'regimenFiscal', column: 'regimenFiscal'
+        fechaContrato name: 'fechaContrato', column: 'fechaContrato'
 
         nombres name: 'nombres', column: 'nombres'
         primerApellido name: 'primerApellido', column: 'primerApellido'
@@ -128,6 +177,20 @@ class Contrato {
         telefonoCelular name: 'telefonoCelular', column: 'telefonoCelular'
         telefonoOficina name: 'telefonoOficina', column: 'telefonoOficina'
         correoElectronico name: 'correoElectronico', column: 'correoElectronico'
+
+        nombresCoacreditado name: 'nombresCoacreditado', column: 'nombresCoacreditado'
+        primerApellidoCoacreditado name: 'primerApellidoCoacreditado', column: 'primerApellidoCoacreditado'
+        segundoApellidoCoacreditado name: 'segundoApellidoCoacreditado', column: 'segundoApellidoCoacreditado'
+        generoCoacreditado name: 'generoCoacreditado', column: 'generoCoacreditado'
+        rfcCoacreditado name: 'rfcCoacreditado', column: 'rfcCoacreditado'
+        edadCoacreditado name: 'edadCoacreditado', column: 'edadCoacreditado'
+        fechaNacimientoCoacreditado name: 'fechaNacimientoCoacreditado', column: 'fechaNacimientoCoacreditado'
+        curpCoacreditado name: 'curpCoacreditado', column: 'curpCoacreditado'
+        claveElectorCoacreditado name: 'claveElectorCoacreditado', column: 'claveElectorCoacreditado'
+        telefonoFijoCoacreditado name: 'telefonoFijoCoacreditado', column: 'telefonoFijoCoacreditado'
+        telefonoCelularCoacreditado name: 'telefonoCelularCoacreditado', column: 'telefonoCelularCoacreditado'
+        telefonoOficinaCoacreditado name: 'telefonoOficinaCoacreditado', column: 'telefonoOficinaCoacreditado'
+        correoElectronicoCoacreditado name: 'correoElectronicoCoacreditado', column: 'correoElectronicoCoacreditado'
 
         anio column: 'anio', name: 'anio'
         marca column: 'marca', name: 'marca'
@@ -162,5 +225,14 @@ class Contrato {
         referencia name: 'referencia', column: 'referencia'
         clabe name: 'clabe', column: 'clabe'
         razonesSociales name: 'razonesSociales', column: 'razonesSociales'
+
+        calificacionCliente name: 'calificacionCliente', column: 'calificacionCliente'
+        numeroContrato name: 'numeroContrato', column: 'numeroContrato'
+        contratoPrueba name: 'contratoPrueba', column: 'contratoPrueba'
+        montoTransferencia name: 'montoTransferencia', column: 'montoTransferencia'
+        detalleDescuentos name: 'detalleDescuentos', column: 'detalleDescuentos'
+        fechaSolicitud name: 'fechaSolicitud', column: 'fechaSolicitud'
+        montoLiquidar name: 'montoLiquidar', column: 'montoLiquidar'
+        fechaCompromiso name: 'fechaCompromiso', column: 'fechaCompromiso'
     }
 }

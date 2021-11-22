@@ -158,8 +158,9 @@ export class registros extends DataSource<Divisas> {
     return merge(...displayDataChanges).pipe( map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Divisas) => {
           const searchStr = (
-            campo.clave.toString() +
-            campo.descripcion.toString()
+            campo.id +
+            campo.clave +
+            campo.descripcion
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });

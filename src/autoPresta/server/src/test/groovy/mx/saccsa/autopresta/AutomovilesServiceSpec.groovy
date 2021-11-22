@@ -1,9 +1,9 @@
 package mx.saccsa.autopresta
 
-import grails.testing.gorm.DomainUnitTest
+import grails.testing.services.ServiceUnitTest
 import spock.lang.Specification
 
-class ContratoDetalleSpec extends Specification implements DomainUnitTest<ContratoDetalle> {
+class AutomovilesServiceSpec extends Specification implements ServiceUnitTest<AutomovilesService>{
 
     def setup() {
     }

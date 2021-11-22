@@ -13,6 +13,7 @@ import {ProveedoresComponent} from "./proveedores/proveedores.component";
 import {MercadosComponent} from "./mercados/mercados.component";
 import {DivisasComponent} from "./divisas/divisas.component";
 import {ModelosComponent} from "./modelos/modelos.component";
+import {CalificacionClienteComponent} from "./calificacion-cliente/calificacion-cliente.component";
 
 
 const routes: Routes = [
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path:'Mercados', component: MercadosComponent },
   { path:'Divisas', component: DivisasComponent },
   { path:'Modelos', component: ModelosComponent },
+  { path:'Calificacion-Clientes', component: CalificacionClienteComponent },
 
 ];
 

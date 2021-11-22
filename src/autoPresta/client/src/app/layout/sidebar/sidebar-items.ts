@@ -19,15 +19,6 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
-        path: 'Catalogos/Modelos',
-        title: 'Modelos',
-        moduleName: 'Catalogos',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
-      {
         path: 'Catalogos/Marcas',
         title: 'Marcas',
         moduleName: 'Catalogos',
@@ -37,8 +28,35 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
+        path: 'Catalogos/Modelos',
+        title: 'Modelos',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Automoviles',
+        title: 'Automoviles',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
         path: 'Catalogos/GPS',
         title: 'GPS',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Calificacion-Clientes',
+        title: 'Calificación Clientes',
         moduleName: 'Catalogos',
         icon: '',
         class: 'ml-menu',

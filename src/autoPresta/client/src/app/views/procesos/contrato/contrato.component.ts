@@ -1,14 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {
-  _comboCp,
-  Combo,
-  Contrato,
-  direccion,
-  Gps,
-  Marcas,
-  Modelos,
-  Proveedores
-} from "../../../core/models/data.interface";
+import {_comboCp, Combo, Contrato, direccion, Gps, Marcas, Proveedores} from "../../../core/models/data.interface";
 import {AbstractControl, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../../core/service/global.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -16,6 +7,7 @@ import {ActivatedRoute} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RestService} from "../../../core/service/rest.service";
 import {DateAdapter} from "@angular/material/core";
+import {GeneracionContratoComponent} from "./generacion-contrato/generacion-contrato.component";
 
 @Component({
   selector: 'app-contrato',
@@ -58,6 +50,8 @@ export class ContratoComponent implements OnInit {
   keyword = 'descripcion';
   coloniasCombo: Combo[];
   public coloniasMoralCombo: Combo[];
+  coacreditado = false
+  public aniosCombo: Combo[];
 
   constructor(
     private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
@@ -160,6 +154,19 @@ export class ContratoComponent implements OnInit {
       telefonoCelular: [data ? data.telefonoCelular : ''],
       telefonoOficina: [data ? data.telefonoOficina : ''],
       correoElectronico: [data ? data.correoElectronico : ''],
+      nombresCoacreditado: [data ? data.nombresCoacreditado : ''],
+      primerApellidoCoacreditado: [data ? data.primerApellidoCoacreditado : ''],
+      segundoApellidoCoacreditado: [data ? data.segundoApellidoCoacreditado : ''],
+      generoCoacreditado: [data ? data.generoCoacreditado : ''],
+      edadCoacreditado: [data ? data.edadCoacreditado : ''],
+      rfcCoacreditado: [data ? data.rfcCoacreditado : ''],
+      fechaNacimientoCoacreditado: [data ? data.fechaNacimientoCoacreditado : ''],
+      curpCoacreditado: [data ? data.curpCoacreditado : ''],
+      claveElectorCoacreditado: [data ? data.claveElectorCoacreditado : ''],
+      telefonoFijoCoacreditado: [data ? data.telefonoFijoCoacreditado : ''],
+      telefonoCelularCoacreditado: [data ? data.telefonoCelularCoacreditado : ''],
+      telefonoOficinaCoacreditado: [data ? data.telefonoOficinaCoacreditado : ''],
+      correoElectronicoCoacreditado: [data ? data.correoElectronicoCoacreditado : ''],
       direccion: [data ? data.direccion : ''],
       anio: [data ? data.anio : ''],
       marca: [data ? data.marca?.id : ''],
@@ -191,6 +198,16 @@ export class ContratoComponent implements OnInit {
       tipoContrato: [data ? data.tipoContrato : '', Validators.required],
       referencia: [data ? data.referencia : ''],
       clabe: [data ? data.clabe : '', Validators.required],
+      coacreditado: [false],
+      calificacionCliente: [data ? data.calificacionCliente : ''],
+      contratoPrueba: [data ? data.contratoPrueba : ''],
+      montoTransferencia: [data ? data.montoTransferencia : ''],
+      detalleDescuentos: [data ? data.detalleDescuentos : ''],
+      fechaSolicitud: [data ? data.fechaSolicitud : ''],
+      fechaContrato: [data ? data.fechaContrato : ''],
+      montoLiquidar: [data ? data.montoLiquidar : ''],
+      fechaCompromiso: [data ? data.fechaCompromiso : ''],
+      descuentosRetenciones: [data ? data.descuentosRetenciones : ''],
     });
   }
 
@@ -199,13 +216,35 @@ export class ContratoComponent implements OnInit {
       this.addNewBeneficiario()
     }
     this.formulario.patchValue({direccion: this.direcciones})
-    this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(data => {
-      this.download(data.id)
-      this.snack.open(this._datos._title + ' capturado!', 'OK', {duration: 4000});
-    }, error => {
-      this.snack.open(error.error.mensaje, 'OK', {duration: 4000});
+
+    const dialogRef = this.dialog.open(GeneracionContratoComponent, {
+      data: {title: 'nombre', disableClose: true, data: 'result', action: 'Editar'}, height: 'auto', width: '40%'
     });
-    this.ngOnInit();
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) {
+        return;
+      }
+      console.log(result)
+      this.formulario.patchValue({
+        calificacionCliente: result.calificacionCliente,
+        contratoPrueba: result.contratoPrueba,
+        montoTransferencia: result.montoTransferencia,
+        detalleDescuentos: result.detalleDescuentos,
+        fechaSolicitud: result.fechaSolicitud,
+        fechaContrato: result.fechaContrato,
+        montoLiquidar: result.montoLiquidar,
+        fechaCompromiso: result.fechaCompromiso,
+        referencia: result.referenciaBancariaBBVA,
+        descuentosRetenciones: result.descuentosRetenciones,
+      })
+      this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(data => {
+        this.download(data.id)
+        this.snack.open(this._datos._title + ' capturado!', 'OK', {duration: 4000});
+      }, error => {
+        this.snack.open(error.error.mensaje, 'OK', {duration: 4000});
+      });
+      this.ngOnInit();
+    });
   }
 
   download(id: number) {
@@ -240,6 +279,10 @@ export class ContratoComponent implements OnInit {
     this.genericRestService.combo<Combo[]>({id: value}, 'comboModelos').subscribe(res => this.modelosCombo = res);
   }
 
+  cargarAnios(value) {
+    this.genericRestService.combo<Combo[]>({id: value}, 'comboAutos').subscribe(res => this.aniosCombo = res);
+  }
+
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snack.open(text, '', {
       duration: 2000,
@@ -272,7 +315,7 @@ export class ContratoComponent implements OnInit {
     this.direccionFormulario()
   }
 
-  datos(d: string) {
+  datos(d: string, coacreditado: boolean) {
     const data = d.split('');
     if (data.length == 18) {
       const a = Number(data[4])
@@ -286,16 +329,20 @@ export class ContratoComponent implements OnInit {
       const mes = data[6] + data[7]
       const dia = data[8] + data[9]
 
-      this.formulario.patchValue({genero: data[10] == 'H' ? 'M' : 'F'})
-
       let dateString = anio + '-' + mes + '-' + dia + 'T00:00:00'
 
       let newDate = new Date(dateString);
       let timeDiff = Math.abs(Date.now() - newDate.getTime());
       let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-
-      this.formulario.patchValue({edad: age, fechaNacimiento: newDate})
-
+      if (coacreditado) {
+        this.formulario.patchValue({
+          generoCoacreditado: data[10] == 'H' ? 'M' : 'F',
+          edadCoacreditado: age,
+          fechaNacimientoCoacreditado: newDate
+        })
+      } else {
+        this.formulario.patchValue({genero: data[10] == 'H' ? 'M' : 'F', edad: age, fechaNacimiento: newDate})
+      }
     }
   }
 
@@ -356,5 +403,36 @@ export class ContratoComponent implements OnInit {
         })
       }
     }
+  }
+
+  coacreditadoform() {
+    this.coacreditado = this.formulario.get('coacreditado').value
+    if (this.coacreditado == false) {
+      this.formulario.patchValue({
+        nombresCoacreditado: '',
+        primerApellidoCoacreditado: '',
+        segundoApellidoCoacreditado: '',
+        generoCoacreditado: '',
+        edadCoacreditado: '',
+        rfcCoacreditado: '',
+        fechaNacimientoCoacreditado: '',
+        curpCoacreditado: '',
+        claveElectorCoacreditado: '',
+        telefonoFijoCoacreditado: '',
+        telefonoCelularCoacreditado: '',
+        telefonoOficinaCoacreditado: '',
+        correoElectronicoCoacreditado: '',
+      })
+    }
+  }
+
+  pruebas() {
+    console.log(this.formulario.errors)
+    console.log(this.formulario.value)
+    console.log(this.formulario)
+    console.log(this.direccion)
+    console.log(this.direccion.value)
+    console.log(this.direccion.errors)
+    console.log(this.direcciones.length)
   }
 }

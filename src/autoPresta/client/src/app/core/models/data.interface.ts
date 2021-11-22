@@ -1,4 +1,4 @@
-export class Agencias {
+export interface Agencias {
   id: number;
   nombre: string;
   sucursal: Sucursales;
@@ -7,15 +7,14 @@ export class Agencias {
   clave: string;
 }
 
-export class Automoviles {
+export interface Automoviles {
   id: number;
   anio: string;
   marca: Marcas;
   modelo: Modelos;
-  versionAuto: string;
 }
 
-export class Clientes {
+export interface Clientes {
   id: number;
   nombres: string;
   primerApellido: string;
@@ -40,29 +39,35 @@ export class Clientes {
   entidad: string;
 }
 
-export class Combo {
+export interface Combo {
   id: string;
   descripcion: string;
 }
 
-export class Divisas {
+export interface Divisas {
   id: number;
   clave: string;
   descripcion: string;
 }
 
-export class Gps {
+export interface Gps {
   id: number;
   nombre: string;
 }
 
-export class Marcas {
+export interface Marcas {
   id: number;
   slug: string;
   nombre: string;
 }
 
-export class Mercados {
+export interface CalificacionCliente {
+  id: number;
+  nombre: string;
+  descripcion: string;
+}
+
+export interface Mercados {
   cveMercado: string;
   descripcion: string;
   fecha: Date;
@@ -75,19 +80,19 @@ export interface Modelos {
   nombre: string;
 }
 
-export class Portafolios {
+export interface Portafolios {
   cvePortafolio: number;
   descripcion: string;
   fecha: Date;
   mercados: Mercados;
 }
 
-export class Proveedores {
+export interface Proveedores {
   id: number;
   nombre: string;
   rfc: string;
-  moneda: Divisas;
-  monedaFactura: Divisas;
+  moneda?: Divisas;
+  monedaFactura?: Divisas;
   nombreDeContacto: string;
   correoElectronico: string;
   direccion: string;
@@ -96,14 +101,14 @@ export class Proveedores {
   tipo: string;
 }
 
-export class Regiones {
+export interface Regiones {
   id: number;
   clave: string;
   descripcion: string;
   variacion: number;
 }
 
-export class Servicios {
+export interface Servicios {
   id: number;
   gps1: Gps;
   proveedor1: Proveedores;
@@ -113,10 +118,10 @@ export class Servicios {
   proveedor3: Proveedores;
 }
 
-export class Sucursales {
+export interface Sucursales {
   id: number;
   descripcion: string;
-  region: Regiones;
+  region?: Regiones;
   ciudad: string;
   direccion: string;
   colonia: string;
@@ -124,7 +129,7 @@ export class Sucursales {
   telefono: string;
 }
 
-export class _comboCp {
+export interface _comboCp {
   id: any;
   descripcion: any;
   estado: any;
@@ -134,10 +139,11 @@ export class _comboCp {
   cp: string
 }
 
-export class Contrato {
+export interface Contrato {
   id: number
   //datos del cliente
   regimenFiscal: string;
+
   nombres: string;
   primerApellido: string;
   segundoApellido: string;
@@ -154,6 +160,23 @@ export class Contrato {
   edad: string;
   fechaNacimiento: Date;
   claveElector: string;
+
+  nombresCoacreditado: string;
+  primerApellidoCoacreditado: string;
+  segundoApellidoCoacreditado: string;
+  generoCoacreditado: string;
+  rfcCoacreditado: string;
+  fechaDeNacimientoCoacreditado: string;
+  curpCoacreditado: string;
+  claveDeElectorCoacreditado: string;
+  telefonoFijoCoacreditado: string;
+  telefonoCelularCoacreditado: string;
+  telefonoOficinaCoacreditado: string;
+  correoElectronicoCoacreditado: string;
+  Coacreditadodireccion: any
+  edadCoacreditado: string;
+  fechaNacimientoCoacreditado: Date;
+  claveElectorCoacreditado: string;
   //datos del automovil
   anio: string;
   marca: Marcas;
@@ -191,7 +214,7 @@ export class Contrato {
   clabe: string;
 }
 
-export class direccion {
+export interface direccion {
   contrato?: Contrato;
   dirTrabajo: boolean;
   dirAdicional: boolean;
@@ -203,4 +226,9 @@ export class direccion {
   municipio: string;
   entidad: string;
   principal?: boolean;
+}
+
+export interface Folios{
+  folio: string;
+  folioPrueba: string;
 }

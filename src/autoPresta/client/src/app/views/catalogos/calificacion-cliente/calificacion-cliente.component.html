@@ -71,18 +71,13 @@
                   <mat-header-cell [ngClass]="'tbl-col-width-per-6'" *matHeaderCellDef mat-sort-header>Folio</mat-header-cell>
                   <mat-cell [ngClass]="'tbl-col-width-per-6'" *matCellDef="let row">{{row.id}}</mat-cell>
                 </ng-container>
-
-                <ng-container matColumnDef="marca">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Marca</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.marca}}</mat-cell>
+                <ng-container matColumnDef="nombre">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.nombre}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="modelo">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.modelo}}</mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="anio">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Año</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.anio}}</mat-cell>
+                <ng-container matColumnDef="descripcion">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.descripcion}}</mat-cell>
                 </ng-container>
                 <!-- actions -->
                 <ng-container matColumnDef="actions">
