@@ -1,0 +1,138 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Calificación del cliente</mat-label>
+            <mat-select formControlName="calificacionCliente">
+              <mat-option *ngFor="let item of calificacionClientesCombo"
+                          [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('calificacionCliente').hasError('required')">
+              Calificación del cliente es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Fecha del contrato</mat-label>
+            <input matInput [matDatepicker]="fechaContrato" name="fechaContrato"
+                   formControlName="fechaContrato">
+            <mat-datepicker-toggle matSuffix [for]="fechaContrato"></mat-datepicker-toggle>
+            <mat-datepicker #fechaContrato></mat-datepicker>
+            <mat-error *ngIf="formulario.get('fechaContrato').hasError('required')">
+              fechaContrato es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-red p-b-10">
+          <span class="mr-2">Contrato para probar el sistema</span>
+          <mat-slide-toggle formControlName="contratoPrueba" (change)="cambiarFolio($event.checked)"></mat-slide-toggle>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Número de contrato</mat-label>
+            <input matInput formControlName="numeroContrato" readonly>
+            <mat-icon matSuffix>turned_in_not</mat-icon>
+            <mat-error *ngIf="formulario.get('numeroContrato').hasError('required')">
+              Número de contrato es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Referencia bancaria BBVA</mat-label>
+            <input matInput formControlName="referenciaBancariaBBVA">
+            <mat-error *ngIf="formulario.get('referenciaBancariaBBVA').hasError('required')">
+              Referencia bancaria BBVA es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Monto de la transferencia</mat-label>
+            <input matInput formControlName="montoTransferencia" mask="separator" thousandSeparator=",">
+            <mat-error *ngIf="formulario.get('montoTransferencia').hasError('required')">
+              Monto de la transferencia es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Detalle de los descuentos y retenciones aplicados</mat-label>
+            <input matInput formControlName="descuentosRetenciones">
+            <mat-error *ngIf="formulario.get('descuentosRetenciones').hasError('required')">
+              Detalle de los descuentos y retenciones aplicados es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="modalHeader mb-3">
+        <div class="modalHeader clearfix mt-2">
+          <div class="font-weight-bold p-t-2 p-l-5 font-15">Solicitud de liquidación</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Fecha de la solicitud</mat-label>
+            <input matInput [matDatepicker]="fechaSolicitud" name="fechaSolicitud"
+                   formControlName="fechaSolicitud">
+            <mat-datepicker-toggle matSuffix [for]="fechaSolicitud"></mat-datepicker-toggle>
+            <mat-datepicker #fechaSolicitud></mat-datepicker>
+            <mat-error *ngIf="formulario.get('fechaSolicitud').hasError('required')">
+              Fecha de la solicitud es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Monto a liquidar</mat-label>
+            <input matInput formControlName="montoLiquidar" mask="separator" thousandSeparator=",">
+            <mat-error *ngIf="formulario.get('montoLiquidar').hasError('required')">
+              Monto a liquidar es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Fecha de compromiso</mat-label>
+            <input matInput [matDatepicker]="fechaCompromiso" name="fechaCompromiso"
+                   formControlName="fechaCompromiso">
+            <mat-datepicker-toggle matSuffix [for]="fechaCompromiso"></mat-datepicker-toggle>
+            <mat-datepicker #fechaCompromiso></mat-datepicker>
+            <mat-error *ngIf="formulario.get('fechaCompromiso').hasError('required')">
+              Fecha de compromiso es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
