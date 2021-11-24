@@ -232,3 +232,23 @@ export interface Folios{
   folio: string;
   folioPrueba: string;
 }
+
+export interface IdentificacionesOficiales{
+  id: number;
+  nombre: string;
+  longitud: number;
+}
+
+export interface monto {
+  monto: number
+}
+
+export interface Contrataciones{
+  id: number;
+  folio: string;
+  regimenFiscal: string;
+  fechaEmision: Date;
+  total: monto[];
+  montoPrestamo: number;
+  estatus: string;
+}

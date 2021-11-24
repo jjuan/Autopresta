@@ -13,6 +13,7 @@ class Contrato {
     String fechaNacimiento
     String curp
     String claveElector
+    String documentoOficial
     String telefonoFijo
     String telefonoCelular
     String telefonoOficina
@@ -26,6 +27,7 @@ class Contrato {
     Long edadCoacreditado
     String fechaNacimientoCoacreditado
     String curpCoacreditado
+    IdentificacionesOficiales documentoOficialCoacreditado
     String claveElectorCoacreditado
     String telefonoFijoCoacreditado
     String telefonoCelularCoacreditado
@@ -37,7 +39,6 @@ class Contrato {
     Marcas marca
     Modelos modelo
     String versionAuto
-
     String color
     String placas
     String numeroDeMotor
@@ -51,11 +52,11 @@ class Contrato {
 
     //servicios
     Gps gps1
-    Proveedores proveedor1
+//    Proveedores proveedor1
     Gps gps2
-    Proveedores proveedor2
+//    Proveedores proveedor2
     Gps gps3
-    Proveedores proveedor3
+//    Proveedores proveedor3
 
     //datosdel prestamo
     BigDecimal montoRequerido
@@ -67,7 +68,7 @@ class Contrato {
     BigDecimal costoMensualTotal
     TipoContrato tipoContrato
 
-    String estatus
+    String estatus = 'P'
     String referencia
     String clabe
     RazonesSociales razonesSociales
@@ -93,6 +94,7 @@ class Contrato {
         rfc nullable: true, blank: true
         fechaNacimiento nullable: true, blank: true
         curp nullable: true, blank: true
+        documentoOficial nullable: true, blank: true
         claveElector nullable: true, blank: true
         telefonoFijo nullable: true, blank: true
         telefonoCelular nullable: true, blank: true
@@ -105,6 +107,7 @@ class Contrato {
         generoCoacreditado nullable: true, blank: true
         rfcCoacreditado nullable: true, blank: true
         edadCoacreditado nullable: true, blank: true
+        documentoOficialCoacreditado nullable: true, blank: true
         fechaNacimientoCoacreditado nullable: true, blank: true
         curpCoacreditado nullable: true, blank: true
         claveElectorCoacreditado nullable: true, blank: true
@@ -129,11 +132,11 @@ class Contrato {
         montoMaximoAutorizado nullable: true, blank: true
         numeroVin nullable: true, blank: true
         gps1 nullable: true, blank: true
-        proveedor1 nullable: true, blank: true
+//        proveedor1 nullable: true, blank: true
         gps2 nullable: true, blank: true
-        proveedor2 nullable: true, blank: true
+//        proveedor2 nullable: true, blank: true
         gps3 nullable: true, blank: true
-        proveedor3 nullable: true, blank: true
+//        proveedor3 nullable: true, blank: true
         montoRequerido nullable: true, blank: true
         costoMensualInteres nullable: true, blank: true
         costoMensualMonitoreo nullable: true, blank: true
@@ -172,6 +175,7 @@ class Contrato {
         edad name: 'edad', column: 'edad'
         fechaNacimiento name: 'fechaNacimiento', column: 'fechaNacimiento'
         curp name: 'curp', column: 'curp'
+        documentoOficial name: 'documentoOficial', column: 'documentoOficial'
         claveElector name: 'claveElector', column: 'claveElector'
         telefonoFijo name: 'telefonoFijo', column: 'telefonoFijo'
         telefonoCelular name: 'telefonoCelular', column: 'telefonoCelular'
@@ -186,6 +190,7 @@ class Contrato {
         edadCoacreditado name: 'edadCoacreditado', column: 'edadCoacreditado'
         fechaNacimientoCoacreditado name: 'fechaNacimientoCoacreditado', column: 'fechaNacimientoCoacreditado'
         curpCoacreditado name: 'curpCoacreditado', column: 'curpCoacreditado'
+        documentoOficialCoacreditado name: 'documentoOficialCoacreditado', column: 'documentoOficialCoacreditado'
         claveElectorCoacreditado name: 'claveElectorCoacreditado', column: 'claveElectorCoacreditado'
         telefonoFijoCoacreditado name: 'telefonoFijoCoacreditado', column: 'telefonoFijoCoacreditado'
         telefonoCelularCoacreditado name: 'telefonoCelularCoacreditado', column: 'telefonoCelularCoacreditado'
@@ -208,11 +213,11 @@ class Contrato {
         montoMaximoAutorizado name: 'montoMaximoAutorizado', column: 'montoMaximoAutorizado'
         numeroVin name: 'numeroVin', column: 'numeroVin'
         gps1 name: 'gps1', column: 'gps1'
-        proveedor1 name: 'proveedor1', column: 'proveedor1'
+//        proveedor1 name: 'proveedor1', column: 'proveedor1'
         gps2 name: 'gps2', column: 'gps2'
-        proveedor2 name: 'proveedor2', column: 'proveedor2'
+//        proveedor2 name: 'proveedor2', column: 'proveedor2'
         gps3 name: 'gps3', column: 'gps3'
-        proveedor3 name: 'proveedor3', column: 'proveedor3'
+//        proveedor3 name: 'proveedor3', column: 'proveedor3'
         montoRequerido name: 'montoRequerido', column: 'montoRequerido'
         costoMensualInteres name: 'costoMensualInteres', column: 'costoMensualInteres'
         costoMensualMonitoreo name: 'costoMensualMonitoreo', column: 'costoMensualMonitoreo'

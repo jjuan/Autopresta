@@ -14,6 +14,7 @@ import {MercadosComponent} from "./mercados/mercados.component";
 import {DivisasComponent} from "./divisas/divisas.component";
 import {ModelosComponent} from "./modelos/modelos.component";
 import {CalificacionClienteComponent} from "./calificacion-cliente/calificacion-cliente.component";
+import {IdentificacionesOficialesComponent} from "./identificaciones-oficiales/identificaciones-oficiales.component";
 
 
 const routes: Routes = [
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path:'Divisas', component: DivisasComponent },
   { path:'Modelos', component: ModelosComponent },
   { path:'Calificacion-Clientes', component: CalificacionClienteComponent },
+  { path:'Identificaciones-Oficiales', component: IdentificacionesOficialesComponent },
 
 ];
 

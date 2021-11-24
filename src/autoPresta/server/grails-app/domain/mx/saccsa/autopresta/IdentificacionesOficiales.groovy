@@ -1,21 +1,24 @@
 package mx.saccsa.autopresta
 
-class Gps {
+class IdentificacionesOficiales {
     String nombre
+    Integer longitud
 
     static constraints = {
         nombre nullable: true, blank: true
+        longitud nullable: true, blank: true
     }
 
     static mapping = {
-        table('Gps')
+        table('IdentificacionesOficiales')
         version(false)
         id generator: 'identity'
-        nombre column: 'nombre', name: 'nombre'
+        nombre name: 'nombre', column: 'nombre'
+        longitud name: 'longitud', column: 'longitud'
     }
 
     static transients = ['descLabel']
     String getDescLabel() {
-        id + ' - ' +nombre
+        nombre
     }
 }

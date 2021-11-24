@@ -90,15 +90,15 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      {
-        path: 'Catalogos/Proveedores',
-        title: 'Proveedores',
-        moduleName: 'Catalogos',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
+      // {
+      //   path: 'Catalogos/Proveedores',
+      //   title: 'Proveedores',
+      //   moduleName: 'Catalogos',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
       {
         path: 'Catalogos/Mercados',
         title: 'Mercados',
@@ -111,6 +111,15 @@ export const ROUTES: RouteInfo[] = [
       {
         path: 'Catalogos/Divisas',
         title: 'Divisas',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Identificaciones-Oficiales',
+        title: 'Identificaciones Oficiales',
         moduleName: 'Catalogos',
         icon: '',
         class: 'ml-menu',
@@ -131,6 +140,25 @@ export const ROUTES: RouteInfo[] = [
         path: 'Procesos/Contrato',
         title: 'Contrato',
         moduleName: 'Procesos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+    ]
+  },
+  {
+    path: '',
+    title: 'Consultas',
+    moduleName: 'Consultas',
+    icon: 'fas fa-desktop',
+    class: 'menu-toggle',
+    groupTitle: false,
+    submenu: [
+      {
+        path: 'Consultas/Contrataciones',
+        title: 'Contrataciones',
+        moduleName: 'Consultas',
         icon: '',
         class: 'ml-menu',
         groupTitle: false,

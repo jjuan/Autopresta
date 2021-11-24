@@ -1,5 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {_comboCp, Combo, Contrato, direccion, Gps, Marcas, Proveedores} from "../../../core/models/data.interface";
+import {
+  _comboCp,
+  Combo,
+  Contrato,
+  direccion,
+  Gps,
+  IdentificacionesOficiales,
+  Marcas,
+  Proveedores
+} from "../../../core/models/data.interface";
 import {AbstractControl, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../../core/service/global.service";
 import {MatDialog} from "@angular/material/dialog";
@@ -32,7 +41,7 @@ export class ContratoComponent implements OnInit {
   public regimenFiscalCombo: Combo[];
   public modelosCombo: Combo[];
   public marcasCombo: Combo[];
-  direccion: FormGroup;
+  public direccion: FormGroup;
 
   costoMensualInteres = 0
   costoMensualMonitoreo = 0
@@ -45,13 +54,18 @@ export class ContratoComponent implements OnInit {
   tasaMonitoreo = 1;
   tasaGPS = 0.75;
 
-  respuesta: Contrato;
+  public longitud = 1
+  public longitudCoacreditado = 1
+
+  public respuesta: Contrato;
   public estadosCombo: Combo[];
-  keyword = 'descripcion';
-  coloniasCombo: Combo[];
+  public keyword = 'descripcion';
+  public coloniasCombo: Combo[];
   public coloniasMoralCombo: Combo[];
-  coacreditado = false
+  public coacreditado = false
   public aniosCombo: Combo[];
+  public documentoOficialCombo: IdentificacionesOficiales[];
+  public documentoOficialCoacreditadoCombo: IdentificacionesOficiales[];
 
   constructor(
     private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
@@ -63,26 +77,33 @@ export class ContratoComponent implements OnInit {
   ngOnInit() {
     this.form()
     this.direcciones = []
-    this.costoMensualInteres = 0
-    this.costoMensualMonitoreo = 0
-    this.costoMensualGPS = 0
-    this.totalAutoPresta = 0
-    this.iva = 0
-    this.costoMensualTotal = 0
+    this.costoMensualInteres = 0;
+    this.costoMensualMonitoreo = 0;
+    this.costoMensualGPS = 0;
+    this.totalAutoPresta = 0;
+    this.iva = 0;
+    this.costoMensualTotal = 0;
     this.genericRestService.combo<Combo[]>({id: 'Marcas'}, 'comboAutoPresta').subscribe(res => this.marcasCombo = res);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps1Combo = result);
-    this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores1Combo = result);
+    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores1Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps2Combo = result);
-    this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores2Combo = result);
+    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores2Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps3Combo = result);
-    this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores3Combo = result);
+    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores3Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'TipoContrato'}, 'comboAutoPresta').subscribe(result => this.tipoContratoCombo = result);
     this.genericRestService.combo<Combo[]>({id: 'C_RegimenFiscal'}, 'comboFactura').subscribe(result => this.regimenFiscalCombo = result);
     this.genericRestService.combo<Combo[]>({id: 'Estados'}, 'comboAutoPresta').subscribe(result => {
       this.estadosCombo = result
     });
+    this.genericRestService.combo<IdentificacionesOficiales[]>({}, 'comboDocumentos').subscribe(result => {
+      this.documentoOficialCombo = result
+    });
+    this.genericRestService.combo<IdentificacionesOficiales[]>({}, 'comboDocumentos').subscribe(result => {
+      this.documentoOficialCoacreditadoCombo = result
+    });
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
+    console.log(this.formulario.get('documentoOficial').value)
   }
 
   direccionFormulario() {
@@ -149,7 +170,8 @@ export class ContratoComponent implements OnInit {
       rfc: [data ? data.rfc : '', Validators.required],
       fechaNacimiento: [data ? data.fechaNacimiento : ''],
       curp: [data ? data.curp : '', [Validators.required, Validators.maxLength(18), Validators.minLength(18)]],
-      claveElector: [data ? data.claveElector : '', Validators.required],
+      documentoOficial: [data ? data.documentoOficial : '', Validators.required],
+      claveElector: [data ? data.claveElector : '', [Validators.required, (control: AbstractControl) => Validators.minLength(this.longitud)(control), (control: AbstractControl) => Validators.maxLength(this.longitud)(control)]],
       telefonoFijo: [data ? data.telefonoFijo : ''],
       telefonoCelular: [data ? data.telefonoCelular : ''],
       telefonoOficina: [data ? data.telefonoOficina : ''],
@@ -183,7 +205,7 @@ export class ContratoComponent implements OnInit {
       montoMaximoAutorizado: [data ? data.montoMaximoAutorizado : '', Validators.required],
       numeroVin: [data ? data.numeroVin : '', Validators.required],
       gps1: [data ? data.gps1 : '', Validators.required],
-      proveedor1: [data ? data.proveedor1 : '', Validators.required],
+      // proveedor1: [data ? data.proveedor1 : '', Validators.required],
       gps2: [data ? data.gps2 : ''],
       proveedor2: [data ? data.proveedor2 : ''],
       gps3: [data ? data.gps3 : ''],
@@ -224,7 +246,6 @@ export class ContratoComponent implements OnInit {
       if (!result) {
         return;
       }
-      console.log(result)
       this.formulario.patchValue({
         calificacionCliente: result.calificacionCliente,
         contratoPrueba: result.contratoPrueba,
@@ -239,11 +260,11 @@ export class ContratoComponent implements OnInit {
       })
       this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(data => {
         this.download(data.id)
+        this.ngOnInit();
         this.snack.open(this._datos._title + ' capturado!', 'OK', {duration: 4000});
       }, error => {
         this.snack.open(error.error.mensaje, 'OK', {duration: 4000});
       });
-      this.ngOnInit();
     });
   }
 
@@ -344,7 +365,7 @@ export class ContratoComponent implements OnInit {
       } else {
         this.formulario.patchValue({genero: data[10] == 'H' ? 'M' : 'F', edad: age, fechaNacimiento: newDate})
       }
-    }else {
+    } else {
       if (coacreditado) {
         this.formulario.patchValue({
           generoCoacreditado: '',
@@ -434,34 +455,34 @@ export class ContratoComponent implements OnInit {
         telefonoOficinaCoacreditado: '',
         correoElectronicoCoacreditado: '',
       })
-    //   this.formulario.get('nombresCoacreditado').clearValidators();
-    //   this.formulario.get('primerApellidoCoacreditado').clearValidators();
-    //   // this.formulario.get('segundoApellidoCoacreditado').clearValidators();
-    //   this.formulario.get('generoCoacreditado').clearValidators();
-    //   this.formulario.get('edadCoacreditado').clearValidators();
-    //   this.formulario.get('rfcCoacreditado').clearValidators();
-    //   this.formulario.get('fechaNacimientoCoacreditado').clearValidators();
-    //   this.formulario.get('curpCoacreditado').clearValidators();
-    //   this.formulario.get('claveElectorCoacreditado').clearValidators();
-    //   // this.formulario.get('telefonoFijoCoacreditado').clearValidators();
-    //   // this.formulario.get('telefonoCelularCoacreditado').clearValidators();
-    //   // this.formulario.get('telefonoOficinaCoacreditado').clearValidators();
-    //   this.formulario.get('correoElectronicoCoacreditado').clearValidators();
-    // } else {
-    //
-    //   this.formulario.get('nombresCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('primerApellidoCoacreditado').setValidators(Validators.required);
-    //   // this.formulario.get('segundoApellidoCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('generoCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('edadCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('rfcCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('fechaNacimientoCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('curpCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('claveElectorCoacreditado').setValidators(Validators.required);
-    //   // this.formulario.get('telefonoFijoCoacreditado').setValidators(Validators.required);
-    //   // this.formulario.get('telefonoCelularCoacreditado').setValidators(Validators.required);
-    //   // this.formulario.get('telefonoOficinaCoacreditado').setValidators(Validators.required);
-    //   this.formulario.get('correoElectronicoCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('nombresCoacreditado').clearValidators();
+      //   this.formulario.get('primerApellidoCoacreditado').clearValidators();
+      //   // this.formulario.get('segundoApellidoCoacreditado').clearValidators();
+      //   this.formulario.get('generoCoacreditado').clearValidators();
+      //   this.formulario.get('edadCoacreditado').clearValidators();
+      //   this.formulario.get('rfcCoacreditado').clearValidators();
+      //   this.formulario.get('fechaNacimientoCoacreditado').clearValidators();
+      //   this.formulario.get('curpCoacreditado').clearValidators();
+      //   this.formulario.get('claveElectorCoacreditado').clearValidators();
+      //   // this.formulario.get('telefonoFijoCoacreditado').clearValidators();
+      //   // this.formulario.get('telefonoCelularCoacreditado').clearValidators();
+      //   // this.formulario.get('telefonoOficinaCoacreditado').clearValidators();
+      //   this.formulario.get('correoElectronicoCoacreditado').clearValidators();
+      // } else {
+      //
+      //   this.formulario.get('nombresCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('primerApellidoCoacreditado').setValidators(Validators.required);
+      //   // this.formulario.get('segundoApellidoCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('generoCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('edadCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('rfcCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('fechaNacimientoCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('curpCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('claveElectorCoacreditado').setValidators(Validators.required);
+      //   // this.formulario.get('telefonoFijoCoacreditado').setValidators(Validators.required);
+      //   // this.formulario.get('telefonoCelularCoacreditado').setValidators(Validators.required);
+      //   // this.formulario.get('telefonoOficinaCoacreditado').setValidators(Validators.required);
+      //   this.formulario.get('correoElectronicoCoacreditado').setValidators(Validators.required);
     }
   }
 
@@ -473,5 +494,19 @@ export class ContratoComponent implements OnInit {
     console.log(this.direccion.value)
     console.log(this.direccion.errors)
     console.log(this.direcciones.length)
+  }
+
+  documentoOficialValidator(event, esCoacreditado) {
+    for (let doc of this.documentoOficialCombo){
+      if (esCoacreditado){
+        this.longitudCoacreditado = doc.longitud
+      } else {
+        this.longitud = doc.longitud
+      }
+    }
+  }
+
+  imprimir(){
+    console.log(this.formulario.value)
   }
 }

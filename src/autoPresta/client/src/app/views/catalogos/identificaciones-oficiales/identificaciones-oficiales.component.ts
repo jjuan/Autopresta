@@ -1,36 +1,33 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import Swal from "sweetalert2";
-import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
-import {FormBuilder} from "@angular/forms";
-import {DialogService} from "../../../core/service/dialog.service";
-import {GlobalService} from "../../../core/service/global.service";
-import {MatPaginator} from "@angular/material/paginator";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
+import {IdentificacionesOficiales} from "../../../core/models/data.interface";
 import {MatDialog} from "@angular/material/dialog";
-import {MatSort} from "@angular/material/sort";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {GlobalService} from "../../../core/service/global.service";
+import {FormBuilder} from "@angular/forms";
+import {DialogService} from "../../../core/service/dialog.service";
+import {MatPaginator} from "@angular/material/paginator";
+import {MatSort} from "@angular/material/sort";
+import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
+import Swal from "sweetalert2";
 import {map} from "rxjs/operators";
-import {Agencias} from "../../../core/models/data.interface";
-import {FormAgenciasComponent} from "./form-agencias/form-agencias.component";
+import {IdentificacionesOficialesFormComponent} from "./identificaciones-oficiales-form/identificaciones-oficiales-form.component";
 
 @Component({
-  selector: 'app-agencias',
-  templateUrl: './agencias.component.html',
-  styleUrls: ['./agencias.component.sass']
+  selector: 'app-identificaciones-oficiales',
+  templateUrl: './identificaciones-oficiales.component.html',
+  styleUrls: ['./identificaciones-oficiales.component.sass']
 })
-export class AgenciasComponent implements OnInit {
-  datos = {modulo: 'Catalogos', componente: 'Agencias', icono: 'fas fa-folder-open', titulo: 'Agencias', controlador: 'Agencias'}
+export class IdentificacionesOficialesComponent implements OnInit {
+  datos = {modulo: 'Catalogos', componente: 'IdentificacionesOficiales', icono: 'fas fa-folder-open', titulo: 'IdentificacionesOficiales', controlador: 'IdentificacionesOficiales'}
   displayedColumns = [
     'select',
     'nombre',
-    'sucursal',
-    'region',
-    'portafolio',
-    'clave',
+    'longitud',
     'actions'
   ];
-  selection = new SelectionModel<Agencias>(true, []);
+  selection = new SelectionModel<IdentificacionesOficiales>(true, []);
   dataSource: registros | null;
   constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar,
               private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService) { }
@@ -50,10 +47,10 @@ export class AgenciasComponent implements OnInit {
   }
   private refreshTable() { this.paginator._changePageSize(this.paginator.pageSize); }
 
-  save(row?: Agencias) {
+  save(row?: IdentificacionesOficiales) {
     if (row){
-      this.restService.edit<Agencias>(row.id, this.datos.controlador).subscribe(result => {
-        const dialogRef = this.dialog.open(FormAgenciasComponent, {
+      this.restService.edit<IdentificacionesOficiales>(row.id, this.datos.controlador).subscribe(result => {
+        const dialogRef = this.dialog.open(IdentificacionesOficialesFormComponent, {
           data: { title: row.nombre , disableClose: true, data: result, action: 'Editar' }, height: 'auto', width: '40%'
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -69,8 +66,8 @@ export class AgenciasComponent implements OnInit {
         });
       });
     } else {
-      this.restService.create<Agencias>(this.datos.controlador).subscribe(result => {
-        const dialogRef = this.dialog.open(FormAgenciasComponent, {
+      this.restService.create<IdentificacionesOficiales>(this.datos.controlador).subscribe(result => {
+        const dialogRef = this.dialog.open(IdentificacionesOficialesFormComponent, {
           data: { title: this.datos.titulo, disableClose: true, data: result, action: 'Agregar' }, height: 'auto', width: '40%'
         });
         dialogRef.afterClosed().subscribe((result) => {
@@ -104,19 +101,16 @@ export class AgenciasComponent implements OnInit {
       const index: number = this.dataSource.renderedData.findIndex( (d) => d === item );
       this.restService.dataChange.value.splice(index, 1);
       this.refreshTable();
-      this.selection = new SelectionModel<Agencias>(true, []);
+      this.selection = new SelectionModel<IdentificacionesOficiales>(true, []);
     });
     this.dialogService.snack( 'danger', totalSelect + ' registros eliminados' );
   }
 
-  delete(row: Agencias) {
+  delete(row: IdentificacionesOficiales) {
     const html ='<div class="align-left mt-3">'+
       '<h5>Detalles del ' + this.datos.titulo.toLowerCase() + ': ' + row.id + '</h5>'+
       '<p><span class="font-weight-bold">Nombre: </span>' + row.nombre + '</p>' +
-      '<p><span class="font-weight-bold">Sucursal: </span>' + row.sucursal + '</p>' +
-      '<p><span class="font-weight-bold">Region: </span>' + row.region + '</p>' +
-      '<p><span class="font-weight-bold">Portafolio: </span>' + row.portafolio + '</p>' +
-      '<p><span class="font-weight-bold">Clave: </span>' + row.clave + '</p>' +
+      '<p><span class="font-weight-bold">Longitud: </span>' + row.longitud + '</p>' +
       '</div>';
     Swal.fire({
       titleText: this.datos.titulo,
@@ -139,12 +133,12 @@ export class AgenciasComponent implements OnInit {
 }
 
 
-export class registros extends DataSource<Agencias> {
+export class registros extends DataSource<IdentificacionesOficiales> {
   filterChange = new BehaviorSubject('');
   get filter(): string { return this.filterChange.value; }
   set filter(filter: string) { this.filterChange.next(filter); }
-  filteredData: Agencias[] = [];
-  renderedData: Agencias[] = [];
+  filteredData: IdentificacionesOficiales[] = [];
+  renderedData: IdentificacionesOficiales[] = [];
   constructor( private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string) {
     super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
@@ -153,7 +147,7 @@ export class registros extends DataSource<Agencias> {
   disconnect() {
   }
 
-  connect(): Observable<Agencias[]> {
+  connect(): Observable<IdentificacionesOficiales[]> {
 
     const displayDataChanges = [
       this.ds.dataChange, this._sort.sortChange, this.filterChange, this.paginator.page
@@ -161,14 +155,11 @@ export class registros extends DataSource<Agencias> {
 
     this.ds.getAdvancedTable<any>(this.controller,{'max': 100});
     return merge(...displayDataChanges).pipe( map(() => {
-        this.filteredData = this.ds.data.slice().filter((campo: Agencias) => {
+        this.filteredData = this.ds.data.slice().filter((campo: IdentificacionesOficiales) => {
           const searchStr = (
-            // campo.id +
+            campo.id +
             campo.nombre+
-            campo.sucursal+
-            campo.region+
-            campo.portafolio+
-            campo.clave
+            campo.longitud
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -181,11 +172,11 @@ export class registros extends DataSource<Agencias> {
     );
   }
 
-  sortData(data: Agencias[]): Agencias[] {
+  sortData(data: IdentificacionesOficiales[]): IdentificacionesOficiales[] {
     if (!this._sort.active || this._sort.direction === '') { return data; }
     return data.sort((a, b) => {
-      let propertyA: number| Date | string = '';
-      let propertyB: number| Date | string = '';
+      let propertyA: any = '';
+      let propertyB: any = '';
       switch (this._sort.active) {
         case 'id':
           [propertyA, propertyB] = [a.id, b.id]
@@ -193,8 +184,8 @@ export class registros extends DataSource<Agencias> {
         case 'nombre':
           [propertyA, propertyB] = [a.nombre, b.nombre]
           break;
-        case 'clave':
-          [propertyA, propertyB] = [a.clave, b.clave]
+        case 'longitud':
+          [propertyA, propertyB] = [a.longitud, b.longitud]
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
@@ -203,3 +194,4 @@ export class registros extends DataSource<Agencias> {
     });
   }
 }
+

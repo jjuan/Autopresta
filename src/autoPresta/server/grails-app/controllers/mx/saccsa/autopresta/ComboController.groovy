@@ -127,5 +127,9 @@ class ComboController {
         data = data.sort({ it.descripcion })
         respond(data)
     }
+    def comboDocumentos(){
+        def data = IdentificacionesOficiales.list()
+        respond(data)
+    }
 
 }

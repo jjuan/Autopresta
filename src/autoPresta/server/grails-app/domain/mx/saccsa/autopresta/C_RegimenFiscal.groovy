@@ -17,5 +17,5 @@ class C_RegimenFiscal {
     }
 
     static transients = ['descLabel']
-    String getDescLabel() { clave + ' - ' +descripcion }
+    String getDescLabel() { descripcion }
 }
