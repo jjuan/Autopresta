@@ -694,7 +694,7 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Modelo</mat-label>
-              <mat-select formControlName="modelo" (selectionChange)="cargarAnios($event.value)">
+              <mat-select formControlName="modelo" >
                 <mat-option *ngFor="let item of modelosCombo" [value]="item.id">{{item.descripcion}}</mat-option>
               </mat-select>
               <mat-error *ngIf="formulario.get('modelo').hasError('required')">
@@ -764,11 +764,12 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>F. Factura</mat-label>
-              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura"
-                     formControlName="fechaDeFactura">
-              <mat-datepicker-toggle matSuffix [for]="fechaDeFactura"></mat-datepicker-toggle>
-              <mat-datepicker #fechaDeFactura></mat-datepicker>
-              <mat-error *ngIf="formulario.get('fechaDeFactura').hasError('required')">
+              <input matInput formControlName="fechaF" (keyup)="fechaFactura(formulario.get('fechaF').value)">
+<!--              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura"-->
+<!--                     formControlName="fechaDeFactura">-->
+<!--              <mat-datepicker-toggle matSuffix [for]="fechaDeFactura"></mat-datepicker-toggle>-->
+<!--              <mat-datepicker #fechaDeFactura></mat-datepicker>-->
+              <mat-error *ngIf="formulario.get('fechaF').hasError('required')">
                 F. Factura es requerido
               </mat-error>
             </mat-form-field>
@@ -1025,15 +1026,15 @@
           <!--              </mat-error>-->
           <!--            </mat-form-field>-->
           <!--          </div>-->
-          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Clabe Interbancaria</mat-label>
-              <input matInput formControlName="clabe">
-              <mat-error *ngIf="formulario.get('clabe').hasError('required')">
-                Clabe Interbancaria es requerido
-              </mat-error>
-            </mat-form-field>
-          </div>
+<!--          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">-->
+<!--            <mat-form-field class="full-width" appearance="outline">-->
+<!--              <mat-label>Clabe Interbancaria</mat-label>-->
+<!--              <input matInput formControlName="clabe">-->
+<!--              <mat-error *ngIf="formulario.get('clabe').hasError('required')">-->
+<!--                Clabe Interbancaria es requerido-->
+<!--              </mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
         </div>
       </div>
     </div>
@@ -1041,7 +1042,7 @@
     <div class="row mb-10">
       <div class="col-xl-12 col-lg-12  mb-1">
         <div class="button-row">
-          <button mat-raised-button color="primary" type="submit"
+          <button mat-raised-button color="primary" type="button"
                   [disabled]="formulario.invalid"
                   (click)="save()">Guardar
           </button>

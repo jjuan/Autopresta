@@ -63,7 +63,22 @@ export class ContratoComponent implements OnInit {
   public coloniasCombo: Combo[];
   public coloniasMoralCombo: Combo[];
   public coacreditado = false
-  public aniosCombo: Combo[];
+  public aniosCombo: Combo[] = [
+    {id: '2010', descripcion: '2010'},
+    {id: '2011', descripcion: '2011'},
+    {id: '2012', descripcion: '2012'},
+    {id: '2013', descripcion: '2013'},
+    {id: '2014', descripcion: '2014'},
+    {id: '2015', descripcion: '2015'},
+    {id: '2016', descripcion: '2016'},
+    {id: '2017', descripcion: '2017'},
+    {id: '2018', descripcion: '2018'},
+    {id: '2019', descripcion: '2019'},
+    {id: '2020', descripcion: '2020'},
+    {id: '2021', descripcion: '2021'},
+    {id: '2022', descripcion: '2022'}
+
+  ];
   public documentoOficialCombo: IdentificacionesOficiales[];
   public documentoOficialCoacreditadoCombo: IdentificacionesOficiales[];
 
@@ -103,7 +118,6 @@ export class ContratoComponent implements OnInit {
     });
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
-    console.log(this.formulario.get('documentoOficial').value)
   }
 
   direccionFormulario() {
@@ -159,6 +173,7 @@ export class ContratoComponent implements OnInit {
       numeroExteriorMoral: [''],
       numeroInteriorMoral: [''],
       codigoPostalMoral: [''],
+      fechaF: [''],
       coloniaMoral: [''],
       municipioMoral: [''],
       entidadMoral: [''],
@@ -219,7 +234,7 @@ export class ContratoComponent implements OnInit {
       costoMensualTotal: [data ? data.costoMensualTotal : this.costoMensualTotal, Validators.required],
       tipoContrato: [data ? data.tipoContrato : '', Validators.required],
       referencia: [data ? data.referencia : ''],
-      clabe: [data ? data.clabe : '', Validators.required],
+      clabe: [data ? data.clabe : ''],
       coacreditado: [false],
       calificacionCliente: [data ? data.calificacionCliente : ''],
       contratoPrueba: [data ? data.contratoPrueba : ''],
@@ -259,7 +274,7 @@ export class ContratoComponent implements OnInit {
         descuentosRetenciones: result.descuentosRetenciones,
       })
       this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(data => {
-        this.download(data.id)
+        // this.download(data.id)
         this.ngOnInit();
         this.snack.open(this._datos._title + ' capturado!', 'OK', {duration: 4000});
       }, error => {
@@ -300,9 +315,9 @@ export class ContratoComponent implements OnInit {
     this.genericRestService.combo<Combo[]>({id: value}, 'comboModelos').subscribe(res => this.modelosCombo = res);
   }
 
-  cargarAnios(value) {
-    this.genericRestService.combo<Combo[]>({id: value}, 'comboAutos').subscribe(res => this.aniosCombo = res);
-  }
+  // cargarAnios(value) {
+  //   this.genericRestService.combo<Combo[]>({id: value}, 'comboAutos').subscribe(res => this.aniosCombo = res);
+  // }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snack.open(text, '', {
@@ -498,10 +513,12 @@ export class ContratoComponent implements OnInit {
 
   documentoOficialValidator(event, esCoacreditado) {
     for (let doc of this.documentoOficialCombo){
-      if (esCoacreditado){
-        this.longitudCoacreditado = doc.longitud
-      } else {
-        this.longitud = doc.longitud
+      if (doc.id == event) {
+        if (esCoacreditado) {
+          this.longitudCoacreditado = doc.longitud
+        } else {
+          this.longitud = doc.longitud
+        }
       }
     }
   }
@@ -509,4 +526,19 @@ export class ContratoComponent implements OnInit {
   imprimir(){
     console.log(this.formulario.value)
   }
+
+  fechaFactura(fecha: string){
+
+    if (fecha.length == 10) {
+      let campos = fecha.split('/')
+      let anio = campos[2]
+      const mes = campos[1]
+      const dia = campos[0]
+
+      let dateString = anio + '-' + mes + '-' + dia + 'T00:00:00'
+
+      let newDate = new Date(dateString);
+      this.formulario.patchValue({fechaDeFactura: newDate})
+    }
+}
 }

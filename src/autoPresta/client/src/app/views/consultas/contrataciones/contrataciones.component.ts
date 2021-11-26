@@ -28,7 +28,8 @@ export class ContratacionesComponent implements OnInit {
   }
   displayedColumns = [
     'folio',
-    'regimenFiscal',
+    'titular',
+    'apoderado',
     'fechaEmision',
     'montoPrestamo',
     'total',

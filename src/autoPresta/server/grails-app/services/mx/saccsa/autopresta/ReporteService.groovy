@@ -21,6 +21,7 @@ class ReporteService {
         for (pago in pagos) {
             montoTotal = montoTotal + (pago.subtotal + pago.iva)
         }
+        String clabe = Parametros.getValorByParametro('CLABE_BANCO')
         ContratoDetalle.findAllByContrato(contrato).eachWithIndex { ContratoDetalle it, int i ->
             listaDatos.add index: i + 1,
                     fechaPago: it.fecha,
@@ -43,26 +44,26 @@ class ReporteService {
         if (contrato.regimenFiscal.clave == 'PM') {
             lista = [
                     listaDatos                   : listaDatos,
-                    nombre                       : contrato.nombres,
-                    nombreRazonSocial            : contrato.razonesSociales.razonSocial,
-                    rfcRazonSocial               : contrato.razonesSociales.rfc,
+                    nombre                       : contrato.nombres.toUpperCase(),
+                    nombreRazonSocial            : contrato.razonesSociales.razonSocial.toUpperCase(),
+                    rfcRazonSocial               : contrato.razonesSociales.rfc.toUpperCase(),
                     apellidos                    : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
                     rfc                          : contrato.rfc.toUpperCase(),
                     edad                         : contrato.edad.toString(),
                     whatsapp                     : campo(contrato.telefonoCelular),
                     telTrabajoCasa               : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial      : contrato.claveElector != null ? contrato.claveElector : '',
+                    noIdentificacionOficial      : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
                     calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                   : dir.interior != null ? dir.interior : '',
-                    colonia                      : dir.colonia != null ? dir.colonia : '',
+                    colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                     codigoPostal                 : dir.cp != null ? dir.cp : '',
-                    alcaldia                     : dir.municipio != null ? dir.municipio : '',
-                    noContrato                   : contrato.numeroContrato,
+                    alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
+                    noContrato                   : contratoFolio(contrato),
                     montoPrestamo                : contrato.montoRequerido,
                     montoTotalPagar              : montoTotal,
-                    referenciaBancaria           : contrato.referencia ? contrato.referencia : '',
-                    clabe                        : contrato.clabe ? contrato.clabe : '',
-                    plazo                        : contrato.tipoContrato.descripcion,
+                    referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
+                    clabe                        : clabe,
+                    plazo                        : contrato.tipoContrato.descripcion.toUpperCase(),
                     desempeño                    : fecha(desempenio.fecha),
                     caracteristicas              : descripcion(contrato),
                     noDeVin                      : campo(contrato.numeroVin),
@@ -74,19 +75,19 @@ class ReporteService {
                     porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito         : fecha(desempenio.fecha),
                     fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos              : contrato.detalleDescuentos
+                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase()
             ]
         } else if (contrato.nombresCoacreditado != null && contrato.regimenFiscal.clave != 'PM') {
             lista = [
                     listaDatos                         : listaDatos,
-                    nombre                             : contrato.nombres,
+                    nombre                             : contrato.nombres.toUpperCase(),
                     apellidos                          : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
                     rfc                                : contrato.rfc.toUpperCase(),
                     edad                               : contrato.edad.toString(),
                     whatsapp                           : campo(contrato.telefonoCelular),
                     telTrabajoCasa                     : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector : '',
-                    nombreCoacreditado                 : contrato.nombresCoacreditado,
+                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
+                    nombreCoacreditado                 : contrato.nombresCoacreditado.toUpperCase(),
                     apellidosCoacreditado              : campo(contrato.primerApellidoCoacreditado) + ' ' + campo(contrato.segundoApellidoCoacreditado),
                     rfcCoacreditado                    : contrato.rfcCoacreditado.toUpperCase(),
                     edadCoacreditado                   : contrato.edadCoacreditado.toString(),
@@ -95,15 +96,15 @@ class ReporteService {
                     noIdentificacionOficialCoacreditado: contrato.claveElectorCoacreditado != null ? contrato.claveElectorCoacreditado : '',
                     calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                         : dir.interior != null ? dir.interior : '',
-                    colonia                            : dir.colonia != null ? dir.colonia : '',
+                    colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                     codigoPostal                       : dir.cp != null ? dir.cp : '',
-                    alcaldia                           : dir.municipio != null ? dir.municipio : '',
-                    noContrato                         : contrato.numeroContrato,
+                    alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
+                    noContrato                         : contratoFolio(contrato),
                     montoPrestamo                      : contrato.montoRequerido,
                     montoTotalPagar                    : montoTotal,
-                    referenciaBancaria                 : contrato.referencia ? contrato.referencia : '',
-                    clabe                              : contrato.clabe ? contrato.clabe : '',
-                    plazo                              : contrato.tipoContrato.descripcion,
+                    referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
+                    clabe                              : clabe,
+                    plazo                              : contrato.tipoContrato.descripcion.toUpperCase(),
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
@@ -115,29 +116,29 @@ class ReporteService {
                     porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito               : fecha(desempenio.fecha),
                     fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos                    : contrato.detalleDescuentos
+                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase()
             ]
         } else {
             lista = [
                     listaDatos                         : listaDatos,
-                    nombre                             : contrato.nombres,
+                    nombre                             : contrato.nombres.toUpperCase(),
                     apellidos                          : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
                     rfc                                : contrato.rfc.toUpperCase(),
                     edad                               : contrato.edad.toString(),
                     whatsapp                           : campo(contrato.telefonoCelular),
                     telTrabajoCasa                     : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector : '',
+                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
                     calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                         : dir.interior != null ? dir.interior : '',
-                    colonia                            : dir.colonia != null ? dir.colonia : '',
+                    colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                     codigoPostal                       : dir.cp != null ? dir.cp : '',
-                    alcaldia                           : dir.municipio != null ? dir.municipio : '',
-                    noContrato                         : contrato.numeroContrato,
+                    alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase(): '',
+                    noContrato                         : contratoFolio(contrato),
                     montoPrestamo                      : contrato.montoRequerido,
                     montoTotalPagar                    : montoTotal,
-                    referenciaBancaria                 : contrato.referencia ? contrato.referencia : '',
-                    clabe                              : contrato.clabe ? contrato.clabe : '',
-                    plazo                              : contrato.tipoContrato.descripcion,
+                    referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
+                    clabe                              : clabe,
+                    plazo                              : contrato.tipoContrato.descripcion.toUpperCase(),
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
@@ -149,7 +150,7 @@ class ReporteService {
                     porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito               : fecha(desempenio.fecha),
                     fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos                    : contrato.detalleDescuentos
+                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase()
                     ]
         }
 
@@ -157,7 +158,7 @@ class ReporteService {
     }
 
     String descripcion(Contrato contrato) {
-        String desc = contrato.marca.nombre.toUpperCase() + ' ' + contrato.modelo.nombre.toUpperCase() + ', COLOR ' + contrato.color.toUpperCase() + ', PLACAS ' + contrato.placas.toUpperCase()
+        String desc = contrato.marca.nombre.toUpperCase() + ' ' + contrato.modelo.nombre.toUpperCase() + ' ' + contrato.anio + ', COLOR ' + contrato.color.toUpperCase() + ', PLACAS ' + contrato.placas.toUpperCase()
         return desc
     }
 
@@ -165,7 +166,7 @@ class ReporteService {
         if (s == null) {
             return ''
         } else {
-            return s
+            return s.toUpperCase()
         }
     }
 
@@ -213,5 +214,19 @@ class ReporteService {
                 break;
         }
         return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
+    }
+
+    String contratoFolio(Contrato contrato){
+        String folio = contrato.numeroContrato
+        if (contrato.contratoPrueba){
+            if (folio.length() <= 5){
+                folio = '0'+folio
+            }
+        } else {
+            if (folio.length() <= 4){
+                folio = '0'+folio
+            }
+        }
+        return folio
     }
 }

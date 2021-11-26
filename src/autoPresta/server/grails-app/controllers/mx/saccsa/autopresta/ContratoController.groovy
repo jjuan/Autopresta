@@ -24,7 +24,7 @@ class ContratoController extends RestfulController<Contrato> {
     def index() {
         String validar = Parametros.getValorByParametro('Pruebas')
         def contratos
-        if (validar == '1'){
+        if (validar == '1') {
             contratos = Contrato.list()
         } else {
             contratos = Contrato.findAllByContratoPrueba(false)
@@ -33,6 +33,8 @@ class ContratoController extends RestfulController<Contrato> {
             [
                     id                           : it?.id,
                     regimenFiscal                : it?.regimenFiscal?.descLabel,
+                    titular                      : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
                     fechaContrato                : it?.fechaContrato,
                     nombres                      : it?.nombres,
                     primerApellido               : it?.primerApellido,
@@ -62,7 +64,7 @@ class ContratoController extends RestfulController<Contrato> {
                     telefonoCelularCoacreditado  : it?.telefonoCelularCoacreditado,
                     telefonoOficinaCoacreditado  : it?.telefonoOficinaCoacreditado,
                     correoElectronicoCoacreditado: it?.correoElectronicoCoacreditado,
-                    anio                         : it?.anio?.anio,
+                    anio                         : it?.anio,
                     marca                        : it?.marca?.nombre,
                     modelo                       : it?.modelo?.nombre,
                     versionAuto                  : it?.versionAuto,
@@ -92,7 +94,7 @@ class ContratoController extends RestfulController<Contrato> {
                     clabe                        : it?.clabe,
                     razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
                     calificacionCliente          : it?.calificacionCliente?.descLabel,
-                    numeroContrato               : it?.numeroContrato,
+                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba) : '',
                     contratoPrueba               : it?.contratoPrueba,
                     montoTransferencia           : it?.montoTransferencia,
                     detalleDescuentos            : it?.detalleDescuentos,
@@ -215,7 +217,7 @@ class ContratoController extends RestfulController<Contrato> {
 
         String folio = contrato != null ? (contrato.folio + 1).toString() : '1'
         String folioPrueba = contratoPrueba != null ? (contratoPrueba.folio + 1).toString() + 'P' : '1P'
-        respond(folio: folioRecuperado > 0 ? folioRecuperado : folio, folioPrueba: folioRecuperadoP > 0 ? folioRecuperadoP+'P' : folioPrueba)
+        respond(folio: folioRecuperado > 0 ? folioRecuperado : folio, folioPrueba: folioRecuperadoP > 0 ? folioRecuperadoP + 'P' : folioPrueba)
     }
 
     def firmarFolio(Long id) {
@@ -263,5 +265,18 @@ class ContratoController extends RestfulController<Contrato> {
         } else {
             return 0
         }
+    }
+
+    String contratoFolio(String folio, Boolean contratoPrueba) {
+        if (contratoPrueba) {
+            if (folio.length() <= 5) {
+                folio = '0' + folio
+            }
+        } else {
+            if (folio.length() <= 4) {
+                folio = '0' + folio
+            }
+        }
+        return folio
     }
 }

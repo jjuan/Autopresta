@@ -35,7 +35,7 @@ class Contrato {
     String correoElectronicoCoacreditado
 
     //datos del automovil
-    Automoviles anio
+    String anio
     Marcas marca
     Modelos modelo
     String versionAuto

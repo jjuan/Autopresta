@@ -62,8 +62,16 @@
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Regimen Fiscal</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row.regimenFiscal}}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="titular">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Titular</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.titular}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="apoderado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Apoderado Legal(Persona Moral)</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.apoderado}}</mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="fechaEmision">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>fecha de Emisión</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Emisión</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row.fechaContrato|date: 'dd/MM/yyyy'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="montoPrestamo">
@@ -91,7 +99,7 @@
                     <button mat-icon-button *ngIf="row.estatus == 'P'" (click)="cambiarEstatus(row.id, 'librarFolio')" color="danger" matTooltip="Recuperar folio del {{row.numeroContrato}}">
                       <mat-icon>clear</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="download(row.id)" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
+                    <button mat-icon-button *ngIf="row.estatus != 'C'" (click)="download(row.id)" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
                       <mat-icon>file_download</mat-icon>
                     </button>
 
