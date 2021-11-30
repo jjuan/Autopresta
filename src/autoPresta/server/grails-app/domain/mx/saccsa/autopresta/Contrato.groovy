@@ -77,7 +77,7 @@ class Contrato {
     String numeroContrato
     Boolean contratoPrueba = false
     BigDecimal montoTransferencia
-    String detalleDescuentos = 'N/A'
+    String detalleDescuentos
     Date fechaSolicitud
     BigDecimal montoLiquidar
     Date fechaCompromiso

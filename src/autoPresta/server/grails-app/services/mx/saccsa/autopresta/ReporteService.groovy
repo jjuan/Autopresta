@@ -39,7 +39,7 @@ class ReporteService {
         def dir = Direccion.findByContratoAndPrincipal(contrato, true)
         String exterior = dir.exterior != null ? dir.exterior : 'S/N'
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
-        def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeVenta) * 100)
+        def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorCompra) * 100)
         def lista
         if (contrato.regimenFiscal.clave == 'PM') {
             lista = [
@@ -67,7 +67,7 @@ class ReporteService {
                     desempeño                    : fecha(desempenio.fecha),
                     caracteristicas              : descripcion(contrato),
                     noDeVin                      : campo(contrato.numeroVin),
-                    avaluo                       : contrato.valorDeVenta,
+                    avaluo                       : contrato.valorCompra,
                     prestamo                     : contrato.montoRequerido,
                     prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra           : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
@@ -108,7 +108,7 @@ class ReporteService {
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorDeVenta,
+                    avaluo                             : contrato.valorCompra,
                     prestamo                           : contrato.montoRequerido,
                     prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
@@ -142,7 +142,7 @@ class ReporteService {
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorDeVenta,
+                    avaluo                             : contrato.valorCompra,
                     prestamo                           : contrato.montoRequerido,
                     prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
