@@ -39,7 +39,7 @@ class ReporteService {
         def dir = Direccion.findByContratoAndPrincipal(contrato, true)
         String exterior = dir.exterior != null ? dir.exterior : 'S/N'
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
-        def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorCompra) * 100)
+        def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeCompra) * 100)
         def lista
         if (contrato.regimenFiscal.clave == 'PM') {
             lista = [
@@ -59,7 +59,7 @@ class ReporteService {
                     codigoPostal                 : dir.cp != null ? dir.cp : '',
                     alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
                     noContrato                   : contratoFolio(contrato),
-                    montoPrestamo                : contrato.montoRequerido,
+                    montoPrestamo                : contrato.montoTransferencia,
                     montoTotalPagar              : montoTotal,
                     referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                     clabe                        : clabe,
@@ -67,11 +67,11 @@ class ReporteService {
                     desempeño                    : fecha(desempenio.fecha),
                     caracteristicas              : descripcion(contrato),
                     noDeVin                      : campo(contrato.numeroVin),
-                    avaluo                       : contrato.valorCompra,
+                    avaluo                       : contrato.valorDeCompra,
                     prestamo                     : contrato.montoRequerido,
                     prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra           : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra             : utilService.cantidadLetra(contrato.valorDeVenta, Divisas.findByClave('MXN')),
+                    montoAvaluoLetra             : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
                     porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito         : fecha(desempenio.fecha),
                     fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
@@ -100,7 +100,7 @@ class ReporteService {
                     codigoPostal                       : dir.cp != null ? dir.cp : '',
                     alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
                     noContrato                         : contratoFolio(contrato),
-                    montoPrestamo                      : contrato.montoRequerido,
+                    montoPrestamo                      : contrato.montoTransferencia,
                     montoTotalPagar                    : montoTotal,
                     referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                     clabe                              : clabe,
@@ -108,11 +108,11 @@ class ReporteService {
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorCompra,
+                    avaluo                             : contrato.valorDeCompra,
                     prestamo                           : contrato.montoRequerido,
                     prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeVenta, Divisas.findByClave('MXN')),
+                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
                     porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito               : fecha(desempenio.fecha),
                     fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
@@ -134,7 +134,7 @@ class ReporteService {
                     codigoPostal                       : dir.cp != null ? dir.cp : '',
                     alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase(): '',
                     noContrato                         : contratoFolio(contrato),
-                    montoPrestamo                      : contrato.montoRequerido,
+                    montoPrestamo                      : contrato.montoTransferencia,
                     montoTotalPagar                    : montoTotal,
                     referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                     clabe                              : clabe,
@@ -142,11 +142,11 @@ class ReporteService {
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorCompra,
+                    avaluo                             : contrato.valorDeCompra,
                     prestamo                           : contrato.montoRequerido,
                     prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
                     montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeVenta, Divisas.findByClave('MXN')),
+                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
                     porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                     fechaLimiteFiniquito               : fecha(desempenio.fecha),
                     fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),

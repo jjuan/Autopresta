@@ -16,10 +16,10 @@ const routes: Routes = [
         path: 'Catalogos',
         loadChildren: () => import('./views/catalogos/catalogos.module').then((m) => m.CatalogosModule)
       },
-      {
-        path: 'Procesos',
-        loadChildren: () => import('./views/procesos/procesos.module').then((m) => m.ProcesosModule)
-      },
+      // {
+      //   path: 'Procesos',
+      //   loadChildren: () => import('./views/procesos/procesos.module').then((m) => m.ProcesosModule)
+      // },
       {
         path: 'Reportes',
         loadChildren: () => import('./views/reportes/reportes.module').then((m) => m.ReportesModule)
@@ -27,6 +27,10 @@ const routes: Routes = [
       {
         path: 'Consultas',
         loadChildren: () => import('./views/consultas/consultas.module').then((m) => m.ConsultasModule)
+      },
+      {
+        path: 'Contrataciones',
+        loadChildren: () => import('./views/contrataciones/contrataciones.module').then((m) => m.ContratacionesModule)
       }
     ]
   },

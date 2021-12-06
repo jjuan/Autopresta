@@ -99,7 +99,7 @@
                     <button mat-icon-button *ngIf="row.estatus == 'P'" (click)="cambiarEstatus(row.id, 'librarFolio')" color="danger" matTooltip="Recuperar folio del {{row.numeroContrato}}">
                       <mat-icon>clear</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="row.estatus != 'C'" (click)="download(row.id)" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
+                    <button mat-icon-button *ngIf="row.estatus != 'C'" (click)="download(row.id, row.numeroContrato)" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
                       <mat-icon>file_download</mat-icon>
                     </button>
 

@@ -92,10 +92,10 @@ export class ContratacionesComponent implements OnInit {
     })
   }
 
-  download(id: number) {
+  download(id: number, numeroContrato) {
     const _dominio = 'Reporte'
     const _observable = this.restService.getReport('contratoAutoPresta', _dominio, {id: id});
-    return this.restService.printReport(_observable, 'Contrato AP #1');
+    return this.restService.printReport(_observable, 'Contrato AP #' + numeroContrato);
   }
 }
 

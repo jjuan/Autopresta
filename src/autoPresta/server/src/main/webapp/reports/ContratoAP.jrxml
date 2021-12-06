@@ -742,33 +742,33 @@ BBVA]]></text>
 		</band>
 		<band height="374">
 			<staticText>
-				<reportElement x="-1" y="115" width="150" height="8" uuid="fcea4624-8489-44a3-815c-de1b5ab31e1b"/>
+				<reportElement x="-1" y="115" width="150" height="17" uuid="fcea4624-8489-44a3-815c-de1b5ab31e1b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Notas y Descuentos al préstamo:]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="149" y="115" width="429" height="8" uuid="13b7057a-1d0b-443d-9147-b25a39215367"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="149" y="115" width="429" height="17" uuid="13b7057a-1d0b-443d-9147-b25a39215367"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
-				<textElement textAlignment="Left">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{notasDescuentos}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-1" y="123" width="150" height="8" uuid="ac074962-a328-407f-8a13-5177ceaddc07"/>
+				<reportElement x="-1" y="132" width="150" height="8" uuid="ac074962-a328-407f-8a13-5177ceaddc07"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -781,7 +781,7 @@ BBVA]]></text>
 				<text><![CDATA[Fecha de inicio de comercialización:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="149" y="123" width="429" height="8" uuid="e1f86271-0ec5-49e5-865d-7601d7034d9f"/>
+				<reportElement x="149" y="132" width="429" height="8" uuid="e1f86271-0ec5-49e5-865d-7601d7034d9f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -794,7 +794,7 @@ BBVA]]></text>
 				<text><![CDATA[A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="131" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
+				<reportElement x="-1" y="140" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -808,7 +808,7 @@ BBVA]]></text>
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="149" y="131" width="429" height="8" uuid="4d92bf73-bf5f-4969-88f5-7e131352e307"/>
+				<reportElement x="149" y="140" width="429" height="8" uuid="4d92bf73-bf5f-4969-88f5-7e131352e307"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -821,7 +821,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{fechaLimiteFiniquito}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="-1" y="139" width="579" height="8" uuid="b4161ffa-74b9-4a20-ba52-304eeade50a0"/>
+				<reportElement x="-1" y="148" width="579" height="8" uuid="b4161ffa-74b9-4a20-ba52-304eeade50a0"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -835,7 +835,7 @@ BBVA]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="147" width="579" height="8" uuid="b9eae850-3d1b-49f5-bc41-b6321d5e0c4f"/>
+				<reportElement x="-1" y="156" width="579" height="8" uuid="b9eae850-3d1b-49f5-bc41-b6321d5e0c4f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -849,7 +849,7 @@ BBVA]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="163" width="579" height="44" uuid="e2724fc0-5e9d-4f36-b63a-8c94f4066ced"/>
+				<reportElement x="-1" y="167" width="579" height="44" uuid="e2724fc0-5e9d-4f36-b63a-8c94f4066ced"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -865,7 +865,7 @@ Página de Internet: www.autopresta.com, en un horario de lunes a viernes de 9:0
 www.gob.mx/profeco]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="207" width="579" height="22" uuid="357909cf-cc8c-4aba-a772-3f54a924e003"/>
+				<reportElement x="-1" y="211" width="579" height="22" uuid="357909cf-cc8c-4aba-a772-3f54a924e003"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -879,7 +879,7 @@ www.gob.mx/profeco]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="229" width="579" height="32" uuid="9eee5dfb-e312-48aa-bcdb-5ff88e0e34b5"/>
+				<reportElement x="-1" y="233" width="579" height="32" uuid="9eee5dfb-e312-48aa-bcdb-5ff88e0e34b5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -894,7 +894,7 @@ CUMPLIMIENTO DEL CONTRATO, LAS PARTES ACUERDAN, SOMETERSE EN LA VÍA ADMINISTRAT
 DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE CELEBRA EL CONTRATO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="-1" y="266" width="288" height="8" backcolor="#E8E8E8" uuid="a6e99d5c-a7c4-4d93-9c30-3731a9a23fd7"/>
+				<reportElement mode="Opaque" x="-1" y="270" width="288" height="8" backcolor="#E8E8E8" uuid="a6e99d5c-a7c4-4d93-9c30-3731a9a23fd7"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -907,7 +907,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[DESEMPEÑO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="287" y="266" width="291" height="8" backcolor="#E8E8E8" uuid="16440292-d30d-4120-8d8e-d0a2ed7e4666"/>
+				<reportElement mode="Opaque" x="287" y="270" width="291" height="8" backcolor="#E8E8E8" uuid="16440292-d30d-4120-8d8e-d0a2ed7e4666"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -920,7 +920,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[FIRMAS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="274" width="288" height="50" uuid="660ccdaa-f739-48eb-aa01-c39aa05f99ad"/>
+				<reportElement x="-1" y="278" width="288" height="50" uuid="660ccdaa-f739-48eb-aa01-c39aa05f99ad"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -933,7 +933,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="287" y="274" width="291" height="50" uuid="bb151052-6657-4491-88c6-272c2cf5a47d"/>
+				<reportElement x="287" y="278" width="291" height="50" uuid="bb151052-6657-4491-88c6-272c2cf5a47d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -947,7 +947,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 CONSUMIDOR]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="-1" y="330" width="159" height="21" uuid="b9c5040e-599b-43b0-bcc7-2dd1dff89cdb"/>
+				<reportElement x="-1" y="334" width="159" height="21" uuid="b9c5040e-599b-43b0-bcc7-2dd1dff89cdb"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -961,10 +961,10 @@ CONSUMIDOR]]></text>
 ]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="388" y="330" width="190" height="21" uuid="41d117ab-51c5-4f88-92d3-6c4ad5eae7fe"/>
+				<reportElement x="388" y="334" width="190" height="21" uuid="41d117ab-51c5-4f88-92d3-6c4ad5eae7fe"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="158" y="330" width="230" height="21" uuid="8c499076-7c1a-460f-98da-17f8be71b99b"/>
+				<reportElement x="158" y="334" width="230" height="21" uuid="8c499076-7c1a-460f-98da-17f8be71b99b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>

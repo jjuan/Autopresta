@@ -113,14 +113,14 @@ environments:
         dataSource:
             type: "com.zaxxer.hikari.HikariDataSource"
             dbCreate: update
-            url: "jdbc:sqlserver://localhost:1433;databaseName=AutoPresta"
-            #            url: "jdbc:sqlserver://66.226.77.243:1433;databaseName=Finanzas_Bioethik"
+#            url: "jdbc:sqlserver://localhost:1433;databaseName=AutoPresta"
+            url: "jdbc:sqlserver://66.226.77.243:1443;databaseName=AUTOPRESTA"
             #            url: "jdbc:sqlserver://66.226.77.243:1433;databaseName=GESTORFINANCIERO"
             #            url: "jdbc:sqlserver://localhost:1433;databaseName=FinanzasIQ"
-            username: "alberto"
-            #            username: "sa"
-            #            password: "%%Saccsa_73%%"
-            password: "ag280199@*"
+#            username: "alberto"
+            username: "sa"
+            password: "%%Saccsa_73%%"
+#            password: "ag280199@*"
 
     test:
         dataSource:

@@ -3,6 +3,43 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
   {
     path: '',
+    title: 'Contrataciones',
+    moduleName: 'Contrataciones',
+    icon: 'fas fa-folder-open',
+    class: 'menu-toggle',
+    groupTitle: false,
+    submenu: [
+      {
+        path: 'Contrataciones/Contrato-Persona-Fisica',
+        title: 'Contrato de Persona Fisica',
+        moduleName: 'Contrataciones',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Contrataciones/Contrato-Persona-Fisica-Coacreditado',
+        title: 'Contrato de Persona Física(Co-Acreditado)',
+        moduleName: 'Contrataciones',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Contrataciones/Contrato-Persona-Moral',
+        title: 'Contrato de Persona Moral',
+        moduleName: 'Contrataciones',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+    ]
+  },
+  {
+    path: '',
     title: 'Catálogos',
     moduleName: 'Catalogos',
     icon: 'fas fa-folder-open',
@@ -128,25 +165,25 @@ export const ROUTES: RouteInfo[] = [
       },
     ]
   },
-  {
-    path: '',
-    title: 'Procesos',
-    moduleName: 'Procesos',
-    icon: 'fas fa-desktop',
-    class: 'menu-toggle',
-    groupTitle: false,
-    submenu: [
-      {
-        path: 'Procesos/Contrato',
-        title: 'Contrato',
-        moduleName: 'Procesos',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
-    ]
-  },
+  // {
+  //   path: '',
+  //   title: 'Procesos',
+  //   moduleName: 'Procesos',
+  //   icon: 'fas fa-desktop',
+  //   class: 'menu-toggle',
+  //   groupTitle: false,
+  //   submenu: [
+  //     {
+  //       path: 'Procesos/Contrato',
+  //       title: 'Contrato',
+  //       moduleName: 'Procesos',
+  //       icon: '',
+  //       class: 'ml-menu',
+  //       groupTitle: false,
+  //       submenu: []
+  //     },
+  //   ]
+  // },
   {
     path: '',
     title: 'Consultas',

@@ -34,7 +34,7 @@ export class SigninComponent implements OnInit {
     validate.subscribe( data => {
       const c = data as any;
       this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
-      this.router.navigate(['Procesos/Contrato']);
+      this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
     });
   }
 
@@ -55,7 +55,7 @@ export class SigninComponent implements OnInit {
       this.http.get(this.globalService.BASE_API_URL + 'init/getsession', options).subscribe(next => {
         const c = next as any;
         this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
-        this.router.navigate(['Procesos/Contrato']);
+        this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
       });
     }, error => {
       this.submitButton.disabled = false;

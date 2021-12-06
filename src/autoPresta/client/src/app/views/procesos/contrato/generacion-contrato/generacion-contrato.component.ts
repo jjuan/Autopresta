@@ -51,6 +51,7 @@ export class GeneracionContratoComponent implements OnInit {
       fechaSolicitud: [this.data.data.fechaSolicitud ? this.data.data.fechaSolicitud : ''],
       montoLiquidar: [this.data.data.montoLiquidar ? this.data.data.montoLiquidar : ''],
       fechaCompromiso: [this.data.data.fechaCompromiso ? this.data.data.fechaCompromiso : ''],
+      detalleDescuentos: ['N/A', Validators.required]
     });
     this.restService.edit<Portafolios>(1, 'Portafolios').subscribe(result => {
       this.formulario.patchValue({fechaContrato: result.fecha + 'T00:00:00'});
