@@ -1,0 +1,62 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{_datos._componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{_datos._icono}}"></i> {{_datos._modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-0">{{_datos._componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <form class="register-form" [formGroup]="_pagosRealizados">
+      <div class="card">
+        <div class="body">
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha Inicial</mat-label>
+                <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerInicial></mat-datepicker>
+                <!--mat-icon matSuffix>icon name</mat-icon-->
+                <mat-error *ngIf="_pagosRealizados.get('fechaInicio').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha Final</mat-label>
+                <input matInput [matDatepicker]="DatepickerFinal" name="fechaFin" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerFinal"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerFinal></mat-datepicker>
+                <!--mat-icon matSuffix>icon name</mat-icon-->
+                <mat-error *ngIf="_pagosRealizados.get('fechaFin').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+              <div class="button-row">
+                <button mat-mini-fab color="primary" type="submit" [disabled]="!_pagosRealizados.valid"
+                        [mat-dialog-close]="1" (click)="download()">
+                  <mat-icon class="col-white" matTooltip="Descargar reporte de {{_datos._title}}">picture_as_pdf</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

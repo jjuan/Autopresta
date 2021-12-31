@@ -68,11 +68,9 @@ grails {
 	}
 }
 
-bioethik.logo='Logotipo Bioethik'
-bioethik.ext='jpg'
 style.name='autofin'
-logo.name='finanzasiQ'
-logo.ext='png'
+logo.name='autopresta'
+logo.ext='jpg'
 appName='FinanzasIQ'
 titulo=''
 reporte.style = ''

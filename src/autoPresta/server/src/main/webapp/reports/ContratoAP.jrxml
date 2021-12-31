@@ -16,6 +16,7 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["/Users/alber/OneDrive/Documentos/GitHub/Autopresta/src/autoPresta/server/src/main/webapp/reports/"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="imagen" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[]]>
 	</queryString>
@@ -50,6 +51,9 @@
 	<field name="fechaLimiteFiniquito" class="java.lang.String"/>
 	<field name="fecha" class="java.lang.String"/>
 	<field name="notasDescuentos" class="java.lang.String"/>
+	<field name="acuerdo" class="java.lang.String"/>
+	<field name="anio" class="java.lang.String"/>
+	<field name="nombres" class="java.lang.String"/>
 	<detail>
 		<band height="325" splitType="Immediate">
 			<subreport>
@@ -421,7 +425,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO. 
+				<text><![CDATA[NO.
 CONTRATO
 ]]></text>
 			</staticText>
@@ -512,7 +516,7 @@ FIJO SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TASA DE 
+				<text><![CDATA[TASA DE
 INTERÉS 
 ANUAL FIJA
 ]]></text>
@@ -572,7 +576,7 @@ SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[MONTO 
+				<text><![CDATA[MONTO
 TOTAL A 
 PAGAR
 ]]></text>
@@ -791,7 +795,8 @@ BBVA]]></text>
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
+				<text><![CDATA[
+                    A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="140" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
@@ -930,7 +935,8 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
+				<text><![CDATA[
+                    EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="287" y="278" width="291" height="50" uuid="bb151052-6657-4491-88c6-272c2cf5a47d"/>
@@ -1243,5 +1249,482 @@ SOBRE AVALUO]]></text>
 ]]></text>
 			</staticText>
 		</band>
+		<band height="751">
+			<staticText>
+				<reportElement x="10" y="0" width="550" height="100" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[ CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="252" y="105" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GLOSARIO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="129" width="528" height="240" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[a) Beneficiario: Persona designada, en su caso, por el consumidor para recibir los beneficios derivados del presente contrato.
+b) Carátula: Documento en el cual se enlistan las características y costos de la operación, así como las advertencias de costos de las tasas de interés y comisiones objetos del presente contrato.
+c) Consumidor: A la persona física o moral que adquiere los derechos y obligaciones establecidos en este contrato.
+d) Cotitular: Persona designada, en su caso, por el consumidor para realizar en su nombre y representación las operaciones señaladas en el presente contrato.
+e) Gastos de administración: Los gastos asociados a la operación de empeño.
+f) Proveedor: Persona física o sociedad mercantil no regulada por las leyes y autoridades financieras que en forma habitual o profesional realicen u oferten al público contrataciones u operaciones de mutuo con interés y garantía prendaria.
+g) Prenda: Bien mueble en el comercio de procedencia lícita entregado material o jurídicamente por “EL CONSUMIDOR” a “EL PROVEEDOR” para garantizar el pago del préstamo.
+h) Refrendo: Es el acto mediante el cual “EL CONSUMIDOR” cumpliendo con el pago de sus intereses y accesorios efectivamente devengados y de acuerdo a lo pactado en el presente contrato recibe un nuevo plazo para el pago.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="226" y="374" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DECLARACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="401" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[I.- Declara “EL PROVEEDOR”:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="421" width="528" height="301" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[A) En caso de Persona Moral: Declara “EL PROVEEDOR” a través de su representante: Ser una persona moral mexicana, según consta en la escritura pública número 58,544, de fecha 18 de julio del 2018, pasada ante la fe del Licenciado Arturo Talavera Autrique, Notario Público No. 22 de la Ciudad de México e inscrita en el Registro Público de Comercio bajo el folio mercantil N-2018069988 de fecha 28 de agosto del 2018.
+B) En caso de Persona Física: Ser una persona Física de nacionalidad mexicana, con capacidad legal para celebrar el presente contrato.
+C) Que el domicilio, teléfono, Registro Federal de Contribuyentes y correo electrónico de “EL PROVEEDOR” se encuentran en la Carátula del presente contrato.
+D) Qué cuenta con capacidad, infraestructura, servicios, recursos necesarios y personal debidamente capacitado, para dar cabal cumplimiento a las obligaciones derivadas del presente contrato.
+E) Que antes de la firma del presente Contrato ha explicado a “EL CONSUMIDOR” el contenido y alcance legal del mismo.
+F) Para la atención de dudas, aclaraciones, quejas o para proporcionar servicios de orientación, señala el domicilio ubicado en Lava 232, Jardines del Pedregal, C.P. 01900, Álvaro Obregón, Ciudad de México, teléfono (55) 7619 8801 y correo electrónico contacto@autopresta.com, con un horario de atención de Lunes a Viernes de 9:00 horas a 18:00 horas.
+]]></text>
+			</staticText>
+		</band>
+		<band height="751">
+			<staticText>
+				<reportElement x="39" y="167" width="224" height="20" uuid="3009405a-e82b-46af-b0fb-22bba09334bd"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[III.- “LAS PARTES” declaran que:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="188" width="528" height="80" uuid="1bd81e99-7cd0-4f51-bcb3-f5c154d0aea2"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[A) El contenido del presente Contrato constituye la totalidad de los acuerdos a que han llegado, por lo que “EL PROVEEDOR” se obliga a entregarle un tanto a “EL CONSUMIDOR” a la firma del mismo.
+B) Reconocen que la información contenida en el presente contrato podrá ser compartida cuando sea solicitada por la autoridad competente.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="268" width="380" height="20" uuid="9d19d380-fb53-44ec-a5d7-364d99184325"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Expuesto lo anterior, “LAS PARTES” se sujetan al contenido de las siguientes:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="239" y="293" width="100" height="20" uuid="c2b1b8ae-0b0a-431e-b2f3-8dd8fd60f1dc"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CLÁUSULAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="313" width="528" height="198" uuid="913a55ac-0c22-4009-9d45-c5295302934b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[1.- CONSENTIMIENTO.- LAS PARTES manifiestan su voluntad para celebrar el presente Contrato cuya naturaleza jurídica es mutuo con interés y garantía prendaria (préstamo).
+2.- OBJETO.- “EL PROVEEDOR” entrega a “EL CONSUMIDOR” la cantidad equivalente al porcentaje de la valuación que se ha practicado a la Prenda, en calidad de mutuo con interés y garantía prendaria y “EL CONSUMIDOR”, se obliga, al término del contrato, a pagar a “EL PROVEEDOR”, la totalidad del dinero en efectivo, más los intereses, y las comisiones efectivamente devengadas que se estipulan en la Carátula del presente Contrato.
+3.- VALOR DE LA PRENDA.- El valor de la Prenda es el que se plasma en la Carátula del presente Contrato, por lo que LAS PARTES reconocen que el mismo es resultado de un avalúo practicado por “EL PROVEEDOR”, con la presencia, autorización y conformidad de “EL CONSUMIDOR”.
+4.- DERECHOS Y OBLIGACIONES DE LAS PARTES.- “EL CONSUMIDOR” y “EL PROVEEDOR” aceptan y se obligan expresamente durante la vigencia del Contrato a lo siguiente:
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="24" width="528" height="136" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[A) Llamarse como ha quedado plasmado en el proemio de este contrato.
+B) Que manifiesta su voluntad para obligarse en los términos y condiciones del presente contrato, y que cuenta con la capacidad legal para la celebración del mismo.
+C) Que su domicilio, teléfono y correo electrónico se encuentran señalados en la Carátula del presente contrato.
+D) El consumidor manifiesta bajo protesta en decir verdad que es el legal, legítimo e indiscutible propietario de la prenda de origen lícito que entrega en garantía de este contrato, y de todo en cuanto en derecho, uso y costumbre corresponder y que puede acreditar dicha calidad jurídica ante terceros y/o cualquier autoridad que lo requiera.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="3" width="222" height="20" uuid="6d3f1502-6b22-4cf5-9e5a-aeeb62309ddc"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[II.- Declara “EL CONSUMIDOR”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="40" y="515" width="149" height="20" uuid="05f55b86-ac75-42c2-b152-de6b128b9347"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[“EL CONSUMIDOR”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="64" y="535" width="100" height="18" uuid="fbf51d8a-5935-4ef1-ad51-6038c1700686"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Obligaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="553" width="528" height="186" uuid="69835151-2e78-4822-93d4-3fe00a9ab1e6"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[C) Cumplir con todas las obligaciones derivadas del presente Contrato.
+D) Notificar a “EL PROVEEDOR”, dentro de un plazo que no exceda de 10 días naturales, siguientes a partir de aquel en que haya tenido conocimiento de la existencia de cualquier acción, demanda, litigio o procedimiento en su contrato, que comprometan a la Prenda.
+E) No enajenar, gravar, o comprometer los bienes entregados en garantía prendaria, mientras esté vigente el presente Contrato.
+F) “EL CONSUMIDOR” no podrá en ningún momento y por ningún motivo ceder, dar en prenda, o traspasar, a título gratuito, oneroso, total o parcialmente los derechos y obligaciones que le deriven de este contrato, ni el derecho a la propiedad o a la posesión de los bienes otorgados en garantía prendaria, sin el consentimiento expreso y por escrito de “EL PROVEEDOR”.
+G) “EL CONSUMIDOR” deberá presentar el vehículo dado en garantía para las inspecciones físicas del mismo y/o actualizaciones del dispositivo GPS instalado, cuando así se requiera.
+]]></text>
+			</staticText>
+		</band>
+		<band height="611">
+			<staticText>
+				<reportElement x="30" y="110" width="528" height="168" uuid="730a598a-816f-4328-b9bf-56365b4cb7ea"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[a) Que “EL PROVEEDOR” haga la entrega del dinero en efectivo o en su caso, conforme a lo estipulado en el presente Contrato.
+b) Que se le devuelva la Prenda una vez que “EL CONSUMIDOR” haya cumplido con lo establecido en el presente Contrato.
+c) Recibir un ejemplar del presente Contrato firmado por LAS PARTES.
+d) Que “EL PROVEEDOR” le explique el contenido y alcance legal del presente Contrato.
+e) “EL CONSUMIDOR” podrá congelar las comisiones correspondientes a interés moratorio dando en resguardo voluntario la Prenda después de 10 días de mora.
+f) “EL CONSUMIDOR” podrá congelar las comisiones correspondientes a interés moratorios aportando el 50% de la mensualidad en la fecha establecida en la Carátula del Contrato, teniendo un plazo de 7 días naturales para cubrir el 50% restante.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="294" width="100" height="16" uuid="6c5c5115-3e21-4309-b559-469b0c1bf0b3"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Obligaciones:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="310" width="528" height="248" uuid="c79e5050-e14e-441b-b9f1-9981583d2f4e"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[a) “EL PROVEEDOR” se obliga a no usar la Prenda otorgada como garantía del mutuo, por lo que únicamente tendrá la guarda y custodia de esta.
+b) Cumplir con todas las obligaciones derivadas del presente Contrato.
+c) Conservar la Prenda como si fuera propia, y responder de los deterioros y perjuicios que sufra por su culpa o negligencia; en ningún caso será responsable de los daños y deterioros que pudiere sufrir por el simple transcurso del tiempo.
+d) A restituir la Prenda dada en garantía, luego que esté pagada íntegramente la cantidad correspondiente a lo establecido en el presente Contrato.
+e) Informar a “EL CONSUMIDOR” el Costo Anual Total (CAT), el Costo Mensual Total (CMT) y el Costo Diario Total (CDT) al momento de la celebración del presente Contrato.
+f) Explicar a “EL CONSUMIDOR” el contenido y alcance legar del presente Contrato.
+g) “EL PROVEEDOR” otorga a “EL CONSUMIDOR” 10 días de plazo posteriores a la fecha de pago mencionada en la Carátula de este Contrato para cubrir su mensualidad sin entregar el auto a resguardo de forma voluntaria, pero cubriendo las comisiones descritas en el Contrato.
+h) “El PROVEEDOR” deberá salvaguardar durante toda la duración del presente contrato la documentación y el duplicado de llave entregada por “EL CONSUMIDOR”.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="558" width="100" height="16" uuid="e179090d-8a40-4107-b58d-2b743bd33742"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Derechos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="42" y="278" width="111" height="16" uuid="44a907ca-966e-4ccd-aa4f-258dcf7dd988"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[“EL PROVEEDOR”]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="44" y="93" width="100" height="17" uuid="ff846f97-d79a-4209-99b3-6fcdff2f2f33"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Derechos:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="0" width="528" height="93" uuid="80fde799-2d6f-4c33-bb34-225a0ef5fdea"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[
+                    H) A la firma del contrato “EL CONSUMIDOR” deberá entregar a “EL PROVEEDOR”, los documentos que requiera y estime necesarios para acreditar la propiedad del vehículo dado en garantía, como, por ejemplo: original de factura, copia de tarjeta de circulación, original de pago de tenencias, original de verificación en su caso, duplicado de llave, entre otros, y que el vehículo se encuentra en orden y al corriente en sus obligaciones ante las diversas autoridades que correspondan.]]></text>
+			</staticText>
+		</band>
+		<band height="117">
+			<staticText>
+				<reportElement x="33" y="-37" width="528" height="152" uuid="e300b317-04a4-4e50-a85a-8e76140ca42c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[a) Que “EL CONSUMIDOR” le haga la entrega de la Prenda conforme a lo estipulado en el presente Contrato.
+b) Recibir los pagos correspondientes conforme a lo establecido en el presente Contrato.
+c) Poner en venta la Prenda en caso de incumplimiento o a solicitud de “EL CONSUMIDOR”, conforme a los señalado en el presente Contrato.
+d) Cuando la situación así lo amerite, “EL PROVEEDOR” podrá solicitar mediante llamada telefónica, mensaje de texto o correo electrónico, que “EL CONSUMIDOR” presente el vehículo dado en garantía en el lugar y fecha que se acuerde, para una inspección del mismo y corroborar las condiciones en que se encuentra, pudiendo darse por vencido anticipadamente este el contrato, si el vehículo dado en garantía
+]]></text>
+			</staticText>
+		</band>
+		<band height="751">
+			<staticText>
+				<reportElement x="30" y="10" width="528" height="730" uuid="b9b9dfda-dcdf-467e-806e-745770cc7481"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[no se encuentra en las condiciones en que se encontraba a la firma del mismo, o bien, por no presentarse a la inspección solicitada sin causa justificada.
+5.- DEFENSA DE LA PRENDA.- Si “EL PROVEEDOR” fuere perturbado en la posesión de la Prenda, por causas imputables a “EL CONSUMIDOR”, avisará por escrito a este último, en un plazo que no exceda de tres días naturales para que lleve a cabo las acciones legales pertinentes; si éste no cumpliere con esta obligación será responsable de todos los daños y perjuicios causados debidamente comprobados.
+6.- REPOSICIÓN DE LA PRENDA.- Si en el cumplimiento de mandato legítimo de autoridad competente, “EL PROVEEDOR” fuere desposeído de la Prenda, “EL CONSUMIDOR” le entregará a su entera satisfacción otra prenda equivalente en peso, calidad, contenido, modelo, marca y valor, dentro de los 10 días naturales siguientes a la notificación que por escrito haga “EL PROVEEDOR”. En caso de omisión por parte de “EL CONSUMIDOR” a la mencionada notificación, desde este momento LAS PARTES acuerdan que sus derechos
+quedan a salvo para que éste último los haga valer en la forma y vía que considere convenientes.
+7.- PROCEDIMIENTO PARA LA RESTITUCIÓN DE LA PRENDA PARA EL CASO DE PÉRDIDA O DETERIORO.- En caso de pérdida, robo, extravío o deterioro de la Prenda, “EL PROVEEDOR” deberá contar con una garantía suficiente que le permita resarcir el siniestro, debiendo seguir el siguiente procedimiento:
+a) “EL PROVEEDOR” deberá notificar a “EL CONSUMIDOR”, en un plazo que no exceda de 3 días naturales siguientes de ocurrido el siniestro, por vía telefónica, correo electrónico, correo certificado, listas y/o anuncios publicados en el establecimiento de “EL PROVEEDOR”.
+b) “EL CONSUMIDOR”, deberá presentarse en el establecimiento donde firmó el contrato, en días y horas de servicio indicados en la Carátula, o en el domicilio fiscal del proveedor, con la siguiente documentación:
+1. Contrato de adhesión, e
+2. Identificación de “EL CONSUMIDOR”, COTITULAR Y/O BENEFICIARIO.
+c) “EL PROVEEDOR” recibirá la documentación anterior, y le dará a “EL CONSUMIDOR” un comprobante en el cual se hará la descripción de los documentos presentados, así como la Prenda motivo de la reclamación, misma que deberá coincidir con la establecida en el Contrato, indicando el valor de la Prenda conforme al avalúo practicado. El comprobante deberá contener número de reclamación, razón social del proveedor, R.F.C., domicilio, nombre y firma de quien recibe la reclamación.
+d) “EL PROVEEDOR” se obliga a restituir o pagar la Prenda, a elección de “EL CONSUMIDOR”, en el término de 10 días naturales siguientes a la entrega de la documentación por parte de este último.
+e) “EL PROVEEDOR” pagará a “EL CONSUMIDOR” el valor de la Prenda conforme al avalúo realizado y que está estipulado en la Carátula de este Contrato, del cual se disminuirá la cantidad entregada por concepto de mutuo, los intereses, el almacenaje y costos de accesorios que se hayan devengado hasta la fecha de ocurrido el siniestro y conforme a los porcentajes que se indica en la Carátula. “EL PROVEEDOR” podrá realizar el pago en efectivo o mediante la entrega de un bien equivalente en modelo, marca, calidad,
+contenido, peso y valor a elección de “EL CONSUMIDOR”; en ambos casos “EL PROVEEDOR” deberá pagar un 20% sobre el valor del avalúo, como pena convencional, siempre y cuando el siniestro haya ocurrido por negligencia de éste.
+8.- COSTO ANUAL TOTAL (CAT).- Es el costo de financiamiento que para fines informativos y de comparación, incorpora la totalidad de los costos y gastos del préstamo. El referido Costo Anual Total se calculará utilizando la metodología establecida por el Banco de México, vigente en la fecha del cálculo respectivo.]]></text>
+			</staticText>
+		</band>
+		<band height="709">
+			<staticText>
+				<reportElement x="30" y="0" width="528" height="698" uuid="2f5e7116-9485-4685-aede-06138bcf546b"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Para el cálculo de Costo Mensual Total (CMT) y del Costo Diario Total (CDT) se utilizará la misma metodología que se aplica para el cálculo del CAT establecida por el Banco de México, ajustando los valores de intervalo de tiempo que correspondan para el tipo de préstamo que se trate, vigente en la fecha del cálculo respectivo.
+
+9.- INTERESES.- Metodología cálculo de interés ordinario.- El préstamo causará una tasa de interés fija del porcentaje anual mencionado en la Carátula, sobre saldos insolutos más el Impuesto al Valor Agregado (IVA) cuando corresponda; el cálculo de intereses se realizará multiplicando el saldo insoluto del préstamo, por la tasa de interés dividido entre 360 días por año, multiplicando por el número de días transcurridos. La tasa de interés, así como su metodología de cálculo no podrán modificarse durante la vigencia del presente Contrato.
+
+10.- ACCESORIOS.- “EL CONSUMIDOR” se obliga, en su caso, a pagar a “EL PROVEEDOR”:
+a) GPS: “EL PROVEEDOR” cobrará a “EL CONSUMIDOR” el 0.75% mensual del capital en prenda por concepto de dispositivo de GPS, teniendo como mínimo $600.00. pesos M.N. mensuales.
+b) Monitoreo: “EL PROVEEDOR” cobrará a “EL CONSUMIDOR” el 1% mensual del capital en prenda por concepto de monitoreo, teniendo como mínimo $800.00 pesos M.N. mensuales.
+c) Comisión por Morosidad: “EL CONSUMIDOR” acepta y reconoce que, en caso del retraso en el pago del adeudo, los intereses y en su caso los cargos, Comisiones e I.V.A. a “EL PROVEEDOR”, en las fechas de pago que aparece en la Carátula de este Contrato, se le aplica un costo adicional 10% sobre el adeudo del crédito por cada día natural de retraso.
+“EL PROVEEDOR” no podrá modificar las comisiones, accesorios ni la metodología de cálculo estipuladas en este Contrato durante la vigencia del mismo.
+
+11.- MONTO DEL PRÉSTAMO.- El monto del préstamo es equivalente al porcentaje del valor del avalúo que se menciona en la Carátula y “EL CONSUMIDOR” se obliga a restituir dicha cantidad, más los intereses, almacenaje y comisiones en su caso, en moneda nacional de curso legal, sin menoscabo de poderlo hacer en moneda extranjera al tipo de cambio publicado por el Banco de México en el Diario Oficial de la Federación al día en que el pago se efectúe.
+El monto del préstamo se realizará en efectivo, o en su caso, de conformidad a lo establecido en la Carátula del presente Contrato.
+
+12.- CAUSAS DE TERMINACIÓN DEL CONTRATO.- Serán causas de terminación del Contrato:
+a) Pago del Préstamo.- En el plazo establecido en la Carátula del presente Contrato “EL CONSUMIDOR” deberá reintegrar el importe del mutuo, conjuntamente con los intereses, almacenaje y las comisiones pactadas en el Contrato. El pago será hecho en el establecimiento en que se suscribe el mismo, en moneda nacional de curso legal, sin menoscabo de poderlo hacer en moneda extranjera al tipo de cambio publicado por el Banco de México en el Diario Oficial de la Federación al día en que el pago se efectúe;
+cuando el término de la opción de pago corresponda a un día inhábil, el pago deberá hacerse el siguiente día hábil. Realizado el pago “EL CONSUMIDOR” recibirá la Prenda en el mismo lugar en que la entregó, otorgándose ambas partes el finiquito más amplio que en derecho proceda.
+b) Pago Anticipado.- “EL CONSUMIDOR” tendrá el derecho de cubrir el saldo total del mutuo, almacenaje y demás comisiones pactadas y efectivamente devengadas, antes del vencimiento del plazo establecido
+]]></text>
+			</staticText>
+		</band>
+		<band height="742">
+			<staticText>
+				<reportElement x="26" y="0" width="538" height="730" uuid="656bde51-75ec-47ad-88c2-843fcf1e7445"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, habiendo cumplido el pazo de los seis meses , y si avisa con 45 días naturales de anticipación, se libera a “EL CONSUMIDOR” de las penalizaciones del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., si avisa con 30 días naturales de anticipación, se le aplica a “EL CONSUMIDOR” una penalización de una mensualidad del préstamo incluyendo los intereses y en su caso los cargos  oratorios, Comisiones e I.V.A., y si avisa con 15 días naturales de anticipación, se le
+aplica a “EL CONSUMIDOR”” una penalización de una mensualidad y media del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., y en caso de no dar aviso anticipado, se le aplica a “EL CONSUMIDOR” la penalización de dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A. en cuyo caso “EL CONSUMIDOR” deberá presentarse en el establecimiento efectuado el pago se procederá a la devolución de la Prenda en el acto. En caso de que “EL CONSUMIDOR” no cumpla con el pago anticipado en el plazo establecido de los 6 meses, se extenderá en automático el plazo del pago anticipado a la mensualidad subsecuente a la fecha del aviso anticipado de 45 días naturales.
+c) “EL CONSUMIDOR” podrá realizar pagos anticipados, siempre y cuando se encuentre al corriente de sus pagos y haya cumplido el plazo de los seis meses, por lo que los pagos anticipados se aplicarán al saldo insoluto principal. “EL CONSUMIDOR” deberá avisar por escrito 45 días naturales a “EL PROVEEDOR” su deseo de realizar el 50% de aportación a su capital, por lo que “EL PROVEEDOR” deberá aplicar dicho pago anticipado al saldo insoluto.
+d) Incumplimiento del Pago.- El incumplimiento de “ EL CONSUMIDOR” en cualquiera de las obligaciones a su cargo, motivará el vencimiento anticipado de ambos documentos, sin necesidad de declaración judicial, autorizando “EL CONSUMIDOR”, que “EL PROVEEDOR”, realice las gestiones necesarias para el aseguramiento del vehículo otorgado en garantía, las cuales podrán ser: requiera la entrega del vehículo, inmovilice el vehículo, realice un requerimiento judicial, haga una denuncia de hechos o recupere el vehículo.
+
+13.- COMERCIALIZACIÓN DE LA PRENDA.- Para el caso de que “EL CONSUMIDOR” no cumpliera oportunamente con la obligación de restituir el mutuo, los intereses, almacenaje y demás comisiones pactadas en el Contrato, en este acto se otorga expresamente a favor de “EL PROVEEDOR” un mandato aplicado a actos concretos de comercio, en los términos del artículo 273 del Código de Comercio, para que a título de comisionista en su nombre y representación y sin necesidad de agotar trámite alguno, efectúe la venta de la Prenda, tomando como referencia el valor del avalúo estipulado en la cláusula cuarta del presente Contrato, sirviendo como notificación de la fecha de inicio de su comercialización la indicada en la Carátula de este Contrato. Para los efectos de la exención a que se refiere el artículo 9 fracción IV, de la Ley de Impuesto al Valor Agregado, “EL CONSUMIDOR” reconoce explícitamente ser el enajenante de la Prenda, que ésta es usada y no tener la condición jurídica de empresa.
+
+14.- APLICACIÓN DEL PRODUCTO DE LA VENTA Y REMANENTE.- “EL CONSUMIDOR” autoriza a “EL PROVEEDOR” a aplicar el producto de la venta de la Prenda, al pago de la obligación principal, a los intereses, almacenaje, y comisión por comercialización. Si al realizar la venta o el remate de la Prenda hubiera algún remanente, el mismo será puesto a disposición de “EL CONSUMIDOR”, a partir del tercer día siguiente a la comercialización
+de la Prenda, para lo cual “EL PROVEEDOR” dentro de dicho plazo, notificará por teléfono, correo electrónico, correo certificado y/o listas colocadas en el establecimiento respecto de la venta de la Prenda. El remanente no cobrado en un lapso de doce meses calendario, contados a partir de la fecha de comercialización de la Prenda quedará a favor de “EL PROVEEDOR”.
+]]></text>
+			</staticText>
+		</band>
+		<band height="749">
+			<staticText>
+				<reportElement x="26" y="2" width="535" height="738" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[15.- DESEMPEÑO EXTEMPORÁNEO.- En el caso de que la Prenda no haya sido comercializada después de la “FECHA LÍMITE DE REFRENDO O DESEMPEÑO”, tal como se señala en la Carátula de este Contrato, “EL CONSUMIDOR” podrá recuperar la Prenda previo acuerdo con “EL PROVEEDOR” y pago del mutuo, de los intereses, almacenaje y las comisiones pactadas en el presente Contrato. Para tal efecto, “EL CONSUMIDOR” deberá solicitar por escrito a “EL PROVEEDOR” autorización para hacer el pago adeudado en un término no mayor a 3 (tres) días hábiles de la fecha límite de refrendo o desempeño. En caso de que “EL PROVEEDOR” no dé contestación a lo solicitado, se entenderá como negada dicha autorización.
+
+16.- REFRENDO.- “EL CONSUMIDOR” podrá refrendar el Contrato, antes o en la fecha de su terminación, con el consentimiento de “EL PROVEEDOR”, siempre y cuando “EL CONSUMIDOR” cubra el pago de los intereses, almacenaje y comisiones efectivamente devengadas al momento del refrendo. Al efectuarse el refrendo se firmará un nuevo Contrato con intereses, almacenaje y comisiones aplicables al momento del refrendo.
+
+17.- PENA CONVENCIONAL.- En caso de incumplimiento de cualquiera de las obligaciones a cargo de “EL PROVEEDOR”, éste pagará a “EL CONSUMIDOR” una pena convencional del 20 % (veinte por ciento) sobre el monto del avalúo, por lo que “EL CONSUMIDOR” deberá solicitar el monto de la Pena por escrito en el domicilio de “EL PROVEEDOR”, indicando dicho incumplimiento. Por lo anterior, “EL PROVEEDOR” deberá hacer el pago por la Pena convencional en un lapso no mayor a 10 (diez) días naturales contados a partir de la recepción de la solicitud efectuada por “EL CONSUMIDOR”.
+
+18.- NULIDAD.- De haber alguna causal de nulidad determinada por autoridad competente, la misma afectará solamente a la cláusula en la que específicamente se hubiere incurrido en el vicio señalado.
+
+19.- LEGITIMIDAD.- Para el ejercicio de los derechos o el cumplimiento de los deberes a su cargo, “EL CONSUMIDOR” o en su defecto su Cotitular, beneficiario o representante legal, invariablemente deberán presentar a “EL PROVEEDOR” este contrato, así como una identificación expedida por autoridad competente, en el establecimiento donde suscribió el contrato, en los días y horas de servicio indicados en la Carátula de este contrato. En caso de extravío del Contrato “EL CONSUMIDOR” podrá tramitar su reposición solicitándolo por escrito y cubriendo el importe señalado en la Carátula del mismo.
+
+20.- CONFIDENCIALIDAD.- Ambas partes convienen en que el acuerdo de voluntades que suscriben tiene el carácter de confidencial, por lo que “EL PROVEEDOR” se obliga a mantener los datos relativos a “EL CONSUMIDOR” con tal carácter y únicamente podrá ser revelada la información contenida en el mismo por mandamiento de autoridad competente; de igual forma se obliga a no ceder o transmitir a terceros con fines
+mercadotécnicos o publicitarios los datos e información proporcionada por “EL CONSUMIDOR” con motivo del Contrato, ni enviar publicidad sobre los bienes y servicios, salvo que conste la autorización expresa de “EL CONSUMIDOR” en la Carátula y al final del presente Contrato.
+
+21.- NOTIFICACIONES.- LAS PARTES acuerdan que cualquier notificación o aviso con motivo del Contrato, deberá realizarse en los domicilios que se hayan establecido por las mismas, los cuales se indican en la Carátula; de igual manera, LAS PARTES podrán efectuar avisos o comunicados mediante, teléfono, correo electrónico, correo certificado y/o listas colocadas en el establecimiento.
+
+22.- DÍAS INHÁBILES.- Todas las obligaciones contenidas en este Contrato, cuyo vencimiento tenga lugar en un día inhábil, deberá considerarse que el vencimiento de las mismas, será el día hábil siguiente.
+
+23.- DERECHO APLICABLE.- EN CASO DE PERSONA MORAL: Este Contrato se rige por lo dispuesto en la Ley Federal de Protección al Consumidor y su Reglamento; la Norma Oficial Mexicana NOM-179-SCFI-2016 Servicios de mutuo con interés y garantía prendaria; Disposiciones de carácter general a que se refiere la Ley para la Transparencia
+]]></text>
+			</staticText>
+		</band>
+		<band height="751">
+			<staticText>
+				<reportElement x="26" y="2" width="533" height="627" uuid="ee569302-e103-4cc9-9eaf-872788d836da"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[y Ordenamiento de los Servicios Financieros e n materia de Contratos de Adhesión, Publicidad, Estados de Cuenta y Comprobantes de Operación emitidos por las Entidades Comerciales y demás ordenamientos aplicables.
+
+EN CASO DE PERSONA FÍSICA: Este Contrato se rige por lo dispuesto en la Ley Federal de Protección al Consumidor y su Reglamento, la Norma Oficial Mexicana NOM-179-SCFI-2016 Servicios de mutuo con interés y garantía prendaría y demás ordenamientos aplicables.
+
+24.- ACLARACIONES, QUEJAS O RECLAMACIONES.- En caso de aclaraciones, quejas, reclamaciones o reposición de contrato por pérdida o destrucción, “EL CONSUMIDOR” deberá comunicarse al centro de atención de “EL PROVEEDOR”, al número telefónico o presentarse en el domicilio que se establece en la Carátula. “EL PROVEEDOR” deberá proporcionar un número de reporte a “EL CONSUMIDOR”, con el que se identificará la aclaración, queja o reclamación y se dará seguimiento al trámite, el cual será atendido en un tiempo no mayor a 10 días naturales.
+
+25.- CONTRATACIÓN POR MEDIOS ELECTRÓNICOS.- Las partes acuerdan que en lugar de una firma original autógrafa, este contrato, así como cualquier consentimiento, aprobación u otros documentos relacionados con el mismo, podrán ser firmados por medio del uso de firmas electrónicas, digitales, numéricas, alfanuméricas, huellas de voz, biométricas o de cualquier otra forma y que dichos medios alternativos de firma y los registros en donde sean aplicadas dichas firmas, serán consideradas para todos
+los efectos, incluyendo, pero no limitado a la legislación civil, mercantil, protección al consumidor y a la NOM- 151-SCFI- 2016, con la misma fuerza y consecuencias que la firma autógrafa original física de la parte firmante. Si el contrato o cualquier otro documento relacionado con el mismo es firmado por medios electrónicos o digitales, las Partes acuerdan que los formatos del contrato y los demás documentos firmados
+de tal modo serán conservados y estarán a disposición del consumidor, por lo que convienen que cada una y toda la información enviada por el Proveedor a la dirección de correo electrónico proporcionada por el Consumidor al momento de celebrar el presente Contrato será considerada como entregada en el momento en que la misma es enviada, siempre y cuando exista confirmación de recepción.
+
+26.- JURISDICCIÓN.- Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
+
+Leído que fue y una vez hecha la explicación de su alcance legal y contenido, este Contrato fue suscrito por duplicado en el lugar y en la fecha que se indica en la Carátula del mismo, entregándosele una copia a “EL CONSUMIDOR”
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="188" y="656" width="174" height="38" uuid="7da20037-1fc2-42a0-a882-158025af5d64"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[________________________
+“EL CONSUMIDOR”
+]]></text>
+			</staticText>
+		</band>
+		<band height="721">
+			<staticText>
+				<reportElement x="287" y="20" width="195" height="20" uuid="8d711bba-bc3f-483c-8104-84e98c525fa9"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Ciudad de México a _____de ________ de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="191" y="90" width="208" height="20" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="140" width="100" height="20" uuid="9940509e-5ac9-40a5-81c3-9aa304302f61"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESENTE.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="39" y="170" width="490" height="200" uuid="b85e841a-d689-4742-8d68-cca933794adf"/>
+				<textElement textAlignment="Justified"/>
+				<textFieldExpression><![CDATA[$F{acuerdo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="102" y="430" width="346" height="20" uuid="4a42fa31-0116-4986-907d-fab0be273f00"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[____________________________________________]]></text>
+			</staticText>
+			<image>
+				<reportElement x="14" y="0" width="269" height="54" uuid="0dccb02d-4168-4368-b492-19c5740b6f64"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="102" y="450" width="346" height="20" uuid="7544b5b8-ee55-49a1-8781-e616ae8a6f3b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="41" y="630" width="176" height="38" uuid="759e7344-5a25-4cc8-a2a9-21cda2753e2c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[___________________________
+Testigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="630" width="176" height="38" uuid="a25454c5-a2fc-4fc4-bf3a-4c9a86551622"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[___________________________
+Testigo]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="482" y="20" width="89" height="20" uuid="e42d1177-4eca-4d5a-b23b-0d938ed114b9"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="453">
+			<image>
+				<reportElement x="152" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="79" y="82" width="382" height="20" uuid="da4df75f-4098-4510-bd27-67a008674c8b"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="82" width="79" height="20" uuid="f69a7f45-6528-4889-9f6d-e1e6be452c17"/>
+				<text><![CDATA[Estimado Cliente: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="110" width="482" height="20" uuid="ccdab583-e9fb-4e7d-9400-e89ab5f8874f"/>
+				<text><![CDATA[Por medio de la presente envio los datos para pago vía electrónica y/o depósito bancario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="138" width="482" height="20" uuid="01beef30-b8fe-4762-b689-63242575ff1e"/>
+				<textElement>
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Razón social: AP SERVICIOS FINANCIEROS SA DE CV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="166" width="287" height="70" uuid="db586ef9-361e-43ad-ae9a-cbc41596b87d"/>
+				<text><![CDATA[Calle: Lava No. 232
+Colonia: Jardines del Pedregal 	CP: 01900
+Delegación: Álvaro Obregon 	CDMX
+RFC: ASF180724JE2
+Teléfono: (55) 7619 8801 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="244" width="164" height="20" uuid="ff1ca9d1-1e40-400e-ab73-44ac8351c3b2"/>
+				<text><![CDATA[Correo para confirmar transferencia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="164" y="244" width="123" height="20" forecolor="#051AFF" uuid="11e77d00-6ebe-445d-a82b-b90ad6a57240"/>
+				<textElement>
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[cobranza@autopresta.com 
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="272" width="287" height="20" uuid="345fe9fc-e0d9-472e-83cb-d5d5b37f2822"/>
+				<text><![CDATA[CLABE INTERBANCARIA: 01 21 80 00 11 22 94 17 63 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="300" width="287" height="20" uuid="ba7d21db-915a-4745-9b24-e2001b7b8879"/>
+				<text><![CDATA[BANCO: BANCOMER BBVA ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="328" width="287" height="20" uuid="8bd4dbde-d84b-4684-a4fc-0019bdec93ff"/>
+				<text><![CDATA[CUENTA: 0112294176 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="356" width="287" height="20" uuid="46e45a40-00a0-47ec-9448-08c3dd16f7eb"/>
+				<text><![CDATA[NUMERO DEL CONVENIO: 001552287 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="384" width="130" height="20" uuid="d24f99fb-879e-4498-9d08-c4db9638f3e1"/>
+				<text><![CDATA[REFERENCIA BANCARIA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="130" y="384" width="100" height="20" uuid="e5cd1a83-7d84-4aef-a54a-22f00bae5416"/>
+				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="50"/>
+		<band height="50"/>
 	</detail>
 </jasperReport>

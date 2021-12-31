@@ -31,7 +31,10 @@ configurations {
 
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    compile "org.springframework.boot:spring-boot-starter-logging"
+    compile 'org.apache.logging.log4j:log4j-api:2.15.0'
+    compile ("org.springframework.boot:spring-boot-starter-logging"){
+        exclude group:'log4j-api', module: 'log4j-to-slf4j'
+    }
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
     compile "org.springframework.boot:spring-boot-starter-actuator"

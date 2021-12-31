@@ -21,4 +21,7 @@ class IdentificacionesOficiales {
     String getDescLabel() {
         nombre
     }
+    static getNombreById(String id){
+        IdentificacionesOficiales.findById(id)?.nombre
+    }
 }

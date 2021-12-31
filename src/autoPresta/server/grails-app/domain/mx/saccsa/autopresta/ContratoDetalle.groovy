@@ -11,6 +11,9 @@ class ContratoDetalle {
     BigDecimal subtotal
     BigDecimal iva
     BigDecimal saldoFinal
+    Date fechaPago
+    String estatus
+
 
     static constraints = {
         contrato nullable: false, blank: false
@@ -23,6 +26,8 @@ class ContratoDetalle {
         subtotal nullable: false, blank: false
         iva nullable: false, blank: false
         saldoFinal nullable: false, blank: false
+        fechaPago nullable: true, blank: true
+        estatus nullable: true, blank: true
     }
 
     static mapping = {
@@ -39,5 +44,7 @@ class ContratoDetalle {
         subtotal name: 'subtotal', column: 'subtotal'
         iva name: 'iva', column: 'iva'
         saldoFinal name: 'saldoFinal', column: 'saldoFinal'
+        fechaPago name: 'fechaPago', column: 'fechaPago'
+        estatus name: 'estatus', column: 'estatus'
     }
 }

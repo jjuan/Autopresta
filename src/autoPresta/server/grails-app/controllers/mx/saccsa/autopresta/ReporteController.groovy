@@ -33,5 +33,27 @@ class ReporteController {
         generateReportService.createReport(request, response, params, [data: [listaDatos]])
     }
 
+    def contratosFirmados(){
+        def fechaInicio = (!params?.fechaInicio)?null:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (!params?.fechaFin)?null:(sdf.parse(params?.fechaFin))
+        def listaDatos = reporteService.contratosFirmados(fechaInicio, fechaFin)
+        params._file='ContratosFirmados'
+        params._format='PDF'
+        params._name='Reportes Firmados'
+        params._reporteTitulo='Reportes Firmados'
+        generateReportService.createReport(request, response, params, [data:listaDatos])
+    }
 
+    def pagosRealizados(){
+        def fechaInicio = (!params?.fechaInicio)?null:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (!params?.fechaFin)?null:(sdf.parse(params?.fechaFin))
+        def lista = reporteService.pagosRealizados(fechaInicio, fechaFin)
+        params._file = 'PagosRealizadosAP'
+        params._format = 'PDF'
+        params._name = 'Pagos Realizados'
+        params._reporteTitulo = 'Pagos Realizados'
+//        params.imagen = grailsApplication.config.grails.jasper.images+'logo-full.png'
+//        generateReportService.createReport(request, response, params, [data: [lista]])
+        generateReportService.createReport(request, response, params, [data: lista])
+    }
 }

@@ -139,11 +139,26 @@ export interface _comboCp {
   cp: string
 }
 
+export interface ContratoDetalle{
+  contrato: Contrato;
+  parcialidad: string;
+  fecha: Date;
+  interes: number;
+  monitoreo: number;
+  gps: number;
+  capital: number;
+  subtotal: number;
+  iva: number;
+  saldoFinal: number;
+  fechaPago: Date;
+  estatus: string;
+}
+
 export interface Contrato {
   id: number
   //datos del cliente
   regimenFiscal: string;
-
+numeroContrato: string;
   nombres: string;
   primerApellido: string;
   segundoApellido: string;

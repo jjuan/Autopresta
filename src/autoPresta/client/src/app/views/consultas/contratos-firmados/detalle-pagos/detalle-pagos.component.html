@@ -1,0 +1,36 @@
+<div class="table-responsive">
+  <table class="table table-hover dashboard-task-infos">
+    <thead>
+    <tr>
+<!--      <th>Contrato</th>-->
+      <th>Parcialidad</th>
+      <th>Fecha</th>
+      <th>Interés</th>
+      <th>Monitoreo</th>
+      <th>GPS</th>
+      <th>Capital</th>
+      <th>Subtotal</th>
+      <th>IVA</th>
+      <th>Saldo Final</th>
+      <th>Fecha del Pago</th>
+      <th>Estatus</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let c of data.datos">
+<!--      <td>{{c.contrato}}</td>-->
+      <td>{{c.parcialidad}}</td>
+      <td>{{c.fecha | date: 'dd/MM/yyyy'}}</td>
+      <td>{{c.interes | currency: 'USD'}}</td>
+      <td>{{c.monitoreo | currency: 'USD'}}</td>
+      <td>{{c.gps | currency: 'USD'}}</td>
+      <td>{{c.capital | currency: 'USD'}}</td>
+      <td>{{c.subtotal | currency: 'USD'}}</td>
+      <td>{{c.iva | currency: 'USD'}}</td>
+      <td>{{c.saldoFinal | currency: 'USD'}}</td>
+      <td>{{c.fechaPago | date: 'dd/MM/yyyy'}}</td>
+      <td>{{c.estatus}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

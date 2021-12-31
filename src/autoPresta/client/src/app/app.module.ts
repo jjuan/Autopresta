@@ -7,7 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PageLoaderComponent } from './layout/page-loader/page-loader.component';
 
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import {LocationStrategy, HashLocationStrategy, DatePipe} from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { PerfectScrollbarModule, PERFECT_SCROLLBAR_CONFIG, PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { ClickOutsideModule } from 'ng-click-outside';
@@ -38,7 +38,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = { supp
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy }, { provide: 'API_URL', useValue: environment.serverUrl},
     { provide: HTTP_INTERCEPTORS, useClass: HttpCalIInterceptor, multi: true },
-    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
+    { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG }, DatePipe,
     DynamicScriptLoaderService, RightSidebarService, RestService, GlobalService, ConfigService, WINDOW_PROVIDERS
   ],
   entryComponents: [],

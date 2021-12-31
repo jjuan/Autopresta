@@ -764,11 +764,11 @@
           <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>F. Factura</mat-label>
-              <input matInput formControlName="fechaF" (keyup)="fechaFactura(formulario.get('fechaF').value)">
-<!--              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura"-->
-<!--                     formControlName="fechaDeFactura">-->
-<!--              <mat-datepicker-toggle matSuffix [for]="fechaDeFactura"></mat-datepicker-toggle>-->
-<!--              <mat-datepicker #fechaDeFactura></mat-datepicker>-->
+<!--              <input matInput formControlName="fechaF" (keyup)="fechaFactura(formulario.get('fechaF').value)">-->
+              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura"
+                     formControlName="fechaDeFactura">
+              <mat-datepicker-toggle matSuffix [for]="fechaDeFactura"></mat-datepicker-toggle>
+              <mat-datepicker #fechaDeFactura></mat-datepicker>
               <mat-error *ngIf="formulario.get('fechaF').hasError('required')">
                 F. Factura es requerido
               </mat-error>

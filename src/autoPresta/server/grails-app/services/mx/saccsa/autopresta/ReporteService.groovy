@@ -4,12 +4,14 @@ import grails.gorm.transactions.Transactional
 import groovy.time.TimeCategory
 import mx.saccsa.common.Parametros
 
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 
 @Transactional
 class ReporteService {
     def springSecurityService
     def sdf = new SimpleDateFormat('yyyy-MM-dd')
+    def year = new SimpleDateFormat('yyyy')
     def utilService
     def dateUtilService
 
@@ -39,6 +41,7 @@ class ReporteService {
         def dir = Direccion.findByContratoAndPrincipal(contrato, true)
         String exterior = dir.exterior != null ? dir.exterior : 'S/N'
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
+        def fechaFiniquito = ContratoDetalle.findByContratoAndParcialidad(contrato, '12')
         def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeCompra) * 100)
         def lista
         if (contrato.regimenFiscal.clave == 'PM') {
@@ -63,19 +66,22 @@ class ReporteService {
                     montoTotalPagar              : montoTotal,
                     referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                     clabe                        : clabe,
-                    plazo                        : contrato.tipoContrato.descripcion.toUpperCase(),
+                    plazo                        : '12 MESES',
                     desempeño                    : fecha(desempenio.fecha),
                     caracteristicas              : descripcion(contrato),
                     noDeVin                      : campo(contrato.numeroVin),
                     avaluo                       : contrato.valorDeCompra,
                     prestamo                     : contrato.montoRequerido,
                     prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra           : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra             : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
+                    montoPrestamoLetra           : numeroLetra(contrato.montoRequerido),
+                    montoAvaluoLetra             : numeroLetra(contrato.valorDeCompra),
                     porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito         : fecha(desempenio.fecha),
+                    fechaLimiteFiniquito         : fecha(fechaFiniquito.fecha),
                     fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase()
+                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
+                    acuerdo                      : acuerdo(contrato),
+                    anio                         : year.format(contrato.fechaContrato),
+                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
             ]
         } else if (contrato.nombresCoacreditado != null && contrato.regimenFiscal.clave != 'PM') {
             lista = [
@@ -104,54 +110,60 @@ class ReporteService {
                     montoTotalPagar                    : montoTotal,
                     referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                     clabe                              : clabe,
-                    plazo                              : contrato.tipoContrato.descripcion.toUpperCase(),
+                    plazo                              : '12 MESES',
                     desempeño                          : fecha(desempenio.fecha),
                     caracteristicas                    : descripcion(contrato),
                     noDeVin                            : campo(contrato.numeroVin),
                     avaluo                             : contrato.valorDeCompra,
                     prestamo                           : contrato.montoRequerido,
                     prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
+                    montoPrestamoLetra                 : numeroLetra(contrato.montoRequerido),
+                    montoAvaluoLetra                   : numeroLetra(contrato.valorDeCompra),
                     porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito               : fecha(desempenio.fecha),
+                    fechaLimiteFiniquito               : fecha(fechaFiniquito.fecha),
                     fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase()
+                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase(),
+                    acuerdo                            : acuerdo(contrato),
+                    anio                               : year.format(contrato.fechaContrato),
+                    nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
             ]
         } else {
             lista = [
-                    listaDatos                         : listaDatos,
-                    nombre                             : contrato.nombres.toUpperCase(),
-                    apellidos                          : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
-                    rfc                                : contrato.rfc.toUpperCase(),
-                    edad                               : contrato.edad.toString(),
-                    whatsapp                           : campo(contrato.telefonoCelular),
-                    telTrabajoCasa                     : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
-                    calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
-                    noInterior                         : dir.interior != null ? dir.interior : '',
-                    colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                       : dir.cp != null ? dir.cp : '',
-                    alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase(): '',
-                    noContrato                         : contratoFolio(contrato),
-                    montoPrestamo                      : contrato.montoTransferencia,
-                    montoTotalPagar                    : montoTotal,
-                    referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
-                    clabe                              : clabe,
-                    plazo                              : contrato.tipoContrato.descripcion.toUpperCase(),
-                    desempeño                          : fecha(desempenio.fecha),
-                    caracteristicas                    : descripcion(contrato),
-                    noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorDeCompra,
-                    prestamo                           : contrato.montoRequerido,
-                    prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra                 : utilService.cantidadLetra(contrato.montoRequerido, Divisas.findByClave('MXN')),
-                    montoAvaluoLetra                   : utilService.cantidadLetra(contrato.valorDeCompra, Divisas.findByClave('MXN')),
-                    porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito               : fecha(desempenio.fecha),
-                    fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase()
-                    ]
+                    listaDatos                   : listaDatos,
+                    nombre                       : contrato.nombres.toUpperCase(),
+                    apellidos                    : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
+                    rfc                          : contrato.rfc.toUpperCase(),
+                    edad                         : contrato.edad.toString(),
+                    whatsapp                     : campo(contrato.telefonoCelular),
+                    telTrabajoCasa               : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
+                    noIdentificacionOficial      : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
+                    calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
+                    noInterior                   : dir.interior != null ? dir.interior : '',
+                    colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
+                    codigoPostal                 : dir.cp != null ? dir.cp : '',
+                    alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
+                    noContrato                   : contratoFolio(contrato),
+                    montoPrestamo                : contrato.montoTransferencia,
+                    montoTotalPagar              : montoTotal,
+                    referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
+                    clabe                        : clabe,
+                    plazo                        : '12 MESES',
+                    desempeño                    : fecha(desempenio.fecha),
+                    caracteristicas              : descripcion(contrato),
+                    noDeVin                      : campo(contrato.numeroVin),
+                    avaluo                       : contrato.valorDeCompra,
+                    prestamo                     : contrato.montoRequerido,
+                    prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
+                    montoPrestamoLetra           : numeroLetra(contrato.montoRequerido),
+                    montoAvaluoLetra             : numeroLetra(contrato.valorDeCompra),
+                    porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
+                    fechaLimiteFiniquito         : fecha(fechaFiniquito.fecha),
+                    fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
+                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
+                    acuerdo                      : acuerdo(contrato),
+                    anio                         : year.format(contrato.fechaContrato),
+                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+            ]
         }
 
         return lista
@@ -216,17 +228,93 @@ class ReporteService {
         return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
     }
 
-    String contratoFolio(Contrato contrato){
+    String contratoFolio(Contrato contrato) {
         String folio = contrato.numeroContrato
-        if (contrato.contratoPrueba){
-            if (folio.length() <= 5){
-                folio = '0'+folio
+        if (contrato.contratoPrueba) {
+            if (folio.length() <= 5) {
+                folio = '0' + folio
             }
         } else {
-            if (folio.length() <= 4){
-                folio = '0'+folio
+            if (folio.length() <= 4) {
+                folio = '0' + folio
             }
         }
         return folio
+    }
+
+    def numeroLetra(BigDecimal monto) {
+        Locale usa = new Locale("en", "US")
+        Currency dollars = Currency.getInstance(usa)
+        NumberFormat dollarFormat = NumberFormat.getCurrencyInstance(usa);
+
+        String numero = dollarFormat.format(monto)
+        String letra = utilService.cantidadLetra(monto, Divisas.findByClave('MXN'))
+        return " " + numero + " " + letra
+    }
+
+    def acuerdo(Contrato contrato) {
+        String nombres = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+        String documento = IdentificacionesOficiales.getNombreById(contrato.documentoOficial)
+        String documentoValor = contrato.claveElector
+        Direccion direccion = Direccion.findByContratoAndPrincipal(contrato, true)
+
+        return "EL SUSCRITO " + nombres.toUpperCase() + " IDENTIFICÁNDOME CON " + documento.toUpperCase() + " " + documentoValor.toUpperCase() +
+                " SEÑALANDO DOMICILIO EN " + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
+                "VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y " +
+                "GARANTÍA PRENDARIA) DE LA MARCA " + contrato.marca.nombre.toUpperCase() + " SUB MARCA " + contrato.modelo.nombre.toUpperCase() + " AÑO " + contrato.anio + " COLOR " + contrato.color + " NÚMERO DE SERIE " +
+                contrato.numeroVin + " MOTOR " + contrato.numeroDeMotor + " PLACAS " + contrato.placas + " A SU PROPIETARIO AP SERVICIOS FINANCIEROS, S.A. DE " +
+                "C.V. A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
+                "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
+                "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
+                "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
+    }
+
+    def contratosFirmados(Date fechaInicio, Date fechaFin) {
+        def lista = Contrato.findAllByContratoPruebaAndEstatusAndFechaContratoBetween(false, 'F', fechaInicio, fechaFin).collect({
+            [
+                    numeroContrato: it.numeroContrato != '' ? contratoFolio(it) : '',
+                    titular       : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    representante : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
+                    fechaContrato : it?.fechaContrato,
+                    montoRequerido: it?.montoRequerido,
+                    total         : ContratoDetalle.executeQuery('Select sum(subtotal + iva) from ContratoDetalle where contrato =:contrato', [contrato: it])[0],
+            ]
+        })
+        return lista
+    }
+
+    def pagosRealizados(Date fechaInicio, Date fechaFin) {
+//        ContratoDetalle contratoDetalle = ContratoDetalle.findAllByFecha()
+        def lista = ContratoDetalle.findAllByFechaBetween(fechaInicio, fechaFin).collect({
+            [
+                    parcialidad: it.parcialidad,
+                    iva        : it.iva,
+                    fechaRep   : it.fecha,
+                    saldoFinal : it.saldoFinal,
+                    subtotal   : it.subtotal,
+                    capital    : it.capital,
+                    monitoreo  : it.monitoreo,
+                    contrato   : it.contrato.razonesSociales ? it.contrato.razonesSociales.descLabel.toUpperCase() : it.contrato.nombres.toUpperCase() + ' ' + it.contrato.primerApellido.toUpperCase() + ' ' + it.contrato.segundoApellido.toUpperCase(),
+                    gps        : it.gps,
+                    interes    : it.interes
+
+            ]
+        })
+
+//        def name = contratoDetalle.contrato.nombres + ' ' + contratoDetalle.contrato.primerApellido + ' ' + contratoDetalle.contrato.segundoApellido
+//
+//        def datos = [
+//                parcialidad:contratoDetalle.parcialidad,
+//                iva:contratoDetalle.iva,
+//                fecha:contratoDetalle.fecha,
+//                saldoFinal: contratoDetalle.saldoFinal,
+//                subtotal: contratoDetalle.subtotal,
+//                capital: contratoDetalle.capital,
+//                monitoreo: contratoDetalle.monitoreo,
+//                contrato: name,
+//                gps: contratoDetalle.gps,
+//                interes: contratoDetalle.interes
+//        ]
+        return lista
     }
 }

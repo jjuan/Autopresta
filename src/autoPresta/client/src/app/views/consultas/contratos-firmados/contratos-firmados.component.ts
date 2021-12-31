@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Contrataciones, Contrato, monto} from "../../../core/models/data.interface";
+import {Agencias, Contrataciones, ContratoDetalle} from "../../../core/models/data.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -10,18 +10,20 @@ import {DialogService} from "../../../core/service/dialog.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
-import Swal from "sweetalert2";
 import {map} from "rxjs/operators";
+import {DetallePagosComponent} from "./detalle-pagos/detalle-pagos.component";
+import {FormAgenciasComponent} from "../../catalogos/agencias/form-agencias/form-agencias.component";
+import {CamboEstadoComponent} from "./cambo-estado/cambo-estado.component";
 
 @Component({
-  selector: 'app-contrataciones',
-  templateUrl: './contrataciones.component.html',
-  styleUrls: ['./contrataciones.component.sass']
+  selector: 'app-contratos-firmados',
+  templateUrl: './contratos-firmados.component.html',
+  styleUrls: ['./contratos-firmados.component.sass']
 })
-export class ContratacionesComponent implements OnInit {
+export class ContratosFirmadosComponent implements OnInit {
   datos = {
     modulo: 'Consultas',
-    componente: 'Contrataciones',
+    componente: 'Contratos Firmados',
     icono: 'fas fa-folder-open',
     titulo: 'Contrato',
     controlador: 'Contrato'
@@ -71,10 +73,8 @@ export class ContratacionesComponent implements OnInit {
       label = 'Cancelado'
     } else if (estatus == 'F') {
       label = 'Firmado'
-    } else if (estatus == 'R') {
-      label = 'Registrado'
-    } else if (estatus == 'I') {
-      label = 'Impreso'
+    } else if (estatus == 'P') {
+      label = 'Pendiente'
     }
     return label
   }
@@ -93,18 +93,39 @@ export class ContratacionesComponent implements OnInit {
       this.dialogService.snack(accion == 'librarFolio' ? 'danger' : 'success', r.message)
     })
   }
-  imprimir(row: Contrato, accion) {
-    this.restService.index<any>(this.datos.controlador, {id: row.id}, accion).subscribe(r => {
-      this.loadData()
-      this.download(row.id, row.numeroContrato)
-      this.dialogService.snack(accion == 'librarFolio' ? 'danger' : 'success', r.message)
-    })
-  }
 
   download(id: number, numeroContrato) {
     const _dominio = 'Reporte'
     const _observable = this.restService.getReport('contratoAutoPresta', _dominio, {id: id});
     return this.restService.printReport(_observable, 'Contrato AP #' + numeroContrato);
+  }
+
+  cambiarEstado(id, accion: string) {
+      this.restService.edit<Agencias>(id, this.datos.controlador).subscribe(result => {
+        const dialogRef = this.dialog.open(CamboEstadoComponent, {
+          data: { title: 'Cambiar estado del contrato' , disableClose: true, data: result, action: 'Editar' }, height: 'auto', width: '40%'
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (!result) { return; }
+          this.restService.update<string>(id, result, this.datos.controlador).subscribe(() => {
+            this.dialogService.snack( 'success', '¡¡ ' + this.datos.titulo + ' actualizado!!');
+            this.loadData();
+          }, error => {
+            if (error._embedded !== undefined) {
+              this.dialogService.snack( 'danger', 'Error al actualizar');
+            }});
+          this.refreshTable();
+        });
+      });
+
+  }
+
+  verDetalles(id, accion: string) {
+    this.restService.index<ContratoDetalle[]>('ContratoDetalle', {id: id}, accion).subscribe(pagos => {
+      this.dialog.open(DetallePagosComponent, {
+        data: {datos: pagos, titulo: 'Parcialidades del contrato ' + id}
+      })
+    })
   }
 }
 
@@ -137,7 +158,7 @@ export class registros extends DataSource<Contrataciones> {
       this.ds.dataChange, this._sort.sortChange, this.filterChange, this.paginator.page
     ];
 
-    this.ds.getAdvancedTable<any>(this.controller, {'max': 100});
+    this.ds.getAdvancedTable<any>(this.controller, {'max': 100}, 'contratosFirmados');
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Contrataciones) => {
           const searchStr = (
@@ -193,4 +214,3 @@ export class registros extends DataSource<Contrataciones> {
     });
   }
 }
-

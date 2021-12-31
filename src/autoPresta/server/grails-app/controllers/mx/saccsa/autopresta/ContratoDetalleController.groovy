@@ -23,7 +23,7 @@ class ContratoDetalleController extends RestfulController<ContratoDetalle>{
                 {
                     [
                             id: it.id,
-                            contrato: it.contrato.id,
+                            contrato: it.contrato.numeroContrato,
                             parcialidad: it.parcialidad,
                             fecha: it.fecha,
                             interes: it.interes,
@@ -32,7 +32,10 @@ class ContratoDetalleController extends RestfulController<ContratoDetalle>{
                             capital: it.capital,
                             subtotal: it.subtotal,
                             iva: it.iva,
-                            total: it.subtotal + it.iva
+                            total: it.subtotal + it.iva,
+                            saldoFinal: it.saldoFinal,
+                            fechaPago: it.fechaPago,
+                            estatus: it.estatus == 'P'?'Pendiente':'Confirmado'
                     ]
                 }
         ))

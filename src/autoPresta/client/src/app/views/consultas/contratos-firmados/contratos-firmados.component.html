@@ -55,8 +55,8 @@
                 <!-- Checkbox Column -->
                 <!--                Columnas del catalogo-->
                 <ng-container matColumnDef="folio">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Folio</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.numeroContrato}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-8'">Folio</mat-header-cell>
+                  <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-8'">{{row.numeroContrato}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="regimenFiscal">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Regimen Fiscal</mat-header-cell>
@@ -83,8 +83,8 @@
                   <mat-cell *matCellDef="let row">{{getTotal(row.total)|currency:'USD'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="estatus">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{getEstatus(row.estatus)}}</mat-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus del contrato</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.estatusContrato}}</mat-cell>
                 </ng-container>
 
                 <!-- actions -->
@@ -92,14 +92,17 @@
                   <mat-header-cell *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
 
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-icon-button *ngIf="row.estatus == 'I'" (click)="cambiarEstatus(row.id, 'firmar')" color="primary" matTooltip="Marcar {{datos.titulo.toString()}} como firmado">
+                    <button mat-icon-button *ngIf="row.estatus == 'R'" (click)="cambiarEstatus(row.id, 'firmar')" color="primary" matTooltip="Marcar {{datos.titulo.toString()}} como firmado">
                       <mat-icon>done_all</mat-icon>
                     </button>
 
-                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'" (click)="cambiarEstatus(row.id, 'librarFolio')" color="danger" matTooltip="Recuperar folio del {{row.numeroContrato}}">
-                      <mat-icon>clear</mat-icon>
+                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="cambiarEstado(row.id, 'cambiarEstado')" color="danger" matTooltip="Cambiar estatus del contrato">
+                      <mat-icon>assignment</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'" (click)="imprimir(row, 'cambioStatus')" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
+                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="verDetalles(row.id, 'detalles')" color="danger" matTooltip="Ver parcialidades">
+                      <mat-icon>date_range</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'" (click)="download(row.id, row.numeroContrato);loadData()" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
                       <mat-icon>file_download</mat-icon>
                     </button>
 

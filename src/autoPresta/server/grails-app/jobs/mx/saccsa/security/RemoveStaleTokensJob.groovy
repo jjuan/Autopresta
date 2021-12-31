@@ -12,7 +12,7 @@ class RemoveStaleTokensJob {
     def execute() {
         log.debug "CRON DELETE AuthenticationToken"
         Calendar c = Calendar.getInstance()
-        c.timeInMillis = (new Date().time - 600000)
+        c.timeInMillis = (new Date().time - 18000000)
         AuthenticationToken.withTransaction {
             AuthenticationToken.executeUpdate("delete AuthenticationToken a where a.refreshed < :dateTime", [dateTime: c.getTime()])
         }

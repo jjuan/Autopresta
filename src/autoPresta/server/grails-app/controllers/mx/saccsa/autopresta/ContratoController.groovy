@@ -25,11 +25,11 @@ class ContratoController extends RestfulController<Contrato> {
         String validar = Parametros.getValorByParametro('Pruebas')
         def contratos
         if (validar == '1') {
-            contratos = Contrato.list()
+            contratos = Contrato.findAllByEstatusNotEqual('F')
         } else {
-            contratos = Contrato.findAllByContratoPrueba(false)
+            contratos = Contrato.findAllByContratoPruebaAndEstatusNotEqual(false, 'F')
         }
-        respond(contratos.collect({
+        def lista = contratos.collect({
             [
                     id                           : it?.id,
                     regimenFiscal                : it?.regimenFiscal?.descLabel,
@@ -119,7 +119,115 @@ class ContratoController extends RestfulController<Contrato> {
                         ]
                     })
             ]
-        }))
+        })
+
+        lista = lista.sort({ it.fechaContrato }).reverse()
+        respond(lista)
+    }
+
+    def contratosFirmados() {
+        String validar = Parametros.getValorByParametro('Pruebas')
+        def contratos
+        if (validar == '1') {
+            contratos = Contrato.findAllByEstatus('F')
+        } else {
+            contratos = Contrato.findAllByContratoPruebaAndEstatus(false, 'F')
+        }
+        def lista = contratos.collect({
+            [
+                    id                           : it?.id,
+                    regimenFiscal                : it?.regimenFiscal?.descLabel,
+                    titular                      : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
+                    fechaContrato                : it?.fechaContrato,
+                    nombres                      : it?.nombres,
+                    primerApellido               : it?.primerApellido,
+                    segundoApellido              : it?.segundoApellido,
+                    genero                       : it?.genero,
+                    rfc                          : it?.rfc,
+                    edad                         : it?.edad,
+                    fechaNacimiento              : it?.fechaNacimiento,
+                    curp                         : it?.curp,
+                    claveElector                 : it?.claveElector,
+                    documentoOficial             : it?.documentoOficial,
+                    telefonoFijo                 : it?.telefonoFijo,
+                    telefonoCelular              : it?.telefonoCelular,
+                    telefonoOficina              : it?.telefonoOficina,
+                    correoElectronico            : it?.correoElectronico,
+                    nombresCoacreditado          : it?.nombresCoacreditado,
+                    primerApellidoCoacreditado   : it?.primerApellidoCoacreditado,
+                    segundoApellidoCoacreditado  : it?.segundoApellidoCoacreditado,
+                    generoCoacreditado           : it?.generoCoacreditado,
+                    rfcCoacreditado              : it?.rfcCoacreditado,
+                    edadCoacreditado             : it?.edadCoacreditado,
+                    fechaNacimientoCoacreditado  : it?.fechaNacimientoCoacreditado,
+                    curpCoacreditado             : it?.curpCoacreditado,
+                    documentoOficialCoacreditado : it?.documentoOficialCoacreditado?.nombre,
+                    claveElectorCoacreditado     : it?.claveElectorCoacreditado,
+                    telefonoFijoCoacreditado     : it?.telefonoFijoCoacreditado,
+                    telefonoCelularCoacreditado  : it?.telefonoCelularCoacreditado,
+                    telefonoOficinaCoacreditado  : it?.telefonoOficinaCoacreditado,
+                    correoElectronicoCoacreditado: it?.correoElectronicoCoacreditado,
+                    anio                         : it?.anio,
+                    marca                        : it?.marca?.nombre,
+                    modelo                       : it?.modelo?.nombre,
+                    versionAuto                  : it?.versionAuto,
+                    color                        : it?.color,
+                    placas                       : it?.placas,
+                    numeroDeMotor                : it?.numeroDeMotor,
+                    numeroDeFactura              : it?.numeroDeFactura,
+                    fechaDeFactura               : it?.fechaDeFactura,
+                    emisoraDeFactura             : it?.emisoraDeFactura,
+                    valorDeVenta                 : it?.valorDeVenta,
+                    valorDeCompra                : it?.valorDeCompra,
+                    montoMaximoAutorizado        : it?.montoMaximoAutorizado,
+                    numeroVin                    : it?.numeroVin,
+                    gps1                         : it?.gps1?.descLabel,
+                    gps2                         : it?.gps2?.descLabel,
+                    gps3                         : it?.gps3?.descLabel,
+                    montoRequerido               : it?.montoRequerido,
+                    costoMensualInteres          : it?.costoMensualInteres,
+                    costoMensualMonitoreo        : it?.costoMensualMonitoreo,
+                    costoMensualGPS              : it?.costoMensualGPS,
+                    totalAutoPresta              : it?.totalAutoPresta,
+                    iva                          : it?.iva,
+                    costoMensualTotal            : it?.costoMensualTotal,
+                    tipoContrato                 : it?.tipoContrato?.descLabel,
+                    estatus                      : it?.estatus,
+                    referencia                   : it?.referencia,
+                    clabe                        : it?.clabe,
+                    razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
+                    calificacionCliente          : it?.calificacionCliente?.descLabel,
+                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba) : '',
+                    contratoPrueba               : it?.contratoPrueba,
+                    montoTransferencia           : it?.montoTransferencia,
+                    detalleDescuentos            : it?.detalleDescuentos,
+                    fechaSolicitud               : it?.fechaSolicitud,
+                    montoLiquidar                : it?.montoLiquidar,
+                    fechaCompromiso              : it?.fechaCompromiso,
+                    estatusContrato              : it?.estatusContrato,
+                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
+                    direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
+                        [
+                                id                : it.id,
+                                contrato          : it.contrato.numeroContrato,
+                                dirTrabajo        : it.dirTrabajo,
+                                dirAdicional      : it.dirAdicional,
+                                direccionPrincipal: it.direccionPrincipal,
+                                exterior          : it.exterior,
+                                interior          : it.interior,
+                                cp                : it.cp,
+                                colonia           : it.colonia,
+                                municipio         : it.municipio,
+                                entidad           : it.entidad,
+                                principal         : it.principal,
+                        ]
+                    })
+            ]
+        })
+
+        lista = lista.sort({ it.fechaContrato }).reverse()
+        respond(lista)
     }
 
     @Transactional
@@ -220,10 +328,9 @@ class ContratoController extends RestfulController<Contrato> {
         respond(folio: folioRecuperado > 0 ? folioRecuperado : folio, folioPrueba: folioRecuperadoP > 0 ? folioRecuperadoP + 'P' : folioPrueba)
     }
 
-    def firmarFolio(Long id) {
+    def cambioStatus(Long id) {
         Contrato contrato = Contrato.findById(id)
-        contrato.numeroContrato = ''
-        contrato.estatus = 'A'
+        contrato.estatus = 'I'
         contrato.save(flush: true, failOnError: true)
     }
 
@@ -252,6 +359,7 @@ class ContratoController extends RestfulController<Contrato> {
     def firmar(Long id) {
         Contrato contrato = Contrato.findById(id)
         contrato.estatus = 'F'
+        contrato.estatusContrato = 'Activo'
         contrato.save(flush: true, failOnError: true)
         respond(message: 'Folio: ' + contrato.numeroContrato + ' firmado')
     }

@@ -68,7 +68,7 @@ class Contrato {
     BigDecimal costoMensualTotal
     TipoContrato tipoContrato
 
-    String estatus = 'P'
+    String estatus = 'R'
     String referencia
     String clabe
     RazonesSociales razonesSociales
@@ -81,6 +81,8 @@ class Contrato {
     Date fechaSolicitud
     BigDecimal montoLiquidar
     Date fechaCompromiso
+
+    String estatusContrato
 
     static constraints = {
         regimenFiscal nullable: true, blank: true
@@ -100,6 +102,7 @@ class Contrato {
         telefonoCelular nullable: true, blank: true
         telefonoOficina nullable: true, blank: true
         correoElectronico nullable: true, blank: true
+        estatusContrato nullable: true, blank: true
 
         nombresCoacreditado nullable: true, blank: true
         primerApellidoCoacreditado nullable: true, blank: true
@@ -181,6 +184,7 @@ class Contrato {
         telefonoCelular name: 'telefonoCelular', column: 'telefonoCelular'
         telefonoOficina name: 'telefonoOficina', column: 'telefonoOficina'
         correoElectronico name: 'correoElectronico', column: 'correoElectronico'
+        estatusContrato name: 'estatusContrato', column: 'estatusContrato'
 
         nombresCoacreditado name: 'nombresCoacreditado', column: 'nombresCoacreditado'
         primerApellidoCoacreditado name: 'primerApellidoCoacreditado', column: 'primerApellidoCoacreditado'

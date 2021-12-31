@@ -201,6 +201,15 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
+      {
+        path: 'Consultas/Contratos-Firmados',
+        title: 'Contratos Firmados',
+        moduleName: 'Consultas',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
     ]
   },
   {
@@ -210,6 +219,25 @@ export const ROUTES: RouteInfo[] = [
     icon: 'fas fa-book',
     class: 'menu-toggle',
     groupTitle: false,
-    submenu: []
+    submenu: [
+      {
+        path: 'Reportes/Contratos-Firmados',
+        title: 'Contratos Firmados',
+        moduleName: 'Reportes',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Reportes/Pagos-Realizados',
+        title: 'Pagos Realizados',
+        moduleName: 'Reportes',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+    ]
   },
 ];
