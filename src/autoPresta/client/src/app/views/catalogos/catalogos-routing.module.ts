@@ -15,6 +15,9 @@ import {DivisasComponent} from "./divisas/divisas.component";
 import {ModelosComponent} from "./modelos/modelos.component";
 import {CalificacionClienteComponent} from "./calificacion-cliente/calificacion-cliente.component";
 import {IdentificacionesOficialesComponent} from "./identificaciones-oficiales/identificaciones-oficiales.component";
+import {CuentasBancariasComponent} from "./cuentas-bancarias/cuentas-bancarias.component";
+import {UsuarioComponent} from "./usuario/usuario.component";
+import {BancosComponent} from "./bancos/bancos.component";
 
 
 const routes: Routes = [
@@ -34,6 +37,9 @@ const routes: Routes = [
   { path:'Modelos', component: ModelosComponent },
   { path:'Calificacion-Clientes', component: CalificacionClienteComponent },
   { path:'Identificaciones-Oficiales', component: IdentificacionesOficialesComponent },
+  { path:'Cuentas-Bancarias', component: CuentasBancariasComponent },
+  { path:'Usuarios', component: UsuarioComponent },
+  { path:'Bancos', component: BancosComponent },
 
 ];
 

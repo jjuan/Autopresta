@@ -1251,21 +1251,21 @@ SOBRE AVALUO]]></text>
 		</band>
 		<band height="751">
 			<staticText>
-				<reportElement x="10" y="0" width="550" height="100" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
+				<reportElement x="10" y="0" width="550" height="114" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[ CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="105" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
+				<reportElement x="252" y="114" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[GLOSARIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="129" width="528" height="240" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
+				<reportElement x="30" y="138" width="528" height="273" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1280,21 +1280,21 @@ h) Refrendo: Es el acto mediante el cual “EL CONSUMIDOR” cumpliendo con el p
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="226" y="374" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
+				<reportElement x="226" y="414" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DECLARACIONES]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="39" y="401" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
+				<reportElement x="39" y="439" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[I.- Declara “EL PROVEEDOR”:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="421" width="528" height="301" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
+				<reportElement x="30" y="464" width="528" height="279" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12" isBold="false"/>
 				</textElement>
@@ -1350,7 +1350,7 @@ B) Reconocen que la información contenida en el presente contrato podrá ser co
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="24" width="528" height="136" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
+				<reportElement x="30" y="24" width="528" height="143" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1539,11 +1539,11 @@ de la Prenda, para lo cual “EL PROVEEDOR” dentro de dicho plazo, notificará
 ]]></text>
 			</staticText>
 		</band>
-		<band height="749">
+		<band height="751">
 			<staticText>
-				<reportElement x="26" y="2" width="535" height="738" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
+				<reportElement x="26" y="2" width="535" height="728" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="11"/>
 				</textElement>
 				<text><![CDATA[15.- DESEMPEÑO EXTEMPORÁNEO.- En el caso de que la Prenda no haya sido comercializada después de la “FECHA LÍMITE DE REFRENDO O DESEMPEÑO”, tal como se señala en la Carátula de este Contrato, “EL CONSUMIDOR” podrá recuperar la Prenda previo acuerdo con “EL PROVEEDOR” y pago del mutuo, de los intereses, almacenaje y las comisiones pactadas en el presente Contrato. Para tal efecto, “EL CONSUMIDOR” deberá solicitar por escrito a “EL PROVEEDOR” autorización para hacer el pago adeudado en un término no mayor a 3 (tres) días hábiles de la fecha límite de refrendo o desempeño. En caso de que “EL PROVEEDOR” no dé contestación a lo solicitado, se entenderá como negada dicha autorización.
 
@@ -1605,22 +1605,22 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Ciudad de México a _____de ________ de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="191" y="90" width="208" height="20" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
-				<textElement>
-					<font isBold="true"/>
+				<reportElement x="0" y="90" width="571" height="20" forecolor="#E1563C" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="39" y="140" width="100" height="20" uuid="9940509e-5ac9-40a5-81c3-9aa304302f61"/>
-				<textElement verticalAlignment="Middle">
+				<textElement verticalAlignment="Middle" markup="styled">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[PRESENTE.]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="39" y="170" width="490" height="200" uuid="b85e841a-d689-4742-8d68-cca933794adf"/>
-				<textElement textAlignment="Justified"/>
+				<textElement textAlignment="Justified" markup="styled"/>
 				<textFieldExpression><![CDATA[$F{acuerdo}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -1634,7 +1634,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 			</image>
 			<textField>
 				<reportElement x="102" y="450" width="346" height="20" uuid="7544b5b8-ee55-49a1-8781-e616ae8a6f3b"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center" markup="styled"/>
 				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
 			<staticText>

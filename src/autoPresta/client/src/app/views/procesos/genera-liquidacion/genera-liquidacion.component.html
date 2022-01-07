@@ -1,0 +1,316 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{_datos._componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{_datos._icono}}"></i> {{_datos._modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{_datos._componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+    <!-- Example Tab -->
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="header">
+            <h2>Genera Liquidacion</h2>
+          </div>
+          <div class="body">
+            <mat-tab-group>
+              <mat-tab label="Configuracion">
+                <br>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                      <button mat-raised-button color="primary" [mat-dialog-close]="1">Actualizar</button>
+                      <button mat-raised-button color="warn" tabindex="-1" (click)="addNew()">Crear</button>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                    <div class="example-button-row">
+                      <button mat-raised-button color="primary" [mat-dialog-close]="1">Agregar Subconcepto</button>
+                    </div>
+                  </div>
+                </div>
+                <div mat-dialog-content>
+                  <form class="register-form m-4" [formGroup]="_subconceptoForm" (ngSubmit)="submit">
+                    <div class="row">
+                      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Razon Social</mat-label>
+                          <mat-select formControlName="razonSocial">
+                            <mat-option *ngFor="let item of razonSocialCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+                          </mat-select>
+                          <!--mat-icon matSuffix>icon name</mat-icon-->
+                          <mat-error *ngIf="_subconceptoForm.get('razonSocial').hasError('required')">
+                            Razon Social es requerida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Subconcepto Cargo</mat-label>
+                          <mat-select formControlName="subconceptoCargo">
+                            <mat-option *ngFor="let item of subconceptoCargoCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+                          </mat-select>
+                          <!--mat-icon matSuffix>icon name</mat-icon-->
+                          <mat-error *ngIf="_subconceptoForm.get('subconceptoCargo').hasError('required')">
+                            Subconcepto Cargo es requerida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                        <mat-form-field class="example-full-width" appearance="outline">
+                          <mat-label>Subconcepto Abono</mat-label>
+                          <mat-select formControlName="subconceptoAbono">
+                            <mat-option *ngFor="let item of subconceptoAbonoCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+                          </mat-select>
+                          <!--mat-icon matSuffix>icon name</mat-icon-->
+                          <mat-error *ngIf="_subconceptoForm.get('subconceptoAbono').hasError('required')">
+                            Subconcepto Abono es requerida
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+                        <div class="example-button-row">
+                          <button mat-raised-button color="primary" [type]="submit" [disabled]="!_subconceptoForm.valid"
+                                  [mat-dialog-close]="1" (click)="save()">Guardar</button>
+                          <button mat-raised-button color="warn" (click)="ngOnInit()" tabindex="-1">Cancelar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+
+                <br>
+                <div class="card">
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Portafolio</th>
+                          <th>Subcincepto Cargo</th>
+                          <th>Subconcepto Abono</th>
+                          <th>Eliminar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let sub of subconceptos">
+                          <td>{{sub.portafolio}}</td>
+                          <td>{{sub.subconceptoCargo}}</td>
+                          <td>{{sub.subconceptoAbono}}</td>
+                          <td>
+                            <button mat-mini-fab color="primary" matTooltip="Eliminar Cabecera" (click)="deleteSC(sub)"><mat-icon class="col-white">delete</mat-icon></button>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Orden</th>
+                          <th>Nombre</th>
+                          <th>Chequera</th>
+                          <th>Subconcepto</th>
+                          <th>Habilitado</th>
+                          <th>Subir</th>
+                          <th>Bajar</th>
+                          <th>Acciones</th>
+                          <th>Reglas</th>
+                          <th>Habilitar/Deshabilitar</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr *ngFor="let row of rows">
+                          <td>{{row.orden}}</td>
+                          <td>{{row.nombre}}</td>
+                          <td>{{row.chequera}}</td>
+                          <td>{{row.subconcepto}}</td>
+                          <td>{{row.habilitado}}</td>
+                          <td><button mat-mini-fab color="primary" matTooltip="Subir"><mat-icon class="col-white">arrow_downward</mat-icon></button></td>
+                          <td><button mat-mini-fab color="primary" matTooltip="Bajar"><mat-icon class="col-white">arrow_upward</mat-icon></button></td>
+                          <td>
+                            <button mat-mini-fab color="primary" matTooltip="Eliminar Cabecera" (click)="deleteItem(row)"><mat-icon class="col-white">delete</mat-icon></button>
+                            <button mat-mini-fab color="primary" matTooltip="Editar Cabecera" (click)="editCall(row)"><mat-icon class="col-white">edit</mat-icon></button>
+                          </td>
+                          <td>
+                            <button mat-mini-fab color="primary" matTooltip="Agregar Reglas" (click)="addNewRule(row)"><mat-icon class="col-white">rule</mat-icon></button>
+                            <button mat-mini-fab color="primary" matTooltip="Mostrar Reglas" (click)="cargarLista(row)"><mat-icon class="col-white">view_list</mat-icon></button>
+                          </td>
+                          <td><button mat-mini-fab color="primary" matTooltip="HAbilitar/Deshabilitar"><mat-icon class="col-white">check_box</mat-icon></button></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+              </mat-tab>
+              <mat-tab label="Procesamiento">
+                <div class="row">
+                  <div class="col">
+                    <mat-bar-button [options]="generaLiquidacionButton" (btnClick)="consultar()">
+                    </mat-bar-button>
+                  </div>
+                </div>
+                <br>
+                <div class="card">
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Proceso Ejecutado</th>
+                          <th>Liquidaciones Generadas</th>
+                          <th>Liquidaciones no Generadas</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Proceso</th>
+                          <th>Mensajes</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+              <mat-tab label="Pendientes">
+
+                <div class="row">
+                  <div class="col">
+                    <mat-bar-button [options]="consultaButton" (btnClick)="consultar()">
+                    </mat-bar-button>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="header align-center">
+                    <h2> <strong>General</strong></h2>
+                  </div>
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Resultado</th>
+                          <th>Total</th>
+                          <th>Abonos</th>
+                          <th>Cargos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="header align-center">
+                    <h2> <strong>Por Fecha</strong></h2>
+                  </div>
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Resultado</th>
+                          <th>Total</th>
+                          <th>Abonos</th>
+                          <th>Cargos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <div class="card">
+                  <div class="header align-center">
+                    <h2> <strong>Por Extracto</strong></h2>
+                  </div>
+                  <div class="tableBody">
+                    <div class="table-responsive">
+                      <table class="table table-hover dashboard-task-infos align-right">
+                        <thead>
+                        <tr>
+                          <th>Resultado</th>
+                          <th>Total</th>
+                          <th>Abonos</th>
+                          <th>Cargos</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

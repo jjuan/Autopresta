@@ -17,6 +17,50 @@ class ComboController {
         respond data
     }
 
+    def comboController(String id){
+        String groupId = 'mx.saccsa.autopresta'
+//        log.error groupId+"."+id
+        Class c = Class.forName(groupId+"."+id.capitalize())
+        def data = c.list().collect{
+            [
+                    id:it?.id,
+                    descripcion: it?.descLabel
+            ]
+        }
+        respond data
+    }
+
+    def comboCuenta(String id, String banco) {
+        def cuentas
+        Banco bancoId = Banco.findById(banco as long)
+        if (id != '0' && banco != '0'){
+            Portafolios razonSocial = Portafolios.findById(id as Long);
+            cuentas = CuentasBancarias.findAllByRazonSocialAndBanco(razonSocial, bancoId)
+        } else if (id != '0' && banco == '0'){
+            Portafolios razonSocial = Portafolios.findById(id as Long);
+            cuentas = CuentasBancarias.findAllByRazonSocial(razonSocial)
+        }else if (id == '0' && banco != '0'){
+            cuentas = CuentasBancarias.findAllByBanco(bancoId)
+        }
+        respond cuentas.collect{
+            [
+                    id         : it.id,
+                    descripcion: it.alias,
+                    cuenta: it.cuenta
+            ]
+        }
+    }
+
+    def comboPortafolios(String id){
+        def data = Portafolios.list().collect{
+            [
+                    id:it?.cvePortafolio,
+                    descripcion: it?.descLabel
+            ]
+        }
+        respond data
+    }
+
     def comboSecurity(String id){
         String groupId = 'mx.saccsa.security'
 //        log.error groupId+"."+id
@@ -39,15 +83,15 @@ class ComboController {
         respond data
     }
 
-    def comboPortafolios(){
-        def data = Portafolios.list().collect{
-            [
-                    id:it.cvePortafolio,
-                    descripcion: it.getDescLabel()
-            ]
-        }
-        respond data
-    }
+//    def comboPortafolios(){
+//        def data = Portafolios.list().collect{
+//            [
+//                    id:it.cvePortafolio,
+//                    descripcion: it.getDescLabel()
+//            ]
+//        }
+//        respond data
+//    }
 
     def comboDivisas(){
         def data = Divisas.list().collect{

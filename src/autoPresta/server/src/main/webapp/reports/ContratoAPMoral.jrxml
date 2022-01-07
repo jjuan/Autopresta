@@ -427,7 +427,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO. 
+				<text><![CDATA[NO.
 CONTRATO
 ]]></text>
 			</staticText>
@@ -518,7 +518,7 @@ FIJO SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TASA DE 
+				<text><![CDATA[TASA DE
 INTERÉS 
 ANUAL FIJA
 ]]></text>
@@ -578,7 +578,7 @@ SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[MONTO 
+				<text><![CDATA[MONTO
 TOTAL A 
 PAGAR
 ]]></text>
@@ -849,7 +849,8 @@ BBVA]]></text>
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
+				<text><![CDATA[
+                    A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="133" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
@@ -988,7 +989,8 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
+				<text><![CDATA[
+                    EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="287" y="270" width="291" height="50" uuid="bb151052-6657-4491-88c6-272c2cf5a47d"/>
@@ -1303,21 +1305,21 @@ SOBRE AVALUO]]></text>
 		</band>
 		<band height="751">
 			<staticText>
-				<reportElement x="10" y="0" width="550" height="100" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
+				<reportElement x="10" y="0" width="550" height="110" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[ CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
+				<text><![CDATA[CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="105" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
+				<reportElement x="252" y="111" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[GLOSARIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="129" width="528" height="240" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
+				<reportElement x="30" y="135" width="528" height="272" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1332,21 +1334,21 @@ h) Refrendo: Es el acto mediante el cual “EL CONSUMIDOR” cumpliendo con el p
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="226" y="374" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
+				<reportElement x="226" y="408" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DECLARACIONES]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="39" y="401" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
+				<reportElement x="39" y="434" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[I.- Declara “EL PROVEEDOR”:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="421" width="528" height="301" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
+				<reportElement x="30" y="461" width="528" height="279" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12" isBold="false"/>
 				</textElement>
@@ -1402,7 +1404,7 @@ B) Reconocen que la información contenida en el presente contrato podrá ser co
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="24" width="528" height="136" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
+				<reportElement x="30" y="24" width="528" height="143" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1591,11 +1593,11 @@ de la Prenda, para lo cual “EL PROVEEDOR” dentro de dicho plazo, notificará
 ]]></text>
 			</staticText>
 		</band>
-		<band height="749">
+		<band height="751">
 			<staticText>
-				<reportElement x="26" y="2" width="535" height="738" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
+				<reportElement x="26" y="2" width="535" height="728" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="11"/>
 				</textElement>
 				<text><![CDATA[15.- DESEMPEÑO EXTEMPORÁNEO.- En el caso de que la Prenda no haya sido comercializada después de la “FECHA LÍMITE DE REFRENDO O DESEMPEÑO”, tal como se señala en la Carátula de este Contrato, “EL CONSUMIDOR” podrá recuperar la Prenda previo acuerdo con “EL PROVEEDOR” y pago del mutuo, de los intereses, almacenaje y las comisiones pactadas en el presente Contrato. Para tal efecto, “EL CONSUMIDOR” deberá solicitar por escrito a “EL PROVEEDOR” autorización para hacer el pago adeudado en un término no mayor a 3 (tres) días hábiles de la fecha límite de refrendo o desempeño. En caso de que “EL PROVEEDOR” no dé contestación a lo solicitado, se entenderá como negada dicha autorización.
 
@@ -1657,9 +1659,9 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Ciudad de México a _____de ________ de]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="191" y="90" width="208" height="20" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
-				<textElement>
-					<font isBold="true"/>
+				<reportElement x="1" y="90" width="570" height="20" forecolor="#E1563C" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
 			</staticText>
@@ -1722,7 +1724,8 @@ Testigo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="110" width="482" height="20" uuid="ccdab583-e9fb-4e7d-9400-e89ab5f8874f"/>
-				<text><![CDATA[Por medio de la presente envio los datos para pago vía electrónica y/o depósito bancario:]]></text>
+				<text><![CDATA[
+                    Por medio de la presente envio los datos para pago vía electrónica y/o depósito bancario:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="138" width="482" height="20" uuid="01beef30-b8fe-4762-b689-63242575ff1e"/>
@@ -1748,7 +1751,7 @@ Teléfono: (55) 7619 8801 ]]></text>
 				<textElement>
 					<font isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[cobranza@autopresta.com 
+				<text><![CDATA[cobranza@autopresta.com
 ]]></text>
 			</staticText>
 			<staticText>

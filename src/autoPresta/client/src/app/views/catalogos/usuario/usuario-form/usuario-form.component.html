@@ -1,0 +1,176 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 p-l-10 font-17">
+            {{dialogTitle}}</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="_usuarioForm" (ngSubmit)="submit">
+
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Folio</mat-label>
+            <input matInput formControlName="id" readonly>
+            <mat-icon matSuffix>turned_in_not</mat-icon>
+            <mat-error *ngIf="_usuarioForm.get('id').hasError('required')">
+              Folio es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Usuario</mat-label>
+            <input matInput formControlName="username">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('username').hasError('required')">
+              Usuario es requerido
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Apellido Paterno</mat-label>
+            <input matInput formControlName="apellidoPaterno">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('apellidoPaterno').hasError('required')">
+              Apellido Paterno es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Razon Social</mat-label>
+            <mat-select formControlName="razonSocial">
+              <mat-option *ngFor="let item of razonSocialCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('razonSocial').hasError('required')">
+              Razon Social es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Correo Electronico</mat-label>
+            <input matInput formControlName="mail">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('mail').hasError('required')">
+              Correo Electronico es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="hide = !hide">
+              {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('password').hasError('required')">
+              Contraseña es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('nombre').hasError('required')">
+              Nombre es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Apellido Materno</mat-label>
+            <input matInput formControlName="apellidoMaterno">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('apellidoMaterno').hasError('required')">
+              Apellido Materno es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <input matInput formControlName="puesto">
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('puesto').hasError('required')">
+              Cargo es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Desde</mat-label>
+            <input matInput [matDatepicker]="DatepickerFinal" name = "desde" formControlName="desde" >
+            <mat-datepicker-toggle matSuffix [for]="DatepickerFinal"></mat-datepicker-toggle>
+            <mat-datepicker #DatepickerFinal></mat-datepicker>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('desde').hasError('required')">
+              Desde es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Repetir Contraseña</mat-label>
+            <input matInput formControlName="password5" [type]="hide5 ? 'password' : 'text'" required>
+            <mat-icon matSuffix (click)="hide5 = !hide5">
+              {{hide5 ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('password5').hasError('required')">
+              Repetir Contraseña es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+          <div class="propic text-center">
+            <img src="{{'assets/images/avatars/256x256/'+_usuarioForm.get('avatar').value+'.png'}}" alt="">
+          </div>
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Avatar</mat-label>
+            <mat-select formControlName="avatar">
+              <mat-option *ngFor="let item of users" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('avatar').hasError('required')">
+              Avatar es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="example-full-width" appearance="outline" *ngIf="this.action !== 'Editar'">
+            <mat-label>Perfil</mat-label>
+            <mat-select formControlName="perfil">
+              <mat-option *ngFor="let item of perfillCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>domain</mat-icon-->
+            <mat-error *ngIf="_usuarioForm.get('perfil').hasError('required')">
+              Perfil es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+          <mat-slide-toggle formControlName="enabled">Habilitado</mat-slide-toggle>
+          <mat-slide-toggle formControlName="accountExpired">Cuenta expirada</mat-slide-toggle>
+          <mat-slide-toggle formControlName="accountLocked">Cuenta Bloqueada</mat-slide-toggle>
+          <mat-slide-toggle formControlName="passwordExpired">Contraseña expirada</mat-slide-toggle>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" [type]="submit" [disabled]="!_usuarioForm.valid"
+                    [mat-dialog-close]="1" (click)="confirmAdd()">Guardar</button>
+            <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

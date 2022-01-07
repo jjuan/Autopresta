@@ -127,6 +127,33 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
+      {
+        path: 'Catalogos/Cuentas-Bancarias',
+        title: 'Cuentas-Bancarias',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Usuarios',
+        title: 'Usuarios',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Bancos',
+        title: 'Bancos',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
       // {
       //   path: 'Catalogos/Proveedores',
       //   title: 'Proveedores',
@@ -165,25 +192,34 @@ export const ROUTES: RouteInfo[] = [
       },
     ]
   },
-  // {
-  //   path: '',
-  //   title: 'Procesos',
-  //   moduleName: 'Procesos',
-  //   icon: 'fas fa-desktop',
-  //   class: 'menu-toggle',
-  //   groupTitle: false,
-  //   submenu: [
-  //     {
-  //       path: 'Procesos/Contrato',
-  //       title: 'Contrato',
-  //       moduleName: 'Procesos',
-  //       icon: '',
-  //       class: 'ml-menu',
-  //       groupTitle: false,
-  //       submenu: []
-  //     },
-  //   ]
-  // },
+  {
+    path: '',
+    title: 'Procesos',
+    moduleName: 'Procesos',
+    icon: 'fas fa-desktop',
+    class: 'menu-toggle',
+    groupTitle: false,
+    submenu: [
+      // {
+      //   path: 'Procesos/Genera-Liquidacion',
+      //   title: 'Genera-Liquidacion',
+      //   moduleName: 'Procesos',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
+      {
+        path: 'Procesos/Importaciones',
+        title: 'Importaciones',
+        moduleName: 'Procesos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+    ]
+  },
   {
     path: '',
     title: 'Consultas',

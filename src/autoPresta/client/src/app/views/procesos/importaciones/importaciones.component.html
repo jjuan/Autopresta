@@ -1,0 +1,203 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{_datos._componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{_datos._icono}}"></i> {{_datos._modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{_datos._componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <form class="register-form" [formGroup]="_importaciones" (ngSubmit)="submit">
+      <div class="card">
+        <div class="body">
+          <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha Inicio</mat-label>
+                <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerInicial></mat-datepicker>
+                <!--mat-icon matSuffix>icon name</mat-icon-->
+                <mat-error *ngIf="_importaciones.get('fechaInicio').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Fecha Fin</mat-label>
+                <input matInput [matDatepicker]="DatepickerFinal" name="fechaFin" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerFinal"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerFinal></mat-datepicker>
+                <!--mat-icon matSuffix>icon name</mat-icon-->
+                <mat-error *ngIf="_importaciones.get('fechaFin').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+<!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Razon Social</mat-label>-->
+<!--                <mat-select formControlName="razonSocial" (selectionChange)="cargarCuentas($event.value)">-->
+<!--                  <mat-option *ngFor="let item of razonSocialCombo" [value]="item.id">{{item.descripcion}}</mat-option>-->
+<!--                </mat-select>-->
+<!--                &lt;!&ndash;mat-icon matSuffix>icon name</mat-icon&ndash;&gt;-->
+<!--                <mat-error *ngIf="_importaciones.get('razonSocial').hasError('required')">-->
+<!--                  Razon Social es requerida-->
+<!--                </mat-error>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+
+<!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">-->
+<!--              <mat-form-field class="example-full-width" appearance="outline">-->
+<!--                <mat-label>Alias</mat-label>-->
+<!--                <mat-select formControlName="alias" [disabled]="!cuentaCombo">-->
+<!--                  <mat-option *ngFor="let item of cuentaCombo" [value]="item.id">{{item.descripcion}}</mat-option>-->
+<!--                </mat-select>-->
+<!--                &lt;!&ndash;mat-icon matSuffix>icon name</mat-icon&ndash;&gt;-->
+<!--                <mat-error *ngIf="_importaciones.get('alias').hasError('required')">-->
+<!--                  Alias es requerida-->
+<!--                </mat-error>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mt-3">
+              <div class="example-button-row">
+                <button mat-raised-button color="primary" type="submit" [disabled]="!_importaciones.valid"
+                        [mat-dialog-close]="1" (click)="loadData()">
+                  <mat-icon class="col-white" matTooltip="Eliminar filas seleccionadas">search</mat-icon>
+                </button>
+              </div>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Archivo</mat-label>
+                <mat-select formControlName="archivo" [disabled]="!comboArchivos">
+                  <mat-option *ngFor="let item of comboArchivos" [value]="item.id">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <!--mat-icon matSuffix>icon name</mat-icon-->
+                <mat-error *ngIf="_importaciones.get('alias').hasError('required')">
+                  Alias es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mt-3">
+              <div class="example-button-row">
+                <button mat-raised-button color="primary"
+                        [mat-dialog-close]="1" (click)="loadData()" [disabled]="!comboArchivos">
+                  <mat-icon class="col-white" matTooltip="Eliminar filas seleccionadas">visibility</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+            <div class="responsive_table">
+              <div class="materialTableHeader">
+                <div class="row">
+
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown"><h2><strong>{{_datos._title}}</strong></h2></li>
+                      <li class="dropdown m-l-20">
+                        <label><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Buscar..." type="text" #filter class="browser-default search-field"
+                               aria-label="Search box">
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <!--                      <li><div class="icon-button-demo"><button mat-mini-fab color="primary" (click)="download()" matTooltip="Descargar Reporte"><mat-icon class="col-white">file_download</mat-icon></button></div></li>-->
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="upload()" matTooltip="Cargar extracto">
+                            <mat-icon class="col-white">file_upload</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+
+              <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                <ng-container matColumnDef="cuenta">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Cuenta
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" [ngClass]="'tbl-col-width-per-12'">
+                    {{row.cuenta}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-11'">Fecha
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" [ngClass]="'tbl-col-width-per-11'">
+                    {{row.fecha | date: 'dd-MM-yyyy'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="montoAbono">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Monto Abono
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" [ngClass]="'tbl-col-width-per-12'">
+                    {{row.montoAbono| number: '.2'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="montoCargo">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Monto Cargo
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" [ngClass]="'tbl-col-width-per-12'">
+                    {{row.montoCargo| number: '.2'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tipoMovimiento">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Tipo de Movimiento
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)" [ngClass]="'tbl-col-width-per-12'">
+                    {{row.tipoMovimiento}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="referencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Referencia
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row" (contextmenu)="onContextMenu($event, row)">
+                    {{row.referencia}}</mat-cell>
+                </ng-container>
+
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"
+                         [style.cursor]="'pointer'" matRipple>
+                </mat-row>
+              </mat-table>
+
+              <!-- context menu end -->
+
+              <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se
+                encontraron Resultados
+              </div>
+              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                             [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

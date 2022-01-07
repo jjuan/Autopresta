@@ -125,7 +125,9 @@ class ReporteService {
                     notasDescuentos                    : contrato.detalleDescuentos.toUpperCase(),
                     acuerdo                            : acuerdo(contrato),
                     anio                               : year.format(contrato.fechaContrato),
-                    nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+                    nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    acuerdoCoacreditado                : acuerdoCoacreditado(contrato),
+                    nombresCoacreditado                : contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
             ]
         } else {
             lista = [
@@ -228,6 +230,52 @@ class ReporteService {
         return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
     }
 
+    def fechaCorta(Date f) {
+        Calendar c = Calendar.getInstance()
+        String mes = ''
+        c.setTime(f)
+        Long month = c.get(Calendar.MONTH) + 1
+        switch (month) {
+            case 1:
+                mes = 'Enero'
+                break;
+            case 2:
+                mes = 'Febrero'
+                break;
+            case 3:
+                mes = 'Marzo'
+                break;
+            case 4:
+                mes = 'Abril'
+                break;
+            case 5:
+                mes = 'Mayo'
+                break;
+            case 6:
+                mes = 'Junio'
+                break;
+            case 7:
+                mes = 'Julio'
+                break;
+            case 8:
+                mes = 'Agosto'
+                break;
+            case 9:
+                mes = 'Septiembre'
+                break;
+            case 10:
+                mes = 'Octubre'
+                break;
+            case 11:
+                mes = 'Noviembre'
+                break;
+            case 12:
+                mes = 'Diciembre'
+                break;
+        }
+        return c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
+    }
+
     String contratoFolio(Contrato contrato) {
         String folio = contrato.numeroContrato
         if (contrato.contratoPrueba) {
@@ -267,6 +315,31 @@ class ReporteService {
                 "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
                 "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
                 "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
+    }
+
+    def acuerdoCoacreditado(Contrato contrato) {
+        String nombres = contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
+        String nombresTitular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+//        String documento = IdentificacionesOficiales.getNombreById(contrato.documentoOficialCoacreditado)
+//        String documentoValor = contrato.claveElectorCoacreditado
+
+//        return "EL SUSCRITO " + nombres.toUpperCase() + " IDENTIFICÁNDOME CON " + documento.toUpperCase() + " " + documentoValor.toUpperCase() +
+//                " SEÑALANDO DOMICILIO EN " + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
+//                "VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y " +
+//                "GARANTÍA PRENDARIA) DE LA MARCA " + contrato.marca.nombre.toUpperCase() + " SUB MARCA " + contrato.modelo.nombre.toUpperCase() + " AÑO " + contrato.anio + " COLOR " + contrato.color + " NÚMERO DE SERIE " +
+//                contrato.numeroVin + " MOTOR " + contrato.numeroDeMotor + " PLACAS " + contrato.placas + " A SU PROPIETARIO AP SERVICIOS FINANCIEROS, S.A. DE " +
+//                "C.V. A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
+//                "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
+//                "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
+//                "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
+        return "Se extiende el presente para informar que, YO <style isBold=\"true\">" + nombres.toUpperCase() + "</style> en la fecha en que se emite " +
+                "este documento, acepto y reconozco el compromiso y total responsabilidad sobre el contrato <style isBold=\"true\">" +
+                contratoFolio(contrato) + "</style> firmado el día <style isBold=\"true\">" + fechaCorta(contrato.fechaContrato) + "</style> a nombre de <style isBold=\"true\">" + nombresTitular + "</style>, " +
+                "para realizar los pagos correspondientes de las mensualidades del préstamo, incluyendo los intereses y " +
+                "en su caso los cargos moratorios, comisiones e I.V.A. bajo los términos de dicho contrato. " +
+                "Todo lo anterior, aplicando las responsabilidades y obligaciones del contrato antes mencionado, y se pueda" +
+                " ejercer de acuerdo con las cláusulas establecidas y sin deslindar de responsabilidad alguna al titular" +
+                " original de dicho contrato. "
     }
 
     def contratosFirmados(Date fechaInicio, Date fechaFin) {

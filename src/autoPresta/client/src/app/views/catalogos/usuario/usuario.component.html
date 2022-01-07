@@ -1,0 +1,53 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{_datos._title}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{_datos._icono}}"></i> {{_datos._modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{_datos._title}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><div class="row">
+  <div class="p-10">
+    <button mat-raised-button color="primary" (click)="addNew()">Crear {{_datos._title}}</button>
+  </div>
+</div>
+      <div class="row">
+        <div class="col-md-4" *ngFor="let user of rows">
+          <div class="card border-apply">
+            <div class="m-b-20">
+              <div class="contact-grid">
+                <div class="profile-header bg-dark">
+                  <div class="user-name">{{user.username}}</div>
+                  <div class="name-center">{{user.role}}</div>
+                </div>
+                <img src="assets/images/avatars/256x256/{{user.avatar}}.png" class="user-img" alt="">
+                <p><b>{{user.nombre}} {{user.apellidoPaterno}} {{user.apellidoMaterno}}</b></p>
+                <p>{{user.razonSocial}}</p>
+                <p>{{user.mail}}</p>
+                <div class="profile-userbuttons">
+                  <button mat-icon-button color="primary" matTooltip="Editar {{_datos._title}}: {{user.username}}" (click)="editCall(user)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="warn" matTooltip="Eliminar {{_datos._title}}: {{user.username}}" (click)="deleteItem(user)">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <button *ngIf="user.accountLocked" mat-icon-button color="accent" matTooltip="Desbloquear {{_datos._title}}: {{user.username}}">
+                    <mat-icon>lock_open</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</section>

@@ -14,6 +14,128 @@ export interface Automoviles {
   modelo: Modelos;
 }
 
+export class _subconceptos {
+  id: number;
+  subconcepto: string;
+  descripcion: string;
+  concepto: string;
+  razonSocial: _razonSocial;
+  divisa: Divisas;
+  formaLiquidacion: _formaLiquidacion;
+  categoria: _categorias;
+}
+export class _operacion {
+  // campos generales
+  operacion: string;
+  folio: string;
+  razonSocial: string;
+  monto: string;
+  fecha: string;
+  estatus: string;
+  concepto: string;
+
+  // intercompanias
+  tipoDeOperacion?: string;
+  lineaDeCredito?: string;
+  montoLinea?: string;
+  saldoInsoluto?: string;
+  montoDisponible?: string;
+
+  // encomun traspasos y pago a proveedores
+  cuentaCargo?: string;
+  beneficiario?: string;
+  cuentaAbono?: string;
+  tipoTransaccion?: string;
+
+  // proveedores
+  bancoCliente?: string;
+  monedaCliente?: string;
+  alias?: string;
+  bancoProveedor?: string;
+  convenio?: string;
+  referencia?: string;
+
+  // traspasos
+  bancoEmisor?: string;
+  monedaEmisor?: string;
+  aliasEmisor?: string;
+  bancoReceptor?: string;
+  aliasReceptor?: string;
+}
+
+export class _genLiq_ext_head {
+  banco: _bancos;
+  chequerasCasa: _cuentaBancaria;
+  configuracion: string;
+  habilitado: Boolean;
+  nombre: string;
+  orden: number;
+  subconcepto: _subconceptos;
+  tipoArchivo: string;
+  cargoAbono: string;
+}
+
+export class _genLiq_ext_det {
+  campoLiq: string;
+  genLiqExtHead: _genLiq_ext_head;
+  operador: string;
+  orden: number;
+  valor: string;
+}
+
+export  class _categorias {
+  id: number;
+  descripcion: string;
+}
+
+export class _formaLiquidacion {
+  id: number;
+  bancoCasa: _bancos;
+  chequeraCasa: _cuentaBancaria;
+  descripcion: string;
+  divisa: Divisas;
+  estatusAplicacion: string ;
+  formaLiquidacion: string;
+  montoMax: number;
+  montoMin: number;
+  multibanco: Boolean;
+  numeroCheque: Boolean;
+  pBanco: Boolean;
+  pBuscaConcentradora: Boolean;
+  pChequera: Boolean;
+  pDireccion: Boolean;
+  preguntaImpresion: string;
+  tipoAplicacion: string;
+  tipoImpresion: string;
+  tipoMovimiento: string;
+}
+export class _puestos {
+  id: number;
+  puesto?: string;
+  razonSocial?: _razonSocial;
+}
+
+export class _usuario {
+  id: number;
+  username: string;
+  password: string;
+  password5: string;
+  nombre: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
+  mail: string;
+  cargo: _puestos;
+  avatar: string;
+  razonSocial: _razonSocial;
+  desde: Date;
+  nuevo: boolean;
+  enabled: boolean;
+  accountExpired: boolean;
+  accountLocked: boolean;
+  passwordExpired: boolean;
+  role: string;
+}
+
 export interface Clientes {
   id: number;
   nombres: string;
@@ -42,6 +164,51 @@ export interface Clientes {
 export interface Combo {
   id: string;
   descripcion: string;
+}
+
+export class _importaciones {
+  id: number;
+  cuenta: string;
+  fecha: Date;
+  montoAbono: number;
+  montoCargo: number;
+  tipoMovimiento: string;
+  referencia: string;
+}
+
+export class _bancos {
+  id: number;
+  descripcionCorta: string;
+  descripcionLarga: string;
+  direccion_clc: string;
+  direccion_con: string;
+  direccion_dis: string;
+  pais: string;
+}
+
+export class _instruccionesDePago {
+  id: number;
+  // proveedor: _proveedores;
+  banco: _bancos;
+  cuenta: string;
+  clabe: string;
+  moneda: Divisas;
+  convenio: string;
+  referencia: string;
+  concepto: string;
+}
+
+export class _cuentaBancaria {
+  id: number;
+  razonSocial: _razonSocial;
+  banco: _bancos;
+  alias: string;
+  cuenta: string;
+  clabe: string;
+  moneda: Divisas;
+  fechaDeApertura: Date;
+  estatus: string;
+  fechaDeCancelacion: Date;
 }
 
 export interface Divisas {
@@ -227,6 +394,25 @@ numeroContrato: string;
   tipoContrato: string;
   referencia: string;
   clabe: string;
+}
+
+export class _razonSocial {
+  id: number;
+  estatus: boolean;
+  nombre: string;
+  rfc: string;
+
+  calle?: string;
+  noExterior?: string;
+  noInterior?: string;
+  colonia?: string;
+  codigoPostal?: string;
+  localidad?: string;
+  municipio?: string;
+  estado?: string;
+  pais?: string;
+  telefono?: string;
+  email?: string;
 }
 
 export interface direccion {

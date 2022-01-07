@@ -33,10 +33,26 @@ import { CalificacionClienteComponent } from './calificacion-cliente/calificacio
 import { CalificacionClienteFormComponent } from './calificacion-cliente/calificacion-cliente-form/calificacion-cliente-form.component';
 import { IdentificacionesOficialesComponent } from './identificaciones-oficiales/identificaciones-oficiales.component';
 import { IdentificacionesOficialesFormComponent } from './identificaciones-oficiales/identificaciones-oficiales-form/identificaciones-oficiales-form.component';
+import {CuentasBancariasComponent} from "./cuentas-bancarias/cuentas-bancarias.component";
+import {CuentasBancariasFormComponent} from "./cuentas-bancarias/cuentas-bancarias-form/cuentas-bancarias-form.component";
+import {CuentasBancariasDeleteComponent} from "./cuentas-bancarias/cuentas-bancarias-delete/cuentas-bancarias-delete.component";
+import {UsuarioComponent} from "./usuario/usuario.component";
+import {UsuarioFormComponent} from "./usuario/usuario-form/usuario-form.component";
+import {UsuarioDeleteComponent} from "./usuario/usuario-delete/usuario-delete.component";
+import {BancosComponent} from "./bancos/bancos.component";
+import {BancosFormComponent} from "./bancos/bancos-form/bancos-form.component";
+import {BancosDeleteComponent} from "./bancos/bancos-delete/bancos-delete.component";
 
 
 @NgModule({
-  declarations: [ ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent, ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent, AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent, FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent, DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent, CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, IdentificacionesOficialesFormComponent],
+  declarations: [ ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent,
+    ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent,
+    AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent,
+    FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent,
+    DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent,
+    CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, BancosComponent,
+    IdentificacionesOficialesFormComponent, CuentasBancariasComponent, CuentasBancariasFormComponent, BancosFormComponent,
+    CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent],
   imports: [
     CommonModule, SharedModule,
     CatalogosRoutingModule

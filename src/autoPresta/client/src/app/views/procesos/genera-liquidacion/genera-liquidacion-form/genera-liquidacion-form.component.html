@@ -1,0 +1,135 @@
+<div class="addContainer">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 p-l-10 font-17">
+            {{dialogTitle}}</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form class="register-form m-4" [formGroup]="_pagoProveedoresForm" (ngSubmit)="submit">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>banco</mat-label>
+            <mat-select formControlName="banco" (selectionChange)="cargarCuentas($event.value)">
+              <mat-option *ngFor="let item of bancosCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('banco').hasError('required')">
+              banco es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>chequerasCasa</mat-label>
+            <mat-select formControlName="chequerasCasa">
+              <mat-option *ngFor="let item of cuentaCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('chequerasCasa').hasError('required')">
+              chequerasCasa es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>configuracion</mat-label>
+            <mat-select formControlName="configuracion">
+              <mat-option *ngFor="let item of [{id: 'Carga BBVA'}, {id: 'Carga Banorte'}, {id: 'Carga Citibanamex'}]" [value]="item.id">{{item.id}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('configuracion').hasError('required')">
+              configuracion es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>cargoAbono</mat-label>
+            <mat-select formControlName="cargoAbono">
+              <mat-option *ngFor="let item of [{id: 'A', descripcion: 'Abono'}, {id: 'C', descripcion: 'Cargo'}]" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('cargoAbono').hasError('required')">
+              cargoAbono es requerido
+
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>nombre</mat-label>
+            <input matInput formControlName="nombre">
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('nombre').hasError('required')">
+              nombre es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>orden</mat-label>
+            <input matInput formControlName="orden">
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('orden').hasError('required')">
+              orden es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>subconcepto</mat-label>
+            <mat-select formControlName="subconcepto">
+              <mat-option *ngFor="let item of subconceptoCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('subconcepto').hasError('required')">
+              subconcepto es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>tipoArchivo</mat-label>
+            <mat-select formControlName="tipoArchivo">
+              <mat-option *ngFor="let item of [{id: 'T0', descripcion: 'T0'}, {id: 'T+1', descripcion: 'T+1'}]" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <!--mat-icon matSuffix>icon name</mat-icon-->
+            <mat-error *ngIf="_pagoProveedoresForm.get('tipoArchivo').hasError('required')">
+              tipoArchivo es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-slide-toggle formControlName="habilitado">Habilitado</mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row">
+            <button mat-raised-button color="primary" [type]="submit" [disabled]="!_pagoProveedoresForm.valid"
+                    [mat-dialog-close]="1" (click)="confirmAdd()">Guardar</button>
+            <button mat-raised-button color="warn" (click)="onNoClick()" tabindex="-1">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

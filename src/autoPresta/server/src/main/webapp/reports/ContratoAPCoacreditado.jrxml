@@ -61,6 +61,8 @@
 	<field name="acuerdo" class="java.lang.String"/>
 	<field name="anio" class="java.lang.String"/>
 	<field name="nombres" class="java.lang.String"/>
+	<field name="acuerdoCoacreditado" class="java.lang.String"/>
+	<field name="nombresCoacreditado" class="java.lang.String"/>
 	<detail>
 		<band height="344" splitType="Immediate">
 			<subreport>
@@ -432,7 +434,7 @@ correo electrónico: contacto@autopresta.com y EL CONSUMIDOR:]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NO. 
+				<text><![CDATA[NO.
 CONTRATO
 ]]></text>
 			</staticText>
@@ -523,7 +525,7 @@ FIJO SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[TASA DE 
+				<text><![CDATA[TASA DE
 INTERÉS 
 ANUAL FIJA
 ]]></text>
@@ -583,7 +585,7 @@ SIN IVA]]></text>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[MONTO 
+				<text><![CDATA[MONTO
 TOTAL A 
 PAGAR
 ]]></text>
@@ -984,7 +986,8 @@ BBVA]]></text>
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
+				<text><![CDATA[
+                    A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="132" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
@@ -1123,7 +1126,8 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textElement textAlignment="Left">
 					<font size="6" isBold="true"/>
 				</textElement>
-				<text><![CDATA[EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
+				<text><![CDATA[
+                    EL DEUDOR recoge en el acto y su entera satisfacción la prenda descrita en la presente caratula, por lo que otorga a AP SERVICIOS FINANCIEROS S.A de C.V., el finiquito más amplio que en derecho corresponda, liberándolo de cualquier responsabilidad jurídica que hubiere sugerido o pudiese surgir en relación al contrato y a la prenda. 	Fecha____________________]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="-1" y="316" width="159" height="21" uuid="b9c5040e-599b-43b0-bcc7-2dd1dff89cdb"/>
@@ -1452,21 +1456,21 @@ CONSUMIDOR]]></text>
 		</band>
 		<band height="751">
 			<staticText>
-				<reportElement x="10" y="0" width="550" height="100" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
+				<reportElement x="10" y="0" width="550" height="107" uuid="5582b843-c4f2-46b6-ba03-62ab31fba942"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[ CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
+				<text><![CDATA[CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="252" y="105" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
+				<reportElement x="252" y="107" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[GLOSARIO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="129" width="528" height="240" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
+				<reportElement x="30" y="129" width="528" height="279" uuid="58e3278f-1b97-4592-bacc-4037871df18b"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1481,21 +1485,21 @@ h) Refrendo: Es el acto mediante el cual “EL CONSUMIDOR” cumpliendo con el p
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="226" y="374" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
+				<reportElement x="226" y="409" width="136" height="20" uuid="8cbba5f5-cbcd-4872-9df3-b013cabb4f27"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[DECLARACIONES]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="39" y="401" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
+				<reportElement x="39" y="434" width="207" height="20" uuid="085b12e5-9011-4a6f-88e8-0d7d1b2d9be4"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
 				<text><![CDATA[I.- Declara “EL PROVEEDOR”:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="421" width="528" height="301" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
+				<reportElement x="30" y="461" width="528" height="279" uuid="ffb21303-a044-4304-9fa1-f82990b53842"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12" isBold="false"/>
 				</textElement>
@@ -1551,7 +1555,7 @@ B) Reconocen que la información contenida en el presente contrato podrá ser co
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="30" y="24" width="528" height="136" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
+				<reportElement x="30" y="24" width="528" height="143" uuid="620dbcb9-91e7-43b7-b77b-afd53dc24a12"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
 					<font size="12"/>
 				</textElement>
@@ -1740,11 +1744,11 @@ de la Prenda, para lo cual “EL PROVEEDOR” dentro de dicho plazo, notificará
 ]]></text>
 			</staticText>
 		</band>
-		<band height="749">
+		<band height="751">
 			<staticText>
-				<reportElement x="26" y="2" width="535" height="738" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
+				<reportElement x="26" y="2" width="535" height="728" uuid="84b03fda-6fe0-4621-8f29-77bc4b83e6cf"/>
 				<textElement textAlignment="Justified" verticalAlignment="Middle">
-					<font size="12"/>
+					<font size="11"/>
 				</textElement>
 				<text><![CDATA[15.- DESEMPEÑO EXTEMPORÁNEO.- En el caso de que la Prenda no haya sido comercializada después de la “FECHA LÍMITE DE REFRENDO O DESEMPEÑO”, tal como se señala en la Carátula de este Contrato, “EL CONSUMIDOR” podrá recuperar la Prenda previo acuerdo con “EL PROVEEDOR” y pago del mutuo, de los intereses, almacenaje y las comisiones pactadas en el presente Contrato. Para tal efecto, “EL CONSUMIDOR” deberá solicitar por escrito a “EL PROVEEDOR” autorización para hacer el pago adeudado en un término no mayor a 3 (tres) días hábiles de la fecha límite de refrendo o desempeño. En caso de que “EL PROVEEDOR” no dé contestación a lo solicitado, se entenderá como negada dicha autorización.
 
@@ -1801,14 +1805,9 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 		</band>
 		<band height="721">
 			<staticText>
-				<reportElement x="287" y="20" width="195" height="20" uuid="8d711bba-bc3f-483c-8104-84e98c525fa9"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Ciudad de México a _____de ________ de]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="191" y="90" width="208" height="20" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
-				<textElement>
-					<font isBold="true"/>
+				<reportElement x="-1" y="90" width="571" height="20" forecolor="#E1563C" uuid="7d44a6e1-ccff-4df5-b706-1dd08695f260"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
 			</staticText>
@@ -1851,37 +1850,112 @@ Testigo]]></text>
 Testigo]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="482" y="20" width="89" height="20" uuid="e42d1177-4eca-4d5a-b23b-0d938ed114b9"/>
-				<textElement verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA[$F{anio}]]></textFieldExpression>
+				<reportElement x="290" y="20" width="280" height="20" uuid="83a09bd0-16fe-42fa-b293-a36e57800f06"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="453">
+		<band height="751">
 			<image>
-				<reportElement x="152" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29"/>
+				<reportElement x="14" y="0" width="269" height="54" uuid="a3e7c26f-da31-48f2-a2c4-677241156865"/>
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
+			<staticText>
+				<reportElement x="330" y="470" width="200" height="20" uuid="4572ff53-d3d3-47d6-94aa-85b6f8d41907"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[____________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-1" y="90" width="571" height="20" forecolor="#E1563C" uuid="a28495f4-7cc1-45b7-9229-87a0b430ad97"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="39" y="140" width="100" height="20" uuid="cd8bdd90-83e1-4e31-9e8f-83329056656c"/>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRESENTE.]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="79" y="82" width="382" height="20" uuid="da4df75f-4098-4510-bd27-67a008674c8b"/>
+				<reportElement x="39" y="169" width="490" height="200" uuid="e5102f10-b03c-44c9-a679-9c245fc5ed67"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acuerdoCoacreditado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="490" width="200" height="20" uuid="fb88cf75-9550-4468-af15-cc1c50fb339d"/>
+				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="82" width="79" height="20" uuid="f69a7f45-6528-4889-9f6d-e1e6be452c17"/>
-				<text><![CDATA[Estimado Cliente: ]]></text>
+				<reportElement x="39" y="470" width="200" height="20" uuid="77460193-6f75-4fd6-9701-66fed4fadb09"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[____________________________________________]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="110" width="482" height="20" uuid="ccdab583-e9fb-4e7d-9400-e89ab5f8874f"/>
-				<text><![CDATA[Por medio de la presente envio los datos para pago vía electrónica y/o depósito bancario:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="138" width="482" height="20" uuid="01beef30-b8fe-4762-b689-63242575ff1e"/>
-				<textElement>
-					<font isBold="true" isItalic="false"/>
+			<textField>
+				<reportElement x="39" y="490" width="200" height="20" uuid="90014ef8-55a4-4eee-94a4-9a093b31f18f"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nombresCoacreditado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="18" width="280" height="20" uuid="dee2fb73-ae3d-443d-84bc-0a119ad0d401"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="10" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Razón social: AP SERVICIOS FINANCIEROS SA DE CV]]></text>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="730" width="571" height="14" uuid="961a2f92-8d2d-4bea-a3a1-e9e51440287b"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[(55) 7619 8801]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="166" width="287" height="70" uuid="db586ef9-361e-43ad-ae9a-cbc41596b87d"/>
+				<reportElement x="3" y="716" width="571" height="14" forecolor="#E1563C" uuid="3fb85560-b680-4ba5-90f7-7ada90804b32"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="702" width="571" height="14" uuid="cb8404f1-74ad-4ff5-9a3b-17d60f7b4b67"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Lunes a viernes de 9:00am a 6:00pm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="660" width="571" height="14" forecolor="#E1563C" uuid="b4bf7b07-6a59-4bfb-9542-f2a527a42c09"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="688" width="571" height="14" forecolor="#E1563C" uuid="f1fd82f8-329e-4672-a33e-6e79a58c36e8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Horario de atención:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="674" width="571" height="14" uuid="52a98c8a-bd35-4178-af79-4a52643ed2d8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Calle Lava 232, Jardines del Pedregal, Del. Álvaro Obregón, Ciudad de México, CDMX]]></text>
+			</staticText>
+		</band>
+		<band height="751">
+			<staticText>
+				<reportElement x="3" y="166" width="287" height="70" uuid="db586ef9-361e-43ad-ae9a-cbc41596b87d"/>
 				<text><![CDATA[Calle: Lava No. 232
 Colonia: Jardines del Pedregal 	CP: 01900
 Delegación: Álvaro Obregon 	CDMX
@@ -1889,40 +1963,64 @@ RFC: ASF180724JE2
 Teléfono: (55) 7619 8801 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="244" width="164" height="20" uuid="ff1ca9d1-1e40-400e-ab73-44ac8351c3b2"/>
-				<text><![CDATA[Correo para confirmar transferencia: ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="164" y="244" width="123" height="20" forecolor="#051AFF" uuid="11e77d00-6ebe-445d-a82b-b90ad6a57240"/>
+				<reportElement mode="Opaque" x="167" y="244" width="123" height="20" forecolor="#051AFF" uuid="11e77d00-6ebe-445d-a82b-b90ad6a57240"/>
 				<textElement>
 					<font isUnderline="true"/>
 				</textElement>
-				<text><![CDATA[cobranza@autopresta.com 
+				<text><![CDATA[cobranza@autopresta.com
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="272" width="287" height="20" uuid="345fe9fc-e0d9-472e-83cb-d5d5b37f2822"/>
+				<reportElement x="3" y="272" width="287" height="20" uuid="345fe9fc-e0d9-472e-83cb-d5d5b37f2822"/>
 				<text><![CDATA[CLABE INTERBANCARIA: 01 21 80 00 11 22 94 17 63 ]]></text>
 			</staticText>
+			<image>
+				<reportElement x="155" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement x="0" y="300" width="287" height="20" uuid="ba7d21db-915a-4745-9b24-e2001b7b8879"/>
-				<text><![CDATA[BANCO: BANCOMER BBVA ]]></text>
+				<reportElement x="3" y="110" width="482" height="20" uuid="ccdab583-e9fb-4e7d-9400-e89ab5f8874f"/>
+				<text><![CDATA[
+                    Por medio de la presente envio los datos para pago vía electrónica y/o depósito bancario:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="133" y="384" width="100" height="20" uuid="e5cd1a83-7d84-4aef-a54a-22f00bae5416"/>
+				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="138" width="482" height="20" uuid="01beef30-b8fe-4762-b689-63242575ff1e"/>
+				<textElement>
+					<font isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Razón social: AP SERVICIOS FINANCIEROS SA DE CV]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="328" width="287" height="20" uuid="8bd4dbde-d84b-4684-a4fc-0019bdec93ff"/>
-				<text><![CDATA[CUENTA: 0112294176 ]]></text>
+				<reportElement x="3" y="82" width="79" height="20" uuid="f69a7f45-6528-4889-9f6d-e1e6be452c17"/>
+				<text><![CDATA[Estimado Cliente: ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="356" width="287" height="20" uuid="46e45a40-00a0-47ec-9448-08c3dd16f7eb"/>
+				<reportElement x="3" y="356" width="287" height="20" uuid="46e45a40-00a0-47ec-9448-08c3dd16f7eb"/>
 				<text><![CDATA[NUMERO DEL CONVENIO: 001552287 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="384" width="130" height="20" uuid="d24f99fb-879e-4498-9d08-c4db9638f3e1"/>
+				<reportElement x="3" y="328" width="287" height="20" uuid="8bd4dbde-d84b-4684-a4fc-0019bdec93ff"/>
+				<text><![CDATA[CUENTA: 0112294176 ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="384" width="130" height="20" uuid="d24f99fb-879e-4498-9d08-c4db9638f3e1"/>
 				<text><![CDATA[REFERENCIA BANCARIA:]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="3" y="244" width="164" height="20" uuid="ff1ca9d1-1e40-400e-ab73-44ac8351c3b2"/>
+				<text><![CDATA[Correo para confirmar transferencia: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="300" width="287" height="20" uuid="ba7d21db-915a-4745-9b24-e2001b7b8879"/>
+				<text><![CDATA[BANCO: BANCOMER BBVA ]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="130" y="384" width="100" height="20" uuid="e5cd1a83-7d84-4aef-a54a-22f00bae5416"/>
-				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
+				<reportElement x="82" y="82" width="382" height="20" uuid="da4df75f-4098-4510-bd27-67a008674c8b"/>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
