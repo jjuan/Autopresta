@@ -306,12 +306,12 @@ class ReporteService {
         String documentoValor = contrato.claveElector
         Direccion direccion = Direccion.findByContratoAndPrincipal(contrato, true)
 
-        return "EL SUSCRITO " + nombres.toUpperCase() + " IDENTIFICÁNDOME CON " + documento.toUpperCase() + " " + documentoValor.toUpperCase() +
-                " SEÑALANDO DOMICILIO EN " + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
+        return "EL SUSCRITO <style isBold=\"true\">" + nombres.toUpperCase() + "</style> IDENTIFICÁNDOME CON " + documento.toUpperCase() + " <style isBold=\"true\">" + documentoValor.toUpperCase() +
+                "</style> SEÑALANDO DOMICILIO EN <style isBold=\"true\">" + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + "</style> POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
                 "VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y " +
-                "GARANTÍA PRENDARIA) DE LA MARCA " + contrato.marca.nombre.toUpperCase() + " SUB MARCA " + contrato.modelo.nombre.toUpperCase() + " AÑO " + contrato.anio + " COLOR " + contrato.color + " NÚMERO DE SERIE " +
-                contrato.numeroVin + " MOTOR " + contrato.numeroDeMotor + " PLACAS " + contrato.placas + " A SU PROPIETARIO AP SERVICIOS FINANCIEROS, S.A. DE " +
-                "C.V. A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
+                "GARANTÍA PRENDARIA) DE LA MARCA <style isBold=\"true\">" + contrato.marca.nombre.toUpperCase() + "</style> SUB MARCA <style isBold=\"true\">" + contrato.modelo.nombre.toUpperCase() + "</style> AÑO <style isBold=\"true\">" + contrato.anio + "</style> COLOR <style isBold=\"true\">" + contrato.color + "</style> NÚMERO DE SERIE <style isBold=\"true\">" +
+                contrato.numeroVin + "</style> MOTOR <style isBold=\"true\">" + contrato.numeroDeMotor + "</style> PLACAS <style isBold=\"true\">" + contrato.placas + "</style> A SU PROPIETARIO <style isBold=\"true\" isUnderline=\"true\">AP SERVICIOS FINANCIEROS, S.A. DE " +
+                "C.V.</style> A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
                 "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
                 "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
                 "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
