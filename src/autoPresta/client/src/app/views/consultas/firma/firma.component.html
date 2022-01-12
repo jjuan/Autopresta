@@ -1,0 +1,35 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{datos.componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{datos.icono}}"></i> {{datos.modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{datos.componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+<div class="firma-digital--body">
+  <canvas #firmaDigital width="500" height="160" style="touch-action: none "></canvas>
+</div>
+<div class="row">
+  <div class="col-6">
+    <button class="btn btn-block btn-danger" (click)="limpiarFirma()">Borrar firma</button>
+    <button class="btn btn-block btn-warning" (click)="deshacer()">Deshacer</button>
+    <button class="btn btn-block btn-info" (click)="cambiarColor()">Cambiar color</button>
+  </div>
+  <div class="col-6">
+    <button class="btn btn-block btn-success" (click)="guardarPNG()">PNG</button>
+    <button class="btn btn-block btn-primary" (click)="guardarJPG()">JPG</button>
+    <button class="btn btn-block btn-secondary" (click)="guardarSVG()">SVG</button>
+  </div>
+</div>
+  </div>
+</section>

@@ -59,7 +59,7 @@ class ReporteService {
                     calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                   : dir.interior != null ? dir.interior : '',
                     colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                 : dir.cp != null ? dir.cp : '',
+                    codigoPostal                 : dir.cp != null ? cpFormato(dir.cp) : '',
                     alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
                     noContrato                   : contratoFolio(contrato),
                     montoPrestamo                : contrato.montoTransferencia,
@@ -81,7 +81,11 @@ class ReporteService {
                     notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
                     acuerdo                      : acuerdo(contrato),
                     anio                         : year.format(contrato.fechaContrato),
-                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    pagoAnticipado               : pagoAnticipado(contrato.tipoContrato.duracion),
+                    firmaLiquidacion             : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    acuerdoLiquidacion           : solicitudLiquidacion(contrato),
+                    duracion                     : contrato.tipoContrato.duracion.toString()
             ]
         } else if (contrato.nombresCoacreditado != null && contrato.regimenFiscal.clave != 'PM') {
             lista = [
@@ -103,7 +107,7 @@ class ReporteService {
                     calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                         : dir.interior != null ? dir.interior : '',
                     colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                       : dir.cp != null ? dir.cp : '',
+                    codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
                     alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
                     noContrato                         : contratoFolio(contrato),
                     montoPrestamo                      : contrato.montoTransferencia,
@@ -126,6 +130,10 @@ class ReporteService {
                     acuerdo                            : acuerdo(contrato),
                     anio                               : year.format(contrato.fechaContrato),
                     nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    pagoAnticipado                     : pagoAnticipado(contrato.tipoContrato.duracion),
+                    firmaLiquidacion                   : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    acuerdoLiquidacion                 : solicitudLiquidacion(contrato),
+                    duracion                           : contrato.tipoContrato.duracion.toString(),
                     acuerdoCoacreditado                : acuerdoCoacreditado(contrato),
                     nombresCoacreditado                : contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
             ]
@@ -142,7 +150,7 @@ class ReporteService {
                     calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
                     noInterior                   : dir.interior != null ? dir.interior : '',
                     colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                 : dir.cp != null ? dir.cp : '',
+                    codigoPostal                 : dir.cp != null ? cpFormato(dir.cp) : '',
                     alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
                     noContrato                   : contratoFolio(contrato),
                     montoPrestamo                : contrato.montoTransferencia,
@@ -164,7 +172,11 @@ class ReporteService {
                     notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
                     acuerdo                      : acuerdo(contrato),
                     anio                         : year.format(contrato.fechaContrato),
-                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    pagoAnticipado               : pagoAnticipado(contrato.tipoContrato.duracion),
+                    firmaLiquidacion             : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                    acuerdoLiquidacion           : solicitudLiquidacion(contrato),
+                    duracion                     : contrato.tipoContrato.duracion.toString()
             ]
         }
 
@@ -186,94 +198,20 @@ class ReporteService {
 
     def fecha(Date f) {
         Calendar c = Calendar.getInstance()
-        String mes = ''
         c.setTime(f)
-        Long month = c.get(Calendar.MONTH) + 1
-        switch (month) {
-            case 1:
-                mes = 'Enero'
-                break;
-            case 2:
-                mes = 'Febrero'
-                break;
-            case 3:
-                mes = 'Marzo'
-                break;
-            case 4:
-                mes = 'Abril'
-                break;
-            case 5:
-                mes = 'Mayo'
-                break;
-            case 6:
-                mes = 'Junio'
-                break;
-            case 7:
-                mes = 'Julio'
-                break;
-            case 8:
-                mes = 'Agosto'
-                break;
-            case 9:
-                mes = 'Septiembre'
-                break;
-            case 10:
-                mes = 'Octubre'
-                break;
-            case 11:
-                mes = 'Noviembre'
-                break;
-            case 12:
-                mes = 'Diciembre'
-                break;
-        }
-        return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
+        def meses = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + meses[c.get(Calendar.MONTH)] + ' de ' + c.get(Calendar.YEAR)
     }
 
     def fechaCorta(Date f) {
         Calendar c = Calendar.getInstance()
-        String mes = ''
         c.setTime(f)
-        Long month = c.get(Calendar.MONTH) + 1
-        switch (month) {
-            case 1:
-                mes = 'Enero'
-                break;
-            case 2:
-                mes = 'Febrero'
-                break;
-            case 3:
-                mes = 'Marzo'
-                break;
-            case 4:
-                mes = 'Abril'
-                break;
-            case 5:
-                mes = 'Mayo'
-                break;
-            case 6:
-                mes = 'Junio'
-                break;
-            case 7:
-                mes = 'Julio'
-                break;
-            case 8:
-                mes = 'Agosto'
-                break;
-            case 9:
-                mes = 'Septiembre'
-                break;
-            case 10:
-                mes = 'Octubre'
-                break;
-            case 11:
-                mes = 'Noviembre'
-                break;
-            case 12:
-                mes = 'Diciembre'
-                break;
-        }
-        return c.get(Calendar.DAY_OF_MONTH) + ' de ' + mes + ' de ' + c.get(Calendar.YEAR)
+        def meses = [
+                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
+                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        return c.get(Calendar.DAY_OF_MONTH) + ' de ' + meses[c.get(Calendar.MONTH)] + ' de ' + c.get(Calendar.YEAR)
     }
 
     String contratoFolio(Contrato contrato) {
@@ -306,40 +244,40 @@ class ReporteService {
         String documentoValor = contrato.claveElector
         Direccion direccion = Direccion.findByContratoAndPrincipal(contrato, true)
 
-        return "EL SUSCRITO <style isBold=\"true\">" + nombres.toUpperCase() + "</style> IDENTIFICÁNDOME CON " + documento.toUpperCase() + " <style isBold=\"true\">" + documentoValor.toUpperCase() +
-                "</style> SEÑALANDO DOMICILIO EN <style isBold=\"true\">" + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + "</style> POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
-                "VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y " +
-                "GARANTÍA PRENDARIA) DE LA MARCA <style isBold=\"true\">" + contrato.marca.nombre.toUpperCase() + "</style> SUB MARCA <style isBold=\"true\">" + contrato.modelo.nombre.toUpperCase() + "</style> AÑO <style isBold=\"true\">" + contrato.anio + "</style> COLOR <style isBold=\"true\">" + contrato.color + "</style> NÚMERO DE SERIE <style isBold=\"true\">" +
-                contrato.numeroVin + "</style> MOTOR <style isBold=\"true\">" + contrato.numeroDeMotor + "</style> PLACAS <style isBold=\"true\">" + contrato.placas + "</style> A SU PROPIETARIO <style isBold=\"true\" isUnderline=\"true\">AP SERVICIOS FINANCIEROS, S.A. DE " +
-                "C.V.</style> A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
-                "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
-                "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
-                "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
+        return "EL SUSCRITO " + formatoTextoReporte(nombres.toUpperCase(), 'n') + " IDENTIFICÁNDOME CON " +
+                documento.toUpperCase() + " " + formatoTextoReporte(documentoValor.toUpperCase(), 'n') +
+                " SEÑALANDO DOMICILIO EN " + formatoTextoReporte(direccion.direccionPrincipal.toUpperCase() + " " +
+                direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + cpFormato(direccion.cp) +
+                ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase(), 'n') +
+                " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y VOLUNTARIA DEL VEHÍCULO" +
+                " QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y GARANTÍA PRENDARIA) DE LA " +
+                "MARCA " + formatoTextoReporte(contrato.marca.nombre.toUpperCase(), 'n') + " SUB MARCA " +
+                formatoTextoReporte(contrato.modelo.nombre.toUpperCase(), 'n') + " AÑO " +
+                formatoTextoReporte(contrato.anio, 'n') + " COLOR " +
+                formatoTextoReporte(contrato.color, 'n') + " NÚMERO DE SERIE " +
+                formatoTextoReporte(contrato.numeroVin, 'n') + " MOTOR " +
+                formatoTextoReporte(contrato.numeroDeMotor, 'n') + " PLACAS " +
+                formatoTextoReporte(contrato.placas, 'n') + " A SU PROPIETARIO " +
+                formatoTextoReporte("AP SERVICIOS FINANCIEROS, S.A. DE C.V.", 'ns') +
+                " A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, OTORGANDO PLENA" +
+                " POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" + "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR " +
+                "CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL" +
+                " SUSCRITO DURANTE EL TIEMPO DE USO."
     }
 
     def acuerdoCoacreditado(Contrato contrato) {
         String nombres = contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
         String nombresTitular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
-//        String documento = IdentificacionesOficiales.getNombreById(contrato.documentoOficialCoacreditado)
-//        String documentoValor = contrato.claveElectorCoacreditado
 
-//        return "EL SUSCRITO " + nombres.toUpperCase() + " IDENTIFICÁNDOME CON " + documento.toUpperCase() + " " + documentoValor.toUpperCase() +
-//                " SEÑALANDO DOMICILIO EN " + direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + direccion.cp + ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase() + " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y " +
-//                "VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y " +
-//                "GARANTÍA PRENDARIA) DE LA MARCA " + contrato.marca.nombre.toUpperCase() + " SUB MARCA " + contrato.modelo.nombre.toUpperCase() + " AÑO " + contrato.anio + " COLOR " + contrato.color + " NÚMERO DE SERIE " +
-//                contrato.numeroVin + " MOTOR " + contrato.numeroDeMotor + " PLACAS " + contrato.placas + " A SU PROPIETARIO AP SERVICIOS FINANCIEROS, S.A. DE " +
-//                "C.V. A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, " +
-//                "OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" +
-//                "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA " +
-//                "DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL SUSCRITO DURANTE EL TIEMPO DE USO."
-        return "Se extiende el presente para informar que, YO <style isBold=\"true\">" + nombres.toUpperCase() + "</style> en la fecha en que se emite " +
-                "este documento, acepto y reconozco el compromiso y total responsabilidad sobre el contrato <style isBold=\"true\">" +
-                contratoFolio(contrato) + "</style> firmado el día <style isBold=\"true\">" + fechaCorta(contrato.fechaContrato) + "</style> a nombre de <style isBold=\"true\">" + nombresTitular + "</style>, " +
-                "para realizar los pagos correspondientes de las mensualidades del préstamo, incluyendo los intereses y " +
-                "en su caso los cargos moratorios, comisiones e I.V.A. bajo los términos de dicho contrato. " +
-                "Todo lo anterior, aplicando las responsabilidades y obligaciones del contrato antes mencionado, y se pueda" +
-                " ejercer de acuerdo con las cláusulas establecidas y sin deslindar de responsabilidad alguna al titular" +
-                " original de dicho contrato. "
+        return "Se extiende el presente para informar que, YO " + formatoTextoReporte(nombres.toUpperCase(), 'n') +
+                " en la fecha en que se emite este documento, acepto y reconozco el compromiso y total responsabilidad" +
+                " sobre el contrato " + formatoTextoReporte(contratoFolio(contrato), 'n') + " firmado el día " +
+                formatoTextoReporte(fechaCorta(contrato.fechaContrato), 'n') + " a nombre de " +
+                formatoTextoReporte(nombresTitular, 'n') + ", para realizar los pagos correspondientes de " +
+                "las mensualidades del préstamo, incluyendo los intereses y en su caso los cargos moratorios, " +
+                "comisiones e I.V.A. bajo los términos de dicho contrato. Todo lo anterior, aplicando las " +
+                "responsabilidades y obligaciones del contrato antes mencionado, y se pueda ejercer de acuerdo con las" +
+                " cláusulas establecidas y sin deslindar de responsabilidad alguna al titular original de dicho contrato. "
     }
 
     def contratosFirmados(Date fechaInicio, Date fechaFin) {
@@ -357,7 +295,6 @@ class ReporteService {
     }
 
     def pagosRealizados(Date fechaInicio, Date fechaFin) {
-//        ContratoDetalle contratoDetalle = ContratoDetalle.findAllByFecha()
         def lista = ContratoDetalle.findAllByFechaBetween(fechaInicio, fechaFin).collect({
             [
                     parcialidad: it.parcialidad,
@@ -374,20 +311,112 @@ class ReporteService {
             ]
         })
 
-//        def name = contratoDetalle.contrato.nombres + ' ' + contratoDetalle.contrato.primerApellido + ' ' + contratoDetalle.contrato.segundoApellido
-//
-//        def datos = [
-//                parcialidad:contratoDetalle.parcialidad,
-//                iva:contratoDetalle.iva,
-//                fecha:contratoDetalle.fecha,
-//                saldoFinal: contratoDetalle.saldoFinal,
-//                subtotal: contratoDetalle.subtotal,
-//                capital: contratoDetalle.capital,
-//                monitoreo: contratoDetalle.monitoreo,
-//                contrato: name,
-//                gps: contratoDetalle.gps,
-//                interes: contratoDetalle.interes
-//        ]
         return lista
+    }
+
+    def cpFormato(Long cp) {
+        String codigoPostal
+        String cpArray = cp.toString()
+        if (cpArray.length() == 4) {
+            codigoPostal = '0' + cp.toString()
+        } else {
+            codigoPostal = cp.toString()
+        }
+        return codigoPostal
+    }
+
+    def pagoAnticipado(Long duracion) {
+        String meses = ""
+        switch (duracion) {
+            case 3:
+                meses = "tres"
+                break
+            case 6:
+                meses = "seis"
+                break
+            case 12:
+                meses = "doce"
+                break
+        }
+        return "en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, habiendo" +
+                " cumplido el pazo de los " + meses + " meses , y si avisa con 45 días naturales de anticipación, se libera" +
+                " a <style isBold=\"true\">“EL CONSUMIDOR”</style> de las penalizaciones del préstamo incluyendo los" +
+                " intereses y en su caso los cargos moratorios, Comisiones e I.V.A., si avisa con 30 días naturales " +
+                "de anticipación, se le aplica a <style isBold=\"true\">“EL CONSUMIDOR”</style> una penalización de " +
+                "una mensualidad del préstamo incluyendo los intereses y en su caso los cargos  oratorios, " +
+                "Comisiones e I.V.A., y si avisa con 15 días naturales de anticipación, se le aplica a <style " +
+                "isBold=\"true\">“EL CONSUMIDOR”</style>” una penalización de una mensualidad y media del préstamo " +
+                "incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., y en caso de no dar" +
+                " aviso anticipado, se le aplica a <style isBold=\"true\">“EL CONSUMIDOR”</style> la penalización de " +
+                "dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos moratorios, " +
+                "Comisiones e I.V.A. en cuyo caso <style isBold=\"true\">“EL CONSUMIDOR”</style> deberá presentarse " +
+                "en el establecimiento efectuado el pago se procederá a la devolución de la Prenda en el acto. En " +
+                "caso de que <style isBold=\"true\">“EL CONSUMIDOR”</style> no cumpla con el pago anticipado en el " +
+                "plazo establecido de los " + duracion + " meses, se extenderá en automático el plazo del pago anticipado a la " +
+                "mensualidad subsecuente a la fecha del aviso anticipado de 45 días naturales.\n" + "\n" +
+                "<style isBold=\"true\">“EL CONSUMIDOR”</style> podrá realizar pagos anticipados, siempre y cuando se" +
+                " encuentre al corriente de sus pagos y haya cumplido el plazo de los " + meses + " meses, por lo que" +
+                " los pagos anticipados se aplicarán al saldo insoluto principal. <style isBold=\"true\">“EL " +
+                "CONSUMIDOR”</style> deberá avisar por escrito 45 días naturales a <style isBold=\"true\">“EL " +
+                "PROVEEDOR”</style> su deseo de realizar el 50% de aportación a su capital, por lo que <style " +
+                "isBold=\"true\">“EL PROVEEDOR”</style> deberá aplicar dicho pago anticipado al saldo insoluto."
+    }
+
+    def solicitudLiquidacion(Contrato contrato) {
+        String texto
+        String nombres = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+        ContratoDetalle contratoDetalle = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
+        if (contrato.razonesSociales != null) {
+            texto = "Por medio del presente documento, YO " + formatoTextoReporte(nombres, 'n') + " en " +
+                    "representación legal de " + formatoTextoReporte(contrato.razonesSociales.descLabel, 'n') +
+                    " en la fecha en que se emite este documento, solicito a " + formatoTextoReporte("AP SERVICIOS" +
+                    " FINANCIEROS S.A. DE C.V.", 'n') + " el término del contrato de aumento de capital " +
+                    formatoTextoReporte(contratoFolio(contrato), 'n') + " celebrado el " +
+                    formatoTextoReporte(fecha(contrato.fechaContrato), 'n') + ", y conforme a las cláusulas " +
+                    "que se especifican en el mismo, acepto y reconozco realizar el pago total de mi adeudo el día " +
+                    formatoTextoReporte(fecha(contratoDetalle.fecha), 'n') + " como fecha límite de pago " + verificarHabil(contrato) + "de" +
+                    " acuerdo al calendario de pagos especificado en la carátula del contrato antes mencionado. \nDe " +
+                    "no ser así, me comprometo a pagar el 10% del adeudo total por cada día de atraso.\n\n" +
+                    formatoTextoReporte("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE LIQUIDACIÓN DEL" +
+                            " ADEUDO ENCUENTREN CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE INCUMPLIR" +
+                            " CON LAS FECHAS ESTIPULADAS", 'n')
+        } else {
+            texto = "Por medio del presente documento, YO " + formatoTextoReporte(nombres, 'n') + " en la" +
+                    " fecha en que se emite este documento, solicito a " +
+                    formatoTextoReporte("AP SERVICIOS FINANCIEROS S.A. DE C.V.", 'n') + " el término del " +
+                    "contrato de aumento de capital " + formatoTextoReporte(contratoFolio(contrato), 'n') +
+                    " celebrado el " + formatoTextoReporte(fecha(contrato.fechaContrato), 'n') + ", y " +
+                    "conforme a las cláusulas que se especifican en el mismo, acepto y reconozco realizar el pago " +
+                    "total de mi adeudo el día " + formatoTextoReporte(fecha(contratoDetalle.fecha), 'n') +
+                    " como fecha límite de pago " + verificarHabil(contrato) + "de acuerdo al calendario de pagos especificado en la carátula del " +
+                    "contrato antes mencionado. \nDe no ser así, me comprometo a pagar el 10% del adeudo total por " +
+                    "cada día de atraso.\n\n" + formatoTextoReporte("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE LIQUIDACIÓN " +
+                    "DEL ADEUDO ENCUENTREN CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE INCUMPLIR CON" +
+                    " LAS FECHAS ESTIPULADAS\n", 'n')
+        }
+        return texto
+    }
+
+    def formatoTextoReporte(String texto, String tipoFormato) {
+        String formato = "<style "
+        switch (tipoFormato) {
+            case 'n':
+                formato = formato + "isBold=\"true\">"
+                break
+            case 's':
+                formato = formato + "isUnderline=\"true\">"
+                break
+            case 'ns':
+                formato = formato + "isBold=\"true\" isUnderline=\"true\">"
+                break
+        }
+        return formato + texto + "</style>"
+    }
+
+    def verificarHabil(Contrato contrato) {
+        SimpleDateFormat dia = new SimpleDateFormat('dd')
+        def fechaContrato = dia.format(contrato.fechaContrato)
+        def fechaLiquidacion = dia.format(ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString()).fecha)
+        return fechaContrato == fechaLiquidacion ? '' : '(al tratarse de un dia inhábil) '
     }
 }

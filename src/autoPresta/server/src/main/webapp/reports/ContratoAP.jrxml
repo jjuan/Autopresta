@@ -54,6 +54,10 @@
 	<field name="acuerdo" class="java.lang.String"/>
 	<field name="anio" class="java.lang.String"/>
 	<field name="nombres" class="java.lang.String"/>
+	<field name="pagoAnticipado" class="java.lang.String"/>
+	<field name="firmaLiquidacion" class="java.lang.String"/>
+	<field name="acuerdoLiquidacion" class="java.lang.String"/>
+	<field name="duracion" class="java.lang.String"/>
 	<detail>
 		<band height="325" splitType="Immediate">
 			<subreport>
@@ -1799,9 +1803,9 @@ Cuando la situación así lo amerite, <style isBold="true">“EL PROVEEDOR”</s
 					<font fontName="Arial" size="12"/>
 					<paragraph lineSpacingSize="0.75"/>
 				</textElement>
-				<text><![CDATA[<style isBold="true">5.- DEFENSA DE LA PRENDA.-</style> Si <style isBold="true">“EL PROVEEDOR”</style> fuere perturbado en la posesión de la Prenda, por causas imputables a <style isBold="true">“EL CONSUMIDOR”</style>, avisará por escrito a este último, en un plazo que no exceda de tres días naturales para que lleve a cabo las acciones legales pertinentes; si éste no cumpliere con esta obligación será responsable de todos los daños y perjuicios causados debidamente comprobados.
+				<text><![CDATA[<style isBold="true">5.- DEFENSA DE LA PRENDA.-</style> Si <style isBold="true">“EL PROVEEDOR”</style> fuere perturbado en la posesión de la Prenda, por causas imputables a <style isBold="true">“EL CONSUMIDOR”</style>, avisará por escrito a este último, en un plazo que no exceda de tres días naturales para que lleve a cabo las acciones legales pertinentes; si éste no cumpliere con esta obligación será responsable de todos los daños y perjuicios causados debidamente <style isBold="true">comprobados</style>.
 
-<style isBold="true">6.- REPOSICIÓN DE LA PRENDA.-</style> Si en el cumplimiento de mandato legítimo de autoridad competente, <style isBold="true">“EL PROVEEDOR”</style> fuere desposeído de la Prenda, <style isBold="true">“EL CONSUMIDOR”</style> le entregará a su entera satisfacción otra prenda equivalente en peso, calidad, contenido, modelo, marca y valor, dentro de los 10 días naturales siguientes a la notificación que por escrito haga <style isBold="true">“EL PROVEEDOR”</style>. En caso de omisión por parte de <style isBold="true">“EL CONSUMIDOR”</style> a la mencionada notificación, desde este momento LAS PARTES acuerdan que sus derechos quedan a salvo para que éste último los haga valer en la forma y vía que considere convenientes.
+<style isBold="true">6.- REPOSICIÓN DE LA PRENDA.-</style> Si en el cumplimiento de mandato legítimo de autoridad competente, <style isBold="true">“EL PROVEEDOR”</style> fuere desposeído de la Prenda, <style isBold="true">“EL CONSUMIDOR”</style> le entregará a su entera satisfacción otra prenda equivalente en peso, calidad, contenido, modelo, marca y valor, dentro de los 10 días naturales siguientes a la notificación que por escrito haga <style isBold="true">“EL PROVEEDOR”</style>. En caso de omisión por parte de <style isBold="true">“EL CONSUMIDOR”</style> a la mencionada notificación, desde este momento <style isBold="true">LAS PARTES</style> acuerdan que sus derechos quedan a salvo para que éste último los haga valer en la forma y vía que considere convenientes.
 
 <style isBold="true">7.- PROCEDIMIENTO PARA LA RESTITUCIÓN DE LA PRENDA PARA EL CASO DE PÉRDIDA O DETERIORO.-</style> En caso de pérdida, robo, extravío o deterioro de la Prenda, <style isBold="true">“EL PROVEEDOR”</style> deberá contar con una garantía suficiente que le permita resarcir el siniestro, debiendo seguir el siguiente procedimiento:
 ]]></text>
@@ -1984,22 +1988,15 @@ El monto del préstamo se realizará en efectivo, o en su caso, de conformidad a
 				</textElement>
 				<text><![CDATA[<style isBold="true">13.- COMERCIALIZACIÓN DE LA PRENDA.-</style> Para el caso de que <style isBold="true">“EL CONSUMIDOR”</style> no cumpliera oportunamente con la obligación de restituir el mutuo, los intereses, almacenaje y demás comisiones pactadas en el Contrato, en este acto se otorga expresamente a favor de <style isBold="true">“EL PROVEEDOR”</style> un mandato aplicado a actos concretos de comercio, en los términos del artículo 273 del Código de Comercio, para que a título de comisionista en su nombre y representación y sin necesidad de agotar trámite alguno, efectúe la venta de la Prenda, tomando como referencia el valor del avalúo estipulado en la cláusula cuarta del presente Contrato, sirviendo como notificación de la fecha de inicio de su comercialización la indicada en la Carátula de este Contrato. Para los efectos de la exención a que se refiere el artículo 9 fracción IV, de la Ley de Impuesto al Valor Agregado, <style isBold="true">“EL CONSUMIDOR”</style> reconoce explícitamente ser el enajenante de la Prenda, que ésta es usada y no tener la condición jurídica de empresa.
 
-<style isBold="true">14.- APLICACIÓN DEL PRODUCTO DE LA VENTA Y REMANENTE.- “EL CONSUMIDOR”</style> autoriza a <style isBold="true">“EL PROVEEDOR”</style> a
-
-
-aplicar el producto de la venta de la Prenda, al pago de la obligación principal, a los intereses, almacenaje, y comisión por comercialización. Si al realizar la venta o el remate de la Prenda hubiera algún remanente, el mismo será puesto a disposición de <style isBold="true">“EL CONSUMIDOR”</style>, a partir del tercer día siguiente a la comercialización de la Prenda, para lo cual <style isBold="true">“EL PROVEEDOR”</style> dentro de dicho plazo, notificará por teléfono, correo electrónico, correo certificado y/o listas colocadas en el establecimiento respecto de la venta de la Prenda. El remanente no cobrado en un lapso de doce meses calendario, contados a partir de la fecha de comercialización de la Prenda quedará a favor de <style isBold="true">“EL PROVEEDOR”</style>.
+<style isBold="true">14.- APLICACIÓN DEL PRODUCTO DE LA VENTA Y REMANENTE.- “EL CONSUMIDOR”</style> autoriza a <style isBold="true">“EL PROVEEDOR”</style> a aplicar el producto de la venta de la Prenda, al pago de la obligación principal, a los intereses, almacenaje, y comisión por comercialización. Si al realizar la venta o el remate de la Prenda hubiera algún remanente, el mismo será puesto a disposición de <style isBold="true">“EL CONSUMIDOR”</style>, a partir del tercer día siguiente a la comercialización de la Prenda, para lo cual <style isBold="true">“EL PROVEEDOR”</style> dentro de dicho plazo, notificará por teléfono, correo electrónico, correo certificado y/o listas colocadas en el establecimiento respecto de la venta de la Prenda. El remanente no cobrado en un lapso de doce meses calendario, contados a partir de la fecha de comercialización de la Prenda quedará a favor de <style isBold="true">“EL PROVEEDOR”</style>.
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="50" y="0" width="514" height="410" uuid="0b8ac282-6676-4030-afdb-9007e63be3e8"/>
+				<reportElement x="50" y="316" width="514" height="94" uuid="0b8ac282-6676-4030-afdb-9007e63be3e8"/>
 				<textElement textAlignment="Justified" markup="styled">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, habiendo cumplido el pazo de los seis meses , y si avisa con 45 días naturales de anticipación, se libera a <style isBold="true">“EL CONSUMIDOR”</style> de las penalizaciones del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., si avisa con 30 días naturales de anticipación, se le aplica a <style isBold="true">“EL CONSUMIDOR”</style> una penalización de una mensualidad del préstamo incluyendo los intereses y en su caso los cargos  oratorios, Comisiones e I.V.A., y si avisa con 15 días naturales de anticipación, se le aplica a <style isBold="true">“EL CONSUMIDOR”</style>” una penalización de una mensualidad y media del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., y en caso de no dar aviso anticipado, se le aplica a <style isBold="true">“EL CONSUMIDOR”</style> la penalización de dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A. en cuyo caso <style isBold="true">“EL CONSUMIDOR”</style> deberá presentarse en el establecimiento efectuado el pago se procederá a la devolución de la Prenda en el acto. En caso de que <style isBold="true">“EL CONSUMIDOR”</style> no cumpla con el pago anticipado en el plazo establecido de los 6 meses, se extenderá en automático el plazo del pago anticipado a la mensualidad subsecuente a la fecha del aviso anticipado de 45 días naturales.
-
-<style isBold="true">“EL CONSUMIDOR”</style> podrá realizar pagos anticipados, siempre y cuando se encuentre al corriente de sus pagos y haya cumplido el plazo de los seis meses, por lo que los pagos anticipados se aplicarán al saldo insoluto principal. <style isBold="true">“EL CONSUMIDOR”</style> deberá avisar por escrito 45 días naturales a <style isBold="true">“EL PROVEEDOR”</style> su deseo de realizar el 50% de aportación a su capital, por lo que <style isBold="true">“EL PROVEEDOR”</style> deberá aplicar dicho pago anticipado al saldo insoluto.
-
-<style isBold="true">Incumplimiento del Pago.-</style> El incumplimiento de “ EL CONSUMIDOR” en cualquiera de las obligaciones a su cargo, motivará el vencimiento anticipado de ambos documentos, sin necesidad de declaración judicial, autorizando <style isBold="true">“EL CONSUMIDOR”</style>, que <style isBold="true">“EL PROVEEDOR”</style>, realice las gestiones necesarias para el aseguramiento del vehículo otorgado en garantía, las cuales podrán ser: requiera la entrega del vehículo, inmovilice el vehículo, realice un requerimiento judicial, haga una denuncia de hechos o recupere el vehículo.]]></text>
+				<text><![CDATA[<style isBold="true">Incumplimiento del Pago.-</style> El incumplimiento de <style isBold="true">“ EL CONSUMIDOR”</style> en cualquiera de las obligaciones a su cargo, motivará el vencimiento anticipado de ambos documentos, sin necesidad de declaración judicial, autorizando <style isBold="true">“EL CONSUMIDOR”</style>, que <style isBold="true">“EL PROVEEDOR”</style>, realice las gestiones necesarias para el aseguramiento del vehículo otorgado en garantía, las cuales podrán ser: requiera la entrega del vehículo, inmovilice el vehículo, realice un requerimiento judicial, haga una denuncia de hechos o recupere el vehículo.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="27" y="316" width="23" height="17" uuid="87cb8162-5d63-420a-908e-7cf709359b5d"/>
@@ -2015,6 +2012,13 @@ aplicar el producto de la venta de la Prenda, al pago de la obligación principa
 				</textElement>
 				<text><![CDATA[c)]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="50" y="0" width="514" height="316" uuid="730a58be-5d44-400b-8a8c-5adf14ab00ba"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pagoAnticipado}]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="751">
 			<staticText>
@@ -2026,20 +2030,20 @@ aplicar el producto de la venta de la Prenda, al pago de la obligación principa
 
 <style isBold="true">16.- REFRENDO.- “EL CONSUMIDOR”</style> podrá refrendar el Contrato, antes o en la fecha de su terminación, con el consentimiento de <style isBold="true">“EL PROVEEDOR”</style>, siempre y cuando <style isBold="true">“EL CONSUMIDOR”</style> cubra el pago de los intereses, almacenaje y comisiones efectivamente devengadas al momento del refrendo. Al efectuarse el refrendo se firmará un nuevo Contrato con intereses, almacenaje y comisiones aplicables al momento del refrendo.
 
-<style isBold="true">17.- PENA CONVENCIONAL.-</style> En caso de incumplimiento de cualquiera de las obligaciones a cargo de <style isBold="true">“EL PROVEEDOR”</style>, éste pagará a <style isBold="true">“EL CONSUMIDOR”</style> una pena convencional del 20 % (veinte por ciento) sobre el monto del avalúo, por lo que <style isBold="true">“EL CONSUMIDOR”</style> deberá solicitar el monto de la Pena por escrito en el domicilio de <style isBold="true">“EL PROVEEDOR”</style>, indicando dicho incumplimiento. Por lo anterior, <style isBold="true">“EL PROVEEDOR”</style> deberá hacer el pago por la Pena convencional en un lapso no mayor a 10 (diez) días naturales contados a partir de la recepción de la solicitud efectuada por <style isBold="true">“EL CONSUMIDOR”</style>.
+<style isBold="true">17.- PENA CONVENCIONAL.-</style> En caso de incumplimiento de cualquiera de las obligaciones a cargo de <style isBold="true">“EL PROVEEDOR”</style>, éste pagará a <style isBold="true">“EL CONSUMIDOR”</style> una pena convencional del 20 % (veinte por ciento) sobre el monto del avalúo, por lo que <style isBold="true">“EL CONSUMIDOR”</style> deberá solicitar el monto de la Pena por escrito en el domicilio de <style isBold="true">“EL PROVEEDOR”</style>, indicando dicho incumplimiento.
+Por lo anterior, <style isBold="true">“EL PROVEEDOR”</style> deberá hacer el pago por la Pena convencional en un lapso no mayor a 10 (diez) días naturales contados a partir de la recepción de la solicitud efectuada por <style isBold="true">“EL CONSUMIDOR”</style>.
 
 <style isBold="true">18.- NULIDAD.-</style> De haber alguna causal de nulidad determinada por autoridad competente, la misma afectará solamente a la cláusula en la que específicamente se hubiere incurrido en el vicio señalado.
 
 <style isBold="true">19.- LEGITIMIDAD.-</style> Para el ejercicio de los derechos o el cumplimiento de los deberes a su cargo, <style isBold="true">“EL CONSUMIDOR”</style> o en su defecto su Cotitular, beneficiario o representante legal, invariablemente deberán presentar a <style isBold="true">“EL PROVEEDOR”</style> este contrato, así como una identificación expedida por autoridad competente, en el establecimiento donde suscribió el contrato, en los días y horas de servicio indicados en la Carátula de este contrato. En caso de extravío del Contrato <style isBold="true">“EL CONSUMIDOR”</style> podrá tramitar su reposición solicitándolo por escrito y cubriendo el importe señalado en la Carátula del mismo.
 
-<style isBold="true">20.- CONFIDENCIALIDAD.-</style> Ambas partes convienen en que el acuerdo de voluntades que suscriben tiene el carácter de confidencial, por lo que <style isBold="true">“EL PROVEEDOR”</style> se obliga a mantener los datos relativos a <style isBold="true">“EL CONSUMIDOR”</style> con tal carácter y únicamente podrá ser revelada la información contenida en el mismo por mandamiento de autoridad competente; de igual forma se obliga a no ceder o transmitir a terceros con fines
-mercadotécnicos o publicitarios los datos e información proporcionada por <style isBold="true">“EL CONSUMIDOR”</style> con motivo del Contrato, ni enviar publicidad sobre los bienes y servicios, salvo que conste la autorización expresa de <style isBold="true">“EL CONSUMIDOR”</style> en la Carátula y al final del presente Contrato.
+<style isBold="true">20.- CONFIDENCIALIDAD.-</style> Ambas partes convienen en que el acuerdo de voluntades que suscriben tiene el carácter de confidencial, por lo que <style isBold="true">“EL PROVEEDOR”</style> se obliga a mantener los datos relativos a <style isBold="true">“EL CONSUMIDOR”</style> con tal carácter y únicamente podrá ser revelada la información contenida en el mismo por mandamiento de autoridad competente; de igual forma se obliga a no ceder o transmitir a terceros con fines mercadotécnicos o publicitarios los datos e información proporcionada por <style isBold="true">“EL CONSUMIDOR”</style> con motivo del Contrato, ni enviar publicidad sobre los bienes y servicios, salvo que conste la autorización expresa de <style isBold="true">“EL CONSUMIDOR”</style> en la Carátula y al final del presente Contrato.
 
 <style isBold="true">21.- NOTIFICACIONES.- LAS PARTES</style> acuerdan que cualquier notificación o aviso con motivo del Contrato, deberá realizarse en los domicilios que se hayan establecido por las mismas, los cuales se indican en la Carátula; de igual manera, <style isBold="true">LAS PARTES</style> podrán efectuar avisos o comunicados mediante, teléfono, correo electrónico, correo certificado y/o listas colocadas en el establecimiento.
 
 <style isBold="true">22.- DÍAS INHÁBILES.-</style> Todas las obligaciones contenidas en este Contrato, cuyo vencimiento tenga lugar en un día inhábil, deberá considerarse que el vencimiento de las mismas, será el día hábil siguiente.
 
-<style isBold="true">23.- DERECHO APLICABLE.- EN CASO DE PERSONA MORAL:</style> Este Contrato se rige por lo dispuesto en la Ley Federal de Protección al Consumidor y su Reglamento; la Norma Oficial Mexicana NOM-179-SCFI-2016 Servicios de mutuo con interés y garantía prendaria; Disposiciones de carácter general a que se refiere la Ley para la Transparencia
+
 ]]></text>
 			</staticText>
 		</band>
@@ -2049,17 +2053,16 @@ mercadotécnicos o publicitarios los datos e información proporcionada por <sty
 				<textElement textAlignment="Justified" verticalAlignment="Top" markup="styled">
 					<font fontName="Arial" size="12"/>
 				</textElement>
-				<text><![CDATA[y Ordenamiento de los Servicios Financieros e n materia de Contratos de Adhesión, Publicidad, Estados de Cuenta y Comprobantes de Operación emitidos por las Entidades Comerciales y demás ordenamientos aplicables.
+				<text><![CDATA[<style isBold="true">23.- DERECHO APLICABLE.-
+EN CASO DE PERSONA MORAL:</style> Este Contrato se rige por lo dispuesto en la Ley Federal de Protección al Consumidor y su Reglamento; la Norma Oficial Mexicana NOM-179-SCFI-2016 Servicios de mutuo con interés y garantía prendaria; Disposiciones de carácter general a que se refiere la Ley para la Transparencia y Ordenamiento de los Servicios Financieros e n materia de Contratos de Adhesión, Publicidad, Estados de Cuenta y Comprobantes de Operación emitidos por las Entidades Comerciales y demás ordenamientos aplicables.
 
 <style isBold="true">EN CASO DE PERSONA FÍSICA:</style> Este Contrato se rige por lo dispuesto en la Ley Federal de Protección al Consumidor y su Reglamento, la Norma Oficial Mexicana NOM-179-SCFI-2016 Servicios de mutuo con interés y garantía prendaría y demás ordenamientos aplicables.
 
 <style isBold="true">24.- ACLARACIONES, QUEJAS O RECLAMACIONES.-</style> En caso de aclaraciones, quejas, reclamaciones o reposición de contrato por pérdida o destrucción, <style isBold="true">“EL CONSUMIDOR”</style> deberá comunicarse al centro de atención de <style isBold="true">“EL PROVEEDOR”</style>, al número telefónico o presentarse en el domicilio que se establece en la Carátula. <style isBold="true">“EL PROVEEDOR”</style> deberá proporcionar un número de reporte a <style isBold="true">“EL CONSUMIDOR”</style>, con el que se identificará la aclaración, queja o reclamación y se dará seguimiento al trámite, el cual será atendido en un tiempo no mayor a 10 días naturales.
 
-<style isBold="true">25.- CONTRATACIÓN POR MEDIOS ELECTRÓNICOS.-</style> Las partes acuerdan que en lugar de una firma original autógrafa, este contrato, así como cualquier consentimiento, aprobación u otros documentos relacionados con el mismo, podrán ser firmados por medio del uso de firmas electrónicas, digitales, numéricas, alfanuméricas, huellas de voz, biométricas o de cualquier otra forma y que dichos medios alternativos de firma y los registros en donde sean aplicadas dichas firmas, serán consideradas para todos
-los efectos, incluyendo, pero no limitado a la legislación civil, mercantil, protección al consumidor y a la NOM- 151-SCFI- 2016, con la misma fuerza y consecuencias que la firma autógrafa original física de la parte firmante. Si el contrato o cualquier otro documento relacionado con el mismo es firmado por medios electrónicos o digitales, las Partes acuerdan que los formatos del contrato y los demás documentos firmados
-de tal modo serán conservados y estarán a disposición del consumidor, por lo que convienen que cada una y toda la información enviada por el Proveedor a la dirección de correo electrónico proporcionada por el Consumidor al momento de celebrar el presente Contrato será considerada como entregada en el momento en que la misma es enviada, siempre y cuando exista confirmación de recepción.
+<style isBold="true">25.- CONTRATACIÓN POR MEDIOS ELECTRÓNICOS.-</style> Las partes acuerdan que en lugar de una firma original autógrafa, este contrato, así como cualquier consentimiento, aprobación u otros documentos relacionados con el mismo, podrán ser firmados por medio del uso de firmas electrónicas, digitales, numéricas, alfanuméricas, huellas de voz, biométricas o de cualquier otra forma y que dichos medios alternativos de firma y los registros en donde sean aplicadas dichas firmas, serán consideradas para todos los efectos, incluyendo, pero no limitado a la legislación civil, mercantil, protección al consumidor y a la NOM- 151-SCFI- 2016, con la misma fuerza y consecuencias que la firma autógrafa original física de la parte firmante. Si el contrato o cualquier otro documento relacionado con el mismo es firmado por medios electrónicos o digitales, las Partes acuerdan que los formatos del contrato y los demás documentos firmados de tal modo serán conservados y estarán a disposición del consumidor, por lo que convienen que cada una y toda la información enviada por el Proveedor a la dirección de correo electrónico proporcionada por el Consumidor al momento de celebrar el presente Contrato será considerada como entregada en el momento en que la misma es enviada, siempre y cuando exista confirmación de recepción.
 
-<style isBold="true">26.- JURISDICCIÓN.-</style> Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, LAS PARTES acuerdan someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
+<style isBold="true">26.- JURISDICCIÓN.-</style> Para todo lo relativo a la interpretación, aplicación y cumplimiento del contrato, <style isBold="true">LAS PARTES</style> acuerdan someterse en la vía administrativa a la Procuraduría Federal del Consumidor, y en caso de subsistir diferencias, a la jurisdicción de los tribunales competentes del lugar donde se celebra este Contrato.
 
 Leído que fue y una vez hecha la explicación de su alcance legal y contenido, este Contrato fue suscrito por duplicado en el lugar y en la fecha que se indica en la Carátula del mismo, entregándosele una copia a <style isBold="true">“EL CONSUMIDOR”</style>
 
@@ -2131,17 +2134,133 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[__________________________
 <style isBold="true">Testigo</style>]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="290" y="20" width="282" height="20" uuid="4c851387-4ab0-4d79-a670-08ce6396a592"/>
+			<staticText>
+				<reportElement x="283" y="26" width="242" height="20" uuid="86205def-8299-405b-b5fb-ad6791c00270"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ciudad de México a _____de ________ de ]]></text>
+			</staticText>
+			<textField pattern="yyyy">
+				<reportElement x="525" y="26" width="46" height="20" uuid="e600caa4-d9d2-46f5-9cbb-a64640f3e852"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="750">
+			<printWhenExpression><![CDATA[$F{duracion}.equals( "3" )]]></printWhenExpression>
+			<staticText>
+				<reportElement x="39" y="140" width="340" height="20" uuid="93dead37-e68b-453a-888d-452ec5bab0a8"/>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
+				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="310" y="552" width="228" height="20" uuid="8a72d810-44cf-4b85-bb78-ffdd35552a56"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firmaLiquidacion}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="14" y="0" width="269" height="54" uuid="a7128ff1-9f19-4419-b2c0-d378a6f3ae65"/>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="310" y="540" width="228" height="20" uuid="0f194e9c-ca2d-4215-93ed-82b3cfaf0af3"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<text><![CDATA[______________________________________
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="90" width="571" height="20" forecolor="#E1563C" uuid="f2327d39-84e1-47da-b523-df4c00ce7cb9"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOLICITUD DE LIQUIDACIÓN]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="39" y="170" width="490" height="200" uuid="c110895d-1951-4cb6-aca9-f6b0c04a6894"/>
+				<textElement textAlignment="Justified" markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{acuerdoLiquidacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="30" y="540" width="220" height="20" uuid="2daaa4ae-30e9-40fc-ace5-1441dcfb71b5"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[______________________________________
+]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="330" y="40" width="240" height="14" uuid="b71ec3fe-bbfa-492e-be4a-b5ef93505b6b"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="30" y="552" width="220" height="20" uuid="14c0b9ab-e6ec-4ab3-bf21-8d13dcebbfc3"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<text><![CDATA[<style isBold="true">AP SERVICIOS FINANCIEROS, S.A. DE C.V.</style>]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="660" width="571" height="14" forecolor="#E1563C" uuid="fa16bac4-267b-4b64-82e1-704d23cd7fbe"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Dirección:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="702" width="571" height="14" uuid="2a98b452-3443-49a8-8a06-177358a60dfa"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Lunes a viernes de 9:00am a 6:00pm]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="688" width="571" height="14" forecolor="#E1563C" uuid="0af4bc3f-28f2-4e46-a922-38fbe3644178"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Horario de atención:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="730" width="571" height="14" uuid="9e37a807-a5ff-4300-a916-2408d81451f6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[(55) 7619 8801]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="716" width="571" height="14" forecolor="#E1563C" uuid="176a0974-9308-4a9b-acc7-ad4fee3e16d2"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Teléfono]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="674" width="571" height="14" uuid="30462c42-f8c4-4f18-81d2-b7501382e13e"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Calle Lava 232, Jardines del Pedregal, Del. Álvaro Obregón, Ciudad de México, CDMX]]></text>
+			</staticText>
 		</band>
 		<band height="453">
 			<image>
-				<reportElement x="152" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29"/>
+				<reportElement x="152" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29">
+					<printWhenExpression><![CDATA[$F{plazo}.equals( "12 MESES" )]]></printWhenExpression>
+				</reportElement>
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
 			<textField>
@@ -2179,7 +2298,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				</textElement>
 				<text><![CDATA[Calle: Lava No. 232
 Colonia: Jardines del Pedregal 	CP: 01900
-Delegación: Álvaro Obregon 	CDMX
+Delegación: Álvaro Obregon 		CDMX
 RFC: ASF180724JE2
 Teléfono: (55) 7619 8801 ]]></text>
 			</staticText>
@@ -2199,7 +2318,7 @@ Teléfono: (55) 7619 8801 ]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="22" y="272" width="287" height="20" uuid="345fe9fc-e0d9-472e-83cb-d5d5b37f2822"/>
+				<reportElement x="22" y="272" width="308" height="20" uuid="345fe9fc-e0d9-472e-83cb-d5d5b37f2822"/>
 				<textElement markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -2241,7 +2360,5 @@ Teléfono: (55) 7619 8801 ]]></text>
 				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="50"/>
-		<band height="50"/>
 	</detail>
 </jasperReport>
