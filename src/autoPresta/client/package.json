@@ -75,6 +75,7 @@
     "ngx-spinner": "^10.0.1",
     "node-sass": "^4.14.1",
     "rxjs": "^6.6.3",
+    "signature_pad": "^4.0.1",
     "sweetalert2": "^10.0.2",
     "tslib": "^2.0.1",
     "zone.js": "~0.11.1"

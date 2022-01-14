@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
-import {SignaturePad} from "angular2-signaturepad";
+import SignaturePad from "signature_pad";
 
 @Component({
   selector: 'app-firma',
@@ -26,7 +26,7 @@ export class FirmaComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement)
+    this.signaturePad = new SignaturePad(this.signaturePadElement.nativeElement);
   }
 
   cambiarColor() {

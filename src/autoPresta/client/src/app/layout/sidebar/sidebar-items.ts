@@ -246,15 +246,7 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      // {
-      //   path: 'Consultas/Firma',
-      //   title: 'Firma',
-      //   moduleName: 'Consultas',
-      //   icon: '',
-      //   class: 'ml-menu',
-      //   groupTitle: false,
-      //   submenu: []
-      // },
+      //
     ]
   },
   {

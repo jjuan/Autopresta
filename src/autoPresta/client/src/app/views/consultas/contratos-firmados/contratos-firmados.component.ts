@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Agencias, Contrataciones, ContratoDetalle} from "../../../core/models/data.interface";
+import {_statusContratos, Agencias, Contrataciones, ContratoDetalle} from "../../../core/models/data.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -49,11 +49,20 @@ export class ContratosFirmadosComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('filter', {static: true}) filter: ElementRef;
 
+  conciliacionOperaciones: _statusContratos = {
+    registrado: 0,
+    impreso: 0,
+    firmado: 0,
+    cancelado: 0,
+    total: 0,
+  };
+
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
+    this.estatusContratos()
     this.dataSource = new registros(this.restService, this.paginator, this.sort, this.datos.controlador);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
@@ -101,22 +110,27 @@ export class ContratosFirmadosComponent implements OnInit {
   }
 
   cambiarEstado(id, accion: string) {
-      this.restService.edit<Agencias>(id, this.datos.controlador).subscribe(result => {
-        const dialogRef = this.dialog.open(CamboEstadoComponent, {
-          data: { title: 'Cambiar estado del contrato' , disableClose: true, data: result, action: 'Editar' }, height: 'auto', width: '40%'
-        });
-        dialogRef.afterClosed().subscribe(result => {
-          if (!result) { return; }
-          this.restService.update<string>(id, result, this.datos.controlador).subscribe(() => {
-            this.dialogService.snack( 'success', '¡¡ ' + this.datos.titulo + ' actualizado!!');
-            this.loadData();
-          }, error => {
-            if (error._embedded !== undefined) {
-              this.dialogService.snack( 'danger', 'Error al actualizar');
-            }});
-          this.refreshTable();
-        });
+    this.restService.edit<Agencias>(id, this.datos.controlador).subscribe(result => {
+      const dialogRef = this.dialog.open(CamboEstadoComponent, {
+        data: {title: 'Cambiar estado del contrato', disableClose: true, data: result, action: 'Editar'},
+        height: 'auto',
+        width: '40%'
       });
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        this.restService.update<string>(id, result, this.datos.controlador).subscribe(() => {
+          this.dialogService.snack('success', '¡¡ ' + this.datos.titulo + ' actualizado!!');
+          this.loadData();
+        }, error => {
+          if (error._embedded !== undefined) {
+            this.dialogService.snack('danger', 'Error al actualizar');
+          }
+        });
+        this.refreshTable();
+      });
+    });
 
   }
 
@@ -125,6 +139,13 @@ export class ContratosFirmadosComponent implements OnInit {
       this.dialog.open(DetallePagosComponent, {
         data: {datos: pagos, titulo: 'Parcialidades del contrato ' + id}
       })
+    })
+  }
+
+  estatusContratos() {
+    this.restService.index<_statusContratos>(this.datos.controlador, {}, 'estatusContratos').subscribe(r => {
+      this.conciliacionOperaciones = r
+      console.log(this.conciliacionOperaciones)
     })
   }
 }
@@ -168,6 +189,8 @@ export class registros extends DataSource<Contrataciones> {
             campo.fechaEmision +
             campo.montoPrestamo +
             campo.total +
+            campo.estatusContrato +
+            campo.numeroContrato +
             campo.estatus
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;

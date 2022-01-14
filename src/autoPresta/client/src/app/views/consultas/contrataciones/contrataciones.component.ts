@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {Contrataciones, Contrato, monto} from "../../../core/models/data.interface";
+import {_statusContratos, Contrataciones, Contrato, monto} from "../../../core/models/data.interface";
 import {MatDialog} from "@angular/material/dialog";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -47,11 +47,20 @@ export class ContratacionesComponent implements OnInit {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   @ViewChild('filter', {static: true}) filter: ElementRef;
 
+  conciliacionOperaciones: _statusContratos = {
+    registrado: 0,
+    impreso: 0,
+    firmado: 0,
+    cancelado: 0,
+    total: 0,
+  };
+
   ngOnInit(): void {
     this.loadData();
   }
 
   loadData() {
+    this.estatusContratos()
     this.dataSource = new registros(this.restService, this.paginator, this.sort, this.datos.controlador);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
@@ -93,6 +102,7 @@ export class ContratacionesComponent implements OnInit {
       this.dialogService.snack(accion == 'librarFolio' ? 'danger' : 'success', r.message)
     })
   }
+
   imprimir(row: Contrato, accion) {
     this.restService.index<any>(this.datos.controlador, {id: row.id}, accion).subscribe(r => {
       this.loadData()
@@ -105,6 +115,13 @@ export class ContratacionesComponent implements OnInit {
     const _dominio = 'Reporte'
     const _observable = this.restService.getReport('contratoAutoPresta', _dominio, {id: id});
     return this.restService.printReport(_observable, 'Contrato AP #' + numeroContrato);
+  }
+
+  estatusContratos() {
+    this.restService.index<_statusContratos>(this.datos.controlador, {}, 'estatusContratos').subscribe(r => {
+      this.conciliacionOperaciones = r
+      console.log(this.conciliacionOperaciones)
+    })
   }
 }
 
@@ -143,11 +160,15 @@ export class registros extends DataSource<Contrataciones> {
           const searchStr = (
             campo.id +
             campo.folio +
-            campo.regimenFiscal +
+            // campo.regimenFiscal +
             campo.fechaEmision +
             campo.montoPrestamo +
             campo.total +
-            campo.estatus
+            campo.titular +
+            campo.representante +
+            campo.estatus +
+            campo.estatusLabel+
+              campo.numeroContrato
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });

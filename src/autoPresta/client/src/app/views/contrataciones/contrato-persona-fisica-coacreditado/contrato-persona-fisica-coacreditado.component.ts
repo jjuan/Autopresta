@@ -291,7 +291,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
     if (data.length == 18) {
       const a = Number(data[4])
       let complemento
-      if (a >= 0 && a <= 4) {
+      if (a >= 0 && a <= 2) {
         complemento = '20'
       } else {
         complemento = '19'

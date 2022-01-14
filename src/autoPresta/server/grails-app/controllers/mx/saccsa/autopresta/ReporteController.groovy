@@ -1,7 +1,5 @@
 package mx.saccsa.autopresta
 
-import mx.saccsa.security.Usuario
-
 import java.text.SimpleDateFormat
 
 class ReporteController {
@@ -18,15 +16,7 @@ class ReporteController {
         Contrato contrato = Contrato.findById(id)
         def contexto = grailsApplication.mainContext.getResource("${grailsApplication.config.jasper.dir.reports}")
         params.SUBREPORT_DIR = contexto.file.getAbsolutePath() + contexto.file.separator
-        String archivo
-        if (contrato.regimenFiscal.clave == 'PM'){
-            archivo = 'ContratoAPMoral'
-        } else if (contrato.regimenFiscal.clave != 'PM' && contrato.nombresCoacreditado != null){
-            archivo = 'ContratoAPCoacreditado'
-        } else {
-            archivo = 'ContratoAP'
-        }
-        params._file = archivo
+        params._file = 'ContratoAP'
         params._format = 'PDF'
         params._name = 'Contrato Auto Presta'
         params._reporteTitulo = 'Contrato Auto Presta'
@@ -52,8 +42,6 @@ class ReporteController {
         params._format = 'PDF'
         params._name = 'Pagos Realizados'
         params._reporteTitulo = 'Pagos Realizados'
-//        params.imagen = grailsApplication.config.grails.jasper.images+'logo-full.png'
-//        generateReportService.createReport(request, response, params, [data: [lista]])
         generateReportService.createReport(request, response, params, [data: lista])
     }
 }

@@ -43,142 +43,62 @@ class ReporteService {
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
         def fechaFiniquito = ContratoDetalle.findByContratoAndParcialidad(contrato, '12')
         def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeCompra) * 100)
-        def lista
-        if (contrato.regimenFiscal.clave == 'PM') {
-            lista = [
-                    listaDatos                   : listaDatos,
-                    nombre                       : contrato.nombres.toUpperCase(),
-                    nombreRazonSocial            : contrato.razonesSociales.razonSocial.toUpperCase(),
-                    rfcRazonSocial               : contrato.razonesSociales.rfc.toUpperCase(),
-                    apellidos                    : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
-                    rfc                          : contrato.rfc.toUpperCase(),
-                    edad                         : contrato.edad.toString(),
-                    whatsapp                     : campo(contrato.telefonoCelular),
-                    telTrabajoCasa               : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial      : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
-                    calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
-                    noInterior                   : dir.interior != null ? dir.interior : '',
-                    colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                 : dir.cp != null ? cpFormato(dir.cp) : '',
-                    alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                    noContrato                   : contratoFolio(contrato),
-                    montoPrestamo                : contrato.montoTransferencia,
-                    montoTotalPagar              : montoTotal,
-                    referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
-                    clabe                        : clabe,
-                    plazo                        : '12 MESES',
-                    desempeño                    : fecha(desempenio.fecha),
-                    caracteristicas              : descripcion(contrato),
-                    noDeVin                      : campo(contrato.numeroVin),
-                    avaluo                       : contrato.valorDeCompra,
-                    prestamo                     : contrato.montoRequerido,
-                    prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra           : numeroLetra(contrato.montoRequerido),
-                    montoAvaluoLetra             : numeroLetra(contrato.valorDeCompra),
-                    porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito         : fecha(fechaFiniquito.fecha),
-                    fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
-                    acuerdo                      : acuerdo(contrato),
-                    anio                         : year.format(contrato.fechaContrato),
-                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    pagoAnticipado               : pagoAnticipado(contrato.tipoContrato.duracion),
-                    firmaLiquidacion             : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    acuerdoLiquidacion           : solicitudLiquidacion(contrato),
-                    duracion                     : contrato.tipoContrato.duracion.toString()
-            ]
-        } else if (contrato.nombresCoacreditado != null && contrato.regimenFiscal.clave != 'PM') {
-            lista = [
-                    listaDatos                         : listaDatos,
-                    nombre                             : contrato.nombres.toUpperCase(),
-                    apellidos                          : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
-                    rfc                                : contrato.rfc.toUpperCase(),
-                    edad                               : contrato.edad.toString(),
-                    whatsapp                           : campo(contrato.telefonoCelular),
-                    telTrabajoCasa                     : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
-                    nombreCoacreditado                 : contrato.nombresCoacreditado.toUpperCase(),
-                    apellidosCoacreditado              : campo(contrato.primerApellidoCoacreditado) + ' ' + campo(contrato.segundoApellidoCoacreditado),
-                    rfcCoacreditado                    : contrato.rfcCoacreditado.toUpperCase(),
-                    edadCoacreditado                   : contrato.edadCoacreditado.toString(),
-                    whatsappCoacreditado               : campo(contrato.telefonoCelularCoacreditado),
-                    telTrabajoCasaCoacreditado         : campo(contrato.telefonoOficinaCoacreditado) + ' ' + campo(contrato.telefonoFijoCoacreditado),
-                    noIdentificacionOficialCoacreditado: contrato.claveElectorCoacreditado != null ? contrato.claveElectorCoacreditado : '',
-                    calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
-                    noInterior                         : dir.interior != null ? dir.interior : '',
-                    colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
-                    alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                    noContrato                         : contratoFolio(contrato),
-                    montoPrestamo                      : contrato.montoTransferencia,
-                    montoTotalPagar                    : montoTotal,
-                    referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
-                    clabe                              : clabe,
-                    plazo                              : '12 MESES',
-                    desempeño                          : fecha(desempenio.fecha),
-                    caracteristicas                    : descripcion(contrato),
-                    noDeVin                            : campo(contrato.numeroVin),
-                    avaluo                             : contrato.valorDeCompra,
-                    prestamo                           : contrato.montoRequerido,
-                    prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra                 : numeroLetra(contrato.montoRequerido),
-                    montoAvaluoLetra                   : numeroLetra(contrato.valorDeCompra),
-                    porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito               : fecha(fechaFiniquito.fecha),
-                    fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos                    : contrato.detalleDescuentos.toUpperCase(),
-                    acuerdo                            : acuerdo(contrato),
-                    anio                               : year.format(contrato.fechaContrato),
-                    nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    pagoAnticipado                     : pagoAnticipado(contrato.tipoContrato.duracion),
-                    firmaLiquidacion                   : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    acuerdoLiquidacion                 : solicitudLiquidacion(contrato),
-                    duracion                           : contrato.tipoContrato.duracion.toString(),
-                    acuerdoCoacreditado                : acuerdoCoacreditado(contrato),
-                    nombresCoacreditado                : contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
-            ]
-        } else {
-            lista = [
-                    listaDatos                   : listaDatos,
-                    nombre                       : contrato.nombres.toUpperCase(),
-                    apellidos                    : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
-                    rfc                          : contrato.rfc.toUpperCase(),
-                    edad                         : contrato.edad.toString(),
-                    whatsapp                     : campo(contrato.telefonoCelular),
-                    telTrabajoCasa               : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
-                    noIdentificacionOficial      : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
-                    calleNoExterior              : campo(dir.direccionPrincipal) + ' ' + exterior,
-                    noInterior                   : dir.interior != null ? dir.interior : '',
-                    colonia                      : dir.colonia != null ? dir.colonia.toUpperCase() : '',
-                    codigoPostal                 : dir.cp != null ? cpFormato(dir.cp) : '',
-                    alcaldia                     : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                    noContrato                   : contratoFolio(contrato),
-                    montoPrestamo                : contrato.montoTransferencia,
-                    montoTotalPagar              : montoTotal,
-                    referenciaBancaria           : contrato.referencia ? contrato.referencia.toUpperCase() : '',
-                    clabe                        : clabe,
-                    plazo                        : '12 MESES',
-                    desempeño                    : fecha(desempenio.fecha),
-                    caracteristicas              : descripcion(contrato),
-                    noDeVin                      : campo(contrato.numeroVin),
-                    avaluo                       : contrato.valorDeCompra,
-                    prestamo                     : contrato.montoRequerido,
-                    prestamoSobreAvaluo          : prestamoSobreAvaluo.intValue() + '%',
-                    montoPrestamoLetra           : numeroLetra(contrato.montoRequerido),
-                    montoAvaluoLetra             : numeroLetra(contrato.valorDeCompra),
-                    porcentajePrestamoSobreAvaluo: '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
-                    fechaLimiteFiniquito         : fecha(fechaFiniquito.fecha),
-                    fecha                        : 'CDMX a ' + fecha(contrato.fechaContrato),
-                    notasDescuentos              : contrato.detalleDescuentos.toUpperCase(),
-                    acuerdo                      : acuerdo(contrato),
-                    anio                         : year.format(contrato.fechaContrato),
-                    nombres                      : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    pagoAnticipado               : pagoAnticipado(contrato.tipoContrato.duracion),
-                    firmaLiquidacion             : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
-                    acuerdoLiquidacion           : solicitudLiquidacion(contrato),
-                    duracion                     : contrato.tipoContrato.duracion.toString()
-            ]
-        }
+
+        def lista = [
+                nombreRazonSocial                  : contrato.razonesSociales ? contrato.razonesSociales.razonSocial.toUpperCase() : null,
+                rfcRazonSocial                     : contrato.razonesSociales ? contrato.razonesSociales.rfc.toUpperCase() : null,
+
+                nombreCoacreditado                 : contrato.nombresCoacreditado ? contrato.nombresCoacreditado.toUpperCase() : null,
+                apellidosCoacreditado              : contrato.nombresCoacreditado ? campo(contrato.primerApellidoCoacreditado) + ' ' + campo(contrato.segundoApellidoCoacreditado) : null,
+                rfcCoacreditado                    : contrato.nombresCoacreditado ? contrato.rfcCoacreditado.toUpperCase() : null,
+                edadCoacreditado                   : contrato.nombresCoacreditado ? contrato.edadCoacreditado.toString() : null,
+                whatsappCoacreditado               : contrato.nombresCoacreditado ? campo(contrato.telefonoCelularCoacreditado) : null,
+                telTrabajoCasaCoacreditado         : contrato.nombresCoacreditado ? campo(contrato.telefonoOficinaCoacreditado) + ' ' + campo(contrato.telefonoFijoCoacreditado) : null,
+                noIdentificacionOficialCoacreditado: contrato.nombresCoacreditado ? contrato.claveElectorCoacreditado != null ? contrato.claveElectorCoacreditado : '' : null,
+                acuerdoCoacreditado                : contrato.nombresCoacreditado ? acuerdoCoacreditado(contrato) : null,
+                nombresCoacreditado                : contrato.nombresCoacreditado ? contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado : null,
+
+                listaDatos                         : listaDatos,
+                nombre                             : contrato.nombres.toUpperCase(),
+                apellidos                          : campo(contrato.primerApellido) + ' ' + campo(contrato.segundoApellido),
+                rfc                                : contrato.rfc.toUpperCase(),
+                edad                               : contrato.edad.toString(),
+                whatsapp                           : campo(contrato.telefonoCelular),
+                telTrabajoCasa                     : campo(contrato.telefonoOficina) + ' ' + campo(contrato.telefonoFijo),
+                noIdentificacionOficial            : contrato.claveElector != null ? contrato.claveElector.toUpperCase() : '',
+                calleNoExterior                    : campo(dir.direccionPrincipal) + ' ' + exterior,
+                noInterior                         : dir.interior != null ? dir.interior : '',
+                colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
+                codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
+                alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
+                noContrato                         : contratoFolio(contrato),
+                montoPrestamo                      : contrato.montoTransferencia,
+                montoTotalPagar                    : montoTotal,
+                referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
+                clabe                              : clabe,
+                plazo                              : '12 MESES',
+                desempeño                          : fecha(desempenio.fecha),
+                caracteristicas                    : descripcion(contrato),
+                noDeVin                            : campo(contrato.numeroVin),
+                avaluo                             : contrato.valorDeCompra,
+                prestamo                           : contrato.montoRequerido,
+                prestamoSobreAvaluo                : prestamoSobreAvaluo.intValue() + '%',
+                montoPrestamoLetra                 : numeroLetra(contrato.montoRequerido),
+                montoAvaluoLetra                   : numeroLetra(contrato.valorDeCompra),
+                porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
+                fechaLimiteFiniquito               : fecha(fechaFiniquito.fecha),
+                fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
+                notasDescuentos                    : contrato.detalleDescuentos.toUpperCase(),
+                acuerdo                            : acuerdo(contrato),
+                anio                               : year.format(contrato.fechaContrato),
+                nombres                            : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                pagoAnticipado                     : pagoAnticipado(contrato.tipoContrato.duracion),
+                firmaLiquidacion                   : contrato.razonesSociales ? contrato.razonesSociales.descLabel : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido,
+                acuerdoLiquidacion                 : solicitudLiquidacion(contrato),
+                duracion                           : contrato.tipoContrato.duracion.toString(),
+                pagoMensual                        : (desempenio.subtotal + desempenio.iva),
+                fechaContrato                      : contrato.fechaContrato
+        ]
 
         return lista
     }
@@ -244,23 +164,19 @@ class ReporteService {
         String documentoValor = contrato.claveElector
         Direccion direccion = Direccion.findByContratoAndPrincipal(contrato, true)
 
-        return "EL SUSCRITO " + formatoTextoReporte(nombres.toUpperCase(), 'n') + " IDENTIFICÁNDOME CON " +
-                documento.toUpperCase() + " " + formatoTextoReporte(documentoValor.toUpperCase(), 'n') +
-                " SEÑALANDO DOMICILIO EN " + formatoTextoReporte(direccion.direccionPrincipal.toUpperCase() + " " +
-                direccion.exterior + ", COL " + direccion.colonia.toUpperCase() + ", CP " + cpFormato(direccion.cp) +
-                ", " + direccion.municipio.toUpperCase() + ", " + direccion.entidad.toUpperCase(), 'n') +
-                " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO HAGO ENTREGA FÍSICA, MATERIAL Y VOLUNTARIA DEL VEHÍCULO" +
-                " QUE FUE DADO EN PRENDA EN EL CONTRATO DE PRÉSTAMO (MUTUO CON INTERÉS Y GARANTÍA PRENDARIA) DE LA " +
-                "MARCA " + formatoTextoReporte(contrato.marca.nombre.toUpperCase(), 'n') + " SUB MARCA " +
-                formatoTextoReporte(contrato.modelo.nombre.toUpperCase(), 'n') + " AÑO " +
-                formatoTextoReporte(contrato.anio, 'n') + " COLOR " +
-                formatoTextoReporte(contrato.color, 'n') + " NÚMERO DE SERIE " +
-                formatoTextoReporte(contrato.numeroVin, 'n') + " MOTOR " +
-                formatoTextoReporte(contrato.numeroDeMotor, 'n') + " PLACAS " +
-                formatoTextoReporte(contrato.placas, 'n') + " A SU PROPIETARIO " +
-                formatoTextoReporte("AP SERVICIOS FINANCIEROS, S.A. DE C.V.", 'ns') +
-                " A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR, OTORGANDO PLENA" +
-                " POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\n" + "ASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR " +
+        return "EL SUSCRITO " + ftr(nombres.toUpperCase(), 'n') + " IDENTIFICÁNDOME CON " +
+                documento.toUpperCase() + " " + ftr(documentoValor.toUpperCase(), 'n') + " SEÑALANDO DOMICILIO" +
+                " EN " + ftr(direccion.direccionPrincipal.toUpperCase() + " " + direccion.exterior + ", COL " +
+                direccion.colonia.toUpperCase() + ", CP " + cpFormato(direccion.cp) + ", " + direccion.municipio.toUpperCase() +
+                ", " + direccion.entidad.toUpperCase(), 'n') + " POR MEDIO DEL PRESENTE ESCRITO, EN ESTE ACTO" +
+                " HAGO ENTREGA FÍSICA, MATERIAL Y VOLUNTARIA DEL VEHÍCULO QUE FUE DADO EN PRENDA EN EL CONTRATO DE " +
+                "PRÉSTAMO (MUTUO CON INTERÉS Y GARANTÍA PRENDARIA) DE LA MARCA " + ftr(contrato.marca.nombre.toUpperCase(),
+                'n') + " SUB MARCA " + ftr(contrato.modelo.nombre.toUpperCase(), 'n') + " AÑO " +
+                ftr(contrato.anio, 'n') + " COLOR " + ftr(contrato.color, 'n') + " NÚMERO DE SERIE " +
+                ftr(contrato.numeroVin, 'n') + " MOTOR " + ftr(contrato.numeroDeMotor, 'n') + " PLACAS " +
+                ftr(contrato.placas, 'n') + " A SU PROPIETARIO " + ftr("AP SERVICIOS FINANCIEROS, S.A. DE C.V.",
+                'ns') + " A QUIEN, TODA VEZ QUE SE INCURRA EN IMPAGO, SE LE DEBE RECONOCER COMO ÚNICO TITULAR," +
+                " OTORGANDO PLENA POSESIÓN DEL MISMO EN ESTE DOCUMENTO.\nASÍ MISMO, ME COMPROMETO A CUBRIR CUALQUIER GASTO POR " +
                 "CONCEPTO DE REPARACIÓN MECÁNICA REQUIERA DICHO VEHÍCULO POR ALGÚN DESPERFECTO QUE LE HAYA CAUSADO EL" +
                 " SUSCRITO DURANTE EL TIEMPO DE USO."
     }
@@ -269,11 +185,11 @@ class ReporteService {
         String nombres = contrato.nombresCoacreditado + ' ' + contrato.primerApellidoCoacreditado + ' ' + contrato.segundoApellidoCoacreditado
         String nombresTitular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
 
-        return "Se extiende el presente para informar que, YO " + formatoTextoReporte(nombres.toUpperCase(), 'n') +
+        return "Se extiende el presente para informar que, YO " + ftr(nombres.toUpperCase(), 'n') +
                 " en la fecha en que se emite este documento, acepto y reconozco el compromiso y total responsabilidad" +
-                " sobre el contrato " + formatoTextoReporte(contratoFolio(contrato), 'n') + " firmado el día " +
-                formatoTextoReporte(fechaCorta(contrato.fechaContrato), 'n') + " a nombre de " +
-                formatoTextoReporte(nombresTitular, 'n') + ", para realizar los pagos correspondientes de " +
+                " sobre el contrato " + ftr(contratoFolio(contrato), 'n') + " firmado el día " +
+                ftr(fechaCorta(contrato.fechaContrato), 'n') + " a nombre de " +
+                ftr(nombresTitular, 'n') + ", para realizar los pagos correspondientes de " +
                 "las mensualidades del préstamo, incluyendo los intereses y en su caso los cargos moratorios, " +
                 "comisiones e I.V.A. bajo los términos de dicho contrato. Todo lo anterior, aplicando las " +
                 "responsabilidades y obligaciones del contrato antes mencionado, y se pueda ejercer de acuerdo con las" +
@@ -326,40 +242,53 @@ class ReporteService {
     }
 
     def pagoAnticipado(Long duracion) {
-        String meses = ""
+        String texto = ""
+        String consumidor = ftr("“EL CONSUMIDOR”", 'n')
+        String proveedor = ftr("“EL PROVEEDOR”", 'n')
+        String incisoC = "\n\n" + consumidor + " podrá realizar pagos anticipados, siempre y cuando se encuentre al " +
+                "corriente de sus pagos y haya cumplido el plazo de los 6 meses, por lo que los pagos anticipados se" +
+                " aplicarán al saldo insoluto principal. " + consumidor + " deberá avisar por escrito 45 días naturales" +
+                " a " + proveedor + " su deseo de realizar el 50% de aportación a su capital, por lo que " + proveedor +
+                " deberá aplicar dicho pago anticipado al saldo insoluto."
+
         switch (duracion) {
             case 3:
-                meses = "tres"
+                texto = "en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, " +
+                        "habiendo cumplido el plazo de los tres meses y se le cobra a " + consumidor + " una penalización" +
+                        " de una mensualidad del préstamo incluyendo los intereses y en su caso los cargos moratorios, " +
+                        "Comisiones e I.V.A., con un aviso anticipado de 45 días naturales. Si avisa con 30 días naturales" +
+                        " de anticipación, se le aplica a " + consumidor + " una penalización de una mensualidad y media" +
+                        " del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A.," +
+                        " y si avisa con 15 días naturales de anticipación, se le aplica a " + consumidor + " una " +
+                        "penalización de dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos" +
+                        " moratorios, Comisiones e I.V.A., y en caso de no dar aviso anticipado, se le aplica a " +
+                        consumidor + " la penalización de dos mensualidades y media del préstamo incluyendo los intereses" +
+                        " y en su caso los cargos moratorios, Comisiones e I.V.A.. en cuyo caso " + consumidor + " deberá" +
+                        " presentarse en el establecimiento. Efectuado el pago se procederá a la devolución de la Prenda" +
+                        " en el acto. En caso de que " + consumidor + " no cumpla con el pago en el plazo establecido de" +
+                        " los 3 meses, se extenderá en automático el plazo del pago anticipado a la mensualidad subsecuente" +
+                        " de la 6ta mensualidad habiendo hecho el aviso anticipado de 45 días naturales. "
                 break
-            case 6:
-                meses = "seis"
-                break
-            case 12:
-                meses = "doce"
+            default:
+                texto = "en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, " +
+                        "habiendo cumplido el pazo de los seis meses , y si avisa con 45 días naturales de anticipación," +
+                        " se libera a " + consumidor + "de las penalizaciones del préstamo incluyendo los intereses y en " +
+                        "su caso los cargos moratorios, Comisiones e I.V.A., si avisa con 30 días naturales de anticipación," +
+                        " se le aplica a " + consumidor + " una penalización de una mensualidad del préstamo incluyendo " +
+                        "los intereses y en su caso los cargos oratorios, Comisiones e I.V.A., y si avisa con 15 días " +
+                        "naturales de anticipación, se le aplica a " + consumidor + " una penalización de una mensualidad" +
+                        " y media del préstamo incluyendo los intereses y en su caso los cargos moratorios, Comisiones e " +
+                        "I.V.A., y en caso de no dar aviso anticipado, se le aplica a " + consumidor + " la penalización" +
+                        " de dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos moratorios," +
+                        " Comisiones e I.V.A. en cuyo caso " + consumidor + "deberá presentarse en el establecimiento " +
+                        "efectuado el pago se procederá a la devolución de la Prenda en el acto.En caso de que " +
+                        consumidor + " no cumpla con el pago anticipado en el plazo establecido de los 6 meses, se" +
+                        " extenderá en automático el plazo del pago anticipado a la mensualidad subsecuente a la fecha" +
+                        " del aviso anticipado de 45 días naturales."
+
                 break
         }
-        return "en la Carátula del presente Contrato, conforme a las opciones de pago descritas en éste, habiendo" +
-                " cumplido el pazo de los " + meses + " meses , y si avisa con 45 días naturales de anticipación, se libera" +
-                " a <style isBold=\"true\">“EL CONSUMIDOR”</style> de las penalizaciones del préstamo incluyendo los" +
-                " intereses y en su caso los cargos moratorios, Comisiones e I.V.A., si avisa con 30 días naturales " +
-                "de anticipación, se le aplica a <style isBold=\"true\">“EL CONSUMIDOR”</style> una penalización de " +
-                "una mensualidad del préstamo incluyendo los intereses y en su caso los cargos  oratorios, " +
-                "Comisiones e I.V.A., y si avisa con 15 días naturales de anticipación, se le aplica a <style " +
-                "isBold=\"true\">“EL CONSUMIDOR”</style>” una penalización de una mensualidad y media del préstamo " +
-                "incluyendo los intereses y en su caso los cargos moratorios, Comisiones e I.V.A., y en caso de no dar" +
-                " aviso anticipado, se le aplica a <style isBold=\"true\">“EL CONSUMIDOR”</style> la penalización de " +
-                "dos mensualidades del préstamo incluyendo los intereses y en su caso los cargos moratorios, " +
-                "Comisiones e I.V.A. en cuyo caso <style isBold=\"true\">“EL CONSUMIDOR”</style> deberá presentarse " +
-                "en el establecimiento efectuado el pago se procederá a la devolución de la Prenda en el acto. En " +
-                "caso de que <style isBold=\"true\">“EL CONSUMIDOR”</style> no cumpla con el pago anticipado en el " +
-                "plazo establecido de los " + duracion + " meses, se extenderá en automático el plazo del pago anticipado a la " +
-                "mensualidad subsecuente a la fecha del aviso anticipado de 45 días naturales.\n" + "\n" +
-                "<style isBold=\"true\">“EL CONSUMIDOR”</style> podrá realizar pagos anticipados, siempre y cuando se" +
-                " encuentre al corriente de sus pagos y haya cumplido el plazo de los " + meses + " meses, por lo que" +
-                " los pagos anticipados se aplicarán al saldo insoluto principal. <style isBold=\"true\">“EL " +
-                "CONSUMIDOR”</style> deberá avisar por escrito 45 días naturales a <style isBold=\"true\">“EL " +
-                "PROVEEDOR”</style> su deseo de realizar el 50% de aportación a su capital, por lo que <style " +
-                "isBold=\"true\">“EL PROVEEDOR”</style> deberá aplicar dicho pago anticipado al saldo insoluto."
+        return texto + incisoC
     }
 
     def solicitudLiquidacion(Contrato contrato) {
@@ -367,37 +296,34 @@ class ReporteService {
         String nombres = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
         ContratoDetalle contratoDetalle = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
         if (contrato.razonesSociales != null) {
-            texto = "Por medio del presente documento, YO " + formatoTextoReporte(nombres, 'n') + " en " +
-                    "representación legal de " + formatoTextoReporte(contrato.razonesSociales.descLabel, 'n') +
-                    " en la fecha en que se emite este documento, solicito a " + formatoTextoReporte("AP SERVICIOS" +
-                    " FINANCIEROS S.A. DE C.V.", 'n') + " el término del contrato de aumento de capital " +
-                    formatoTextoReporte(contratoFolio(contrato), 'n') + " celebrado el " +
-                    formatoTextoReporte(fecha(contrato.fechaContrato), 'n') + ", y conforme a las cláusulas " +
-                    "que se especifican en el mismo, acepto y reconozco realizar el pago total de mi adeudo el día " +
-                    formatoTextoReporte(fecha(contratoDetalle.fecha), 'n') + " como fecha límite de pago " + verificarHabil(contrato) + "de" +
-                    " acuerdo al calendario de pagos especificado en la carátula del contrato antes mencionado. \nDe " +
-                    "no ser así, me comprometo a pagar el 10% del adeudo total por cada día de atraso.\n\n" +
-                    formatoTextoReporte("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE LIQUIDACIÓN DEL" +
-                            " ADEUDO ENCUENTREN CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE INCUMPLIR" +
-                            " CON LAS FECHAS ESTIPULADAS", 'n')
+            texto = "Por medio del presente documento, YO " + ftr(nombres, 'n') + " en representación legal" +
+                    " de " + ftr(contrato.razonesSociales.descLabel, 'n') + " en la fecha en que se emite " +
+                    "este documento, solicito a " + ftr("AP SERVICIOS FINANCIEROS S.A. DE C.V.", 'n') +
+                    " el término del contrato " + ftr(contratoFolio(contrato), 'n') + " celebrado el " +
+                    ftr(fecha(contrato.fechaContrato), 'n') + ", y conforme a las cláusulas que se especifican" +
+                    " en el mismo, acepto y reconozco realizar el pago total de mi adeudo el día " +
+                    ftr(fecha(contratoDetalle.fecha), 'n') + " como fecha límite de pago " +
+                    verificarHabil(contrato) + "de acuerdo al calendario de pagos especificado en la carátula del " +
+                    "contrato antes mencionado. \nDe no ser así, me comprometo a pagar el 10% del adeudo total por cada" +
+                    " día de atraso.\n\n" + ftr("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE " +
+                    "LIQUIDACIÓN DEL ADEUDO ENCUENTREN CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE" +
+                    " INCUMPLIR CON LAS FECHAS ESTIPULADAS", 'n')
         } else {
-            texto = "Por medio del presente documento, YO " + formatoTextoReporte(nombres, 'n') + " en la" +
-                    " fecha en que se emite este documento, solicito a " +
-                    formatoTextoReporte("AP SERVICIOS FINANCIEROS S.A. DE C.V.", 'n') + " el término del " +
-                    "contrato de aumento de capital " + formatoTextoReporte(contratoFolio(contrato), 'n') +
-                    " celebrado el " + formatoTextoReporte(fecha(contrato.fechaContrato), 'n') + ", y " +
-                    "conforme a las cláusulas que se especifican en el mismo, acepto y reconozco realizar el pago " +
-                    "total de mi adeudo el día " + formatoTextoReporte(fecha(contratoDetalle.fecha), 'n') +
-                    " como fecha límite de pago " + verificarHabil(contrato) + "de acuerdo al calendario de pagos especificado en la carátula del " +
-                    "contrato antes mencionado. \nDe no ser así, me comprometo a pagar el 10% del adeudo total por " +
-                    "cada día de atraso.\n\n" + formatoTextoReporte("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE LIQUIDACIÓN " +
-                    "DEL ADEUDO ENCUENTREN CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE INCUMPLIR CON" +
-                    " LAS FECHAS ESTIPULADAS\n", 'n')
+            texto = "Por medio del presente documento, YO " + ftr(nombres, 'n') + " en la fecha en que se " +
+                    "emite este documento, solicito a " + ftr("AP SERVICIOS FINANCIEROS S.A. DE C.V.", 'n') +
+                    " el término del contrato " + ftr(contratoFolio(contrato), 'n') + " celebrado el " +
+                    ftr(fecha(contrato.fechaContrato), 'n') + ", y conforme a las cláusulas que se especifican" +
+                    " en el mismo, acepto y reconozco realizar el pago total de mi adeudo el día " +
+                    ftr(fecha(contratoDetalle.fecha), 'n') + " como fecha límite de pago " + verificarHabil(contrato) +
+                    "de acuerdo al calendario de pagos especificado en la carátula del contrato antes mencionado. \nDe" +
+                    " no ser así, me comprometo a pagar el 10% del adeudo total por cada día de atraso.\n\n" +
+                    ftr("ES NECESARIO QUE LAS MENSUALIDADES ANTES DE LA FECHA DE LIQUIDACIÓN DEL ADEUDO ENCUENTREN" +
+                            " CUBIERTAS EN TIEMPO, EL IMPORTE PUEDE INCREMENTAR EN CASO DE INCUMPLIR CON LAS FECHAS ESTIPULADAS\n", 'n')
         }
         return texto
     }
 
-    def formatoTextoReporte(String texto, String tipoFormato) {
+    def ftr(String texto, String tipoFormato) {
         String formato = "<style "
         switch (tipoFormato) {
             case 'n':

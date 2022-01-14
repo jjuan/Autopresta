@@ -14,6 +14,14 @@ export interface Automoviles {
   modelo: Modelos;
 }
 
+export class _statusContratos {
+  registrado: number;
+  impreso: number;
+  firmado: number;
+  cancelado: number;
+  total: number;
+}
+
 export class _subconceptos {
   id: number;
   subconcepto: string;
@@ -24,6 +32,7 @@ export class _subconceptos {
   formaLiquidacion: _formaLiquidacion;
   categoria: _categorias;
 }
+
 export class _operacion {
   // campos generales
   operacion: string;
@@ -83,7 +92,7 @@ export class _genLiq_ext_det {
   valor: string;
 }
 
-export  class _categorias {
+export class _categorias {
   id: number;
   descripcion: string;
 }
@@ -94,7 +103,7 @@ export class _formaLiquidacion {
   chequeraCasa: _cuentaBancaria;
   descripcion: string;
   divisa: Divisas;
-  estatusAplicacion: string ;
+  estatusAplicacion: string;
   formaLiquidacion: string;
   montoMax: number;
   montoMin: number;
@@ -109,6 +118,7 @@ export class _formaLiquidacion {
   tipoImpresion: string;
   tipoMovimiento: string;
 }
+
 export class _puestos {
   id: number;
   puesto?: string;
@@ -306,7 +316,7 @@ export interface _comboCp {
   cp: string
 }
 
-export interface ContratoDetalle{
+export interface ContratoDetalle {
   contrato: Contrato;
   parcialidad: string;
   fecha: Date;
@@ -325,7 +335,7 @@ export interface Contrato {
   id: number
   //datos del cliente
   regimenFiscal: string;
-numeroContrato: string;
+  numeroContrato: string;
   nombres: string;
   primerApellido: string;
   segundoApellido: string;
@@ -429,12 +439,12 @@ export interface direccion {
   principal?: boolean;
 }
 
-export interface Folios{
+export interface Folios {
   folio: string;
   folioPrueba: string;
 }
 
-export interface IdentificacionesOficiales{
+export interface IdentificacionesOficiales {
   id: number;
   nombre: string;
   longitud: number;
@@ -444,11 +454,16 @@ export interface monto {
   monto: number
 }
 
-export interface Contrataciones{
+export interface Contrataciones {
   id: number;
   folio: string;
   regimenFiscal: string;
   fechaEmision: Date;
+  estatusLabel?: string;
+  titular?: string;
+  estatusContrato?:string;
+  numeroContrato?: string;
+  representante?: string;
   total: monto[];
   montoPrestamo: number;
   estatus: string;

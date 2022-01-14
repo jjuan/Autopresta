@@ -45,7 +45,7 @@ export class GeneracionContratoComponent implements OnInit {
       fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
       contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
       numeroContrato: [this.folios ? this.folios.folio : '', Validators.required],
-      referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : '', Validators.required],
+      referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : ''],
       montoTransferencia: [this.data.data.montoTransferencia ? this.data.data.montoTransferencia : '', Validators.required],
       descuentosRetenciones: [this.data.data.descuentosRetenciones ? this.data.data.descuentosRetenciones : 'N/A', Validators.required],
       fechaSolicitud: [this.data.data.fechaSolicitud ? this.data.data.fechaSolicitud : ''],

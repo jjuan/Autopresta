@@ -101,6 +101,7 @@ class ContratoController extends RestfulController<Contrato> {
                     fechaSolicitud               : it?.fechaSolicitud,
                     montoLiquidar                : it?.montoLiquidar,
                     fechaCompromiso              : it?.fechaCompromiso,
+                    estatusLabel                 : getEstatus(it.estatus),
                     total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
                     direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
                         [
@@ -386,5 +387,35 @@ class ContratoController extends RestfulController<Contrato> {
             }
         }
         return folio
+    }
+
+    def estatusContratos() {
+        def registrado = Contrato.countByEstatusAndContratoPrueba('R', false)
+        def impreso = Contrato.countByEstatusAndContratoPrueba('I', false)
+        def firmado = Contrato.countByEstatusAndContratoPrueba('F', false)
+        def cancelado = Contrato.countByEstatusAndContratoPrueba('C', false)
+        def total = registrado + impreso + firmado + cancelado
+
+        respond([
+                registrado: registrado,
+                impreso   : impreso,
+                firmado   : firmado,
+                cancelado : cancelado,
+                total     : total
+        ])
+    }
+
+    def getEstatus(String estatus) {
+        String label = ''
+        if (estatus == 'C') {
+            label = 'Cancelado'
+        } else if (estatus == 'F') {
+            label = 'Firmado'
+        } else if (estatus == 'R') {
+            label = 'Registrado'
+        } else if (estatus == 'I') {
+            label = 'Impreso'
+        }
+        return label
     }
 }
