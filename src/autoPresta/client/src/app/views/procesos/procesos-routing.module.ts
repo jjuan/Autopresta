@@ -3,6 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import {ContratoComponent} from "./contrato/contrato.component";
 import {GeneraLiquidacionComponent} from "./genera-liquidacion/genera-liquidacion.component";
 import {ImportacionesComponent} from "./importaciones/importaciones.component";
+import {ConciliacionEgresosComponent} from "./conciliacion-bancaria/conciliacion-egresos/conciliacion-egresos.component";
+import {ConciliacionIngresosComponent} from "./conciliacion-bancaria/conciliacion-ingresos/conciliacion-ingresos.component";
 
 
 const routes: Routes = [
@@ -10,6 +12,8 @@ const routes: Routes = [
   { path:'Contrato', component: ContratoComponent  },
   { path:'Genera-Liquidacion', component: GeneraLiquidacionComponent  },
   { path:'Importaciones', component: ImportacionesComponent },
+  { path:'Conciliacion-Egresos', component: ConciliacionEgresosComponent },
+  { path:'Conciliacion-Ingresos', component: ConciliacionIngresosComponent },
 ];
 
 @NgModule({

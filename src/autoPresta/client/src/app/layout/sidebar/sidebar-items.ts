@@ -218,6 +218,23 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
+      {
+        path: 'Procesos/Conciliacion-Egresos',
+        title: 'Conciliacion-Egresos',
+        moduleName: 'Procesos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },{
+        path: 'Procesos/Conciliacion-Ingresos',
+        title: 'Conciliacion-Ingresos',
+        moduleName: 'Procesos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
     ]
   },
   {
@@ -246,7 +263,15 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      //
+      // {
+      //   path: 'Consultas/Firma',
+      //   title: 'Firma',
+      //   moduleName: 'Consultas',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
     ]
   },
   {

@@ -8,13 +8,14 @@ import { ContratosFirmadosComponent } from './contratos-firmados/contratos-firma
 import { DetallePagosComponent } from './contratos-firmados/detalle-pagos/detalle-pagos.component';
 import { CamboEstadoComponent } from './contratos-firmados/cambo-estado/cambo-estado.component';
 import { FirmaComponent } from './firma/firma.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 
 @NgModule({
   declarations: [ContratacionesComponent, ContratosFirmadosComponent, DetallePagosComponent, CamboEstadoComponent, FirmaComponent],
-    imports: [
-        CommonModule, SharedModule,
-        ConsultasRoutingModule,
-    ]
+  imports: [
+    CommonModule, SharedModule,
+    ConsultasRoutingModule, PdfViewerModule,
+  ]
 })
 export class ConsultasModule { }

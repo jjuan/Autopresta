@@ -61,7 +61,7 @@ class CargaExtractosFisicaService {
     }
 
     def bbvaFisica(def archivo, String nombreArchivo, CuentasBancarias cb, def session) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         InputStream file = archivo.getInputStream()
         String separador = "\t"
         def buffer = new BufferedReader(new InputStreamReader(file, 'UTF-8'))

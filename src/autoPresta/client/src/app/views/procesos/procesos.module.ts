@@ -13,15 +13,19 @@ import {GeneraLiquidacionReglaComponent} from "./genera-liquidacion/genera-liqui
 import {TablaReglasComponent} from "./genera-liquidacion/tabla-reglas/tabla-reglas.component";
 import {ImportacionesComponent} from "./importaciones/importaciones.component";
 import {CargaExtractosComponent} from "./importaciones/carga-extractos/carga-extractos.component";
+import { ConciliacionIngresosComponent } from './conciliacion-bancaria/conciliacion-ingresos/conciliacion-ingresos.component';
+import { ConciliacionEgresosComponent } from './conciliacion-bancaria/conciliacion-egresos/conciliacion-egresos.component';
+import {CatalogosModule} from "../catalogos/catalogos.module";
+import { ConciliacionMovimientosComponent } from './conciliacion-bancaria/componentes/conciliacion-movimientos/conciliacion-movimientos.component';
 
 
 @NgModule({
   declarations: [ContratoComponent, ContratoDetalleComponent, GeneracionContratoComponent, GeneraLiquidacionComponent,
   GeneraLiquidacionFormComponent, GeneraLiquidacionDeleteComponent, GeneraLiquidacionReglaComponent, TablaReglasComponent,
-  ImportacionesComponent, CargaExtractosComponent],
-  imports: [
-    CommonModule, SharedModule,
-    ProcesosRoutingModule
-  ]
+  ImportacionesComponent, CargaExtractosComponent, ConciliacionIngresosComponent, ConciliacionEgresosComponent, ConciliacionMovimientosComponent],
+    imports: [
+        CommonModule, SharedModule,
+        ProcesosRoutingModule, CatalogosModule
+    ]
 })
 export class ProcesosModule { }

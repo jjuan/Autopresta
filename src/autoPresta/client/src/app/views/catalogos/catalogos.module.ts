@@ -45,17 +45,21 @@ import {BancosDeleteComponent} from "./bancos/bancos-delete/bancos-delete.compon
 
 
 @NgModule({
-  declarations: [ ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent,
-    ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent,
-    AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent,
-    FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent,
-    DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent,
-    CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, BancosComponent,
-    IdentificacionesOficialesFormComponent, CuentasBancariasComponent, CuentasBancariasFormComponent, BancosFormComponent,
-    CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent],
-  imports: [
-    CommonModule, SharedModule,
-    CatalogosRoutingModule
-  ]
+    declarations: [ClientesComponent, FormClientesComponent, AutomovilesComponent, FormAutomovilesComponent,
+        ServiciosComponent, FormServiciosComponent, MarcasComponent, FormMarcasComponent, GpsComponent, FormGpsComponent,
+        AgenciasComponent, FormAgenciasComponent, FormSucursalesComponent, FormRegionesComponent, PortafoliosComponent,
+        FormPortafoliosComponent, ProveedoresComponent, FormProveedoresComponent, MercadosComponent, FormMercadosComponent,
+        DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent,
+        CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, BancosComponent,
+        IdentificacionesOficialesFormComponent, CuentasBancariasComponent, CuentasBancariasFormComponent, BancosFormComponent,
+        CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent],
+  exports: [
+    AgenciasComponent,
+    BancosComponent
+  ],
+    imports: [
+        CommonModule, SharedModule,
+        CatalogosRoutingModule
+    ]
 })
 export class CatalogosModule { }
