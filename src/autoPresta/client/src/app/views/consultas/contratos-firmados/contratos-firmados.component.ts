@@ -145,7 +145,6 @@ export class ContratosFirmadosComponent implements OnInit {
   estatusContratos() {
     this.restService.index<_statusContratos>(this.datos.controlador, {}, 'estatusContratos').subscribe(r => {
       this.conciliacionOperaciones = r
-      console.log(this.conciliacionOperaciones)
     })
   }
 }

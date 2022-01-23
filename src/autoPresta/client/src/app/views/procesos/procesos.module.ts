@@ -17,12 +17,13 @@ import { ConciliacionIngresosComponent } from './conciliacion-bancaria/conciliac
 import { ConciliacionEgresosComponent } from './conciliacion-bancaria/conciliacion-egresos/conciliacion-egresos.component';
 import {CatalogosModule} from "../catalogos/catalogos.module";
 import { ConciliacionMovimientosComponent } from './conciliacion-bancaria/componentes/conciliacion-movimientos/conciliacion-movimientos.component';
+import { ConciliacionContratosComponent } from './conciliacion-bancaria/componentes/conciliacion-contratos/conciliacion-contratos.component';
 
 
 @NgModule({
   declarations: [ContratoComponent, ContratoDetalleComponent, GeneracionContratoComponent, GeneraLiquidacionComponent,
   GeneraLiquidacionFormComponent, GeneraLiquidacionDeleteComponent, GeneraLiquidacionReglaComponent, TablaReglasComponent,
-  ImportacionesComponent, CargaExtractosComponent, ConciliacionIngresosComponent, ConciliacionEgresosComponent, ConciliacionMovimientosComponent],
+  ImportacionesComponent, CargaExtractosComponent, ConciliacionIngresosComponent, ConciliacionEgresosComponent, ConciliacionMovimientosComponent, ConciliacionContratosComponent],
     imports: [
         CommonModule, SharedModule,
         ProcesosRoutingModule, CatalogosModule

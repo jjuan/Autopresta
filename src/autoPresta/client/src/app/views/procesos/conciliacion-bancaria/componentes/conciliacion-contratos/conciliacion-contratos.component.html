@@ -59,12 +59,12 @@
 
 
             <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-              <ng-container matColumnDef="cuenta">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta
+              <ng-container matColumnDef="contrato">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Contrato
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row"
                           [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
-                  {{row.cuenta}}</mat-cell>
+                  {{row.contrato}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="fecha">
@@ -74,11 +74,11 @@
                   {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
 
-              <ng-container matColumnDef="referencia">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Referencia</mat-header-cell>
+              <ng-container matColumnDef="parcialidad">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Parcialidad</mat-header-cell>
                 <mat-cell *matCellDef="let row"
                           [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
-                  {{row.referencia}}</mat-cell>
+                  {{row.parcialidad}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="monto">

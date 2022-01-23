@@ -17,11 +17,56 @@
       </div>
     </div>
 
-    <div class="row">
+    <form [formGroup]="formulario">
+      <div class="card">
+        <div class="body pb-0">
+          <div class="row padding-0">
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+              <mat-form-field class="full-width m-0" appearance="outline">
+                <mat-label>Fecha Inicial</mat-label>
+                <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerInicial></mat-datepicker>
+                <mat-error *ngIf="formulario.get('fechaInicio').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+              <mat-form-field class="full-width m-0" appearance="outline">
+                <mat-label>Fecha Inicial</mat-label>
+                <input matInput [matDatepicker]="DatepickerFin" name="fechaFin" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerFin"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerFin></mat-datepicker>
+                <mat-error *ngIf="formulario.get('fechaFin').hasError('required')">
+                  Fecha es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-2">
+              <div class="button-row">
+                <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid"
+                        [mat-dialog-close]="1" (click)="save()">
+                  <mat-icon class="col-white" matTooltip="Descargar reporte de ">picture_as_pdf</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row" *ngIf="showTables==true">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+        <app-conciliacion-contratos
+          [fechaInicio]="formulario.get('fechaInicio').value" [fechaFin]="formulario.get('fechaFin').value"
+          [cargoAbono]="configContratos.cargoAbono" [titulo]="configContratos.titulo"
+          [subtitulo]="configContratos.subtitulo"></app-conciliacion-contratos>
       </div>
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-        <app-conciliacion-movimientos></app-conciliacion-movimientos>
+        <app-conciliacion-movimientos
+          [fechaInicio]="formulario.get('fechaInicio').value" [fechaFin]="formulario.get('fechaFin').value"
+          [cargoAbono]="configMovimientos.cargoAbono" [titulo]="configMovimientos.titulo"
+          [subtitulo]="configMovimientos.subtitulo"></app-conciliacion-movimientos>
       </div>
     </div>
   </div>

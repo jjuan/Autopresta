@@ -1,33 +1,29 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {
-  _statusContratos,
-  conciliacionMovimientosTable,
-  conciliacionStatus, configConcilicacionComponent
-} from "../../../../../core/models/data.interface";
+import {conciliacionContratosTable, conciliacionStatus} from "../../../../../core/models/data.interface";
 import {BehaviorSubject, fromEvent, merge, Observable, Subscription} from "rxjs";
 import {RestService} from "../../../../../core/service/rest.service";
 import {HttpClient} from "@angular/common/http";
 import {GlobalService} from "../../../../../core/service/global.service";
 import {MatDialog} from "@angular/material/dialog";
+import {DatePipe} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {FormBuilder} from "@angular/forms";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {map} from "rxjs/operators";
-import {DatePipe} from "@angular/common";
 import {MatMenuTrigger} from "@angular/material/menu";
+import {map} from "rxjs/operators";
 
 @Component({
-  selector: 'app-conciliacion-movimientos',
-  templateUrl: './conciliacion-movimientos.component.html',
-  styleUrls: ['./conciliacion-movimientos.component.sass']
+  selector: 'app-conciliacion-contratos',
+  templateUrl: './conciliacion-contratos.component.html',
+  styleUrls: ['./conciliacion-contratos.component.sass']
 })
-export class ConciliacionMovimientosComponent implements OnInit {
+export class ConciliacionContratosComponent implements OnInit {
   public _dominio = 'Conciliaciones'
   displayedColumns = [
-    'cuenta',
-    'referencia',
+    'contrato',
+    'parcialidad',
     'fecha',
     'monto'
   ];
@@ -45,8 +41,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
   };
 
 
-  selection = new SelectionModel<conciliacionMovimientosTable>(true, []);
-  advanceTable: conciliacionMovimientosTable | null;
+  selection = new SelectionModel<conciliacionContratosTable>(true, []);
+  advanceTable: conciliacionContratosTable | null;
 
   id: number;
   public getRowsSub: Subscription;
@@ -108,13 +104,12 @@ export class ConciliacionMovimientosComponent implements OnInit {
     this.advanceTableService.index<conciliacionStatus>(this._dominio, {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
-      cargoAbono: true
     }, 'statusConciliaciones').subscribe(r => {
       this.conciliacionStatus = r
     })
   }
 
-  onContextMenu(event: MouseEvent, item: conciliacionMovimientosTable) {
+  onContextMenu(event: MouseEvent, item: conciliacionContratosTable) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + 'px';
     this.contextMenuPosition.y = event.clientY + 'px';
@@ -124,7 +119,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
   }
 }
 
-export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
+export class BancosDataSource extends DataSource<conciliacionContratosTable> {
   _filterChange = new BehaviorSubject('');
 
   get filter(): string {
@@ -135,31 +130,31 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
     this._filterChange.next(filter);
   }
 
-  filteredData: conciliacionMovimientosTable[] = [];
-  renderedData: conciliacionMovimientosTable[] = [];
+  filteredData: conciliacionContratosTable[] = [];
+  renderedData: conciliacionContratosTable[] = [];
 
   constructor(public _dataSource: RestService, public _paginator: MatPaginator, public _sort: MatSort, private _dominio: string, private fechaInicio, private fechaFin, private cargoAbono: Boolean) {
     super();
     this._filterChange.subscribe(() => (this._paginator.pageIndex = 0));
   }
 
-  connect(): Observable<conciliacionMovimientosTable[]> {
+  connect(): Observable<conciliacionContratosTable[]> {
     const displayDataChanges = [this._dataSource.dataChange, this._sort.sortChange, this._filterChange, this._paginator.page];
     this._dataSource.getAdvancedTable<any>(this._dominio, {
       fechaInicio: this.fechaInicio,
       fechaFin: this.fechaFin,
       cargoAbono: this.cargoAbono
-    }, 'cargarMovimientos');
+    }, 'cargarParcialidades');
 
     return merge(...displayDataChanges).pipe(map(() => {
-        this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionMovimientosTable) => {
+        this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionContratosTable) => {
           const searchStr = (
-            advanceTable.folio +
-            advanceTable.cuenta +
-            advanceTable.fecha +
-            advanceTable.referencia +
-            advanceTable.monto +
-            advanceTable.estatus
+            advanceTable.folio+
+          advanceTable.contrato+
+          advanceTable.parcialidad+
+          advanceTable.fecha+
+          advanceTable.monto+
+          advanceTable.estatus
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -174,7 +169,7 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
   disconnect() {
   }
 
-  sortData(data: conciliacionMovimientosTable[]): conciliacionMovimientosTable[] {
+  sortData(data: conciliacionContratosTable[]): conciliacionContratosTable[] {
     if (!this._sort.active || this._sort.direction === '') {
       return data;
     }
@@ -183,19 +178,19 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'folio':
-          [propertyA, propertyB] = [a.folio, b.folio]
+          [propertyA, propertyB] =[a.folio, b.folio]
           break
-        case 'cuenta':
-          [propertyA, propertyB] = [a.cuenta, b.cuenta]
+        case 'contrato':
+          [propertyA, propertyB] =[a.contrato, b.contrato]
           break
-        case 'referencia':
-          [propertyA, propertyB] = [a.referencia, b.referencia]
+        case 'parcialidad':
+          [propertyA, propertyB] =[a.parcialidad, b.parcialidad]
           break
         case 'monto':
-          [propertyA, propertyB] = [a.monto, b.monto]
+          [propertyA, propertyB] =[a.monto, b.monto]
           break
         case 'estatus':
-          [propertyA, propertyB] = [a.estatus, b.estatus]
+          [propertyA, propertyB] =[a.estatus, b.estatus]
           break
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

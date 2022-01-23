@@ -21,7 +21,7 @@
         <div class="body">
           <div class="row">
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-              <mat-form-field class="example-full-width" appearance="outline">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Fecha Inicio</mat-label>
                 <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
                 <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
@@ -33,7 +33,7 @@
               </mat-form-field>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-              <mat-form-field class="example-full-width" appearance="outline">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Fecha Fin</mat-label>
                 <input matInput [matDatepicker]="DatepickerFinal" name="fechaFin" formControlName="fechaFin">
                 <mat-datepicker-toggle matSuffix [for]="DatepickerFinal"></mat-datepicker-toggle>
@@ -44,34 +44,8 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
-<!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">-->
-<!--              <mat-form-field class="example-full-width" appearance="outline">-->
-<!--                <mat-label>Razon Social</mat-label>-->
-<!--                <mat-select formControlName="razonSocial" (selectionChange)="cargarCuentas($event.value)">-->
-<!--                  <mat-option *ngFor="let item of razonSocialCombo" [value]="item.id">{{item.descripcion}}</mat-option>-->
-<!--                </mat-select>-->
-<!--                &lt;!&ndash;mat-icon matSuffix>icon name</mat-icon&ndash;&gt;-->
-<!--                <mat-error *ngIf="_importaciones.get('razonSocial').hasError('required')">-->
-<!--                  Razon Social es requerida-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
-
-<!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">-->
-<!--              <mat-form-field class="example-full-width" appearance="outline">-->
-<!--                <mat-label>Alias</mat-label>-->
-<!--                <mat-select formControlName="alias" [disabled]="!cuentaCombo">-->
-<!--                  <mat-option *ngFor="let item of cuentaCombo" [value]="item.id">{{item.descripcion}}</mat-option>-->
-<!--                </mat-select>-->
-<!--                &lt;!&ndash;mat-icon matSuffix>icon name</mat-icon&ndash;&gt;-->
-<!--                <mat-error *ngIf="_importaciones.get('alias').hasError('required')">-->
-<!--                  Alias es requerida-->
-<!--                </mat-error>-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
             <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mt-3">
-              <div class="example-button-row">
+              <div class="button-row">
                 <button mat-raised-button color="primary" type="submit" [disabled]="!_importaciones.valid"
                         [mat-dialog-close]="1" (click)="loadData()">
                   <mat-icon class="col-white" matTooltip="Eliminar filas seleccionadas">search</mat-icon>
@@ -79,7 +53,7 @@
               </div>
             </div>
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-0">
-              <mat-form-field class="example-full-width" appearance="outline">
+              <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Archivo</mat-label>
                 <mat-select formControlName="archivo" [disabled]="!comboArchivos">
                   <mat-option *ngFor="let item of comboArchivos" [value]="item.id">{{item.descripcion}}</mat-option>
@@ -91,7 +65,7 @@
               </mat-form-field>
             </div>
             <div class="col-xl-1 col-lg-1 col-md-12 col-sm-12 mt-3">
-              <div class="example-button-row">
+              <div class="button-row">
                 <button mat-raised-button color="primary"
                         [mat-dialog-close]="1" (click)="loadData()" [disabled]="!comboArchivos">
                   <mat-icon class="col-white" matTooltip="Eliminar filas seleccionadas">visibility</mat-icon>

@@ -7,6 +7,38 @@ export interface Agencias {
   clave: string;
 }
 
+export interface configConcilicacionComponent {
+  fechaInicio: Date;
+  fechaFin: Date;
+  cargoAbono: Boolean;
+  titulo: string;
+  subtitulo: string;
+}
+
+export interface conciliacionStatus {
+  conciliadas?: number;
+  pendientes: number;
+  total: number;
+}
+
+export interface conciliacionMovimientosTable {
+  folio: number
+  cuenta: string;
+  fecha: Date;
+  referencia: string;
+  monto: number;
+  estatus: string;
+}
+
+export interface conciliacionContratosTable {
+  folio: number;
+  contrato: string;
+  parcialidad: string;
+  fecha: Date;
+  monto: number;
+  estatus: string;
+}
+
 export interface Automoviles {
   id: number;
   anio: string;
@@ -461,7 +493,7 @@ export interface Contrataciones {
   fechaEmision: Date;
   estatusLabel?: string;
   titular?: string;
-  estatusContrato?:string;
+  estatusContrato?: string;
   numeroContrato?: string;
   representante?: string;
   total: monto[];

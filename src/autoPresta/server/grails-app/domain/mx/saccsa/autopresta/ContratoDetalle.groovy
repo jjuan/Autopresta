@@ -13,6 +13,7 @@ class ContratoDetalle {
     BigDecimal saldoFinal
     Date fechaPago
     String estatus
+    Boolean conciliado
 
 
     static constraints = {
@@ -28,6 +29,7 @@ class ContratoDetalle {
         saldoFinal nullable: false, blank: false
         fechaPago nullable: true, blank: true
         estatus nullable: true, blank: true
+        conciliado nullable: true, blank: true
     }
 
     static mapping = {
@@ -46,5 +48,6 @@ class ContratoDetalle {
         saldoFinal name: 'saldoFinal', column: 'saldoFinal'
         fechaPago name: 'fechaPago', column: 'fechaPago'
         estatus name: 'estatus', column: 'estatus'
+        conciliado name: 'conciliado', column: 'conciliado'
     }
 }
