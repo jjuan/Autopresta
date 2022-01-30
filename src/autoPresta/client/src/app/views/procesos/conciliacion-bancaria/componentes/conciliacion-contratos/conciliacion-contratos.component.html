@@ -63,28 +63,28 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Contrato
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.contrato}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="fecha">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="parcialidad">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Parcialidad</mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.parcialidad}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="monto">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Monto</mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}"
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}"
                 >
                   {{row.monto|currency: 'USD'}}</mat-cell>
               </ng-container>

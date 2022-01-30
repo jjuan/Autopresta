@@ -28,6 +28,7 @@ export interface conciliacionMovimientosTable {
   referencia: string;
   monto: number;
   estatus: string;
+  clase?: string;
 }
 
 export interface conciliacionContratosTable {
@@ -37,6 +38,7 @@ export interface conciliacionContratosTable {
   fecha: Date;
   monto: number;
   estatus: string;
+  clase?: string;
 }
 
 export interface Automoviles {

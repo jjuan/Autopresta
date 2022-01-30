@@ -59,32 +59,47 @@
 
 
             <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+
+              <ng-container matColumnDef="actions">
+                <mat-header-cell *matHeaderCellDef class="pr-0" [ngClass]="'tbl-col-width-per-15'">Acciones</mat-header-cell>
+
+                <mat-cell *matCellDef="let row; let i=index;" class="pr-0" [ngClass]="'tbl-col-width-per-15'">
+                  <button *ngIf="row.estatus=='Conciliado'" mat-icon-button matTooltip="Eliminar {{subtitulo}}">
+                    <mat-icon aria-label="Delete">visibility</mat-icon>
+                  </button>
+
+                  <button *ngIf="row.estatus=='Pendiente'" [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}" mat-icon-button matTooltip="Conciliar {{subtitulo}}" (click)="conciliar(row)">
+                    <mat-icon aria-label="Delete">verified_user</mat-icon>
+                  </button>
+                </mat-cell>
+              </ng-container>
+
               <ng-container matColumnDef="cuenta">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Cuenta
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-14'">Cuenta
                 </mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-14'"
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.cuenta}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="fecha">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-12'"
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="referencia">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Referencia</mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
                   {{row.referencia}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="monto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Monto</mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus!=='Conciliado'?{'color': 'green'}:{'color':'orange'}"
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-15'">Monto</mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-15'"
+                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}"
                 >
                   {{row.monto|currency: 'USD'}}</mat-cell>
               </ng-container>

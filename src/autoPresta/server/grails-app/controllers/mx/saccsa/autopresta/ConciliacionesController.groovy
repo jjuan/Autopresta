@@ -23,16 +23,30 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     def cargarParcialidades() {
         def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
-        respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin))
+        if (params.conciliados){
+            respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, params.conciliados as Boolean))
+        } else {
+            respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin))
+        }
     }
 
-    def statusConciliaciones() {
+    def statusConciliacionesMovimientos() {
         def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
 
-        def conciliadas = params.cargoAbono?conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, true):conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, true)
-        def noConciliadas = params.cargoAbono?conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, false):conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, true)
+        def conciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, true)
+        def noConciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, false)
+
+        respond(conciliadas: conciliadas.size(), pendientes: noConciliadas.size(), total: conciliadas.size() + noConciliadas.size() )
+    }
+
+    def statusConciliacionesOperaciones() {
+        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
+        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+
+        def conciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, true)
+        def noConciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, false)
 
         respond(conciliadas: conciliadas.size(), pendientes: noConciliadas.size(), total: conciliadas.size() + noConciliadas.size() )
     }
@@ -41,5 +55,26 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         return Portafolios.findByCvePortafolio(Parametros.getValorByParametro('Portafolio') as Integer)
     }
 
+    def conciliacionAutomaticaMovimientos(){
+        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
+        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+        String cargoAbono = params.cargoAbono
+        def concilio = conciliacionesService.conciliacionAutomaticaMovimientos(cargoAbono, fechaInicio, fechaFin, params.id as Long)
+        respond(concilio: concilio)
+    }
+
+    def conciliacionMovimientos(){
+        request.JSON
+        params
+        Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String))
+        for (detalle in request.JSON.detalles){
+            conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0])
+        }
+        respond message: 'wrewrw'
+    }
+
+    LiquidacionBanco getMovimiento(Long id){
+        return LiquidacionBanco.findById(id)
+    }
 
 }

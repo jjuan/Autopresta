@@ -28,13 +28,13 @@ export class ConciliacionIngresosComponent implements OnInit {
   public configMovimientos = {
     cargoAbono: this.cargoAbono,
     titulo: 'Conciliacion de movimentos(Ingresos)',
-    subtitulo: 'Movimientos'
+    subtitulo: 'Movimiento'
   }
 
   public configContratos = {
     cargoAbono: this.cargoAbono,
     titulo: 'Conciliacion de contratos',
-    subtitulo: 'Parcialidades'
+    subtitulo: 'Parcialidad'
   }
 
   save() {

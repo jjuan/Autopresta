@@ -35,9 +35,9 @@ export class ConciliacionContratosComponent implements OnInit {
   @Input() subtitulo: string;
 
   public conciliacionStatus: conciliacionStatus = {
-    conciliadas: 7.025,
-    pendientes: 3,
-    total: 10,
+    conciliadas: 0,
+    pendientes: 0,
+    total: 0,
   };
 
 
@@ -81,7 +81,7 @@ export class ConciliacionContratosComponent implements OnInit {
       this.db, this.paginator, this.sort, this._dominio,
       this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
-      true);
+      this.cargoAbono);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
         return;
@@ -104,7 +104,7 @@ export class ConciliacionContratosComponent implements OnInit {
     this.advanceTableService.index<conciliacionStatus>(this._dominio, {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
-    }, 'statusConciliaciones').subscribe(r => {
+    }, 'statusConciliacionesOperaciones').subscribe(r => {
       this.conciliacionStatus = r
     })
   }

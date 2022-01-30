@@ -1,0 +1,99 @@
+<div class="width: 5000">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 p-l-10 font-17">
+            {{dialogTitle}}</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="tableBody">
+    <div class="table-responsive">
+      <table class="table table-hover dashboard-task-infos">
+        <thead>
+        <tr>
+          <th>Cuenta</th><th>Monto</th><th>Fecha</th><th>Conciliado</th><th>Saldo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><b>{{data.info.cuenta}}</b></td>
+          <td><b>{{data.info.monto| currency: 'USD'}}</b></td>
+          <td><b>{{data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
+          <td><b>{{data.info.conciliado?'Conciliado':'Pendiente'}}</b></td>
+          <td><p><b [ngStyle]="etiqueta == 'Saldo remanente'?{'color': 'red' }:{'color':'green'}">{{saldo| currency: 'USD'}} {{etiqueta}}</b></p></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <div class="card">
+        <div class="body">
+          <div class="responsive_table">
+            <div class="materialTableHeader">
+              <div class="row">
+                <div class="col-8">
+                  <ul class="header-buttons-left ml-0">
+                    <li class="dropdown"><h2><strong>{{titulo}}</strong></h2></li>
+                    <li class="dropdown m-l-20">
+                      <label><i class="material-icons search-icon">search</i></label>
+                      <input placeholder="Buscar..." type="text" #filter class="browser-default search-field" aria-label="Search box">
+                    </li>
+                    <li>
+                      <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
+                        <button mat-mini-fab color="primary" (click)="confirmAdd()"><mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon></button>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+              <ng-container matColumnDef="select">
+                <mat-header-cell *matHeaderCellDef [ngClass]="'tbl-col-width-per-6'">
+                  <mat-checkbox (change)="$event ? masterToggle() : null; actualizarMonto()"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()" [ngClass]="'tbl-checkbox'">
+                  </mat-checkbox>
+                </mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
+                  <mat-checkbox  (change)="$event ? selection.toggle(row)  : null; actualizarMonto()"
+                                 [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                  </mat-checkbox>
+                </mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="contrato">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Contrato</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.contrato}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="parcialidad">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Parcialidad</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.parcialidad}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="fecha">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="monto">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Monto</mat-header-cell>
+                <mat-cell class="header-align-right p-r-20" *matCellDef="let row">{{row.monto| number: '.2'}}</mat-cell>
+              </ng-container>
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns;"  [style.cursor]="'pointer'" matRipple> </mat-row>
+            </mat-table>
+
+            <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se encontraron Resultados</div>
+            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

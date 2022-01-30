@@ -17,6 +17,10 @@ import {MatSort} from "@angular/material/sort";
 import {map} from "rxjs/operators";
 import {DatePipe} from "@angular/common";
 import {MatMenuTrigger} from "@angular/material/menu";
+import Swal from "sweetalert2";
+import {
+  ConciliacionManualMovimientosComponent
+} from "../conciliacion-manual-movimientos/conciliacion-manual-movimientos.component";
 
 @Component({
   selector: 'app-conciliacion-movimientos',
@@ -26,6 +30,7 @@ import {MatMenuTrigger} from "@angular/material/menu";
 export class ConciliacionMovimientosComponent implements OnInit {
   public _dominio = 'Conciliaciones'
   displayedColumns = [
+    'actions',
     'cuenta',
     'referencia',
     'fecha',
@@ -39,9 +44,9 @@ export class ConciliacionMovimientosComponent implements OnInit {
   @Input() subtitulo: string;
 
   public conciliacionStatus: conciliacionStatus = {
-    conciliadas: 7.025,
-    pendientes: 3,
-    total: 10,
+    conciliadas: 0,
+    pendientes: 0,
+    total: 0,
   };
 
 
@@ -85,7 +90,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
       this.db, this.paginator, this.sort, this._dominio,
       this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
-      true);
+      this.cargoAbono);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
         return;
@@ -108,8 +113,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
     this.advanceTableService.index<conciliacionStatus>(this._dominio, {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
-      cargoAbono: true
-    }, 'statusConciliaciones').subscribe(r => {
+      cargoAbono: this.cargoAbono
+    }, 'statusConciliacionesMovimientos').subscribe(r => {
       this.conciliacionStatus = r
     })
   }
@@ -121,6 +126,58 @@ export class ConciliacionMovimientosComponent implements OnInit {
     this.contextMenu.menuData = {item: item};
     this.contextMenu.menu.focusFirstItem('mouse');
     this.contextMenu.openMenu();
+  }
+
+  conciliar(row:conciliacionMovimientosTable) {
+    const opts = this.globalService.getHttpOptions()
+    opts['params'] = {
+      fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
+      fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      cargoAbono: this.cargoAbono,
+      id: row.folio
+    };
+    this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaMovimientos",{
+      fechaInicio: this.fechaInicio,
+      fechaFin: this.fechaFin,
+      cargoAbono: this.cargoAbono,
+      id: row.folio
+    },opts).subscribe(r => {
+      if (r == true){
+
+      } else{
+
+        let data: any;
+          const dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
+            width: '50%', disableClose: true,
+            data: { title: 'Parcialidad', disableClose: true,fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+              info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos' }
+          });
+          dialogRef.afterClosed().subscribe((result) => {
+            if (!result) { return }
+            if (result.diferencia != 0){
+              Swal.fire({
+                title: 'Advertencia',
+                text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?", icon: 'warning',
+                showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar'
+              }).then((res) => {
+                if (res.value) {
+                  this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos",result,opts)
+                  // this.advanceTableService.save<string>(result)
+                    .subscribe(data => {
+                    this.showNotification('snackbar-success','Conciliacion creada!!','bottom','center' );
+                    this.loadData();
+                  }, error => {
+                    if (error._embedded !== undefined) {
+                      this.showNotification('snackbar-danger','¡¡Error al guardar!!','bottom','center' );
+                    }
+                  })
+                }
+              });
+            }
+          });
+      }
+    })
   }
 }
 
