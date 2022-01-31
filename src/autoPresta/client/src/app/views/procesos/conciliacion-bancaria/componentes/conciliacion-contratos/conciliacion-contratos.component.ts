@@ -1,6 +1,10 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
-import {conciliacionContratosTable, conciliacionStatus} from "../../../../../core/models/data.interface";
+import {
+  conciliacionContratosTable,
+  conciliacionMovimientosTable,
+  conciliacionStatus
+} from "../../../../../core/models/data.interface";
 import {BehaviorSubject, fromEvent, merge, Observable, Subscription} from "rxjs";
 import {RestService} from "../../../../../core/service/rest.service";
 import {HttpClient} from "@angular/common/http";
@@ -13,6 +17,13 @@ import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {MatMenuTrigger} from "@angular/material/menu";
 import {map} from "rxjs/operators";
+import {
+  ConciliacionManualMovimientosComponent
+} from "../conciliacion-manual-movimientos/conciliacion-manual-movimientos.component";
+import Swal from "sweetalert2";
+import {
+  ConciliacionManualContratosComponent
+} from "../conciliacion-manual-contratos/conciliacion-manual-contratos.component";
 
 @Component({
   selector: 'app-conciliacion-contratos',
@@ -22,6 +33,7 @@ import {map} from "rxjs/operators";
 export class ConciliacionContratosComponent implements OnInit {
   public _dominio = 'Conciliaciones'
   displayedColumns = [
+    'actions',
     'contrato',
     'parcialidad',
     'fecha',
@@ -116,6 +128,55 @@ export class ConciliacionContratosComponent implements OnInit {
     this.contextMenu.menuData = {item: item};
     this.contextMenu.menu.focusFirstItem('mouse');
     this.contextMenu.openMenu();
+  }
+  conciliar(row:conciliacionContratosTable) {
+    const opts = this.globalService.getHttpOptions()
+    opts['params'] = {
+      fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
+      fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      id: row.folio
+    };
+    this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaContratos",{
+      fechaInicio: this.fechaInicio,
+      fechaFin: this.fechaFin,
+      id: row.folio
+    },opts).subscribe(r => {
+      if (r == true){
+
+      } else{
+
+        let data: any;
+        const dialogRef = this.dialog.open(ConciliacionManualContratosComponent, {
+          width: '50%', disableClose: true,
+          data: { title: 'Movimiento', disableClose: true,fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+            info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de contratos' }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (!result) { return }
+          if (result.diferencia != 0){
+            Swal.fire({
+              title: 'Advertencia',
+              text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?", icon: 'warning',
+              showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Confirmar',
+              cancelButtonText: 'Cancelar'
+            }).then((res) => {
+              if (res.value) {
+                this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos",result,opts)
+                  // this.advanceTableService.save<string>(result)
+                  .subscribe(data => {
+                    this.showNotification('snackbar-success','Conciliacion creada!!','bottom','center' );
+                    this.loadData();
+                  }, error => {
+                    if (error._embedded !== undefined) {
+                      this.showNotification('snackbar-danger','¡¡Error al guardar!!','bottom','center' );
+                    }
+                  })
+              }
+            });
+          }
+        });
+      }
+    })
   }
 }
 

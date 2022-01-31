@@ -48,7 +48,7 @@ class ConciliacionesService {
                     fecha      : it.fecha,
                     monto      : it.subtotal + it.iva,
                     estatus    : it.conciliado ? 'Conciliado' : 'Pendiente',
-                    clase     : getFolioAndClass(it).clase
+                    clase      : getFolioAndClass(it).clase
             ]
         })
         return lista
@@ -75,6 +75,26 @@ class ConciliacionesService {
             }
             return concilio
         }
+    }
+
+    def conciliacionAutomaticaContratos(Date fechaInicio, Date fechaFin, Long id) {
+        ContratoDetalle contratoDetalle = ContratoDetalle.findById(id)
+        Boolean concilio = false
+        def pagos = []
+        def movimientos = LiquidacionBanco.findAllByCargoAbonoAndMontoAndConciliadoAndFechaBetween(false, contratoDetalle.subtotal + contratoDetalle.iva, false, fechaInicio, fechaFin)
+        for (movimiento in movimientos) {
+            if (contratoDetalle.subtotal + contratoDetalle.iva == movimiento.monto) {
+                pagos.push(movimiento)
+            }
+        }
+        if (pagos.size() == 1) {
+            LiquidacionBanco mv = LiquidacionBanco.findById(pagos[0].id as Long)
+            def conciliacion = crearConciliacion(contratoDetalle.iva + contratoDetalle.subtotal, mv.monto)
+            def operacion = getFolioAndClass(contratoDetalle)
+            crearConciliacionDetalle(conciliacion, mv, operacion.folio, operacion.clase)
+            concilio = true
+        }
+        return concilio
     }
 
     def crearConciliacion(BigDecimal montoXoperaciones, BigDecimal montoXmovimientos) {

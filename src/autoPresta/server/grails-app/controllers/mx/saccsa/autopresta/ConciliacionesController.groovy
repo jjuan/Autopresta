@@ -17,7 +17,11 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
-        respond(conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin))
+        if (params.conciliados) {
+            respond(conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, params.conciliados as Boolean))
+        } else {
+            respond(conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin))
+        }
     }
 
     def cargarParcialidades() {
@@ -63,6 +67,13 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         respond(concilio: concilio)
     }
 
+    def conciliacionAutomaticaContratos(){
+        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
+        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+        def concilio = conciliacionesService.conciliacionAutomaticaContratos(fechaInicio, fechaFin, params.id as Long)
+        respond(concilio: concilio)
+    }
+
     def conciliacionMovimientos(){
         request.JSON
         params
@@ -70,7 +81,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         for (detalle in request.JSON.detalles){
             conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0])
         }
-        respond message: 'wrewrw'
+        respond message: 'Conciliaciòn exitosa'
     }
 
     LiquidacionBanco getMovimiento(Long id){
