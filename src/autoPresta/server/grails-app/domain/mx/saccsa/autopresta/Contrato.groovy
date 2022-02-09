@@ -83,6 +83,7 @@ class Contrato {
     Date fechaCompromiso
 
     String estatusContrato
+    Boolean contratoMonterrey = false
 
     static constraints = {
         regimenFiscal nullable: true, blank: true

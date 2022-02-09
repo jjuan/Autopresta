@@ -44,6 +44,7 @@ export class GeneracionContratoComponent implements OnInit {
       calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : '', Validators.required],
       fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
       contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
+      contratoMonterrey: [this.data.data.contratoMonterrey ? this.data.data.contratoMonterrey : false, Validators.required],
       numeroContrato: [this.folios ? this.folios.folio : '', Validators.required],
       referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : ''],
       montoTransferencia: [this.data.data.montoTransferencia ? this.data.data.montoTransferencia : '', Validators.required],
@@ -63,11 +64,13 @@ export class GeneracionContratoComponent implements OnInit {
     })
   }
 
-  cambiarFolio(checked: boolean) {
-    if (checked){
-      this.formulario.patchValue({numeroContrato: this.folios.folioPrueba})
+  cambiarFolio(checked: boolean, folioMty) {
+    if (checked == true && folioMty == false){
+      this.formulario.patchValue({numeroContrato: this.folios.folioPrueba, contratoPrueba: true, contratoMonterrey: false})
+    } else if (checked == false && folioMty == true){
+      this.formulario.patchValue({numeroContrato: this.folios.folioMty, contratoPrueba: false, contratoMonterrey: true})
     } else {
-      this.formulario.patchValue({numeroContrato: this.folios.folio})
+      this.formulario.patchValue({numeroContrato: this.folios.folio, contratoPrueba: false, contratoMonterrey: false})
     }
   }
 }

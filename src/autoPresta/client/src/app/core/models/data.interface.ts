@@ -475,6 +475,7 @@ export interface direccion {
 
 export interface Folios {
   folio: string;
+  folioMty: string;
   folioPrueba: string;
 }
 

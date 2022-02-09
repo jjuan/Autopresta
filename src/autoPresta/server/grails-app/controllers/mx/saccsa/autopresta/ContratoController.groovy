@@ -94,7 +94,7 @@ class ContratoController extends RestfulController<Contrato> {
                     clabe                        : it?.clabe,
                     razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
                     calificacionCliente          : it?.calificacionCliente?.descLabel,
-                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba) : '',
+                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba, it.contratoMonterrey) : '',
                     contratoPrueba               : it?.contratoPrueba,
                     montoTransferencia           : it?.montoTransferencia,
                     detalleDescuentos            : it?.detalleDescuentos,
@@ -199,7 +199,7 @@ class ContratoController extends RestfulController<Contrato> {
                     clabe                        : it?.clabe,
                     razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
                     calificacionCliente          : it?.calificacionCliente?.descLabel,
-                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba) : '',
+                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.contratoPrueba, it.contratoMonterrey) : '',
                     contratoPrueba               : it?.contratoPrueba,
                     montoTransferencia           : it?.montoTransferencia,
                     detalleDescuentos            : it?.detalleDescuentos,
@@ -248,7 +248,16 @@ class ContratoController extends RestfulController<Contrato> {
                 FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio('ContratoPruebas', folio.toString())
                 foliosRecuperado.delete(flush: true, failOnError: true)
             }
-        } else {
+        } else if(contrato.contratoMonterrey) {
+            def folio = getFolioRecuperado('CONTRATOMONTERREY')
+            if (folio == 0) {
+                contrato.numeroContrato = folioService.generaFolio('CONTRATOMONTERREY').toString()
+            } else {
+                contrato.numeroContrato = contratoFolio(folio.toString(), false, true)
+                FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio('CONTRATOMONTERREY', folio.toString())
+                foliosRecuperado.delete(flush: true, failOnError: true)
+            }
+        }else {
             def folio = getFolioRecuperado('Contrato')
             if (folio == 0) {
                 contrato.numeroContrato = folioService.generaFolio('Contrato').toString()
@@ -318,15 +327,22 @@ class ContratoController extends RestfulController<Contrato> {
 
     def folios() {
         Folios contrato = Folios.findByCveTipo('Contrato')
+        Folios contratoMonterrey = Folios.findByCveTipo('CONTRATOMONTERREY')
         Folios contratoPrueba = Folios.findByCveTipo('ContratoPruebas')
 
         def folioRecuperadoP = getFolioRecuperado('ContratoPruebas')
         def folioRecuperado = getFolioRecuperado('Contrato')
+        def folioRecuperadoMonterrey = getFolioRecuperado('CONTRATOMONTERREY')
 
 
         String folio = contrato != null ? (contrato.folio + 1).toString() : '1'
+        String folioMonterrey = contratoMonterrey != null ? (contratoMonterrey.folio + 1).toString() : 'MTY0001'
         String folioPrueba = contratoPrueba != null ? (contratoPrueba.folio + 1).toString() + 'P' : '1P'
-        respond(folio: folioRecuperado > 0 ? folioRecuperado : folio, folioPrueba: folioRecuperadoP > 0 ? folioRecuperadoP + 'P' : folioPrueba)
+        respond(
+                folio: folioRecuperado > 0 ? folioRecuperado : folio,
+                folioMty: folioRecuperadoMonterrey > 0 ? folioRecuperadoMonterrey : folioMonterrey,
+                folioPrueba: folioRecuperadoP > 0 ? folioRecuperadoP + 'P' : folioPrueba
+        )
     }
 
     def cambioStatus(Long id) {
@@ -347,6 +363,9 @@ class ContratoController extends RestfulController<Contrato> {
             log.error '' + folio
         } else {
             foliosRecuperados.cveTipo = 'Contrato'
+            if (contrato.contratoMonterrey == true){
+                foliosRecuperados.cveTipo = 'ContratoMonterrey'
+            }
         }
         foliosRecuperados.folio = folio
         foliosRecuperados.save(flush: true, failOnError: true)
@@ -376,14 +395,18 @@ class ContratoController extends RestfulController<Contrato> {
         }
     }
 
-    String contratoFolio(String folio, Boolean contratoPrueba) {
+    String contratoFolio(String folio, Boolean contratoPrueba, Boolean contratoMonterrey) {
         if (contratoPrueba) {
-            if (folio.length() <= 5) {
+            while (folio.length() < 5) {
                 folio = '0' + folio
             }
         } else {
-            if (folio.length() <= 4) {
+            while (folio.length() < 4) {
                 folio = '0' + folio
+            }
+
+            if (contratoMonterrey) {
+                folio = 'MTY' + folio
             }
         }
         return folio

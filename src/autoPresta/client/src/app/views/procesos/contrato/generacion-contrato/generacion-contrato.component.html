@@ -37,9 +37,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-red p-b-10">
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-red p-b-10">
           <span class="mr-2">Contrato para probar el sistema</span>
-          <mat-slide-toggle formControlName="contratoPrueba" (change)="cambiarFolio($event.checked)"></mat-slide-toggle>
+          <mat-slide-toggle formControlName="contratoPrueba" (change)="cambiarFolio($event.checked, false)"></mat-slide-toggle>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-red p-b-10">
+          <span class="mr-2">Contrato Monterrey</span>
+          <mat-slide-toggle formControlName="contratoMonterrey" (change)="cambiarFolio($event.checked, true)"></mat-slide-toggle>
         </div>
       </div>
       <div class="row">

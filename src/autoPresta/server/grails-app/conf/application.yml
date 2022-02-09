@@ -119,8 +119,8 @@ environments:
             #            url: "jdbc:sqlserver://localhost:1433;databaseName=FinanzasIQ"
 #            username: "alberto"
 #            username: "sa"
-            username: "saccsa"
-            password: "%%Saccsa_73%%"
+            username: "jpablo"
+            password: "saccsa"
 
     test:
         dataSource:
