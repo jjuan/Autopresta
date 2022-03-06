@@ -1,6 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormGroup, Validators} from "@angular/forms";
 import {RestService} from "../../../../core/service/rest.service";
+import {DateAdapter} from "@angular/material/core";
+import {
+  ConciliacionMovimientosComponent
+} from "../componentes/conciliacion-movimientos/conciliacion-movimientos.component";
 
 @Component({
   selector: 'app-conciliacion-ingresos',
@@ -9,19 +13,22 @@ import {RestService} from "../../../../core/service/rest.service";
 })
 export class ConciliacionIngresosComponent implements OnInit {
   public datos = {
-    title: 'Contrato', modulo: 'Procesos', icono: 'fas fa-desktop', componente: 'Contrato'
+    title: 'Conciliacion de ingresos', modulo: 'Procesos', icono: 'fas fa-desktop', componente: 'Conciliacion de ingresos'
   };
   showTables = false
   cargoAbono=false
   public formulario: FormGroup;
 
-  constructor(private restService: RestService) {
+  constructor(private restService: RestService,
+              private dateAdapter: DateAdapter<Date>
+  ) {
+    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
 
   ngOnInit(): void {
     this.formulario = this.restService.buildForm({
-      fechaInicio: ['', Validators.required],
-      fechaFin: ['', Validators.required]
+      fechaInicio: [new Date("01/01/22 00:00:00"), Validators.required],
+      fechaFin: [new Date("02/28/22 00:00:00"), Validators.required]
     })
   }
 
@@ -39,6 +46,8 @@ export class ConciliacionIngresosComponent implements OnInit {
 
   save() {
     this.showTables = true
+    // let cm = new ConciliacionMovimientosComponent()
+    // cm
   }
 
 }

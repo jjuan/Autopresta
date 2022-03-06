@@ -10,13 +10,14 @@ class ContratoService {
     def dateUtilService
     def sdf = new SimpleDateFormat('yyyy-MM-dd');
 
-    def calcularFechaPago(Integer pago) {
+    def calcularFechaPago(Integer pago, Date... fecha) {
+
         Portafolios portafolio = Portafolios.load(1)
         Calendar portafolioFecha = Calendar.getInstance()
-        portafolioFecha.setTime(portafolio.fecha)
+        portafolioFecha.setTime(fecha?fecha:portafolio.fecha)
 
         Calendar c = Calendar.getInstance()
-        c.setTime(portafolio.fecha)
+        c.setTime(fecha?fecha:portafolio.fecha)
         c.set(Calendar.DAY_OF_MONTH, 1)
         c.set(Calendar.MONTH, c.get(Calendar.MONTH) + pago)
 

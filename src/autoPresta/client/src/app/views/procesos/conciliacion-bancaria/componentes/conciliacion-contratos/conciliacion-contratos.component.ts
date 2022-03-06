@@ -1,6 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
 import {
+  ConciliacionAutomatica,
   conciliacionContratosTable,
   conciliacionMovimientosTable,
   conciliacionStatus
@@ -24,6 +25,7 @@ import Swal from "sweetalert2";
 import {
   ConciliacionManualContratosComponent
 } from "../conciliacion-manual-contratos/conciliacion-manual-contratos.component";
+import {ConciliacionDetallesComponent} from "../conciliacion-detalles/conciliacion-detalles.component";
 
 @Component({
   selector: 'app-conciliacion-contratos',
@@ -129,54 +131,104 @@ export class ConciliacionContratosComponent implements OnInit {
     this.contextMenu.menu.focusFirstItem('mouse');
     this.contextMenu.openMenu();
   }
-  conciliar(row:conciliacionContratosTable) {
+
+  conciliar(row: conciliacionContratosTable) {
     const opts = this.globalService.getHttpOptions()
     opts['params'] = {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
       fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
       id: row.folio
     };
-    this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaContratos",{
+    this.httpClient.post<ConciliacionAutomatica>(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaContratos", {
       fechaInicio: this.fechaInicio,
       fechaFin: this.fechaFin,
       id: row.folio
-    },opts).subscribe(r => {
-      if (r == true){
+    }, opts).subscribe(r => {
+      if (r.concilio == true) {
+        const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
+          width: '50%', disableClose: true,
+          data: {
+            esMovimiento: false, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+            info: row, action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: false
+          }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result == true) {
+            return
+          }
+        })
 
-      } else{
+      } else {
 
         let data: any;
         const dialogRef = this.dialog.open(ConciliacionManualContratosComponent, {
           width: '50%', disableClose: true,
-          data: { title: 'Movimiento', disableClose: true,fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
-            info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de contratos' }
+          data: {
+            title: 'Movimiento', disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+            info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de contratos', esDetalle: false
+          }
         });
         dialogRef.afterClosed().subscribe((result) => {
-          if (!result) { return }
-          if (result.diferencia != 0){
-            Swal.fire({
-              title: 'Advertencia',
-              text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?", icon: 'warning',
-              showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Confirmar',
-              cancelButtonText: 'Cancelar'
-            }).then((res) => {
-              if (res.value) {
-                this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos",result,opts)
+          if (result) {
+            // result.add({'xd': 8})
+            // console.log(result)
+            const detalle = this.dialog.open(ConciliacionDetallesComponent, {
+              width: '50%', disableClose: true,
+              data: {
+                esMovimiento: false, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+                info: row, action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: false, datos: result
+              }
+            });
+
+            detalle.afterClosed().subscribe((respuesta) => {
+              if (respuesta) {
+                this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
                   // this.advanceTableService.save<string>(result)
                   .subscribe(data => {
-                    this.showNotification('snackbar-success','Conciliacion creada!!','bottom','center' );
+                    this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
                     this.loadData();
                   }, error => {
                     if (error._embedded !== undefined) {
-                      this.showNotification('snackbar-danger','¡¡Error al guardar!!','bottom','center' );
+                      this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
                     }
                   })
               }
-            });
+            })
           }
+          // if (result.diferencia != 0){
+          //   Swal.fire({
+          //     title: 'Advertencia',
+          //     text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?", icon: 'warning',
+          //     showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Confirmar',
+          //     cancelButtonText: 'Cancelar'
+          //   }).then((res) => {
+          //     if (res.value) {
+          //       this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos",result,opts)
+          //         // this.advanceTableService.save<string>(result)
+          //         .subscribe(data => {
+          //           this.showNotification('snackbar-success','Conciliacion creada!!','bottom','center' );
+          //           this.loadData();
+          //         }, error => {
+          //           if (error._embedded !== undefined) {
+          //             this.showNotification('snackbar-danger','¡¡Error al guardar!!','bottom','center' );
+          //           }
+          //         })
+          //     }
+          //   });
+          // }
         });
       }
     })
+  }
+
+  detalles(row) {
+    const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
+      width: '50%', disableClose: true,
+      data: {
+        esMovimiento: false, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+        info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos', esDetalle: false
+      }
+    });
   }
 }
 
@@ -210,12 +262,12 @@ export class BancosDataSource extends DataSource<conciliacionContratosTable> {
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionContratosTable) => {
           const searchStr = (
-            advanceTable.folio+
-          advanceTable.contrato+
-          advanceTable.parcialidad+
-          advanceTable.fecha+
-          advanceTable.monto+
-          advanceTable.estatus
+            advanceTable.folio +
+            advanceTable.contrato +
+            advanceTable.parcialidad +
+            advanceTable.fecha +
+            advanceTable.monto +
+            advanceTable.estatus
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -239,19 +291,19 @@ export class BancosDataSource extends DataSource<conciliacionContratosTable> {
       let propertyB: number | string = '';
       switch (this._sort.active) {
         case 'folio':
-          [propertyA, propertyB] =[a.folio, b.folio]
+          [propertyA, propertyB] = [a.folio, b.folio]
           break
         case 'contrato':
-          [propertyA, propertyB] =[a.contrato, b.contrato]
+          [propertyA, propertyB] = [a.contrato, b.contrato]
           break
         case 'parcialidad':
-          [propertyA, propertyB] =[a.parcialidad, b.parcialidad]
+          [propertyA, propertyB] = [a.parcialidad, b.parcialidad]
           break
         case 'monto':
-          [propertyA, propertyB] =[a.monto, b.monto]
+          [propertyA, propertyB] = [a.monto, b.monto]
           break
         case 'estatus':
-          [propertyA, propertyB] =[a.estatus, b.estatus]
+          [propertyA, propertyB] = [a.estatus, b.estatus]
           break
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

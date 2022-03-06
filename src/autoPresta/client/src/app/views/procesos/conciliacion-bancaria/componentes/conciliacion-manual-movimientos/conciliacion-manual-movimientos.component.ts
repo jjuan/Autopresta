@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {conciliacionContratosTable} from "../../../../../core/models/data.interface";
+import {Combo, conciliacionContratosTable} from "../../../../../core/models/data.interface";
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {HttpClient} from "@angular/common/http";
 import {GlobalService} from "../../../../../core/service/global.service";
@@ -40,11 +40,22 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild('filter', {static: true}) filter: ElementRef;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
+  formaConciliacionCombo: Combo[] = [
+    {id: 'regla1', descripcion: '1.\tNombre del cliente'},
+    {id: 'regla2', descripcion: '2.\tReferencia bancaria'},
+    {id: 'regla3', descripcion: '3.\tNumero de contrato'},
+    {id: 'regla4', descripcion: '4.\tNúmero de cuenta'},
+    {id: 'regla5', descripcion: '5.\tRFC del cliente'},
+    {id: 'regla6', descripcion: '6.\tPlacas del vehículo del cliente'},
+    {id: 'regla7', descripcion: '7.\tComprobantes de pago que comparte equipo de cobranza'},
+    {id: 'regla8', descripcion: '8.\tCajero '}
+  ]
 
   constructor(
     public dialogRef: MatDialogRef<ConciliacionManualMovimientosComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
     public httpClient: HttpClient, private globalService: GlobalService, public dialog: MatDialog, private datePipe: DatePipe,
-    public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder
+    public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder,
+    public restService: RestService,
   ) {
   }
 
@@ -56,6 +67,10 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
     this.etiqueta = 'Saldo excedente'
     this.dialogTitle = this.data.cabecera
     this.titulo = this.data.title
+    this.formulario = this.restService.buildForm({
+      formaConciliacion: [''],
+      campo: [''],
+    });
   }
 
   onNoClick(): void {
@@ -64,6 +79,7 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
 
   public confirmAdd(): void {
     let conciliacionDetalles = [];
+    let parcialidades  =[]
     this.selection.selected.forEach((item) => {
       conciliacionDetalles.push([
         {
@@ -72,11 +88,16 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
           tipoOperacion: item.clase
         }
       ])
+      parcialidades.push({item})
     });
     this.dialogRef.close({
       detalles: conciliacionDetalles,
+      parcialidades: parcialidades,
+      movimiento: this.data.info,
       saldo: this.saldo.toFixed(2),
       etiqueta: this.etiqueta,
+      formaConciliacion: this.formulario.get('formaConciliacion').value,
+      campo: this.formulario.get('campo').value,
       montoMovimientos: this.data.info.monto.toFixed(2),
       montoParcialidades: this.montoParcialidades.toFixed(2)
     });
@@ -97,7 +118,7 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
     this.dataSource = new BancosDataSource(this.db, this.paginator, this.sort, this._dominio,
       this.datePipe.transform(this.data.fechaInicio, 'yyyy-MM-dd'),
       this.datePipe.transform(this.data.fechaFin, 'yyyy-MM-dd'),
-      false);
+      false, this.data.esDetalle);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
         return;
@@ -143,18 +164,17 @@ export class BancosDataSource extends DataSource<conciliacionContratosTable> {
   renderedData: conciliacionContratosTable[] = [];
 
   constructor(public _dataSource: RestService, public _paginator: MatPaginator, public _sort: MatSort,
-              private _dominio: string, private fechaInicio, private fechaFin, private cargoAbono) {
+              private _dominio: string, private fechaInicio, private fechaFin, private cargoAbono, private esDetalle) {
     super();
     this._filterChange.subscribe(() => (this._paginator.pageIndex = 0));
   }
 
   connect(): Observable<conciliacionContratosTable[]> {
     const displayDataChanges = [this._dataSource.dataChange, this._sort.sortChange, this._filterChange, this._paginator.page];
-    this._dataSource.getAdvancedTable<any>(this._dominio, {
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin,
-      cargoAbono: this.cargoAbono
-    }, 'cargarParcialidades');
+    this._dataSource.getAdvancedTable<any>(this._dominio, this.esDetalle?
+      {}:
+        {fechaInicio: this.fechaInicio, fechaFin: this.fechaFin, cargoAbono: this.cargoAbono },
+      'cargarParcialidades');
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionContratosTable) => {
           const searchStr = (

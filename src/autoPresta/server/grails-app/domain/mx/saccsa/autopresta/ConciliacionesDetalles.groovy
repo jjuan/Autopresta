@@ -1,16 +1,24 @@
 package mx.saccsa.autopresta
 
+import mx.saccsa.security.Usuario
+
 class ConciliacionesDetalles {
     Conciliaciones conciliaciones
     LiquidacionBanco movimiento
     String folioOperacion
     String tipoOperacion
+    Date fecha
+    Usuario usuario
+    HojaConciliacion hojaConciliacion
+    String formaConciliacion
 
     static constraints = {
         conciliaciones nullable: false, blank: false
         movimiento nullable: false, blank: false
         folioOperacion nullable: false, blank: false
         tipoOperacion nullable: false, blank: false
+        hojaConciliacion nullable: true, blank: true
+        formaConciliacion nullable: true, blank: true
     }
 
     static mapping = {
@@ -21,5 +29,7 @@ class ConciliacionesDetalles {
         movimiento name: "movimiento", column: "movimiento"
         folioOperacion name: "folioOperacion", column: "folioOperacion"
         tipoOperacion name: "tipoOperacion", column: "tipoOperacion"
+        hojaConciliacion name: "hojaConciliacion", column: "hojaConciliacion"
+        formaConciliacion name: "formaConciliacion", column: "formaConciliacion"
     }
 }

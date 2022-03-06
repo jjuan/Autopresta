@@ -65,12 +65,15 @@ export class GeneracionContratoComponent implements OnInit {
   }
 
   cambiarFolio(checked: boolean, folioMty) {
-    if (checked == true && folioMty == false){
-      this.formulario.patchValue({numeroContrato: this.folios.folioPrueba, contratoPrueba: true, contratoMonterrey: false})
-    } else if (checked == false && folioMty == true){
-      this.formulario.patchValue({numeroContrato: this.folios.folioMty, contratoPrueba: false, contratoMonterrey: true})
+    if (checked == true && folioMty == false) {
+      this.formulario.patchValue({
+        numeroContrato: this.folios.folioPrueba, contratoPrueba: true, contratoMonterrey: false
+      })
+    } else if (checked == false && folioMty == true) {
+      this.formulario.patchValue({numeroContrato: this.folios.folioMty , contratoPrueba: false, contratoMonterrey: true})
     } else {
-      this.formulario.patchValue({numeroContrato: this.folios.folio, contratoPrueba: false, contratoMonterrey: false})
+      this.formulario.patchValue({numeroContrato: this.folios.folio , contratoPrueba: false, contratoMonterrey: false})
     }
   }
+
 }

@@ -1,1 +1,117 @@
-<p>conciliacion-detalles works!</p>
+<div class="width: 5000">
+  <div class="modalHeader">
+    <div class="editRowModal">
+      <div class="modalHeader clearfix">
+        <div class="modal-about">
+          <div class="font-weight-bold p-t-5 p-l-10 font-17">
+            {{dialogTitle}}</div>
+        </div>
+      </div>
+    </div>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="card" *ngIf="data.esMovimiento==true">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-4"><p>Cuenta: <b>{{data.datos.movimiento.cuenta}}</b></p></div>
+        <div class="col-4"><p>Monto: <b>$ {{data.datos.movimiento.monto| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Fecha: <b>{{data.datos.movimiento.fecha}}</b></p></div>
+<!--        <div class="col-4"><p>Ultima fecha pago: <b>{{data.datos.movimiento.fecha}}</b></p></div>-->
+<!--        <div class="col-4"><p>Conciliado: <b>{{data.datos.movimiento.conciliado ? 'Conciliado' : 'Pendiente'}}</b></p></div>-->
+        <div class="col-4"><p>Monto por movimientos: <b>$ {{data.datos.montoMovimientos| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Monto por parcialidades: <b>$ {{data.datos.montoParcialidades| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Saldo: <b>$ {{data.datos.saldo| number: '.2'}} {{data.datos.etiqueta}}</b></p></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="tableBody" *ngIf="data.esMovimiento==false">
+    <div class="table-responsive">
+      <table class="table table-hover dashboard-task-infos">
+        <thead>
+        <tr>
+          <th>Contrato</th>
+          <th>Parcialidad</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+<!--          <th>Conciliado</th>-->
+<!--          <th>Saldo</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td><b>{{data.info.contrato}}</b></td>
+          <td><b>{{data.info.parcialidad}}</b></td>
+          <td><b>{{data.info.monto| currency: 'USD'}}</b></td>
+          <td><b>{{data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
+<!--          <td><b>{{data.info.conciliado ? 'Conciliado' : 'Pendiente'}}</b></td>-->
+<!--          <td><p><b-->
+<!--            [ngStyle]="etiqueta == 'Saldo remanente'?{'color': 'red' }:{'color':'green'}">{{saldo| currency: 'USD'}} {{etiqueta}}</b>-->
+<!--          </p></td>-->
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="table-responsive" *ngIf="data.esMovimiento==true">
+    <table class="table table-hover dashboard-task-infos">
+      <thead>
+      <tr>
+        <th>Numero de contrato</th>
+        <th>Parcialidad</th>
+        <th>Monto</th>
+        <th>Fecha de la parcialidad</th>
+<!--        <th>Fecha del pago</th>-->
+<!--        <th>Concilio</th>-->
+<!--        <th>FechaConcilio</th>-->
+<!--        <th>Eliminar</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of parcialidades">
+        <td>{{p.item.contrato}}</td>
+        <td>{{p.item.parcialidad}}</td>
+        <td>{{p.item.monto}}</td>
+        <td>{{p.item.fecha}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="table-responsive" *ngIf="data.esMovimiento==false">
+    <table class="table table-hover dashboard-task-infos">
+      <thead>
+      <tr>
+
+        <th>Cuenta</th>
+        <th>Referencia</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+<!--        <th>Ultima fecha pago</th>-->
+<!--        <th>Conciliado</th>-->
+<!--        <th>Saldo</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of movimientos">
+        <th>{{p.item.cuenta}}</th>
+        <th>{{p.item.referencia}}</th>
+        <th>$ {{p.item.monto| number: '.2'}}</th>
+        <th>{{p.item.fecha|date: 'dd-MM-yyyy'}}</th>
+<!--        <th>{{p.fecha}}</th>-->
+<!--        <th>{{p.conciliado ? 'Conciliado' : 'Pendiente'}}</th>-->
+<!--        <th>$ {{p.saldo| number: '.2'}} {{p.descripcion}}</th>-->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div mat-dialog-actions class="mb-1">
+    <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="confirmDelete()">
+      Confirmar
+    </button>
+    <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancelar</button>
+  </div>
+</div>

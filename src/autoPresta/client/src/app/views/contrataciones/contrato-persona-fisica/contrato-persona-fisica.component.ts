@@ -171,6 +171,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
       montoLiquidar: [data ? data.montoLiquidar : ''],
       fechaCompromiso: [data ? data.fechaCompromiso : ''],
       descuentosRetenciones: [data ? data.descuentosRetenciones : ''],
+      contratoMonterrey: [data ? data.contratoMonterrey : ''],
     });
   }
 
@@ -190,6 +191,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
       this.formulario.patchValue({
         calificacionCliente: result.calificacionCliente,
         contratoPrueba: result.contratoPrueba,
+        contratoMonterrey: result.contratoMonterrey,
         montoTransferencia: result.montoTransferencia,
         detalleDescuentos: result.detalleDescuentos,
         fechaSolicitud: result.fechaSolicitud,

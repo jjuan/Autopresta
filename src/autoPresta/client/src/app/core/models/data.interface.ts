@@ -7,6 +7,12 @@ export interface Agencias {
   clave: string;
 }
 
+export interface ConciliacionAutomatica {
+  concilio: boolean;
+  parcialidad: any;
+  movimiento: any;
+}
+
 export interface configConcilicacionComponent {
   fechaInicio: Date;
   fechaFin: Date;

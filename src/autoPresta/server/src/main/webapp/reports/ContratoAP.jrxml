@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.6.1  -->
-<!-- 2022-01-20T12:12:34 -->
+<!-- 2022-02-18T14:59:56 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3943bb9a-4398-4c2f-9d17-d84f3bce4aae">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -15,7 +15,7 @@
 	<import value="net.sf.jasperreports.engine.*"/>
 	<import value="net.sf.jasperreports.engine.data.*"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["/Users/alber/OneDrive/Documentos/GitHub/Autopresta/src/autoPresta/server/src/main/webapp/reports/"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["/Users/juan pablo/Downloads/"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="imagen" class="java.lang.String"/>
 	<queryString language="SQL">
@@ -99,7 +99,7 @@
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="6"/>
 				</textElement>
-				<text><![CDATA[MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO), que celebran: <style isBold="true"  isUnderline="true">AP SERVICIOS FINANCIEROS S.A. DE C.V., EL PROVEEDOR</style>,con domicilio en: <style isBold="true" isUnderline="true">LAVA, 232, JARDINES DEL PEDREGAL, 01900, CDMX</style>, R.F.C.:<style isBold="true" isUnderline="true">ASF180724JE2</style> Tel.: <style isBold="true" isUnderline="true">+52 1 55 7619 8801</style>, correo electrónico: <style isBold="true"  isUnderline="true">contacto@autopresta.com</style> y EL CONSUMIDOR]]></text>
+				<text><![CDATA[CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO), que celebran: <style isBold="true"  isUnderline="true">AP SERVICIOS FINANCIEROS S.A. DE C.V., EL PROVEEDOR</style>,con domicilio en: <style isBold="true" isUnderline="true">LAVA, 232, JARDINES DEL PEDREGAL, 01900, CDMX</style>, R.F.C.:<style isBold="true" isUnderline="true">ASF180724JE2</style> Tel.: <style isBold="true" isUnderline="true">+52 1 55 7619 8801</style>, correo electrónico: <style isBold="true"  isUnderline="true">contacto@autopresta.com</style> y EL CONSUMIDOR]]></text>
 			</staticText>
 		</band>
 		<band height="69">
@@ -1978,7 +1978,7 @@ CONSUMIDOR]]></text>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[CONTRATO MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
+				<text><![CDATA[CONTRATO DE MUTUO CON INTERÉS Y GARANTÍA PRENDARIA (PRÉSTAMO) QUE CELEBRAN POR UNA PARTE “EL PROVEEDOR” CUYO NOMBRE APARECE EN EL RUBRO DE LA CARÁTULA, Y POR LA OTRA, LA PERSONA CUYO NOMBRE Y DOMICILIO APARECE EN LA CARÁTULA, A QUIEN EN LO SUCESIVO Y PARA EFECTOS DEL PRESENTE CONTRATO SE LE DENOMINARÁ “EL CONSUMIDOR”; A QUIENES DE MANERA CONJUNTA SE LES DENOMINARÁ COMO “LAS PARTES”, AL TENER DEL SIGUIENTE GLOSARIO, ASÍ COMO DE LAS SIGUIENTE DECLARACIONES Y CLÁUSULAS:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="252" y="114" width="100" height="20" uuid="f26f3848-9091-4a05-b70c-3cc929c234f5"/>
@@ -2020,7 +2020,7 @@ CONSUMIDOR]]></text>
 				<textElement textAlignment="Justified" verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
-				<text><![CDATA[<style isBold="true" >En caso de Persona Moral</style>: Declara <style isBold="true" >“EL PROVEEDOR”</style> a través de su representante: Ser una persona moral mexicana, según consta en la escritura pública número 58,544, de fecha 18 de julio del 2018, pasada ante la fe del Licenciado Arturo Talavera Autrique, Notario Público No. 22 de la Ciudad de México e inscrita en el Registro Público de Comercio bajo el folio mercantil N-2018069988 de fecha 28 de agosto del 2018.
+				<text><![CDATA[<style isBold="true" >En caso de Persona Moral</style>: Declara <style isBold="true" >“EL PROVEEDOR”</style> a través de su representante: Ser una persona moral mexicana, según consta en la escritura pública número 58,544, de fecha 18 de julio del 2018, pasada ante la fe del Licenciado Arturo Talavera Autrique, Notario Público No. 122 de la Ciudad de México e inscrita en el Registro Público de Comercio bajo el folio mercantil N-2018069988 de fecha 28 de agosto del 2018.
 <style isBold="true" >En caso de Persona Física</style>: Ser una persona Física de nacionalidad mexicana, con capacidad legal para celebrar el presente contrato.
 Que el domicilio, teléfono, Registro Federal de Contribuyentes y correo electrónico de <style isBold="true" >“EL PROVEEDOR”</style> se encuentran en la Carátula del presente contrato.
 Qué cuenta con capacidad, infraestructura, servicios, recursos necesarios y personal debidamente capacitado, para dar cabal cumplimiento a las obligaciones derivadas del presente contrato.

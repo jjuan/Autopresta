@@ -1,1 +1,89 @@
 <p>conciliacion-preview works!</p>
+
+<div class="row clearfix">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="card">
+      <div class="body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="white-box">
+              <h3>
+                <b>Factura</b>
+                <span class="pull-right">#{{data.comprobante.folio}}</span>
+              </h3>
+              <hr>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="pull-left">
+                    <address>
+                      <p class="font-bold">Emisor :</p>
+                      <p class="text-muted">
+                        {{data.comprobante.emisor.nombre}},
+                        <br>RFC. {{data.comprobante.emisor.rfc}},
+                      </p>
+                    </address>
+                  </div>
+                  <div class="pull-right text-right">
+                    <address>
+                      <p class="addr-font-h3 font-bold">Receptor :</p>
+                      <p class="font-bold addr-font-h4">{{data.comprobante.receptor.nombre}}
+                        <br> RFC. {{data.comprobante.receptor.rfc}}
+                      </p>
+                      <p class="m-t-30">
+                        <b>Fecha de Facturacion : </b>
+                        <i class="fa fa-calendar"></i> {{data.comprobante.fecha| date: 'dd/MM/yyyy'}}
+                      </p>
+                    </address>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="table-responsive m-t-40">
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                        <th class="text-left">Descripción</th>
+                        <th class="text-center">Cantidad</th>
+                        <th class="text-center">Valor Unitario</th>
+                        <th class="text-center">Importe</th>
+                        <th class="text-center">Descuento</th>
+                        <th class="text-center">Impuestos</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let concepto of this.data.comprobante.concepto">
+                        <td class="text-left">{{concepto.descripcion}}</td>
+                        <td class="text-center">{{concepto.cantidad}}</td>
+                        <td class="text-center">$ {{concepto.valorUnitario| number: '.2'}}</td>
+                        <td class="text-center">$ {{concepto.importe| number: '.2'}}</td>
+                        <td class="text-center">$ {{concepto.descuento| number: '.2'}}</td>
+                        <td class="text-center">$ {{concepto.importeTraslados| number: '.2'}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="pull-right m-t-30 text-right">
+                    <p>Sub - Importe total: $ {{data.comprobante.subTotal| number: '.2'}}</p>
+                    <p>Descuentos: $ {{data.comprobante.descuento| number: '.2'}}</p>
+                    <p>IVA (16%) : $ {{data.comprobante.Impuestos.TotalImpuestosTrasladados| number: '.2'}} </p>
+                    <hr>
+                    <h3>
+                      <b>Total :</b> $ {{data.comprobante.total| number: '.2'}}</h3>
+                  </div>
+                  <div class="clearfix"></div>
+                  <hr>
+                  <div class="text-right">
+                    <button mat-raised-button color="warn" (click)="cancel(data.comprobante.folio)"><i class="fas fa-envelope mr-2"></i>Cancelar</button>
+                    <button mat-raised-button color="accent" (click)="edit(data.comprobante.folio)"><i class="fas fa-envelope mr-2"></i>Editar Factura</button>
+                    <button mat-raised-button color="primary" (click)="sendFactura(data.comprobante.folio)"><i class="fas fa-envelope mr-2"></i>Timbrar Factura</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

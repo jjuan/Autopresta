@@ -84,6 +84,9 @@ class Contrato {
 
     String estatusContrato
     Boolean contratoMonterrey = false
+    String nombreLargo
+    String nombreLargoCoacreditado
+    Long folioCarga
 
     static constraints = {
         regimenFiscal nullable: true, blank: true
@@ -162,6 +165,10 @@ class Contrato {
         fechaSolicitud nullable: true, blank: true
         montoLiquidar nullable: true, blank: true
         fechaCompromiso nullable: true, blank: true
+        nombreLargo blank: true, nullable: true
+        nombreLargoCoacreditado blank: true, nullable: true
+        folioCarga blank: true, nullable: true
+        contratoMonterrey blank: true, nullable: true
     }
 
     static mapping = {
@@ -244,5 +251,9 @@ class Contrato {
         fechaSolicitud name: 'fechaSolicitud', column: 'fechaSolicitud'
         montoLiquidar name: 'montoLiquidar', column: 'montoLiquidar'
         fechaCompromiso name: 'fechaCompromiso', column: 'fechaCompromiso'
+        nombreLargo name: 'nombreLargo', column: 'nombreLargo'
+        nombreLargoCoacreditado name: 'nombreLargoCoacreditado', column: 'nombreLargoCoacreditado'
+        folioCarga name: 'folioCarga', column: 'folioCarga'
+        contratoMonterrey name: 'contratoMonterrey', column: 'contratoMonterrey'
     }
 }

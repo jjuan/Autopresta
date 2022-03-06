@@ -71,7 +71,7 @@ class ReporteService {
                 colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                 codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
                 alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                noContrato                         : contratoFolio(contrato),
+                noContrato                         : contratoFolio(contrato.numeroContrato, contrato.contratoPrueba, contrato.contratoMonterrey),
                 montoPrestamo                      : contrato.montoTransferencia,
                 montoTotalPagar                    : montoTotal,
                 referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
@@ -344,5 +344,22 @@ class ReporteService {
         def fechaContrato = dia.format(contrato.fechaContrato)
         def fechaLiquidacion = dia.format(ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString()).fecha)
         return fechaContrato == fechaLiquidacion ? '' : '(al tratarse de un dia inhábil) '
+    }
+
+    String contratoFolio(String folio, Boolean contratoPrueba, Boolean contratoMonterrey) {
+        if (contratoPrueba) {
+            while (folio.length() < 5) {
+                folio = '0' + folio
+            }
+        } else {
+            while (folio.length() < 4) {
+                folio = '0' + folio
+            }
+
+            if (contratoMonterrey) {
+                folio = 'MTY' + folio
+            }
+        }
+        return folio
     }
 }

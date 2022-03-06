@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
 import {
-  _statusContratos,
+  _statusContratos, ConciliacionAutomatica,
   conciliacionMovimientosTable,
   conciliacionStatus, configConcilicacionComponent
 } from "../../../../../core/models/data.interface";
@@ -21,6 +21,7 @@ import Swal from "sweetalert2";
 import {
   ConciliacionManualMovimientosComponent
 } from "../conciliacion-manual-movimientos/conciliacion-manual-movimientos.component";
+import {ConciliacionDetallesComponent} from "../conciliacion-detalles/conciliacion-detalles.component";
 
 @Component({
   selector: 'app-conciliacion-movimientos',
@@ -59,8 +60,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
   dataSource: BancosDataSource | null;
 
   constructor(
-    public httpClient: HttpClient, private globalService: GlobalService, public dialog: MatDialog, private datePipe: DatePipe,
-    public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder
+    private httpClient: HttpClient, private globalService: GlobalService, private dialog: MatDialog, private datePipe: DatePipe,
+    private advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder
   ) {
   }
 
@@ -128,7 +129,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
     this.contextMenu.openMenu();
   }
 
-  conciliar(row:conciliacionMovimientosTable) {
+  conciliar(row: conciliacionMovimientosTable) {
     const opts = this.globalService.getHttpOptions()
     opts['params'] = {
       fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
@@ -136,48 +137,100 @@ export class ConciliacionMovimientosComponent implements OnInit {
       cargoAbono: this.cargoAbono,
       id: row.folio
     };
-    this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaMovimientos",{
+    this.httpClient.post<ConciliacionAutomatica>(this.globalService.BASE_API_URL + this._dominio + "/conciliacionAutomaticaMovimientos", {
       fechaInicio: this.fechaInicio,
       fechaFin: this.fechaFin,
       cargoAbono: this.cargoAbono,
       id: row.folio
-    },opts).subscribe(r => {
-      if (r == true){
+    }, opts).subscribe(r => {
+      if (r.concilio == true) {
+        const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
+          width: '50%', disableClose: true,
+          data: {
+            esMovimiento: true, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+            info: row, action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: false
+          }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (!result) {
+            return
+          }
+        })
 
-      } else{
+      } else {
 
         let data: any;
-          const dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
-            width: '50%', disableClose: true,
-            data: { title: 'Parcialidad', disableClose: true,fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
-              info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos' }
-          });
-          dialogRef.afterClosed().subscribe((result) => {
-            if (!result) { return }
-            if (result.diferencia != 0){
-              Swal.fire({
-                title: 'Advertencia',
-                text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?", icon: 'warning',
-                showCancelButton: true, confirmButtonColor: '#3085d6', cancelButtonColor: '#d33', confirmButtonText: 'Confirmar',
-                cancelButtonText: 'Cancelar'
-              }).then((res) => {
-                if (res.value) {
-                  this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos",result,opts)
+        const dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
+          width: '50%', disableClose: true,
+          data: {
+            title: 'Parcialidad', disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+            info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos', esDetalle: false
+          }
+        });
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            const detalle = this.dialog.open(ConciliacionDetallesComponent, {
+              width: '50%', disableClose: true,
+              data: {
+                esMovimiento: true, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+                info: row, action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: false, datos: result
+              }
+            });
+
+            detalle.afterClosed().subscribe((respuesta) => {
+              if (respuesta) {
+                this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
                   // this.advanceTableService.save<string>(result)
-                    .subscribe(data => {
-                    this.showNotification('snackbar-success','Conciliacion creada!!','bottom','center' );
+                  .subscribe(data => {
+                    this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
                     this.loadData();
                   }, error => {
                     if (error._embedded !== undefined) {
-                      this.showNotification('snackbar-danger','¡¡Error al guardar!!','bottom','center' );
+                      this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
                     }
                   })
-                }
-              });
-            }
-          });
+              }
+              // }
+              // if (result.diferencia != 0) {
+              //   Swal.fire({
+              //     title: 'Advertencia',
+              //     text: "Los montos de las parcialidades seleccionadas y el movimiento no coinciden, ¿Desea continuar?",
+              //     icon: 'warning',
+              //     showCancelButton: true,
+              //     confirmButtonColor: '#3085d6',
+              //     cancelButtonColor: '#d33',
+              //     confirmButtonText: 'Confirmar',
+              //     cancelButtonText: 'Cancelar'
+              //   }).then((res) => {
+              //     if (res.value) {
+              //       this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
+              //         // this.advanceTableService.save<string>(result)
+              //         .subscribe(data => {
+              //           this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
+              //           this.loadData();
+              //         }, error => {
+              //           if (error._embedded !== undefined) {
+              //             this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
+              //           }
+              //         })
+              //     }
+              //   });
+              // }
+            });
+          }
+        })
       }
     })
+  }
+
+  detalles(row) {
+    const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
+      width: '50%', disableClose: true,
+      data: {
+        esMovimiento: true, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
+        info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos', esDetalle: false
+      }
+    });
   }
 }
 

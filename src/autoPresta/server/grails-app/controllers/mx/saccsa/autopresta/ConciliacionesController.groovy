@@ -18,9 +18,9 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
         if (params.conciliados) {
-            respond(conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, params.conciliados as Boolean))
+            respond(conciliacionesService.cargarMovimientos(cuenta, new Boolean(params.cargoAbono), fechaInicio, fechaFin, new Boolean(params.conciliados)))
         } else {
-            respond(conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin))
+            respond(conciliacionesService.cargarMovimientos(cuenta, new Boolean(params.cargoAbono), fechaInicio, fechaFin))
         }
     }
 
@@ -28,7 +28,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
         if (params.conciliados){
-            respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, params.conciliados as Boolean))
+            respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, new Boolean(params.conciliados)))
         } else {
             respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin))
         }
@@ -39,8 +39,8 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
 
-        def conciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, true)
-        def noConciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono as Boolean, fechaInicio, fechaFin, false)
+        def conciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono ==true?true:false, fechaInicio, fechaFin, true)
+        def noConciliadas = conciliacionesService.cargarMovimientos(cuenta, params.cargoAbono ==true?true:false, fechaInicio, fechaFin, false)
 
         respond(conciliadas: conciliadas.size(), pendientes: noConciliadas.size(), total: conciliadas.size() + noConciliadas.size() )
     }
@@ -51,6 +51,9 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
 
         def conciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, true)
         def noConciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, false)
+//        def contratos =  Contrato.findAllByContratoPruebaOrNumeroContrato(true, '')
+//        def conciliadas = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(contratos, true, fechaInicio, fechaFin)
+//        def noConciliadas = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(contratos, false, fechaInicio, fechaFin)
 
         respond(conciliadas: conciliadas.size(), pendientes: noConciliadas.size(), total: conciliadas.size() + noConciliadas.size() )
     }
@@ -79,7 +82,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         params
         Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String))
         for (detalle in request.JSON.detalles){
-            conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0])
+            conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
         }
         respond message: 'Conciliaciòn exitosa'
     }

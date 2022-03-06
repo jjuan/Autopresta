@@ -192,6 +192,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
       montoLiquidar: [data ? data.montoLiquidar : ''],
       fechaCompromiso: [data ? data.fechaCompromiso : ''],
       descuentosRetenciones: [data ? data.descuentosRetenciones : ''],
+      contratoMonterrey: [data ? data.contratoMonterrey : ''],
     });
   }
 
@@ -213,6 +214,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
         contratoPrueba: result.contratoPrueba,
         montoTransferencia: result.montoTransferencia,
         detalleDescuentos: result.detalleDescuentos,
+        contratoMonterrey: result.contratoMonterrey,
         fechaSolicitud: result.fechaSolicitud,
         fechaContrato: result.fechaContrato,
         montoLiquidar: result.montoLiquidar,
