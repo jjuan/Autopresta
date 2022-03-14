@@ -14,6 +14,7 @@ import {map} from "rxjs/operators";
 import {DetallePagosComponent} from "./detalle-pagos/detalle-pagos.component";
 import {FormAgenciasComponent} from "../../catalogos/agencias/form-agencias/form-agencias.component";
 import {CamboEstadoComponent} from "./cambo-estado/cambo-estado.component";
+import {Router, RouterModule} from "@angular/router";
 
 @Component({
   selector: 'app-contratos-firmados',
@@ -41,7 +42,7 @@ export class ContratosFirmadosComponent implements OnInit {
   selection = new SelectionModel<Contrataciones>(true, []);
   dataSource: registros | null;
 
-  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar,
+  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar, private router: Router,
               private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService) {
   }
 
@@ -146,6 +147,10 @@ export class ContratosFirmadosComponent implements OnInit {
     this.restService.index<_statusContratos>(this.datos.controlador, {}, 'estatusContratos').subscribe(r => {
       this.conciliacionOperaciones = r
     })
+  }
+
+  extenderContrato(id) {
+    this.router.navigate(['Consultas/Extension-Contrato/'+id])
   }
 }
 

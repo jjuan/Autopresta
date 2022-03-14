@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {RestService} from "../../../../../core/service/rest.service";
 
 @Component({
   selector: 'app-conciliacion-detalles',
@@ -13,7 +14,7 @@ export class ConciliacionDetallesComponent implements OnInit {
   saldo;
   movimientos: any;
 
-  constructor(public dialogRef: MatDialogRef<ConciliacionDetallesComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MatDialogRef<ConciliacionDetallesComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private advanceTableService: RestService) {
   }
 
   onNoClick(): void {
@@ -22,8 +23,9 @@ export class ConciliacionDetallesComponent implements OnInit {
 
   ngOnInit() {
     this.dialogTitle = "Resumen de la conciliacion"
-    this.parcialidades = this.data.datos.parcialidades
-    this.movimientos = this.data.datos.movimientos
+    this.parcialidades = this.data.info.detalles?this.data.info.detalles[0].operacion:this.data.datos.parcialidades
+    console.log(this.parcialidades)
+    this.movimientos = this.data.info.detalles?this.data.info.detalles[0].movimiento:this.data.datos.movimientos
   }
 
   confirmDelete(): void {
@@ -32,5 +34,12 @@ export class ConciliacionDetallesComponent implements OnInit {
 
   eliminarOperacion(p) {
 
+  }
+
+  eliminar() {
+    this.advanceTableService.delete<any>(this.data.info.id, {id: this.data.info.id}, 'Conciliaciones', 'eliminarConciliacion').subscribe(r=>{
+      console.log(r)
+
+    })
   }
 }

@@ -15,7 +15,7 @@ import grails.gorm.transactions.ReadOnly
 import grails.gorm.transactions.Transactional
 
 @ReadOnly
-class CargadeContratosController extends CatalogoController<CargadeContratos>{
+class CargadeContratosController extends CatalogoController<CargadeContratos> {
     CargadeContratosController() {
         super(CargadeContratos)
     }
@@ -83,25 +83,25 @@ class CargadeContratosController extends CatalogoController<CargadeContratos>{
 //        Modelos gps = Modelos.findByNombre(captura.gps1)
         if (marca != null && modelo != null) {
             Contrato contrato = new Contrato()
-//            contrato.numeroContrato = captura.numeroContrato
-//            contrato.referencia = captura.referenciaBancaria
-//            contrato.fechaContrato = captura.fechaOtorgamiento
-//            contrato.rfc = captura.rfc
-//            contrato.nombreLargo = captura.nombreDelCliente
-//            contrato.marca = marca
-//            contrato.modelo = modelo
-//            contrato.anio = captura.anio
-//            contrato.color = captura.color
-//            contrato.placas = captura.placas
-//            contrato.numeroVin = captura.numeroVin
-//            contrato.montoRequerido = captura.montoPrestado
-////        representanteLegal
-////        contrato. rango
-////        contrato. capturado
-//            contrato.costoMensualInteres = captura.interes
-//            contrato.costoMensualMonitoreo = captura.gps
-//            contrato.costoMensualGPS = captura.monitoreo
-//            contrato.contratoMonterrey = false
+            contrato.numeroContrato = captura.numeroContrato
+            contrato.referencia = captura.referencia
+            contrato.fechaContrato = captura.fechaFin
+            contrato.rfc = captura.rfc
+            contrato.nombreLargo = captura.nombreLargo
+            contrato.marca = marca
+            contrato.modelo = modelo
+            contrato.anio = captura.anio
+            contrato.color = captura.color
+            contrato.placas = captura.placas
+            contrato.numeroVin = captura.numeroVin
+            contrato.montoRequerido = captura.montoActualReq
+            //        representanteLegal
+//        contrato. rango
+//        contrato. capturado
+            contrato.costoMensualInteres = captura.costoMensualInteres
+            contrato.costoMensualMonitoreo = captura.costoMensualMonitoreo
+            contrato.costoMensualGPS = captura.costoMensualGPS
+            contrato.contratoMonterrey = false
             contrato.regimenFiscal = C_RegimenFiscal.findByClave(captura.regimenFiscal)
             contrato.fechaContrato = captura.fechaContrato
 //            contrato.nombres = captura.nombres
@@ -120,31 +120,12 @@ class CargadeContratosController extends CatalogoController<CargadeContratos>{
             contrato.telefonoCelular = captura.telefonoCelular
             contrato.telefonoOficina = captura.telefonoOficina
             contrato.correoElectronico = captura.correoElectronico
-//            contrato.nombresCoacreditado = captura.nombresCoacreditado
-//            contrato.primerApellidoCoacreditado = captura.primerApellidoCoacreditado
-//            contrato.segundoApellidoCoacreditado = captura.segundoApellidoCoacreditado
-//            contrato.generoCoacreditado = captura.generoCoacreditado
-//            contrato.rfcCoacreditado = captura.rfcCoacreditado
-//            contrato.edadCoacreditado = captura.edadCoacreditado
-//            contrato.fechaNacimientoCoacreditado = captura.fechaNacimientoCoacreditado
-//            contrato.curpCoacreditado = captura.curpCoacreditado
-//            contrato.documentoOficialCoacreditado = captura.documentoOficialCoacreditado
-//            contrato.claveElectorCoacreditado = captura.claveElectorCoacreditado
-//            contrato.telefonoFijoCoacreditado = captura.telefonoFijoCoacreditado
-//            contrato.telefonoCelularCoacreditado = captura.telefonoCelularCoacreditado
-//            contrato.telefonoOficinaCoacreditado = captura.telefonoOficinaCoacreditado
-//            contrato.correoElectronicoCoacreditado = captura.correoElectronicoCoacreditado
             contrato.anio = captura.anio
             contrato.marca = marca
             contrato.modelo = modelo
             contrato.versionAuto = captura.versionAuto
             contrato.color = captura.color
             contrato.placas = captura.placas
-//            contrato.numeroDeMotor = captura.numeroDeMotor
-//            contrato.numeroDeFactura = captura.numeroDeFactura
-//            contrato.fechaDeFactura = captura.fechaDeFactura
-//            contrato.emisoraDeFactura = captura.emisoraDeFactura
-//            contrato.valorDeVenta = captura.valorDeVenta
             contrato.valorDeCompra = captura.valorDeCompra
             contrato.montoMaximoAutorizado = captura.montoMaximoAutorizado as BigDecimal
             contrato.numeroVin = captura.numeroVin
@@ -152,64 +133,155 @@ class CargadeContratosController extends CatalogoController<CargadeContratos>{
             if (captura.gps2 != 'Null') {
                 contrato.gps2 = Gps.findByNombre(captura.gps2)
             }
-//            contrato.gps3 = captura.gps3
-//            contrato.montoRequerido = captura.montoRequerido
             contrato.costoMensualInteres = captura.costoMensualInteres
             contrato.costoMensualMonitoreo = captura.costoMensualMonitoreo
             contrato.costoMensualGPS = captura.costoMensualGPS
             contrato.totalAutoPresta = captura.totalAutoPresta
             contrato.iva = captura.iva
             contrato.costoMensualTotal = captura.costoMensualTotal
-//            contrato.tipoContrato = captura.tipoContrato
             contrato.estatus = 'R'
             contrato.referencia = captura.referencia
             contrato.clabe = captura.clabe
-//            contrato.razonesSociales = captura.razonesSociales
-//            contrato.calificacionCliente = captura.calificacionCliente
             contrato.numeroContrato = captura.numeroContrato
             contrato.contratoPrueba = captura.contratoPrueba = false
             contrato.montoTransferencia = captura.montoTransferencia as BigDecimal
             contrato.detalleDescuentos = captura.detalleDescuentos
             contrato.fechaSolicitud = captura.fechaSolicitud
-//            contrato.montoLiquidar = captura.montoLiquidar
             contrato.fechaCompromiso = captura.fechaCompromiso
-//            contrato.estatusContrato = captura.estatusContrato
             contrato.contratoMonterrey = captura.contratoMonterrey = false
             contrato.nombreLargo = captura.nombreLargo
-//            contrato.nombreLargoCoacreditado = captura.nombreLargoCoacreditado
             contrato.folioCarga = captura.id
             contrato.save(flush: true, failOnError: true)
 
-            cargaDetalles(contrato)
+            cargaDetalles(contrato, captura.inicio, captura.fin)
 
             captura.cargado = true
             captura.save(flush: true, failOnError: true)
         }
-//        contrato. total
-//        contrato. iva
-//        contrato. granTotal
-//        contrato. fechaCorte
     }
 
-    def cargaDetalles(Contrato contrato) {
-        for (Integer i = 1; i <= 12; i++) {
-            def fecha = contratoService.calcularFechaPago(i)
+    def cargaDetalles(Contrato contrato, Integer inicio, Integer fin) {
+        for (Integer i = inicio; i <= fin; i++) {
+            def costoMensualInteres = (contrato.montoRequerido * 5)/100
+            def costoMensualMonitoreo = (contrato.montoRequerido * 1)/100<800?800:(contrato.montoRequerido * 1)/100
+            def costoMensualGPS = (contrato.montoRequerido * 0.75)/100<600?600:(contrato.montoRequerido * 0.75)/100
+
+            def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
             contratoDetalle.contrato = contrato
             contratoDetalle.parcialidad = i
             contratoDetalle.fecha = fecha
-            contratoDetalle.interes = contrato.costoMensualInteres
-            contratoDetalle.monitoreo = contrato.costoMensualMonitoreo
-            contratoDetalle.gps = contrato.costoMensualGPS
+            contratoDetalle.interes = costoMensualInteres
+            contratoDetalle.monitoreo = costoMensualMonitoreo
+            contratoDetalle.gps = costoMensualGPS
             contratoDetalle.capital = i == 12 ? montoRequeido(contrato) : 0
-            contratoDetalle.subtotal = i == 12 ? (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS + montoRequeido(contrato)) : (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS)
-            contratoDetalle.iva = (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS) * 0.16
+            contratoDetalle.subtotal = i == 12 ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + montoRequeido(contrato)) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
+            contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
             contratoDetalle.saldoFinal = i == 12 ? 0 : montoRequeido(contrato)
             contratoDetalle.save(flush: true, failOnError: true)
         }
     }
 
-    BigDecimal montoRequeido(Contrato contrato){
+    BigDecimal montoRequeido(Contrato contrato) {
         return contrato.montoTransferencia + new BigDecimal(contrato.detalleDescuentos)
+    }
+
+    def extension1() {
+        def extensiones = CargadeContratos.findAllByNumeroExtensiones(2.00)
+        for (extension in extensiones) {
+            generaContratoExtendido(extension)
+        }
+        respond message: 'ok'
+    }
+
+    def generaContratoExtendido(CargadeContratos cargadeContrato) {
+        Contrato historico = Contrato.findByFolioCarga(cargadeContrato.id)
+        Contrato extension = new Contrato()
+        extension.regimenFiscal = historico.regimenFiscal
+        extension.fechaContrato = ContratoDetalle.findByParcialidadAndContrato('12', historico).fecha
+        extension.nombres = historico.nombres
+        extension.primerApellido = historico.primerApellido
+        extension.segundoApellido = historico.segundoApellido
+        extension.genero = historico.genero
+        extension.rfc = historico.rfc
+        extension.edad = historico.edad
+        extension.fechaNacimiento = historico.fechaNacimiento
+        extension.curp = historico.curp
+        extension.claveElector = historico.claveElector
+        extension.documentoOficial = historico.documentoOficial
+        extension.telefonoFijo = historico.telefonoFijo
+        extension.telefonoCelular = historico.telefonoCelular
+        extension.telefonoOficina = historico.telefonoOficina
+        extension.correoElectronico = historico.correoElectronico
+        extension.nombresCoacreditado = historico.nombresCoacreditado
+        extension.primerApellidoCoacreditado = historico.primerApellidoCoacreditado
+        extension.segundoApellidoCoacreditado = historico.segundoApellidoCoacreditado
+        extension.generoCoacreditado = historico.generoCoacreditado
+        extension.rfcCoacreditado = historico.rfcCoacreditado
+        extension.edadCoacreditado = historico.edadCoacreditado
+        extension.fechaNacimientoCoacreditado = historico.fechaNacimientoCoacreditado
+        extension.curpCoacreditado = historico.curpCoacreditado
+        extension.documentoOficialCoacreditado = historico.documentoOficialCoacreditado
+        extension.claveElectorCoacreditado = historico.claveElectorCoacreditado
+        extension.telefonoFijoCoacreditado = historico.telefonoFijoCoacreditado
+        extension.telefonoCelularCoacreditado = historico.telefonoCelularCoacreditado
+        extension.telefonoOficinaCoacreditado = historico.telefonoOficinaCoacreditado
+        extension.correoElectronicoCoacreditado = historico.correoElectronicoCoacreditado
+        extension.anio = historico.anio
+        extension.marca = historico.marca
+        extension.modelo = historico.modelo
+        extension.versionAuto = historico.versionAuto
+        extension.color = historico.color
+        extension.placas = historico.placas
+        extension.numeroDeMotor = historico.numeroDeMotor
+        extension.numeroDeFactura = historico.numeroDeFactura
+        extension.fechaDeFactura = historico.fechaDeFactura
+        extension.emisoraDeFactura = historico.emisoraDeFactura
+        extension.valorDeVenta = historico.valorDeVenta
+        extension.valorDeCompra = historico.valorDeCompra
+        extension.montoMaximoAutorizado = historico.montoMaximoAutorizado
+        extension.numeroVin = historico.numeroVin
+        extension.gps1 = historico.gps1
+        extension.gps2 = historico.gps2
+        extension.gps3 = historico.gps3
+        extension.montoRequerido = montoRequeido(historico) - (montoRequeido(historico) * 0.2 * 1)
+        extension.costoMensualInteres = historico.costoMensualInteres
+        extension.costoMensualMonitoreo = historico.costoMensualMonitoreo
+        extension.costoMensualGPS = historico.costoMensualGPS
+        extension.totalAutoPresta = historico.totalAutoPresta
+        extension.iva = historico.iva
+        extension.costoMensualTotal = historico.costoMensualTotal
+        extension.tipoContrato = historico.tipoContrato
+        extension.estatus = historico.estatus
+        extension.referencia = historico.referencia
+        extension.clabe = historico.clabe
+        extension.razonesSociales = historico.razonesSociales
+        extension.calificacionCliente = historico.calificacionCliente
+        extension.numeroContrato = historico.numeroContrato
+        extension.contratoPrueba = historico.contratoPrueba
+        extension.montoTransferencia = historico.montoTransferencia
+        extension.detalleDescuentos = historico.detalleDescuentos
+        extension.fechaSolicitud = historico.fechaSolicitud
+        extension.montoLiquidar = historico.montoLiquidar
+        extension.fechaCompromiso = historico.fechaCompromiso
+        extension.estatusContrato = historico.estatusContrato
+        extension.contratoMonterrey = historico.contratoMonterrey
+        extension.nombreLargo = historico.nombreLargo
+        extension.nombreLargoCoacreditado = historico.nombreLargoCoacreditado
+        extension.folioCarga = historico.folioCarga
+        extension.save(flush: true, failOnError: true)
+        cargaDetalles(extension)
+    }
+
+    def obtenerFecha() {
+        def carga = CargadeContratos.findAllByInicioGreaterThan(12)
+        for (contrato in carga) {
+def fecha = contratoService.calcularFechaPago(contrato.inicio - 1, contrato.fechaContrato)
+            CargadeContratos cargadeContratos = CargadeContratos.findById(contrato.id)
+            cargadeContratos.fechaFin=fecha
+            cargadeContratos.save(flush: true, failOnError: true)
+        }
+
+        respond message: 'ok'
     }
 }

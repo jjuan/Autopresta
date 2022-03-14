@@ -123,6 +123,10 @@ export class ContratacionesComponent implements OnInit {
       console.log(this.conciliacionOperaciones)
     })
   }
+
+  editar(id) {
+
+  }
 }
 
 

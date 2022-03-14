@@ -96,6 +96,7 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
       movimiento: this.data.info,
       saldo: this.saldo.toFixed(2),
       etiqueta: this.etiqueta,
+      porMovimientos: true,
       formaConciliacion: this.formulario.get('formaConciliacion').value,
       campo: this.formulario.get('campo').value,
       montoMovimientos: this.data.info.monto.toFixed(2),

@@ -124,14 +124,26 @@
                   <mat-header-cell *matHeaderCellDef class="pr-0">Acciones</mat-header-cell>
 
                   <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                    <button mat-icon-button *ngIf="row.estatus == 'I'" (click)="cambiarEstatus(row.id, 'firmar')" color="primary" matTooltip="Marcar {{datos.titulo.toString()}} como firmado">
+                    <button mat-icon-button *ngIf="row.estatus == 'I'" (click)="cambiarEstatus(row.id, 'firmar')"
+                            color="primary" matTooltip="Marcar {{datos.titulo.toString()}} como firmado">
                       <mat-icon>done_all</mat-icon>
                     </button>
 
-                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'" (click)="cambiarEstatus(row.id, 'librarFolio')" color="danger" matTooltip="Recuperar folio del {{row.numeroContrato}}">
+                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'"
+                            (click)="cambiarEstatus(row.id, 'librarFolio')" color="danger"
+                            matTooltip="Recuperar folio del {{row.numeroContrato}}">
                       <mat-icon>clear</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'" (click)="imprimir(row, 'cambioStatus')" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
+
+                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'"
+                            (click)="editar(row.id)" color="danger"
+                            matTooltip="Editar folio {{row.numeroContrato}}">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+
+                    <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'"
+                            (click)="imprimir(row, 'cambioStatus')" color="danger"
+                            matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
                       <mat-icon>file_download</mat-icon>
                     </button>
 

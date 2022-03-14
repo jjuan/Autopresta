@@ -9,6 +9,7 @@ class Conciliaciones {
     BigDecimal diferencia
     String descripcionDiferencia
     Boolean conciliacionParcial = false
+    Boolean porMovimiento
 
     static constraints = {
         fechaConciliacion nullable: false, blank: false
@@ -18,6 +19,7 @@ class Conciliaciones {
         descripcionDiferencia nullable: false, blank: false
 //        usuario nullable: true, blank: true
         conciliacionParcial nullable: true, blank: true
+        porMovimiento nullable: true, blank: true
     }
 
     static mapping = {
@@ -31,5 +33,6 @@ class Conciliaciones {
         descripcionDiferencia name: "descripcionDiferencia", column: "descripcionDiferencia"
 //        usuario name: "usuario", column: "usuario"
         conciliacionParcial name: "conciliacionParcial", column: "conciliacionParcial"
+        porMovimiento name: "porMovimiento", column: "porMovimiento"
     }
 }

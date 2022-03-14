@@ -39,6 +39,14 @@ class CargadeContratos {
     String contratoMonterrey
     String nombreLargo
     Boolean cargado
+    BigDecimal numeroExtensiones
+    BigDecimal montoRequerido
+    BigDecimal montoActual
+    Integer inicio
+    Integer fin
+    Integer parcialidadActual
+    BigDecimal montoActualReq
+    Date fechaFin
 
     static constraints = {
         regimenFiscal nullable:true
@@ -79,6 +87,14 @@ class CargadeContratos {
         contratoMonterrey nullable:true
         nombreLargo nullable:true
         cargado nullable:true
+        numeroExtensiones nullable:true
+        montoRequerido nullable:true
+        montoActual nullable:true
+        inicio nullable:true
+        fin nullable:true
+        parcialidadActual nullable:true
+        montoActualReq nullable:true
+        fechaFin nullable:true
     }
 
     static mapping = {
@@ -123,6 +139,14 @@ class CargadeContratos {
         contratoMonterrey name: 'contratoMonterrey', column: 'contratoMonterrey'
         nombreLargo name: 'nombreLargo', column: 'nombreLargo'
         cargado name: 'cargado', column: 'cargado'
+        numeroExtensiones name: 'numeroExtensiones', column: 'numeroExtensiones'
+        montoRequerido name: 'montoRequerido', column: 'montoRequerido'
+        montoActual name: 'montoActual', column: 'montoActual'
+        inicio column: 'inicio', name: 'inicio'
+        fin column: 'fin', name: 'fin'
+        parcialidadActual column: 'parcialidadActual', name: 'parcialidadActual'
+        montoActualReq column: 'montoActualReq', name: 'montoActualReq'
+        fechaFin column: 'fechaFin', name: 'fechaFin'
     }
 
 }

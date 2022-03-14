@@ -94,6 +94,7 @@ export class ConciliacionManualContratosComponent implements OnInit {
       parcialidad: this.data.info,
       saldo: this.saldo.toFixed(2),
       etiqueta: this.etiqueta,
+      porMovimientos: false,
       formaConciliacion: this.formulario.get('formaConciliacion').value,
       campo: this.formulario.get('campo').value,
       montoParcialidades: this.data.info.monto.toFixed(2),

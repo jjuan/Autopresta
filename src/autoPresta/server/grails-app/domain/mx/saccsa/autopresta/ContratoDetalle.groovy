@@ -14,7 +14,13 @@ class ContratoDetalle {
     Date fechaPago
     String estatus
     Boolean conciliado
-
+    BigDecimal interesReal
+    BigDecimal monitoreoReal
+    BigDecimal gpsReal
+    BigDecimal capitalReal
+    BigDecimal subtotalReal
+    BigDecimal ivaReal
+    BigDecimal saldoFinalReal
 
     static constraints = {
         contrato nullable: false, blank: false
@@ -30,6 +36,13 @@ class ContratoDetalle {
         fechaPago nullable: true, blank: true
         estatus nullable: true, blank: true
         conciliado nullable: true, blank: true
+        interesReal nullable: true, blank:true
+        monitoreoReal nullable: true, blank:true
+        gpsReal nullable: true, blank:true
+        capitalReal nullable: true, blank:true
+        subtotalReal nullable: true, blank:true
+        ivaReal nullable: true, blank:true
+        saldoFinalReal nullable: true, blank:true
     }
 
     static mapping = {
@@ -49,5 +62,12 @@ class ContratoDetalle {
         fechaPago name: 'fechaPago', column: 'fechaPago'
         estatus name: 'estatus', column: 'estatus'
         conciliado name: 'conciliado', column: 'conciliado'
+        interesReal name: 'interesReal', column: 'interesReal'
+        monitoreoReal name: 'monitoreoReal', column: 'monitoreoReal'
+        gpsReal name: 'gpsReal', column: 'gpsReal'
+        capitalReal name: 'capitalReal', column: 'capitalReal'
+        subtotalReal name: 'subtotalReal', column: 'subtotalReal'
+        ivaReal name: 'ivaReal', column: 'ivaReal'
+        saldoFinalReal name: 'saldoFinalReal', column: 'saldoFinalReal'
     }
 }

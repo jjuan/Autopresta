@@ -139,6 +139,9 @@
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="cambiarEstado(row.id, 'cambiarEstado')" color="danger" matTooltip="Cambiar estatus del contrato">
                       <mat-icon>assignment</mat-icon>
                     </button>
+                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="extenderContrato(row.id)" color="info" matTooltip="Generar extension de contrato">
+                      <mat-icon>schedule</mat-icon>
+                    </button>
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="verDetalles(row.id, 'detalles')" color="danger" matTooltip="Ver parcialidades">
                       <mat-icon>date_range</mat-icon>
                     </button>

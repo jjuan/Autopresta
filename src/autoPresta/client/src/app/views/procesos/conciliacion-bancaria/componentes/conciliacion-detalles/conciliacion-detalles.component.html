@@ -15,14 +15,12 @@
   <div class="card" *ngIf="data.esMovimiento==true">
     <div class="card-header">
       <div class="row">
-        <div class="col-4"><p>Cuenta: <b>{{data.datos.movimiento.cuenta}}</b></p></div>
-        <div class="col-4"><p>Monto: <b>$ {{data.datos.movimiento.monto| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Fecha: <b>{{data.datos.movimiento.fecha}}</b></p></div>
-<!--        <div class="col-4"><p>Ultima fecha pago: <b>{{data.datos.movimiento.fecha}}</b></p></div>-->
-<!--        <div class="col-4"><p>Conciliado: <b>{{data.datos.movimiento.conciliado ? 'Conciliado' : 'Pendiente'}}</b></p></div>-->
-        <div class="col-4"><p>Monto por movimientos: <b>$ {{data.datos.montoMovimientos| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Monto por parcialidades: <b>$ {{data.datos.montoParcialidades| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Saldo: <b>$ {{data.datos.saldo| number: '.2'}} {{data.datos.etiqueta}}</b></p></div>
+        <div class="col-4"><p>Cuenta: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].cuenta:data.datos.movimiento.cuenta}}</b></p></div>
+        <div class="col-4"><p>Monto: <b>$ {{data.info.detalles[0]?data.info.detalles[0].movimiento[0].monto:data.datos.movimiento.monto| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Fecha: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].fecha:data.datos.movimiento.fecha}}</b></p></div>
+        <div class="col-4"><p>Monto por movimientos: <b>$ {{data.info.detalles[0]?data.info.montoXmovimientos:data.datos.montoMovimientos| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Monto por parcialidades: <b>$ {{data.info.detalles[0]?data.info.montoXoperaciones:data.datos.montoParcialidades| number: '.2'}}</b></p></div>
+        <div class="col-4"><p>Saldo: <b>$ {{data.info.detalles[0]?data.info.diferencia:data.datos.saldo| number: '.2'}} {{data.info.detalles[0]?data.info.descripcionDiferencia:data.datos.etiqueta}}</b></p></div>
       </div>
     </div>
   </div>
@@ -43,10 +41,10 @@
         </thead>
         <tbody>
         <tr>
-          <td><b>{{data.info.contrato}}</b></td>
-          <td><b>{{data.info.parcialidad}}</b></td>
-          <td><b>{{data.info.monto| currency: 'USD'}}</b></td>
-          <td><b>{{data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
+          <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].contrato:data.info.contrato}}</b></td>
+          <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].parcialidad:data.info.parcialidad}}</b></td>
+          <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].monto:data.info.monto| currency: 'USD'}}</b></td>
+          <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].fecha:data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
 <!--          <td><b>{{data.info.conciliado ? 'Conciliado' : 'Pendiente'}}</b></td>-->
 <!--          <td><p><b-->
 <!--            [ngStyle]="etiqueta == 'Saldo remanente'?{'color': 'red' }:{'color':'green'}">{{saldo| currency: 'USD'}} {{etiqueta}}</b>-->
@@ -73,10 +71,11 @@
       </thead>
       <tbody>
       <tr *ngFor="let p of parcialidades">
-        <td>{{p.item.contrato}}</td>
-        <td>{{p.item.parcialidad}}</td>
-        <td>{{p.item.monto}}</td>
-        <td>{{p.item.fecha}}</td>
+<!--        <td>{{p}}</td>-->
+        <td>{{p.contrato?p.contrato:p.item.contrato}}</td>
+        <td>{{p.parcialidad?p.parcialidad:p.item.parcialidad}}</td>
+        <td>{{p.monto?p.monto:p.item.monto}}</td>
+        <td>{{p.fecha?p.fecha:p.item.fecha}}</td>
       </tr>
       </tbody>
     </table>
@@ -97,10 +96,10 @@
       </thead>
       <tbody>
       <tr *ngFor="let p of movimientos">
-        <th>{{p.item.cuenta}}</th>
-        <th>{{p.item.referencia}}</th>
-        <th>$ {{p.item.monto| number: '.2'}}</th>
-        <th>{{p.item.fecha|date: 'dd-MM-yyyy'}}</th>
+        <th>{{p.cuenta?p.cuenta:p.item.cuenta}}</th>
+        <th>{{p.referencia?p.referencia:p.item.referencia}}</th>
+        <th>$ {{p.monto?p.monto:p.item.monto| number: '.2'}}</th>
+        <th>{{p.fecha?p.fecha:p.item.fecha|date: 'dd-MM-yyyy'}}</th>
 <!--        <th>{{p.fecha}}</th>-->
 <!--        <th>{{p.conciliado ? 'Conciliado' : 'Pendiente'}}</th>-->
 <!--        <th>$ {{p.saldo| number: '.2'}} {{p.descripcion}}</th>-->
@@ -109,8 +108,8 @@
     </table>
   </div>
   <div mat-dialog-actions class="mb-1">
-    <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="confirmDelete()">
-      Confirmar
+    <button mat-flat-button color="warn" [mat-dialog-close]="1" (click)="eliminar()">
+      Eliminar conciliacion
     </button>
     <button mat-flat-button (click)="onNoClick()" tabindex="-1">Cancelar</button>
   </div>

@@ -14,10 +14,10 @@ class ContratoService {
 
         Portafolios portafolio = Portafolios.load(1)
         Calendar portafolioFecha = Calendar.getInstance()
-        portafolioFecha.setTime(fecha?fecha:portafolio.fecha)
+        portafolioFecha.setTime(fecha?fecha[0]:portafolio.fecha)
 
         Calendar c = Calendar.getInstance()
-        c.setTime(fecha?fecha:portafolio.fecha)
+        c.setTime(fecha?fecha[0]:portafolio.fecha)
         c.set(Calendar.DAY_OF_MONTH, 1)
         c.set(Calendar.MONTH, c.get(Calendar.MONTH) + pago)
 

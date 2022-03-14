@@ -103,27 +103,125 @@ class ContratoController extends RestfulController<Contrato> {
                     fechaCompromiso              : it?.fechaCompromiso,
                     estatusLabel                 : getEstatus(it.estatus),
                     total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
-                    direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
-                        [
-                                id                : it.id,
-                                contrato          : it.contrato.numeroContrato,
-                                dirTrabajo        : it.dirTrabajo,
-                                dirAdicional      : it.dirAdicional,
-                                direccionPrincipal: it.direccionPrincipal,
-                                exterior          : it.exterior,
-                                interior          : it.interior,
-                                cp                : it.cp,
-                                colonia           : it.colonia,
-                                municipio         : it.municipio,
-                                entidad           : it.entidad,
-                                principal         : it.principal,
-                        ]
-                    })
+                    direccion                    : getDirecciones(it)
             ]
         })
 
         lista = lista.sort({ it.fechaContrato }).reverse()
         respond(lista)
+    }
+
+    def getDirecciones(Contrato contrato) {
+        return Direccion.findAllByContrato(contrato).collect({
+            [
+                    id                : it.id,
+                    contrato          : it.contrato.numeroContrato,
+                    dirTrabajo        : it.dirTrabajo,
+                    dirAdicional      : it.dirAdicional,
+                    direccionPrincipal: it.direccionPrincipal,
+                    exterior          : it.exterior,
+                    interior          : it.interior,
+                    cp                : it.cp,
+                    colonia           : it.colonia,
+                    municipio         : it.municipio,
+                    entidad           : it.entidad,
+                    principal         : it.principal,
+            ]
+        })
+    }
+
+    def getContrato(Long id) {
+        def contrato = Contrato.findById(id).collect({
+            [
+                    regimenFiscal                : it.regimenFiscal != null ? it.regimenFiscal.clave : '',
+                    fechaContrato                : it.fechaContrato != null ? it.fechaContrato : '',
+                    nombres                      : it.nombres != null ? it.nombres : '',
+                    primerApellido               : it.primerApellido != null ? it.primerApellido : '',
+                    segundoApellido              : it.segundoApellido != null ? it.segundoApellido : '',
+                    genero                       : it.genero != null ? it.genero : '',
+                    rfc                          : it.rfc != null ? it.rfc : '',
+                    edad                         : it.edad != null ? it.edad : '',
+                    fechaNacimiento              : it.fechaNacimiento != null ? it.fechaNacimiento : '',
+                    curp                         : it.curp != null ? it.curp : '',
+                    claveElector                 : it.claveElector != null ? it.claveElector : '',
+                    documentoOficial             : it.documentoOficial != null ? it.documentoOficial : '',
+                    telefonoFijo                 : it.telefonoFijo != null ? it.telefonoFijo : '',
+                    telefonoCelular              : it.telefonoCelular != null ? it.telefonoCelular : '',
+                    telefonoOficina              : it.telefonoOficina != null ? it.telefonoOficina : '',
+                    correoElectronico            : it.correoElectronico != null ? it.correoElectronico : '',
+                    nombresCoacreditado          : it.nombresCoacreditado != null ? it.nombresCoacreditado : '',
+                    primerApellidoCoacreditado   : it.primerApellidoCoacreditado != null ? it.primerApellidoCoacreditado : '',
+                    segundoApellidoCoacreditado  : it.segundoApellidoCoacreditado != null ? it.segundoApellidoCoacreditado : '',
+                    generoCoacreditado           : it.generoCoacreditado != null ? it.generoCoacreditado : '',
+                    rfcCoacreditado              : it.rfcCoacreditado != null ? it.rfcCoacreditado : '',
+                    edadCoacreditado             : it.edadCoacreditado != null ? it.edadCoacreditado : '',
+                    fechaNacimientoCoacreditado  : it.fechaNacimientoCoacreditado != null ? it.fechaNacimientoCoacreditado : '',
+                    curpCoacreditado             : it.curpCoacreditado != null ? it.curpCoacreditado : '',
+                    documentoOficialCoacreditado : it.documentoOficialCoacreditado != null ? it.documentoOficialCoacreditado : '',
+                    claveElectorCoacreditado     : it.claveElectorCoacreditado != null ? it.claveElectorCoacreditado : '',
+                    telefonoFijoCoacreditado     : it.telefonoFijoCoacreditado != null ? it.telefonoFijoCoacreditado : '',
+                    telefonoCelularCoacreditado  : it.telefonoCelularCoacreditado != null ? it.telefonoCelularCoacreditado : '',
+                    telefonoOficinaCoacreditado  : it.telefonoOficinaCoacreditado != null ? it.telefonoOficinaCoacreditado : '',
+                    correoElectronicoCoacreditado: it.correoElectronicoCoacreditado != null ? it.correoElectronicoCoacreditado : '',
+                    anio                         : it.anio != null ? it.anio : '',
+                    marca                        : it.marca != null ? it.marca.id : '',
+                    modelo                       : it.modelo != null ? it.modelo.id : '',
+                    versionAuto                  : it.versionAuto != null ? it.versionAuto : '',
+                    color                        : it.color != null ? it.color : '',
+                    placas                       : it.placas != null ? it.placas : '',
+                    numeroDeMotor                : it.numeroDeMotor != null ? it.numeroDeMotor : '',
+                    numeroDeFactura              : it.numeroDeFactura != null ? it.numeroDeFactura : '',
+                    fechaDeFactura               : it.fechaDeFactura != null ? it.fechaDeFactura : '',
+                    emisoraDeFactura             : it.emisoraDeFactura != null ? it.emisoraDeFactura : '',
+                    valorDeVenta                 : it.valorDeVenta != null ? it.valorDeVenta : '',
+                    valorDeCompra                : it.valorDeCompra != null ? it.valorDeCompra : '',
+                    montoMaximoAutorizado        : it.montoMaximoAutorizado != null ? it.montoMaximoAutorizado : '',
+                    numeroVin                    : it.numeroVin != null ? it.numeroVin : '',
+                    gps1                         : it.gps1 != null ? it.gps1.id : '',
+                    gps2                         : it.gps2 != null ? it.gps2.id : '',
+                    gps3                         : it.gps3 != null ? it.gps3.id : '',
+                    montoRequerido               : it.montoRequerido != null ? it.montoRequerido : '',
+                    costoMensualInteres          : it.costoMensualInteres != null ? it.costoMensualInteres : '',
+                    costoMensualMonitoreo        : it.costoMensualMonitoreo != null ? it.costoMensualMonitoreo : '',
+                    costoMensualGPS              : it.costoMensualGPS != null ? it.costoMensualGPS : '',
+                    totalAutoPresta              : it.totalAutoPresta != null ? it.totalAutoPresta : '',
+                    iva                          : it.iva != null ? it.iva : '',
+                    costoMensualTotal            : it.costoMensualTotal != null ? it.costoMensualTotal : '',
+                    tipoContrato                 : it.tipoContrato != null ? it.tipoContrato.id : '',
+                    estatus                      : it.estatus != null ? it.estatus : '',
+                    referencia                   : it.referencia != null ? it.referencia : '',
+                    clabe                        : it.clabe != null ? it.clabe : '',
+                    razonesSociales              : it.razonesSociales != null ? [
+                            razonSocial         : it.razonesSociales.razonSocial ? it.razonesSociales.razonSocial : '',
+                            rfc                 : it.razonesSociales.rfc ? it.razonesSociales.rfc : '',
+                            telefonoFijo        : it.razonesSociales.telefonoFijo ? it.razonesSociales.telefonoFijo : '',
+                            telefonoCelular     : it.razonesSociales.telefonoCelular ? it.razonesSociales.telefonoCelular : '',
+                            telefonoOficina     : it.razonesSociales.telefonoOficina ? it.razonesSociales.telefonoOficina : '',
+                            calleDireccionFiscal: it.razonesSociales.calleDireccionFiscal ? it.razonesSociales.calleDireccionFiscal : '',
+                            numeroExterior      : it.razonesSociales.numeroExterior ? it.razonesSociales.numeroExterior : '',
+                            numeroInterior      : it.razonesSociales.numeroInterior ? it.razonesSociales.numeroInterior : '',
+                            codigoPostal        : it.razonesSociales.codigoPostal ? it.razonesSociales.codigoPostal : '',
+                            colonia             : it.razonesSociales.colonia ? it.razonesSociales.colonia : '',
+                            entidad             : it.razonesSociales.entidad ? it.razonesSociales.entidad : '',
+                            municipio           : it.razonesSociales.municipio ? it.razonesSociales.municipio : '',
+                    ] : '',
+                    calificacionCliente          : it.calificacionCliente != null ? it.calificacionCliente : '',
+                    numeroContrato               : it.numeroContrato != null ? it.numeroContrato : '',
+                    contratoPrueba               : it.contratoPrueba != null ? it.contratoPrueba : '',
+                    montoTransferencia           : it.montoTransferencia != null ? it.montoTransferencia : '',
+                    detalleDescuentos            : it.detalleDescuentos != null ? it.detalleDescuentos : '',
+                    fechaSolicitud               : it.fechaSolicitud != null ? it.fechaSolicitud : '',
+                    montoLiquidar                : it.montoLiquidar != null ? it.montoLiquidar : '',
+                    fechaCompromiso              : it.fechaCompromiso != null ? it.fechaCompromiso : '',
+                    estatusContrato              : it.estatusContrato != null ? it.estatusContrato : '',
+                    contratoMonterrey            : it.contratoMonterrey != null ? it.contratoMonterrey : '',
+                    nombreLargo                  : it.nombreLargo != null ? it.nombreLargo : '',
+                    nombreLargoCoacreditado      : it.nombreLargoCoacreditado != null ? it.nombreLargoCoacreditado : '',
+                    folioCarga                   : it.folioCarga != null ? it.folioCarga : '',
+                    direcciones                  : getDirecciones(it)
+            ]
+        })
+        respond contrato
     }
 
     def contratosFirmados() {
@@ -248,7 +346,7 @@ class ContratoController extends RestfulController<Contrato> {
                 FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio('ContratoPruebas', folio.toString())
                 foliosRecuperado.delete(flush: true, failOnError: true)
             }
-        } else if(contrato.contratoMonterrey) {
+        } else if (contrato.contratoMonterrey) {
             def folio = getFolioRecuperado('CONTRATOMONTERREY')
             if (folio == 0) {
                 contrato.numeroContrato = folioService.generaFolio('CONTRATOMONTERREY').toString()
@@ -257,7 +355,7 @@ class ContratoController extends RestfulController<Contrato> {
                 FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio('CONTRATOMONTERREY', folio.toString())
                 foliosRecuperado.delete(flush: true, failOnError: true)
             }
-        }else {
+        } else {
             def folio = getFolioRecuperado('Contrato')
             if (folio == 0) {
                 contrato.numeroContrato = folioService.generaFolio('Contrato').toString()
@@ -363,7 +461,7 @@ class ContratoController extends RestfulController<Contrato> {
             log.error '' + folio
         } else {
             foliosRecuperados.cveTipo = 'Contrato'
-            if (contrato.contratoMonterrey == true){
+            if (contrato.contratoMonterrey == true) {
                 foliosRecuperados.cveTipo = 'ContratoMonterrey'
             }
         }

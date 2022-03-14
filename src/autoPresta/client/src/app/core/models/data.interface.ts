@@ -509,3 +509,31 @@ export interface Contrataciones {
   montoPrestamo: number;
   estatus: string;
 }
+
+export interface parcialidad{
+    folio      : any,
+  contrato   : string,
+  parcialidad: string,
+  fecha      : Date,
+  monto      : number,
+  estatus    : string,
+  clase      : string
+
+}
+export interface movimiento{
+    folio      : any,
+  cuenta   : string,
+  referencia: string,
+  fecha      : Date,
+  monto      : number,
+  estatus    : string,
+  clase      : string
+
+}
+
+export interface detalleConciliacion{
+  concilio    : Boolean,
+  parcialidad: parcialidad,
+  movimiento       : movimiento  ,
+  formaConciliacion: string
+}
