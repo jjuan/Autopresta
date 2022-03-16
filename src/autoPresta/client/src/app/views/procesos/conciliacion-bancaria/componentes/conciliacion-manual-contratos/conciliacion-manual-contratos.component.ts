@@ -1,5 +1,5 @@
 import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {RestService} from "../../../../../core/service/rest.service";
 import {Combo, conciliacionMovimientosTable} from "../../../../../core/models/data.interface";
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
@@ -59,7 +59,6 @@ export class ConciliacionManualContratosComponent implements OnInit {
 
   ngOnInit(): void {
     this.advanceTableService.initService(this._dominio);
-    this.loadData();
     this.action = this.data.action;
     this.saldo = this.data.info.monto
     this.etiqueta = 'Saldo excedente'
@@ -68,7 +67,12 @@ export class ConciliacionManualContratosComponent implements OnInit {
     this.formulario = this.restService.buildForm({
       formaConciliacion: [''],
       campo: [''],
-    });
+      // });
+      // this.formularioBusqueda = this.restService.buildForm({
+      fechaInicio: [new Date("02/01/22 00:00:00"), Validators.required],
+      fechaFin: [new Date("02/07/22 00:00:00"), Validators.required]
+    })
+    this.loadData();
   }
 
   onNoClick(): void {
@@ -115,8 +119,8 @@ export class ConciliacionManualContratosComponent implements OnInit {
   public loadData() {
     this.db = new RestService(this.httpClient, this.globalService, this.fBuilder);
     this.dataSource = new BancosDataSource(this.db, this.paginator, this.sort, this._dominio,
-      this.datePipe.transform(this.data.fechaInicio, 'yyyy-MM-dd'),
-      this.datePipe.transform(this.data.fechaFin, 'yyyy-MM-dd'),
+      this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+      this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
       false);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
@@ -170,12 +174,15 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
 
   connect(): Observable<conciliacionMovimientosTable[]> {
     const displayDataChanges = [this._dataSource.dataChange, this._sort.sortChange, this._filterChange, this._paginator.page];
-    this._dataSource.getAdvancedTable<any>(this._dominio, {
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin,
-      cargoAbono: this.cargoAbono,
-      conciliados: false
-    }, 'cargarMovimientos');
+    if (this.fechaInicio != null && this.fechaFin != null) {
+      this._dataSource.getAdvancedTable<any>(this._dominio, {
+        fechaInicio: this.fechaInicio,
+        fechaFin: this.fechaFin,
+        cargoAbono: this.cargoAbono,
+        conciliados: false
+      }, 'cargarMovimientos');
+    }
+
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionMovimientosTable) => {
           const searchStr = (
@@ -183,6 +190,7 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
             advanceTable.cuenta +
             advanceTable.fecha +
             advanceTable.referencia +
+            // advanceTable.titular +
             advanceTable.monto +
             advanceTable.estatus +
             advanceTable.clase

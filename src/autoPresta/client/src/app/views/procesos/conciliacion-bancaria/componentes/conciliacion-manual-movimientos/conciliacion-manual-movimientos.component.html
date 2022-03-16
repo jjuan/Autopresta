@@ -56,8 +56,45 @@
         </mat-form-field>
       </div>
     </div>
-  </form>
+<!--  </form>-->
 
+<!--  <form [formGroup]="formularioBusqueda">-->
+    <div class="card">
+      <div class="body pb-0">
+        <div class="row padding-0">
+          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+            <mat-form-field class="full-width m-0" appearance="outline">
+              <mat-label>Fecha Inicial</mat-label>
+              <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
+              <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+              <mat-datepicker #DatepickerInicial></mat-datepicker>
+              <mat-error *ngIf="formulario.get('fechaInicio').hasError('required')">
+                Fecha es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+            <mat-form-field class="full-width m-0" appearance="outline">
+              <mat-label>Fecha Final</mat-label>
+              <input matInput [matDatepicker]="DatepickerFin" name="fechaFin" formControlName="fechaFin">
+              <mat-datepicker-toggle matSuffix [for]="DatepickerFin"></mat-datepicker-toggle>
+              <mat-datepicker #DatepickerFin></mat-datepicker>
+              <mat-error *ngIf="formulario.get('fechaFin').hasError('required')">
+                Fecha es requerida
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-2">
+            <div class="button-row">
+              <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid" (click)="loadData()">
+                <mat-icon class="col-white" matTooltip="Descargar reporte de ">search</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -97,27 +134,31 @@
                 </mat-cell>
               </ng-container>
               <ng-container matColumnDef="contrato">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Contrato</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.contrato}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-10'">Contrato</mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-10'">{{row.contrato}}</mat-cell>
+              </ng-container>
+              <ng-container matColumnDef="titular">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Titular</mat-header-cell>
+                <mat-cell *matCellDef="let row">{{row.titular}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="parcialidad">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Parcialidad</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.parcialidad}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-10'">Parcialidad</mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-10'">{{row.parcialidad}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="fecha">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let row">{{row.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha</mat-header-cell>
+                <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-12'">{{row.fecha | date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
               <ng-container matColumnDef="monto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Monto</mat-header-cell>
-                <mat-cell class="header-align-right p-r-20" *matCellDef="let row">{{row.monto| number: '.2'}}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-14'">Monto</mat-header-cell>
+                <mat-cell class="header-align-right p-r-20" *matCellDef="let row" [ngClass]="'tbl-col-width-per-14'">{{row.monto| currency: 'USD'}}</mat-cell>
               </ng-container>
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
               <mat-row *matRowDef="let row; columns: displayedColumns;"  [style.cursor]="'pointer'" matRipple> </mat-row>
             </mat-table>
 
             <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se encontraron Resultados</div>
-            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </div>
         </div>
       </div>

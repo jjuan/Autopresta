@@ -174,7 +174,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
 
         let data: any;
         const dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
-          width: '50%', disableClose: true,
+          width: '80%', disableClose: true,
           data: {
             title: 'Parcialidad', disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
             info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos', esDetalle: false
@@ -241,7 +241,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
       clase: row.clase
     }, 'verConciliacion').subscribe(r => {
       const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
-        width: '50%', disableClose: true,
+        width: '80%', disableClose: true,
         data: {
           esMovimiento: r[0].porMovimiento, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
           info: r[0], action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: true
@@ -268,7 +268,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
     }, opts).subscribe(r => {
       if (r.length > 0) {
         const dialogRef = this.dialog.open(ConciliacionPreviewComponent, {
-          width: '70%',
+          width: '80%',
           disableClose: true,
           // height: '80%',
           data: {
@@ -277,6 +277,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
           }
         });
         this.loadData()
+      }else if (r.length == 0){
+        this.showNotification('snackbar-success', '0 Conciliaciones obtenidas', 'bottom', 'center');
       }
     })
   }

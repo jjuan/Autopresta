@@ -132,7 +132,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
 
         def conciliacion = Conciliaciones.findById(conciliacionesDetalles.conciliaciones.id).collect({
             [
-                    id: it.id,
+                    id                   : it.id,
                     fechaConciliacion    : it.fechaConciliacion,
                     montoXoperaciones    : it.montoXoperaciones,
                     montoXmovimientos    : it.montoXmovimientos,
@@ -140,7 +140,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
                     descripcionDiferencia: it.descripcionDiferencia,
                     conciliacionParcial  : it.conciliacionParcial,
                     detalles             : getDetalles(it),
-                    porMovimiento: it.porMovimiento
+                    porMovimiento        : it.porMovimiento
             ]
         })
         respond conciliacion
@@ -161,6 +161,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
                     operacion        : ContratoDetalle.findById(it.folioOperacion as Long).collect({
                         [folio      : it.id,
                          contrato   : reporteService.contratoFolio(it.contrato),
+                         titular    : conciliacionesService.getTitular(it),
                          parcialidad: it.parcialidad,
                          fecha      : it.fecha,
                          monto      : it.subtotal + it.iva,
@@ -175,19 +176,19 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     }
 
     @Transactional
-    def eliminarConciliacion(){
+    def eliminarConciliacion() {
         Conciliaciones conciliacion = Conciliaciones.findById(params.id as Long)
         def detalles = ConciliacionesDetalles.findAllByConciliaciones(conciliacion)
-        for (detalle in detalles){
+        for (detalle in detalles) {
             LiquidacionBanco liquidacionBanco = LiquidacionBanco.findById(detalle.movimiento.id)
             liquidacionBanco.conciliado = false
-            liquidacionBanco.save(flush:true)
+            liquidacionBanco.save(flush: true)
             ContratoDetalle contratoDetalle = ContratoDetalle.findById(detalle.folioOperacion as long)
             contratoDetalle.conciliado = false
-            contratoDetalle.save(flush:true)
-            detalle.delete(flush:true)
+            contratoDetalle.save(flush: true)
+            detalle.delete(flush: true)
         }
-        conciliacion.delete(flush:true)
+        conciliacion.delete(flush: true)
         respond message: 'ok'
     }
 

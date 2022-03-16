@@ -31,6 +31,7 @@ export interface conciliacionMovimientosTable {
   folio: number
   cuenta: string;
   fecha: Date;
+  titular?: string;
   referencia: string;
   monto: number;
   estatus: string;
@@ -42,6 +43,7 @@ export interface conciliacionContratosTable {
   contrato: string;
   parcialidad: string;
   fecha: Date;
+  titular?: string;
   monto: number;
   estatus: string;
   clase?: string;

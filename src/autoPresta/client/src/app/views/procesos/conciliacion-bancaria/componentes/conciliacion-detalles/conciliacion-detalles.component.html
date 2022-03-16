@@ -16,11 +16,12 @@
     <div class="card-header">
       <div class="row">
         <div class="col-4"><p>Cuenta: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].cuenta:data.datos.movimiento.cuenta}}</b></p></div>
-        <div class="col-4"><p>Monto: <b>$ {{data.info.detalles[0]?data.info.detalles[0].movimiento[0].monto:data.datos.movimiento.monto| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Fecha: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].fecha:data.datos.movimiento.fecha}}</b></p></div>
-        <div class="col-4"><p>Monto por movimientos: <b>$ {{data.info.detalles[0]?data.info.montoXmovimientos:data.datos.montoMovimientos| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Monto por parcialidades: <b>$ {{data.info.detalles[0]?data.info.montoXoperaciones:data.datos.montoParcialidades| number: '.2'}}</b></p></div>
-        <div class="col-4"><p>Saldo: <b>$ {{data.info.detalles[0]?data.info.diferencia:data.datos.saldo| number: '.2'}} {{data.info.detalles[0]?data.info.descripcionDiferencia:data.datos.etiqueta}}</b></p></div>
+        <div class="col-4"><p>Monto: <b>$ {{data.info.detalles[0]?data.info.detalles[0].movimiento[0].monto:data.datos.movimiento.monto| currency: 'USD'}}</b></p></div>
+        <div class="col-4"><p>Fecha: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].fecha:data.datos.movimiento.fecha | date: 'dd/MM/yyyy'}}</b></p></div>
+        <div class="col-4"><p>Monto por movimientos: <b>$ {{data.info.detalles[0]?data.info.montoXmovimientos:data.datos.montoMovimientos| currency: 'USD'}}</b></p></div>
+        <div class="col-4"><p>Monto por parcialidades: <b>$ {{data.info.detalles[0]?data.info.montoXoperaciones:data.datos.montoParcialidades| currency: 'USD'}}</b></p></div>
+        <div class="col-4"><p>Saldo: <b>$ {{data.info.detalles[0]?data.info.diferencia:data.datos.saldo| currency: 'USD'}} {{data.info.detalles[0]?data.info.descripcionDiferencia:data.datos.etiqueta}}</b></p></div>
+        <div class="col-12"><p>Referencia: <b>{{data.info.detalles[0]?data.info.detalles[0].movimiento[0].referencia:data.datos.movimiento.referencia}}</b></p></div>
       </div>
     </div>
   </div>
@@ -32,6 +33,7 @@
         <thead>
         <tr>
           <th>Contrato</th>
+          <th>Titular</th>
           <th>Parcialidad</th>
           <th>Monto</th>
           <th>Fecha</th>
@@ -42,6 +44,7 @@
         <tbody>
         <tr>
           <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].contrato:data.info.contrato}}</b></td>
+          <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].titular:data.info.titular}}</b></td>
           <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].parcialidad:data.info.parcialidad}}</b></td>
           <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].monto:data.info.monto| currency: 'USD'}}</b></td>
           <td><b>{{data.info.detalles[0]?data.info.detalles[0].operacion[0].fecha:data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
@@ -60,9 +63,11 @@
       <thead>
       <tr>
         <th>Numero de contrato</th>
+        <th>Titular</th>
         <th>Parcialidad</th>
         <th>Monto</th>
         <th>Fecha de la parcialidad</th>
+        <th>Forma de concilliacion</th>
 <!--        <th>Fecha del pago</th>-->
 <!--        <th>Concilio</th>-->
 <!--        <th>FechaConcilio</th>-->
@@ -73,9 +78,11 @@
       <tr *ngFor="let p of parcialidades">
 <!--        <td>{{p}}</td>-->
         <td>{{p.contrato?p.contrato:p.item.contrato}}</td>
+        <td>{{p.titular?p.titular:p.item.titular}}</td>
         <td>{{p.parcialidad?p.parcialidad:p.item.parcialidad}}</td>
-        <td>{{p.monto?p.monto:p.item.monto}}</td>
-        <td>{{p.fecha?p.fecha:p.item.fecha}}</td>
+        <td>{{p.monto?p.monto:p.item.monto| currency: 'USD'}}</td>
+        <td>{{p.fecha?p.fecha:p.item.fecha | date: 'dd/MM/yyyy'}}</td>
+        <th>{{data.info.detalles[0].formaConciliacion}}</th>
       </tr>
       </tbody>
     </table>
@@ -89,7 +96,7 @@
         <th>Referencia</th>
         <th>Monto</th>
         <th>Fecha</th>
-<!--        <th>Ultima fecha pago</th>-->
+        <th>Forma de concilliacion</th>
 <!--        <th>Conciliado</th>-->
 <!--        <th>Saldo</th>-->
       </tr>
@@ -98,11 +105,12 @@
       <tr *ngFor="let p of movimientos">
         <th>{{p.cuenta?p.cuenta:p.item.cuenta}}</th>
         <th>{{p.referencia?p.referencia:p.item.referencia}}</th>
-        <th>$ {{p.monto?p.monto:p.item.monto| number: '.2'}}</th>
+        <th>$ {{p.monto?p.monto:p.item.monto| currency: 'USD'}}</th>
         <th>{{p.fecha?p.fecha:p.item.fecha|date: 'dd-MM-yyyy'}}</th>
+        <th>{{data.info.detalles[0].formaConciliacion}}</th>
 <!--        <th>{{p.fecha}}</th>-->
 <!--        <th>{{p.conciliado ? 'Conciliado' : 'Pendiente'}}</th>-->
-<!--        <th>$ {{p.saldo| number: '.2'}} {{p.descripcion}}</th>-->
+<!--        <th>$ {{p.saldo| currency: 'USD'}} {{p.descripcion}}</th>-->
       </tr>
       </tbody>
     </table>
