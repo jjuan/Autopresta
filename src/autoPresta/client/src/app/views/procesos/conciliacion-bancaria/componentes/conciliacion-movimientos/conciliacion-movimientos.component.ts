@@ -11,7 +11,7 @@ import {HttpClient} from "@angular/common/http";
 import {GlobalService} from "../../../../../core/service/global.service";
 import {MatDialog} from "@angular/material/dialog";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
 import {map} from "rxjs/operators";
@@ -23,6 +23,7 @@ import {
 } from "../conciliacion-manual-movimientos/conciliacion-manual-movimientos.component";
 import {ConciliacionDetallesComponent} from "../conciliacion-detalles/conciliacion-detalles.component";
 import {ConciliacionPreviewComponent} from "../conciliacion-preview/conciliacion-preview.component";
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-conciliacion-movimientos',
@@ -40,6 +41,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
   ];
 
   @Input() fechaInicio: Date
+  formulario: FormGroup;
   @Input() fechaFin: Date
   @Input() cargoAbono: Boolean;
   @Input() titulo: string;
@@ -61,9 +63,11 @@ export class ConciliacionMovimientosComponent implements OnInit {
   dataSource: BancosDataSource | null;
 
   constructor(
-    private httpClient: HttpClient, private globalService: GlobalService, private dialog: MatDialog, private datePipe: DatePipe,
+    private httpClient: HttpClient,
+    private dateAdapter: DateAdapter<Date>,private globalService: GlobalService, private dialog: MatDialog, private datePipe: DatePipe,
     private advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder
   ) {
+    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -75,6 +79,11 @@ export class ConciliacionMovimientosComponent implements OnInit {
 
   ngOnInit() {
     this.advanceTableService.initService(this._dominio);
+    this.advanceTableService.initService(this._dominio);
+    this.formulario = this.advanceTableService.buildForm({
+      fechaInicio: [new Date("02/01/22 00:00:00"), Validators.required],
+      fechaFin: [new Date("02/01/22 00:00:00"), Validators.required]
+    })
     this.loadData();
   }
 
@@ -90,8 +99,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
     this.db = new RestService(this.httpClient, this.globalService, this.fBuilder);
     this.dataSource = new BancosDataSource(
       this.db, this.paginator, this.sort, this._dominio,
-      this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
-      this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+      this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
       this.cargoAbono);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
@@ -113,8 +122,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
 
   statusConciliacion() {
     this.advanceTableService.index<conciliacionStatus>(this._dominio, {
-      fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
-      fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      fechaInicio: this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+      fechaFin: this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
       cargoAbono: this.cargoAbono
     }, 'statusConciliacionesMovimientos').subscribe(r => {
       this.conciliacionStatus = r
@@ -133,8 +142,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
   conciliar(row: conciliacionMovimientosTable) {
     const opts = this.globalService.getHttpOptions()
     opts['params'] = {
-      fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
-      fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      fechaInicio: this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+      fechaFin: this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
       cargoAbono: this.cargoAbono,
       id: row.folio
     };
@@ -181,7 +190,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
           }
         });
         dialogRef.afterClosed().subscribe((result) => {
-            if (result) {
+          if (result!=undefined) {
               // const detalle = this.dialog.open(ConciliacionDetallesComponent, {
               //   width: '50%', disableClose: true,
               //   data: {
@@ -215,15 +224,15 @@ export class ConciliacionMovimientosComponent implements OnInit {
             //     cancelButtonText: 'Cancelar'
             //   }).then((res) => {
             //     if (res.value) {
-            this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
-              .subscribe(data => {
-                this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
-                this.loadData();
-              }, error => {
-                if (error._embedded !== undefined) {
-                  this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
-                }
-              })
+            // this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
+            //   .subscribe(data => {
+            //     this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
+            //     this.loadData();
+            //   }, error => {
+            //     if (error._embedded !== undefined) {
+            //       this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
+            //     }
+            //   })
             // }
             // });
             // }
@@ -259,8 +268,8 @@ export class ConciliacionMovimientosComponent implements OnInit {
   conciliacionAutomatica() {
     const opts = this.globalService.getHttpOptions()
     opts['params'] = {
-      fechaInicio: this.datePipe.transform(this.fechaInicio, 'yyyy-MM-dd'),
-      fechaFin: this.datePipe.transform(this.fechaFin, 'yyyy-MM-dd'),
+      fechaInicio: this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+      fechaFin: this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
     };
     this.httpClient.post<ConciliacionAutomatica[]>(this.globalService.BASE_API_URL + this._dominio + "/conciliacionGeneralMovimentos", {
       fechaInicio: this.fechaInicio,
@@ -305,12 +314,13 @@ export class BancosDataSource extends DataSource<conciliacionMovimientosTable> {
 
   connect(): Observable<conciliacionMovimientosTable[]> {
     const displayDataChanges = [this._dataSource.dataChange, this._sort.sortChange, this._filterChange, this._paginator.page];
-    this._dataSource.getAdvancedTable<any>(this._dominio, {
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin,
-      cargoAbono: this.cargoAbono
-    }, 'cargarMovimientos');
-
+    if (this.fechaInicio != null && this.fechaFin != null) {
+      this._dataSource.getAdvancedTable<any>(this._dominio, {
+        fechaInicio: this.fechaInicio,
+        fechaFin: this.fechaFin,
+        cargoAbono: this.cargoAbono
+      }, 'cargarMovimientos');
+    }
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this._dataSource.data.slice().filter((advanceTable: conciliacionMovimientosTable) => {
           const searchStr = (

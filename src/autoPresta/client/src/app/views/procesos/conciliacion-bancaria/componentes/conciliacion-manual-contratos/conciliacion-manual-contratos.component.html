@@ -17,17 +17,24 @@
       <table class="table table-hover dashboard-task-infos">
         <thead>
         <tr>
-          <th>Contrato</th><th>Parcialidad</th><th>Monto</th><th>Fecha</th><th>Conciliado</th><th>Saldo</th>
+          <th>Contrato</th>
+          <th>Titular</th>
+          <th>Parcialidad</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+          <th>Saldo</th>
         </tr>
         </thead>
         <tbody>
         <tr>
           <td><b>{{data.info.contrato}}</b></td>
+          <td><b>{{data.info.titular}}</b></td>
           <td><b>{{data.info.parcialidad}}</b></td>
           <td><b>{{data.info.monto| currency: 'USD'}}</b></td>
           <td><b>{{data.info.fecha | date: 'dd/MM/yyyy'}}</b></td>
-          <td><b>{{data.info.conciliado?'Conciliado':'Pendiente'}}</b></td>
-          <td><p><b [ngStyle]="etiqueta == 'Saldo remanente'?{'color': 'red' }:{'color':'green'}">{{saldo| currency: 'USD'}} {{etiqueta}}</b></p></td>
+          <td><p><b
+            [ngStyle]="etiqueta == 'Saldo remanente'?{'color': 'red' }:{'color':'green'}">{{saldo| currency: 'USD'}} {{etiqueta}}</b>
+          </p></td>
         </tr>
         </tbody>
       </table>
@@ -51,9 +58,9 @@
         <mat-form-field class="full-width" appearance="outline">
           <mat-label>Campo</mat-label>
           <input matInput formControlName="campo">
-<!--          <mat-error *ngIf="formulario.get('campo').hasError('required')">-->
-<!--            Campo es requerido-->
-<!--          </mat-error>-->
+          <!--          <mat-error *ngIf="formulario.get('campo').hasError('required')">-->
+          <!--            Campo es requerido-->
+          <!--          </mat-error>-->
         </mat-form-field>
       </div>
     </div>
@@ -111,11 +118,14 @@
                     <li class="dropdown"><h2><strong>{{titulo}}</strong></h2></li>
                     <li class="dropdown m-l-20">
                       <label><i class="material-icons search-icon">search</i></label>
-                      <input placeholder="Buscar..." type="text" #filter class="browser-default search-field" aria-label="Search box">
+                      <input placeholder="Buscar..." type="text" #filter class="browser-default search-field"
+                             aria-label="Search box">
                     </li>
                     <li>
                       <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
-                        <button mat-mini-fab color="primary" (click)="confirmAdd()"><mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon></button>
+                        <button mat-mini-fab color="primary" (click)="confirmAdd()">
+                          <mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon>
+                        </button>
                       </div>
                     </li>
                   </ul>
@@ -135,8 +145,8 @@
                   </mat-checkbox>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-6'">
-                  <mat-checkbox  (change)="$event ? selection.toggle(row)  : null; actualizarMonto()"
-                                 [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
+                  <mat-checkbox (change)="$event ? selection.toggle(row)  : null; actualizarMonto()"
+                                [checked]="selection.isSelected(row)" [ngClass]="'tbl-checkbox'">
                   </mat-checkbox>
                 </mat-cell>
               </ng-container>
@@ -149,7 +159,8 @@
               </ng-container>
 
               <ng-container matColumnDef="fecha">
-                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha
+                </mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-12'">
                   {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
@@ -161,7 +172,8 @@
               </ng-container>
 
               <ng-container matColumnDef="monto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-15'">Monto</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-15'">Monto
+                </mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-15'">
                   {{row.monto|currency: 'USD'}}</mat-cell>
               </ng-container>

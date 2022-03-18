@@ -1,125 +1,189 @@
-<div class="container-fluid">
-  <div class="plain-card">
-    <h6 class="m-b-5">{{titulo}}</h6>
-    <div class="row mb-2">
-      <div class="col col-block">
-        <label class="font-15">Conciliados</label>
-        <h4>{{conciliacionStatus.conciliadas}}<i class="material-icons col-green">event_available</i></h4>
-      </div>
-      <div class="col col-block">
-        <label class="font-15">Pendientes</label>
-        <h4>{{conciliacionStatus.pendientes}}<i class="material-icons col-orange">event_busy</i></h4>
-      </div>
-      <div class="col col-block">
-        <label class="font-15">Total</label>
-        <h4>{{conciliacionStatus.total}}<i class="material-icons col-blue">event_note</i></h4>
-      </div>
-    </div>
-    <div class="progress mb-1 mt-1">
-      <div
-        class="progress-bar l-bg-red width-per-{{((conciliacionStatus.conciliadas/conciliacionStatus.total)*100)| number : '1.0-0'}}"
-        role="progressbar" aria-valuenow="50" aria-valuemin="0"
-        aria-valuemax="100">{{((conciliacionStatus.conciliadas / conciliacionStatus.total) * 100)| number: '1.0-0'}}%
-      </div>
-    </div>
-  </div>
+<section class="content">
+  <div class="container-fluid">
+    <div class="container-fluid">
 
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="card">
-        <div class="body">
-          <div class="responsive_table">
-            <div class="materialTableHeader">
-              <div class="row">
-
-                <div class="col-8">
-                  <ul class="header-buttons-left ml-0">
-                    <li class="dropdown"><h2><strong>{{subtitulo}}</strong></h2></li>
-                    <li class="dropdown m-l-20">
-                      <label><i class="material-icons search-icon">search</i></label>
-                      <input placeholder="Buscar..." type="text" #filter class="browser-default search-field"
-                             aria-label="Search box">
-                    </li>
-                    <li>
-                      <div class="icon-button-demo m-l-10" >
-                        <button mat-mini-fab color="primary" (click)="conciliacionAutomatica()"><mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon></button>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div class="col-4">
-                  <ul class="header-buttons">
-                    <li>
-                      <div class="icon-button-demo">
-                        <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Actualizar datos">
-                          <mat-icon class="col-white">refresh</mat-icon>
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
+      <form [formGroup]="formulario">
+        <div class="row">
+          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-5 mb-0 pb-0">
+            <div class="card">
+              <div class="body pb-0">
+                <div class="row padding-0">
+                  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+                    <mat-form-field class="full-width m-0" appearance="outline">
+                      <mat-label>Fecha Inicial</mat-label>
+                      <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio"
+                             formControlName="fechaInicio">
+                      <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+                      <mat-datepicker #DatepickerInicial></mat-datepicker>
+                      <mat-error *ngIf="formulario.get('fechaInicio').hasError('required')">
+                        Fecha es requerida
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+                    <mat-form-field class="full-width m-0" appearance="outline">
+                      <mat-label>Fecha Final</mat-label>
+                      <input matInput [matDatepicker]="DatepickerFin" name="fechaFin" formControlName="fechaFin">
+                      <mat-datepicker-toggle matSuffix [for]="DatepickerFin"></mat-datepicker-toggle>
+                      <mat-datepicker #DatepickerFin></mat-datepicker>
+                      <mat-error *ngIf="formulario.get('fechaFin').hasError('required')">
+                        Fecha es requerida
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-2">
+                    <div class="button-row">
+                      <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid"
+                              (click)="loadData()">
+                        <mat-icon class="col-white" matTooltip="Descargar reporte de ">search</mat-icon>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </form>
 
 
-            <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-              <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef class="pr-0" [ngClass]="'tbl-col-width-per-15'">Acciones</mat-header-cell>
+      <div class="plain-card">
+        <h6 class="m-b-5">{{titulo}}</h6>
+        <div class="row mb-2">
+          <div class="col col-block">
+            <label class="font-15">Conciliados</label>
+            <h4>{{conciliacionStatus.conciliadas}}<i class="material-icons col-green">event_available</i></h4>
+          </div>
+          <div class="col col-block">
+            <label class="font-15">Pendientes</label>
+            <h4>{{conciliacionStatus.pendientes}}<i class="material-icons col-orange">event_busy</i></h4>
+          </div>
+          <div class="col col-block">
+            <label class="font-15">Total</label>
+            <h4>{{conciliacionStatus.total}}<i class="material-icons col-blue">event_note</i></h4>
+          </div>
+        </div>
+        <div class="progress mb-1 mt-1">
+          <div
+            class="progress-bar l-bg-red width-per-{{((conciliacionStatus.conciliadas/conciliacionStatus.total)*100)| number : '1.0-0'}}"
+            role="progressbar" aria-valuenow="50" aria-valuemin="0"
+            aria-valuemax="100">{{((conciliacionStatus.conciliadas / conciliacionStatus.total) * 100)| number: '1.0-0'}}
+            %
+          </div>
+        </div>
+      </div>
 
-                <mat-cell *matCellDef="let row; let i=index;" class="pr-0" [ngClass]="'tbl-col-width-per-15'">
-                  <button *ngIf="row.estatus=='Conciliado'" mat-icon-button matTooltip="Eliminar {{subtitulo}}" (click)="detalles(row)">
-                    <mat-icon aria-label="Delete">visibility</mat-icon>
-                  </button>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+          <div class="card">
+            <div class="body">
+              <div class="responsive_table">
+                <div class="materialTableHeader">
+                  <div class="row">
 
-                  <button *ngIf="row.estatus=='Pendiente'" [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}" mat-icon-button matTooltip="Conciliar {{subtitulo}}" (click)="conciliar(row)">
-                    <mat-icon aria-label="Delete">verified_user</mat-icon>
-                  </button>
-                </mat-cell>
-              </ng-container>
+                    <div class="col-8">
+                      <ul class="header-buttons-left ml-0">
+                        <li class="dropdown"><h2><strong>{{subtitulo}}</strong></h2></li>
+                        <li class="dropdown m-l-20">
+                          <label><i class="material-icons search-icon">search</i></label>
+                          <input placeholder="Buscar..." type="text" #filter class="browser-default search-field"
+                                 aria-label="Search box">
+                        </li>
+                        <li>
+                          <div class="icon-button-demo m-l-10">
+                            <button mat-mini-fab color="primary" (click)="conciliacionAutomatica()">
+                              <mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
 
-              <ng-container matColumnDef="contrato">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Contrato
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
-                  {{row.contrato}}</mat-cell>
-              </ng-container>
+                    <div class="col-4">
+                      <ul class="header-buttons">
+                        <li>
+                          <div class="icon-button-demo">
+                            <button mat-mini-fab color="primary" (click)="loadData()" matTooltip="Actualizar datos">
+                              <mat-icon class="col-white">refresh</mat-icon>
+                            </button>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
 
-              <ng-container matColumnDef="fecha">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
-                  {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
-              </ng-container>
 
-              <ng-container matColumnDef="parcialidad">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Parcialidad</mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}">
-                  {{row.parcialidad}}</mat-cell>
-              </ng-container>
+                <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
+                  <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="pr-0" [ngClass]="'tbl-col-width-per-15'">Acciones
+                    </mat-header-cell>
 
-              <ng-container matColumnDef="monto">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Monto</mat-header-cell>
-                <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'orange'}"
-                >
-                  {{row.monto|currency: 'USD'}}</mat-cell>
-              </ng-container>
+                    <mat-cell *matCellDef="let row; let i=index;" class="pr-0" [ngClass]="'tbl-col-width-per-15'">
+                      <button *ngIf="row.estatus=='Conciliado'" mat-icon-button matTooltip="Eliminar {{subtitulo}}">
+                        <mat-icon aria-label="Delete">visibility</mat-icon>
+                      </button>
 
-              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple>
-              </mat-row>
-            </mat-table>
-            <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se
-              encontraron Resultados
+                      <button *ngIf="row.estatus=='Pendiente'"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}"
+                              mat-icon-button
+                              matTooltip="Conciliar {{subtitulo}}">
+                        <mat-icon aria-label="Delete">verified_user</mat-icon>
+                      </button>
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="contrato">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header  [ngClass]="'tbl-col-width-per-10'">Contrato
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}"  [ngClass]="'tbl-col-width-per-10'">
+                      {{row.contrato}}</mat-cell>
+                  </ng-container>
+                  <ng-container matColumnDef="titular">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Titular
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}">
+                      {{row.titular}}</mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="fecha">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha</mat-header-cell>
+                    <mat-cell *matCellDef="let row"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}" [ngClass]="'tbl-col-width-per-12'">
+                      {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="parcialidad">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header  [ngClass]="'tbl-col-width-per-10'">Parcialidad</mat-header-cell>
+                    <mat-cell *matCellDef="let row"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}"  [ngClass]="'tbl-col-width-per-10'">
+                      {{row.parcialidad}}</mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="monto">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-14'">Monto</mat-header-cell>
+                    <mat-cell *matCellDef="let row"
+                              [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}" [ngClass]="'tbl-col-width-per-14'"
+                    >
+                      {{row.monto|currency: 'USD'}}</mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple (click)="row.estatus=='Conciliado'?detalles(row):conciliar(row)">
+                  </mat-row>
+                </mat-table>
+                <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se
+                  encontraron Resultados
+                </div>
+                <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+                               [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+              </div>
             </div>
-            <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
-                           [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>

@@ -58,10 +58,6 @@ export class ConciliacionIngresosComponent implements OnInit {
 
   save() {
     this.showTables = false
-    // this.cm = new ConciliacionMovimientosComponent(this.httpClient, this.globalService, this.dialog, this.datePipe, this.advanceTableService, this.snackBar, this.fBuilder)
-    // this.cm.loadData()
-    // this.cc = new ConciliacionContratosComponent(this.httpClient, this.globalService, this.dialog, this.datePipe, this.advanceTableService, this.snackBar, this.fBuilder)
-    // this.cc.loadData()
     this.showTables = true
   }
 

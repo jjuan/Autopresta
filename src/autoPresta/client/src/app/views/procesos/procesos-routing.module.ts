@@ -5,6 +5,12 @@ import {GeneraLiquidacionComponent} from "./genera-liquidacion/genera-liquidacio
 import {ImportacionesComponent} from "./importaciones/importaciones.component";
 import {ConciliacionEgresosComponent} from "./conciliacion-bancaria/conciliacion-egresos/conciliacion-egresos.component";
 import {ConciliacionIngresosComponent} from "./conciliacion-bancaria/conciliacion-ingresos/conciliacion-ingresos.component";
+import {
+  ConciliacionMovimientosComponent
+} from "./conciliacion-bancaria/componentes/conciliacion-movimientos/conciliacion-movimientos.component";
+import {
+  ConciliacionContratosComponent
+} from "./conciliacion-bancaria/componentes/conciliacion-contratos/conciliacion-contratos.component";
 
 
 const routes: Routes = [
@@ -13,7 +19,9 @@ const routes: Routes = [
   { path:'Genera-Liquidacion', component: GeneraLiquidacionComponent  },
   { path:'Importaciones', component: ImportacionesComponent },
   { path:'Conciliacion-Egresos', component: ConciliacionEgresosComponent },
-  { path:'Conciliacion-Ingresos', component: ConciliacionIngresosComponent },
+  // { path:'Conciliacion-Ingresos', component: ConciliacionIngresosComponent },
+  { path:'Conciliacion-Ingresos/Movimientos', component: ConciliacionMovimientosComponent },
+  { path:'Conciliacion-Ingresos/Mensualidades', component: ConciliacionContratosComponent },
 ];
 
 @NgModule({

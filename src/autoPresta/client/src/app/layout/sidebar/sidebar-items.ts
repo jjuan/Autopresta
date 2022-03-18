@@ -1,4 +1,4 @@
-import { RouteInfo } from './sidebar.metadata';
+import {RouteInfo} from './sidebar.metadata';
 
 export const ROUTES: RouteInfo[] = [
   {
@@ -214,26 +214,43 @@ export const ROUTES: RouteInfo[] = [
         title: 'Importaciones',
         moduleName: 'Procesos',
         icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
+        class: 'menu-toggle',
+        groupTitle: true,
         submenu: []
       },
+      // {
+      //   path: 'Procesos/Conciliacion-Egresos',
+      //   title: 'Conciliacion-Egresos',
+      //   moduleName: 'Procesos',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
       {
-        path: 'Procesos/Conciliacion-Egresos',
-        title: 'Conciliacion-Egresos',
-        moduleName: 'Procesos',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },{
-        path: 'Procesos/Conciliacion-Ingresos',
+        path: '',
         title: 'Conciliacion-Ingresos',
         moduleName: 'Procesos',
         icon: '',
         class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
+        groupTitle: true,
+        submenu: [{
+          path: 'Procesos/Conciliacion-Ingresos/Mensualidades',
+          title: 'Contratos',
+          moduleName: 'Procesos',
+          icon: '',
+          class: 'ml-menu',
+          groupTitle: false,
+          submenu: []
+        }, {
+          path: 'Procesos/Conciliacion-Ingresos/Movimientos',
+          title: 'Movimientos',
+          moduleName: 'Procesos',
+          icon: '',
+          class: 'ml-menu',
+          groupTitle: false,
+          submenu: []
+        },]
       },
     ]
   },

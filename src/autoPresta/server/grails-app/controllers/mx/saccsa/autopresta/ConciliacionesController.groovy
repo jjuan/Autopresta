@@ -48,8 +48,8 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     }
 
     def statusConciliacionesOperaciones() {
-        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
-        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+        def fechaInicio = sdf.parse(params.fechaInicio)
+        def fechaFin = sdf.parse(params.fechaFin)
 
         def conciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, true)
         def noConciliadas = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, false)
@@ -84,10 +84,13 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     def conciliacionMovimientos() {
         request.JSON
         params
-        Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String), request.JSON.porMovimientos)
-        for (detalle in request.JSON.detalles) {
-            conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
-        }
+//        if (request.JSON.montoParcialidades && request.JSON.montoMovimientos && request.JSON.porMovimientos) {
+            Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String), request.JSON.porMovimientos)
+            for (detalle in request.JSON.detalles) {
+                conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
+            }
+//        }
+
         respond message: 'Conciliaciòn exitosa'
     }
 

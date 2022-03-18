@@ -70,7 +70,7 @@ class ConciliacionesService {
                 String rfc = parcialidad.contrato.razonesSociales != null ? parcialidad.contrato.razonesSociales.rfc : parcialidad.contrato.rfc
                 String placas = parcialidad.contrato.placas
 
-                if (moviento.referencia.contains(cliente) && !encontro) {
+                if (moviento.referencia.contains(cliente) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     hojaConciliacion.regla1 = cliente
                     campo = cliente
@@ -78,14 +78,14 @@ class ConciliacionesService {
                     encontro = true
                 }
 
-                if (referencia != null && moviento.referencia.contains(referencia) && !encontro) {
+                if (referencia != null && moviento.referencia.contains(referencia) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     hojaConciliacion.regla2 = referencia
                     campo = referencia
                     formaConciliacion = 'Referencia bancaria'
                 }
 
-                if (moviento.referencia.contains(contrato) && !encontro) {
+                if (moviento.referencia.contains(contrato) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     hojaConciliacion.regla3 = contrato
                     campo = contrato
@@ -93,14 +93,14 @@ class ConciliacionesService {
                     formaConciliacion = 'Número de contrato'
                 }
 
-                if (hojaConciliacion.regla4 != null && moviento.referencia.contains(hojaConciliacion.regla4) && !encontro) {
+                if (hojaConciliacion.regla4 != null && moviento.referencia.contains(hojaConciliacion.regla4) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     campo = contrato
                     encontro = true
                     formaConciliacion = 'Número de cuenta'
                 }
 
-                if (moviento.referencia.contains(rfc) && !encontro) {
+                if (moviento.referencia.contains(rfc) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     hojaConciliacion.regla5 = rfc
                     campo = rfc
@@ -116,7 +116,7 @@ class ConciliacionesService {
                     formaConciliacion = 'Placas del vehículo del cliente'
                 }
 
-                if (hojaConciliacion.regla8 != null && moviento.referencia.contains(hojaConciliacion.regla8) && !encontro) {
+                if (hojaConciliacion.regla8 != null && moviento.referencia.contains(hojaConciliacion.regla8) && !encontro && moviento.referencia.contains('0941763 ') == false) {
                     pagos.push(parcialidad)
                     campo = hojaConciliacion.regla8
                     encontro = true
@@ -173,14 +173,14 @@ class ConciliacionesService {
             String contrato = contratoDetalle.contrato.numeroContrato
             String rfc = contratoDetalle.contrato.razonesSociales != null ? contratoDetalle.contrato.razonesSociales.rfc : contratoDetalle.contrato.rfc
             String placas = contratoDetalle.contrato.placas
-            if (movimiento.referencia.contains(cliente) && !encontro) {
+            if (movimiento.referencia.contains(cliente) && !encontro && movimiento.referencia.contains('0941763 ') == false) {
                 pagos.push(movimiento)
                 hojaConciliacion.regla1 = cliente
                 campo = cliente
                 encontro = true
                 formaConciliacion = 'Nombre del cliente'
             }
-            if (referencia != null && movimiento.referencia.contains(referencia) && !encontro) {
+            if (referencia != null && movimiento.referencia.contains(referencia) && !encontro && movimiento.referencia.contains('0941763 ') == false) {
                 pagos.push(movimiento)
                 hojaConciliacion.regla2 = referencia
                 campo = referencia
@@ -188,7 +188,7 @@ class ConciliacionesService {
                 formaConciliacion = 'Referencia bancaria'
             }
 
-            if (movimiento.referencia.contains(contrato) && !encontro) {
+            if (movimiento.referencia.contains(contrato) && !encontro && movimiento.referencia.contains('0941763 ') == false) {
                 pagos.push(movimiento)
                 hojaConciliacion.regla3 = contrato
                 campo = contrato
@@ -196,14 +196,14 @@ class ConciliacionesService {
                 formaConciliacion = 'Número de contrato'
             }
 
-            if (hojaConciliacion.regla4 != null && movimiento.referencia.contains(hojaConciliacion.regla4) && !encontro) {
+            if (hojaConciliacion.regla4 != null && movimiento.referencia.contains(hojaConciliacion.regla4 && movimiento.referencia.contains('0941763 ') == false) && !encontro) {
                 pagos.push(movimiento)
                 campo = contrato
                 encontro = true
                 formaConciliacion = 'Número de cuenta'
             }
 
-            if (movimiento.referencia.contains(rfc) && !encontro) {
+            if (movimiento.referencia.contains(rfc) && !encontro && movimiento.referencia.contains('0941763 ') == false) {
                 pagos.push(movimiento)
                 hojaConciliacion.regla5 = rfc
                 campo = rfc
@@ -218,7 +218,7 @@ class ConciliacionesService {
                 formaConciliacion = 'Placas del vehículo del cliente'
             }
 
-            if (hojaConciliacion.regla8 != null && movimiento.referencia.contains(hojaConciliacion.regla8) && !encontro) {
+            if (hojaConciliacion.regla8 != null && movimiento.referencia.contains(hojaConciliacion.regla8) && !encontro && movimiento.referencia.contains('0941763 ') == false) {
                 pagos.push(movimiento)
                 campo = hojaConciliacion.regla8
                 encontro = true
