@@ -1,6 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RestService} from "../../../../../core/service/rest.service";
+import {HttpClient} from "@angular/common/http";
+import {GlobalService} from "../../../../../core/service/global.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-conciliacion-detalles',
@@ -14,7 +17,8 @@ export class ConciliacionDetallesComponent implements OnInit {
   saldo;
   movimientos: any;
 
-  constructor(public dialogRef: MatDialogRef<ConciliacionDetallesComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private advanceTableService: RestService) {
+  constructor(public dialogRef: MatDialogRef<ConciliacionDetallesComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private advanceTableService: RestService, private http: HttpClient,
+              private snackBar: MatSnackBar, private globalService: GlobalService) {
   }
 
   onNoClick(): void {
@@ -23,23 +27,37 @@ export class ConciliacionDetallesComponent implements OnInit {
 
   ngOnInit() {
     this.dialogTitle = "Resumen de la conciliacion"
-    this.parcialidades = this.data.info.detalles?this.data.info.detalles[0].operacion:this.data.datos.parcialidades
-    console.log(this.parcialidades)
-    this.movimientos = this.data.info.detalles?this.data.info.detalles[0].movimiento:this.data.datos.movimientos
+    console.log(this.data.info.detalles)
   }
 
   confirmDelete(): void {
     this.dialogRef.close(true);
   }
 
-  eliminarOperacion(p) {
-
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName
+    });
   }
 
   eliminar() {
     this.advanceTableService.delete<any>(this.data.info.id, {id: this.data.info.id}, 'Conciliaciones', 'eliminarConciliacion').subscribe(r=>{
-      console.log(r)
-
+      this.showNotification('snackbar-danger', 'Conciliacion Eliminada!!', 'bottom', 'center');
     })
+  }
+
+  desconciliarMovimiento(p: any, texto: string) {
+    const formData = new FormData();
+    formData.append('id', p.id);
+    this.http.post(this.globalService.BASE_API_URL + 'Conciliaciones/eliminarConciliacionDetalle', formData, { headers: {
+        'Authorization': 'Bearer=' + this.globalService.getAuthToken()
+      }
+    }).subscribe(r => {
+      this.showNotification('snackbar-danger', texto, 'bottom', 'center');
+      this.dialogRef.close()
+    });
   }
 }

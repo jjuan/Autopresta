@@ -135,11 +135,11 @@
                       <mat-icon>clear</mat-icon>
                     </button>
 
-                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'"
-                            (click)="editar(row.id)" color="danger"
-                            matTooltip="Editar folio {{row.numeroContrato}}">
-                      <mat-icon>edit</mat-icon>
-                    </button>
+<!--                    <button mat-icon-button *ngIf="row.estatus == 'R' || row.estatus == 'I'"-->
+<!--                            (click)="editar(row.id)" color="danger"-->
+<!--                            matTooltip="Editar folio {{row.numeroContrato}}">-->
+<!--                      <mat-icon>edit</mat-icon>-->
+<!--                    </button>-->
 
                     <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'"
                             (click)="imprimir(row, 'cambioStatus')" color="danger"

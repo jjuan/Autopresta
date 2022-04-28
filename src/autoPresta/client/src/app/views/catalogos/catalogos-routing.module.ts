@@ -18,6 +18,8 @@ import {IdentificacionesOficialesComponent} from "./identificaciones-oficiales/i
 import {CuentasBancariasComponent} from "./cuentas-bancarias/cuentas-bancarias.component";
 import {UsuarioComponent} from "./usuario/usuario.component";
 import {BancosComponent} from "./bancos/bancos.component";
+import {FoliosComponent} from "./folios/folios.component";
+import {FliosRecupeadosComponent} from "./flios-recupeados/flios-recupeados.component";
 
 
 const routes: Routes = [
@@ -40,6 +42,8 @@ const routes: Routes = [
   { path:'Cuentas-Bancarias', component: CuentasBancariasComponent },
   { path:'Usuarios', component: UsuarioComponent },
   { path:'Bancos', component: BancosComponent },
+  { path:'Folios', component: FoliosComponent },
+  { path:'Folios-Recuperados', component: FliosRecupeadosComponent },
 
 ];
 

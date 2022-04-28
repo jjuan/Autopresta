@@ -22,6 +22,67 @@ class CargadeContratosController extends CatalogoController<CargadeContratos> {
 
     def contratoService
 
+    def ajuste() {
+        def carga = CargadeContratos.list()
+        for (c in carga) {
+            Contrato contrato = Contrato.findByNumeroContratoAndTipoFolio(c.numeroContrato, c.tipoContrato)
+            if (contrato != null) {
+                if (c.inicio == contrato.inicio && c.fin == contrato.fin) {
+                    contrato.actualizado = true
+                    contrato.save(flush: true, failOnError: true)
+                    c.cargado = true
+                    c.save(flush: true, failOnError: true)
+                } else {
+                    contrato.inicioReq = c.inicio
+                    contrato.finReq = c.fin
+                    contrato.montoReqAct = c.montoActualReq
+                    contrato.actualizado = false
+                    contrato.save(flush: true, failOnError: true)
+                }
+
+                if (contrato.inicioReq < contrato.inicio && contrato.actualizado == false || contrato.finReq < contrato.fin && contrato.actualizado == false) {
+                    contrato.folioCarga = 500
+                    contrato.save(flush: true, failOnError: true)
+                }
+            }
+        }
+
+        respond CargadeContratos.findAllByCargado(false).collect({
+            [
+                    id            : it.id,
+                    numeroContrato: it.numeroContrato,
+                    inicio        : Contrato.findByNumeroContratoAndTipoFolio(it.numeroContrato, it.tipoContrato) != null ? Contrato.findByNumeroContratoAndTipoFolio(it.numeroContrato, it.tipoContrato).inicio : 'No hay',
+                    fin           : Contrato.findByNumeroContratoAndTipoFolio(it.numeroContrato, it.tipoContrato) != null ? Contrato.findByNumeroContratoAndTipoFolio(it.numeroContrato, it.tipoContrato).fin : 'No hay',
+                    inicioReq     : it.inicio,
+                    finReq        : it.fin
+            ]
+        })
+    }
+
+    def getGen() {
+        def contratos = CargadeContratos.list()
+        for (contrato in contratos) {
+            if (contrato.parcialidadActual >= 37 && contrato.parcialidadActual <= 48) {
+                contrato.inicio = 37
+                contrato.fin = 48
+            }
+            if (contrato.parcialidadActual >= 25 && contrato.parcialidadActual <= 36) {
+                contrato.inicio = 25
+                contrato.fin = 36
+            }
+            if (contrato.parcialidadActual >= 13 && contrato.parcialidadActual <= 24) {
+                contrato.inicio = 13
+                contrato.fin = 24
+            }
+            if (contrato.parcialidadActual >= 1 && contrato.parcialidadActual <= 12) {
+                contrato.inicio = 1
+                contrato.fin = 12
+            }
+            contrato.save(flush: true, failOnError: true)
+        }
+        respond me: 'ok'
+    }
+
     def capturarContrato() {
         def capturas = CargadeContratos.findAllByCargado(false)
         for (captura in capturas) {
@@ -59,112 +120,197 @@ class CargadeContratosController extends CatalogoController<CargadeContratos> {
     }
 
     def cargarContrato(CargadeContratos captura) {
-        Marcas marca = Marcas.findByNombre(captura.marca)
-//        Marcas marcaAuto = Marcas.findByNombre(auto.marca)
-        if (marca == null) {
-            Marcas altaMarca = new Marcas()
-            altaMarca.nombre = captura.marca
-            altaMarca.slug = captura.marca
-            altaMarca.save(flush: true, failOnError: true)
-            marca = Marcas.findByNombre(captura.marca)
-        }
+//        Marcas marca = Marcas.findByNombre(captura.marca)
+////        Marcas marcaAuto = Marcas.findByNombre(auto.marca)
+//        if (marca == null) {
+//            Marcas altaMarca = new Marcas()
+//            altaMarca.nombre = captura.marca
+//            altaMarca.slug = captura.marca
+//            altaMarca.save(flush: true, failOnError: true)
+//            marca = Marcas.findByNombre(captura.marca)
+//        }
 
-        Modelos modelo = Modelos.findByMarcaAndNombre(marca, captura.modelo)
+//        Modelos modelo = Modelos.findByMarcaAndNombre(marca, captura.modelo)
 
 //        Modelos modelo = Modelos.findByNombre(captura.modelo)
-        if (modelo == null) {
-            Modelos altaModelo = new Modelos()
-            altaModelo.marca = marca
-            altaModelo.nombre = captura.modelo
-            altaModelo.slug = captura.modelo
-            altaModelo.save(flush: true, failOnError: true)
-            modelo = Modelos.findByMarcaAndNombre(marca, captura.modelo)
-        }
+//        if (modelo == null) {
+//            Modelos altaModelo = new Modelos()
+//            altaModelo.marca = marca
+//            altaModelo.nombre = captura.modelo
+//            altaModelo.slug = captura.modelo
+//            altaModelo.save(flush: true, failOnError: true)
+//            modelo = Modelos.findByMarcaAndNombre(marca, captura.modelo)
+//        }
 //        Modelos gps = Modelos.findByNombre(captura.gps1)
-        if (marca != null && modelo != null) {
-            Contrato contrato = new Contrato()
-            contrato.numeroContrato = captura.numeroContrato
+//        if (marca != null && modelo != null) {
+        Contrato contrato = new Contrato()
+        contrato.numeroContrato = captura.numeroContrato
+        if (captura.referencia != null) {
             contrato.referencia = captura.referencia
-            contrato.fechaContrato = captura.fechaFin
+        }
+        contrato.fechaContrato = captura.fechaContrato
+        if (captura.rfc != null) {
             contrato.rfc = captura.rfc
-            contrato.nombreLargo = captura.nombreLargo
-            contrato.marca = marca
-            contrato.modelo = modelo
+        }
+        contrato.nombreLargo = captura.nombreLargo
+//            contrato.marca = marca
+//            contrato.modelo = modelo
+        if (captura.anio) {
             contrato.anio = captura.anio
+        }
+        if (captura.color) {
             contrato.color = captura.color
+        }
+        if (captura.placas) {
             contrato.placas = captura.placas
+        }
+        if (captura.numeroVin) {
             contrato.numeroVin = captura.numeroVin
+        }
+        if (captura.montoActualReq) {
             contrato.montoRequerido = captura.montoActualReq
-            //        representanteLegal
+        }
+        //        representanteLegal
 //        contrato. rango
 //        contrato. capturado
+        if (captura.costoMensualInteres != null) {
             contrato.costoMensualInteres = captura.costoMensualInteres
+        }
+        if (captura.costoMensualMonitoreo != null) {
             contrato.costoMensualMonitoreo = captura.costoMensualMonitoreo
+        }
+        if (captura.costoMensualGPS != null) {
             contrato.costoMensualGPS = captura.costoMensualGPS
-            contrato.contratoMonterrey = false
+        }
+        contrato.contratoMonterrey = captura.tipoContrato == 'MTY'
+        if (captura.regimenFiscal != null) {
             contrato.regimenFiscal = C_RegimenFiscal.findByClave(captura.regimenFiscal)
-            contrato.fechaContrato = captura.fechaContrato
+        }
+        contrato.fechaContrato = captura.fechaContrato
 //            contrato.nombres = captura.nombres
 //            contrato.primerApellido = captura.primerApellido
 //            contrato.segundoApellido = captura.segundoApellido
+        if (captura.genero != null) {
             contrato.genero = captura.genero
-            contrato.rfc = captura.rfc
-            if (captura.edad != "N/A") {
-                contrato.edad = captura.edad as Long
-            }
-//            contrato.fechaNacimiento = captura.fechaNacimiento
-            contrato.curp = captura.curp
-//            contrato.claveElector = captura.claveElector
-//            contrato.documentoOficial = captura.documentoOficial
-//            contrato.telefonoFijo = captura.telefonoFijo
-            contrato.telefonoCelular = captura.telefonoCelular
-            contrato.telefonoOficina = captura.telefonoOficina
-            contrato.correoElectronico = captura.correoElectronico
-            contrato.anio = captura.anio
-            contrato.marca = marca
-            contrato.modelo = modelo
-            contrato.versionAuto = captura.versionAuto
-            contrato.color = captura.color
-            contrato.placas = captura.placas
-            contrato.valorDeCompra = captura.valorDeCompra
-            contrato.montoMaximoAutorizado = captura.montoMaximoAutorizado as BigDecimal
-            contrato.numeroVin = captura.numeroVin
-            contrato.gps1 = Gps.findByNombre(captura.gps1)
-            if (captura.gps2 != 'Null') {
-                contrato.gps2 = Gps.findByNombre(captura.gps2)
-            }
-            contrato.costoMensualInteres = captura.costoMensualInteres
-            contrato.costoMensualMonitoreo = captura.costoMensualMonitoreo
-            contrato.costoMensualGPS = captura.costoMensualGPS
-            contrato.totalAutoPresta = captura.totalAutoPresta
-            contrato.iva = captura.iva
-            contrato.costoMensualTotal = captura.costoMensualTotal
-            contrato.estatus = 'R'
-            contrato.referencia = captura.referencia
-            contrato.clabe = captura.clabe
-            contrato.numeroContrato = captura.numeroContrato
-            contrato.contratoPrueba = captura.contratoPrueba = false
-            contrato.montoTransferencia = captura.montoTransferencia as BigDecimal
-            contrato.detalleDescuentos = captura.detalleDescuentos
-            contrato.fechaSolicitud = captura.fechaSolicitud
-            contrato.fechaCompromiso = captura.fechaCompromiso
-            contrato.contratoMonterrey = captura.contratoMonterrey = false
-            contrato.nombreLargo = captura.nombreLargo
-            contrato.folioCarga = captura.id
-            contrato.save(flush: true, failOnError: true)
-
-            cargaDetalles(contrato, captura.inicio, captura.fin)
-
-            captura.cargado = true
-            captura.save(flush: true, failOnError: true)
         }
+        if (captura.rfc != null) {
+            contrato.rfc = captura.rfc
+        }
+        if (captura.edad != "N/A") {
+            contrato.edad = captura.edad as Long
+        }
+        if (captura.curp != null) {
+            contrato.curp = captura.curp
+        }
+        if (captura.telefonoCelular != null) {
+            contrato.telefonoCelular = captura.telefonoCelular
+        }
+        if (captura.telefonoOficina != null) {
+            contrato.telefonoOficina = captura.telefonoOficina
+        }
+        if (captura.correoElectronico != null) {
+            contrato.correoElectronico = captura.correoElectronico
+        }
+        if (captura.anio != null) {
+            contrato.anio = captura.anio
+        }
+        if (captura.versionAuto != null) {
+            contrato.versionAuto = captura.versionAuto
+        }
+        if (captura.color != null) {
+            contrato.color = captura.color
+        }
+        if (captura.placas != null) {
+            contrato.placas = captura.placas
+        }
+        if (captura.valorDeCompra != null) {
+            contrato.valorDeCompra = captura.valorDeCompra
+        }
+        if (captura.montoMaximoAutorizado != null) {
+            contrato.montoMaximoAutorizado = captura.montoMaximoAutorizado as BigDecimal
+        }
+        if (captura.numeroVin != null) {
+            contrato.numeroVin = captura.numeroVin
+        }
+        contrato.gps1 = Gps.findByNombre(captura.gps1)
+        if (captura.gps2 != 'Null' && captura.gps2 != null) {
+            contrato.gps2 = Gps.findByNombre(captura.gps2)
+        }
+        if (captura.costoMensualInteres != null) {
+            contrato.costoMensualInteres = captura.costoMensualInteres
+        }
+        if (captura.costoMensualMonitoreo != null) {
+            contrato.costoMensualMonitoreo = captura.costoMensualMonitoreo
+        }
+        if (captura.costoMensualGPS != null) {
+            contrato.costoMensualGPS = captura.costoMensualGPS
+        }
+        if (captura.totalAutoPresta != null) {
+            contrato.totalAutoPresta = captura.totalAutoPresta
+        }
+        if (captura.iva != null) {
+            contrato.iva = captura.iva
+        }
+        if (captura.costoMensualTotal != null) {
+            contrato.costoMensualTotal = captura.costoMensualTotal
+        }
+        contrato.estatus = 'R'
+        if (captura.referencia != null) {
+            contrato.referencia = captura.referencia
+        }
+        if (captura.clabe != null) {
+            contrato.clabe = captura.clabe
+        }
+        if (captura.numeroContrato != null) {
+            contrato.numeroContrato = captura.numeroContrato
+        }
+        if (captura.contratoPrueba != null) {
+            contrato.contratoPrueba = captura.contratoPrueba = false
+        }
+        if (captura.montoTransferencia != null) {
+            contrato.montoTransferencia = captura.montoTransferencia as BigDecimal
+        }
+        if (captura.detalleDescuentos != null) {
+            contrato.detalleDescuentos = captura.detalleDescuentos
+        }
+        if (captura.fechaSolicitud != null) {
+            contrato.fechaSolicitud = captura.fechaSolicitud
+        }
+        if (captura.fechaCompromiso != null) {
+            contrato.fechaCompromiso = captura.fechaCompromiso
+        }
+        if (captura.contratoMonterrey != null) {
+            contrato.contratoMonterrey = captura.contratoMonterrey = false
+        }
+        if (captura.nombreLargo != null) {
+            contrato.nombreLargo = captura.nombreLargo
+        }
+        if (captura.id != null) {
+            contrato.folioCarga = captura.id
+        }
+        if (captura.montoRequerido != null) {
+            contrato.montoRequerido = captura.montoRequerido
+        }
+
+        contrato.inicioReq = captura.inicio
+        contrato.finReq = captura.fin
+        contrato.montoReqAct = captura.montoActualReq
+        contrato.actualizado = false
+
+        contrato.save(flush: true, failOnError: true)
+
+//        cargaDetalles(contrato, captura.inicio, captura.fin)
+
+        captura.cargado = true
+        captura.save(flush: true, failOnError: true)
     }
+
 
     def cargaDetalles(Contrato contrato, Integer inicio, Integer fin) {
         for (Integer i = inicio; i <= fin; i++) {
-            def costoMensualInteres = (contrato.montoRequerido * 5)/100
-            def costoMensualMonitoreo = (contrato.montoRequerido * 1)/100<800?800:(contrato.montoRequerido * 1)/100
-            def costoMensualGPS = (contrato.montoRequerido * 0.75)/100<600?600:(contrato.montoRequerido * 0.75)/100
+            def costoMensualInteres = (contrato.montoRequerido * 5) / 100
+            def costoMensualMonitoreo = (contrato.montoRequerido * 1) / 100 < 800 ? 800 : (contrato.montoRequerido * 1) / 100
+            def costoMensualGPS = (contrato.montoRequerido * 0.75) / 100 < 600 ? 600 : (contrato.montoRequerido * 0.75) / 100
 
             def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
@@ -276,12 +422,87 @@ class CargadeContratosController extends CatalogoController<CargadeContratos> {
     def obtenerFecha() {
         def carga = CargadeContratos.findAllByInicioGreaterThan(12)
         for (contrato in carga) {
-def fecha = contratoService.calcularFechaPago(contrato.inicio - 1, contrato.fechaContrato)
+            def fecha = contratoService.calcularFechaPago(contrato.inicio - 1, contrato.fechaContrato)
             CargadeContratos cargadeContratos = CargadeContratos.findById(contrato.id)
-            cargadeContratos.fechaFin=fecha
+            cargadeContratos.fechaFin = fecha
             cargadeContratos.save(flush: true, failOnError: true)
         }
 
         respond message: 'ok'
     }
+
+
+    def ajusteContratos() {
+        def carga = CargadeContratos.findAllByCargado(false)
+        for (c in carga) {
+            Contrato contrato = Contrato.findByNumeroContratoAndTipoFolio(c.numeroContrato, c.tipoContrato)
+            if (contrato != null) {
+                log.error "folio carga: " + c.id
+                log.error "folio contrato: " + contrato.id
+                if (c.regimenFiscal != null) {
+                    contrato.regimenFiscal = C_RegimenFiscal.findByClave(c.regimenFiscal)
+                }
+                if (c.genero != null) {
+                    contrato.genero = c.genero
+                }
+                if (c.rfc != null) {
+                    contrato.rfc = c.rfc
+                }
+                if (c.edad != null) {
+                    contrato.edad = new Long(c.edad)
+                }
+                if (c.curp != null) {
+                    contrato.curp = c.curp
+                }
+                if (c.telefonoCelular != null) {
+                    contrato.telefonoCelular = c.telefonoCelular
+                }
+                if (c.correoElectronico != null) {
+                    contrato.correoElectronico = c.correoElectronico
+                }
+                if (c.anio != null) {
+                    contrato.anio = c.anio
+                }
+                if (c.marca != null) {
+
+                    Marcas marca = Marcas.findByNombre(c.marca)
+                    if (marca == null) {
+                        Marcas altaMarca = new Marcas()
+                        altaMarca.nombre = c.marca
+                        altaMarca.slug = c.marca
+                        altaMarca.save(flush: true, failOnError: true)
+                        marca = Marcas.findByNombre(c.marca)
+                        contrato.marca = marca
+                    }
+
+                    if (c.modelo != null) {
+                        Modelos modelo = Modelos.findByNombre(c.modelo)
+                        if (modelo == null) {
+                            Modelos altaModelo = new Modelos()
+                            altaModelo.marca = marca
+                            altaModelo.nombre = c.modelo
+                            altaModelo.slug = c.modelo
+                            altaModelo.save(flush: true, failOnError: true)
+                            modelo = Modelos.findByMarcaAndNombre(marca, c.modelo)
+                            contrato.modelo = modelo
+                        }
+                    }
+                    if (c.version != null) {
+                        contrato.version = c.version
+                    }
+                    if (c.color != null) {
+                        contrato.color = c.color
+                    }
+                    if (c.placas != null) {
+                        contrato.placas = c.placas
+                    }
+                }
+                contrato.save(flush: true, failOnError: true)
+                c.cargado = true
+                c.save(flush: true, failOnError: true)
+            }
+        }
+        respond me: 'ok'
+    }
+
 }

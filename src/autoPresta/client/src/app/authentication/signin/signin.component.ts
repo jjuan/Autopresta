@@ -21,21 +21,25 @@ export class SigninComponent implements OnInit {
   returnUrl: string;
   error = '';
   hide = true;
+  candado = false;
   constructor(
     private formBuilder: FormBuilder, private route: ActivatedRoute, private router: Router, private http: HttpClient,
     private globalService: GlobalService, private snack: MatSnackBar, private authGuard: AuthGuard, private dialogService: DialogService
   ) {}
   ngOnInit() {
+    this.candado = true
     const validate = this.validateSession();
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required]
     });
     validate.subscribe( data => {
+      this.candado = false
       const c = data as any;
       this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
       this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
     });
+    this.candado = false
   }
 
   get f() {
@@ -45,20 +49,23 @@ export class SigninComponent implements OnInit {
   onSubmit() {
     const signinData = this.loginForm.value
     this.submitButton.disabled = true;
+    this.candado = true
     this.http.post(this.globalService.BASE_API_URL + 'api/login', signinData).subscribe(data => {
-      this.submitButton.disabled = false;
       const d = data as any;
       let options;
       this.authGuard.autheticate(d.access_token, signinData.username);
       options = this.globalService.getHttpOptions();
       options.params = {id: signinData.username};
       this.http.get(this.globalService.BASE_API_URL + 'init/getsession', options).subscribe(next => {
+        this.candado = false
+        this.submitButton.disabled = false;
         const c = next as any;
         this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
         this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
       });
     }, error => {
       this.submitButton.disabled = false;
+      this.candado = false
       if ( error.error.mensaje !== undefined) {
         this.dialogService.snack('danger', error.error.mensaje == 'Sorry, you have exceeded your maximum number of open sessions.' ?
           'Lo sentimos, Usted ha excedido el numero maximo de sesiones':error.error.mensaje);

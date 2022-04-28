@@ -44,4 +44,14 @@ class ReporteController {
         params._reporteTitulo = 'Pagos Realizados'
         generateReportService.createReport(request, response, params, [data: lista])
     }
+    def conciliaciones(){
+        def fechaInicio = (!params?.fechaInicio)?null:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (!params?.fechaFin)?null:(sdf.parse(params?.fechaFin))
+        def lista = reporteService.conciliaciones(fechaInicio, fechaFin)
+        params._file = 'reporteConciliaciones'
+        params._format = 'PDF'
+        params._name = 'Reporte de Conciliaciones(' + sdf.format(fechaInicio) + ' - ' + sdf.format(fechaFin) + ')'
+        params._reporteTitulo = 'Reporte de Conciliaciones(' + sdf.format(fechaInicio) + ' - ' + sdf.format(fechaFin) + ')'
+        generateReportService.createReport(request, response, params, [data: lista])
+    }
 }

@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory
 @Rollback
 class ContratoDetalleServiceSpec extends Specification {
 
-    ContratoDetalleService contratoDetalleService
+//    ContratoDetalleService contratoDetalleService
     SessionFactory sessionFactory
 
     private Long setupData() {

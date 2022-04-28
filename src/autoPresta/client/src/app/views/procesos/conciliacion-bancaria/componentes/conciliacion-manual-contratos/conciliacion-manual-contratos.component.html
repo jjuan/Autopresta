@@ -41,34 +41,35 @@
     </div>
   </div>
 
-  <form [formGroup]="formulario">
-    <div class="row">
-      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Forma de Conciliacion</mat-label>
-          <mat-select formControlName="formaConciliacion">
-            <mat-option *ngFor="let item of formaConciliacionCombo" [value]="item.id">{{item.descripcion}}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="formulario.get('formaConciliacion').hasError('required')">
-            Forma de Conciliacion es requerido
-          </mat-error>
-        </mat-form-field>
-      </div>
-      <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-        <mat-form-field class="full-width" appearance="outline">
-          <mat-label>Campo</mat-label>
-          <input matInput formControlName="campo">
-          <!--          <mat-error *ngIf="formulario.get('campo').hasError('required')">-->
-          <!--            Campo es requerido-->
-          <!--          </mat-error>-->
-        </mat-form-field>
-      </div>
-    </div>
-    <!--  </form>-->
 
-    <!--  <form [formGroup]="formularioBusqueda">-->
+  <form [formGroup]="formulario">
     <div class="card">
       <div class="body pb-0">
+        <div class="row padding-0">
+          <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Forma de Conciliacion</mat-label>
+              <mat-select formControlName="formaConciliacion">
+                <mat-option *ngFor="let item of formaConciliacionCombo"
+                            [value]="item.id">{{item.descripcion}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="formulario.get('formaConciliacion').hasError('required')">
+                Forma de Conciliacion es requerido
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Campo</mat-label>
+              <input matInput formControlName="campo">
+            </mat-form-field>
+          </div>
+
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mt-28">
+            <mat-slide-toggle formControlName="conciliacionParcial">Conciliacion parcial</mat-slide-toggle>
+          </div>
+        </div>
         <div class="row padding-0">
           <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 mb-0 pb-0">
             <mat-form-field class="full-width m-0" appearance="outline">
@@ -94,7 +95,8 @@
           </div>
           <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 mt-2">
             <div class="button-row">
-              <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid" (click)="loadData()">
+              <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid"
+                      (click)="loadData()">
                 <mat-icon class="col-white" matTooltip="Descargar reporte de ">search</mat-icon>
               </button>
             </div>
@@ -191,5 +193,36 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="table-responsive" *ngIf="data.esMovimiento==false">
+    <table class="table table-hover dashboard-task-infos">
+      <thead>
+      <tr>
+        <th>Cuenta</th>
+        <th>Referencia</th>
+        <th>Monto</th>
+        <th>Fecha</th>
+        <th>Forma de concilliacion</th>
+        <th>Desconciliar</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of data.detalle.detalles">
+        <th>{{p.movimiento[0].cuenta}}</th>
+        <th>{{p.movimiento[0].referencia}}</th>
+        <th>$ {{p.movimiento[0].monto| currency: 'USD'}}</th>
+        <th>{{p.movimiento[0].fecha|date: 'dd-MM-yyyy'}}</th>
+        <th>{{p.formaConciliacion}}</th>
+
+        <td>
+          <button mat-icon-button color="warn" matTooltip="Eliminar concepto"
+                  (click)="desconciliarMovimiento(p, 'Movimiento desconciliado')">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

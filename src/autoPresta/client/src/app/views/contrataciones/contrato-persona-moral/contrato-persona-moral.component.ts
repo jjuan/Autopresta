@@ -42,6 +42,7 @@ export class ContratoPersonaMoralComponent implements OnInit {
   tasaMonitoreo = 1;
   tasaGPS = 0.75;
 
+  porcentajeMax = 70
   public longitud = 1
 
   public respuesta: Contrato;
@@ -95,6 +96,10 @@ export class ContratoPersonaMoralComponent implements OnInit {
     this.genericRestService.combo<IdentificacionesOficiales[]>({}, 'comboDocumentos').subscribe(result => {
       this.documentoOficialCombo = result
     });
+    this.genericRestService.combo<any>({}, 'maxAutorizado').subscribe(result => {
+      this.porcentajeMax = result.max
+    });
+
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
   }
@@ -182,6 +187,7 @@ export class ContratoPersonaMoralComponent implements OnInit {
       contratoMonterrey: [data ? data.contratoMonterrey : ''],
       fechaCompromiso: [data ? data.fechaCompromiso : ''],
       descuentosRetenciones: [data ? data.descuentosRetenciones : ''],
+      tipoFolio:['']
     });
   }
 
@@ -210,6 +216,7 @@ export class ContratoPersonaMoralComponent implements OnInit {
         fechaCompromiso: result.fechaCompromiso,
         referencia: result.referenciaBancariaBBVA,
         descuentosRetenciones: result.descuentosRetenciones,
+        tipoFolio: result.tipoContrato
       })
       this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(() => {
         this.ngOnInit();
@@ -236,7 +243,7 @@ export class ContratoPersonaMoralComponent implements OnInit {
   }
 
   calcularMaximoAutorizado(monto: number) {
-    this.montoMaximoAutorizado = monto * 0.7;
+    this.montoMaximoAutorizado = monto * (this.porcentajeMax /100);
     this.formulario.patchValue({
       montoMaximoAutorizado: (this.montoMaximoAutorizado).toFixed(2)
     })

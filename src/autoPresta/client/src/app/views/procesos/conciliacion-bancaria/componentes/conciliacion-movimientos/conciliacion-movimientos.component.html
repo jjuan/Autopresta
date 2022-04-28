@@ -1,7 +1,22 @@
 <section class="content">
   <div class="container-fluid">
     <div class="container-fluid">
-
+      <div class="block-header">
+        <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <ul class="breadcrumb breadcrumb-style ">
+              <li class="breadcrumb-item">
+                <h4 class="page-title">{{_datos._componente}}</h4>
+              </li>
+              <li class="breadcrumb-item bcrumb-1">
+                <i class="{{_datos._icono}}"></i> {{_datos._modulo}}
+              </li>
+              <li class="breadcrumb-item bcrumb-2">{{_datos._componente}}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <form [formGroup]="formulario">
         <div class="row">
           <div class="col-xl-12 col-lg-12 col-md-12 col-sm-5 mb-0 pb-0">
@@ -117,12 +132,16 @@
                 <mat-header-cell *matHeaderCellDef class="pr-0" [ngClass]="'tbl-col-width-per-15'">Acciones</mat-header-cell>
 
                 <mat-cell *matCellDef="let row; let i=index;" class="pr-0" [ngClass]="'tbl-col-width-per-15'">
-                  <button *ngIf="row.estatus=='Conciliado'" mat-icon-button matTooltip="Eliminar {{subtitulo}}">
-                    <mat-icon aria-label="Delete">visibility</mat-icon>
+                  <button *ngIf="row.estatus=='Conciliado'" mat-icon-button matTooltip="Ver conciliacion {{subtitulo}}">
+                    <mat-icon aria-label="Delete">{{getColor(row.estatus).icon}}</mat-icon>
                   </button>
 
-                  <button *ngIf="row.estatus=='Pendiente'" [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}" mat-icon-button matTooltip="Conciliar {{subtitulo}}">
-                    <mat-icon aria-label="Delete">verified_user</mat-icon>
+                  <button *ngIf="row.estatus=='Pendiente'" [ngStyle]="{'color': getColor(row.estatus).color}" mat-icon-button matTooltip="Conciliar {{subtitulo}}">
+                    <mat-icon aria-label="Delete">{{getColor(row.estatus).icon}}</mat-icon>
+                  </button>
+
+                  <button *ngIf="row.estatus=='Conciliacion Parcial'" [ngStyle]="{'color': getColor(row.estatus).color}" mat-icon-button matTooltip="Modificar Conciliacion {{subtitulo}}">
+                    <mat-icon aria-label="Delete">{{getColor(row.estatus).icon}}</mat-icon>
                   </button>
                 </mat-cell>
               </ng-container>
@@ -131,34 +150,34 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-14'">Cuenta
                 </mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-14'"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}">
+                          [ngStyle]="{'color': getColor(row.estatus).color}">
                   {{row.cuenta}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="fecha">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-12'">Fecha</mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-12'"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}">
+                          [ngStyle]="{'color': getColor(row.estatus).color}">
                   {{row.fecha|date: 'dd/MM/yyyy'}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="referencia">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>Referencia</mat-header-cell>
                 <mat-cell *matCellDef="let row"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}">
+                          [ngStyle]="{'color': getColor(row.estatus).color}">
                   {{row.referencia}}</mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="monto">
                 <mat-header-cell *matHeaderCellDef mat-sort-header [ngClass]="'tbl-col-width-per-15'">Monto</mat-header-cell>
                 <mat-cell *matCellDef="let row" [ngClass]="'tbl-col-width-per-15'"
-                          [ngStyle]="row.estatus=='Conciliado'?{'color': 'green'}:{'color':'#E45826'}"
+                          [ngStyle]="{'color': getColor(row.estatus).color}"
                 >
                   {{row.monto|currency: 'USD'}}</mat-cell>
               </ng-container>
 
               <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple (click)="row.estatus=='Conciliado'?detalles(row):conciliar(row)">
+              <mat-row *matRowDef="let row; columns: displayedColumns;" [style.cursor]="'pointer'" matRipple (click)="row.estatus=='Conciliado'?detalles(row): row.estatus =='Pendiente'?conciliar(row):conciliacionParcial(row)">
               </mat-row>
             </mat-table>
             <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se

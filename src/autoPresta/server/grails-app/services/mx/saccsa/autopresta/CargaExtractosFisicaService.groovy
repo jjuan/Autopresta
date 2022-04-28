@@ -69,9 +69,9 @@ class CargaExtractosFisicaService {
         Integer capturadas = 0, noCapturadas = 0
         buffer.eachLine { linea ->
             cnt++
-            if (cnt < 7) return
+            if (cnt < 2) return
             if (linea.trim() == '') return
-            if (cnt == 7) {
+            if (cnt == 2) {
 
             }
 
@@ -95,15 +95,15 @@ class CargaExtractosFisicaService {
                         lb.fecha = sdf.parse(l[0])
                     }
                     lb.nombreArchivo = nombreArchivo
-                    if (l[2] != null && l[2] != "") {
-                        lb.montoAbono = new BigDecimal(l[2].replace(",", "").replace("\\.", ""))
-                        lb.monto = new BigDecimal(l[2].replace(",", "").replace("\\.", ""))
+                    if (l[3] != null && l[3] != "") {
+                        lb.montoAbono = new BigDecimal(l[3].replace(",", "").replace("\\.", ""))
+                        lb.monto = new BigDecimal(l[3].replace(",", "").replace("\\.", ""))
                         lb.cargoAbono = false
                     }
 
-                    if (l[3] != null && l[3] != "") {
-                        lb.montoCargo = new BigDecimal(l[3].replace("-", "").replace(",", "").replace("\\.", ""))
-                        lb.monto = new BigDecimal(l[3].replace("-", "").replace(",", "").replace("\\.", ""))
+                    if (l[2] != null && l[2] != "") {
+                        lb.montoCargo = new BigDecimal(l[2].replace("-", "").replace(",", "").replace("\\.", ""))
+                        lb.monto = new BigDecimal(l[2].replace("-", "").replace(",", "").replace("\\.", ""))
                         lb.cargoAbono = true
                     }
                     //lb.cargoAbono = l[2] == 'A'

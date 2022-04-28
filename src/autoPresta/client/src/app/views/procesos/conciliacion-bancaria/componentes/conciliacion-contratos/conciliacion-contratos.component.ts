@@ -4,7 +4,7 @@ import {
   ConciliacionAutomatica,
   conciliacionContratosTable,
   conciliacionMovimientosTable,
-  conciliacionStatus
+  conciliacionStatus, objetoConciliacion
 } from "../../../../../core/models/data.interface";
 import {BehaviorSubject, fromEvent, merge, Observable, Subscription} from "rxjs";
 import {RestService} from "../../../../../core/service/rest.service";
@@ -58,6 +58,12 @@ export class ConciliacionContratosComponent implements OnInit {
     total: 0,
   };
 
+  public _datos = {
+    _title: 'Conciliacion de Contrato',
+    _modulo: 'Procesos',
+    _icono: 'fas fa-desktop',
+    _componente: 'Conciliacion de Contratos'
+  };
 
   selection = new SelectionModel<conciliacionContratosTable>(true, []);
   advanceTable: conciliacionContratosTable | null;
@@ -85,10 +91,36 @@ export class ConciliacionContratosComponent implements OnInit {
   ngOnInit() {
     this.advanceTableService.initService(this._dominio);
     this.formulario = this.advanceTableService.buildForm({
-      fechaInicio: [new Date("02/01/22 00:00:00"), Validators.required],
-      fechaFin: [new Date("02/01/22 00:00:00"), Validators.required]
+      fechaInicio: [new Date(), Validators.required],
+      fechaFin: [new Date(), Validators.required]
     })
     this.loadData();
+  }
+
+  getColor(estatus: string): objetoConciliacion {
+    let objeto: objetoConciliacion = {
+      color: '',
+      label: '',
+      icon: '',
+    }
+    switch (estatus) {
+      case 'Conciliado':
+        objeto.color = 'green'
+        objeto.label = 'green'
+        objeto.icon = 'visibility'
+        break
+      case 'Pendiente':
+        objeto.color = '#E45826'
+        objeto.label = 'verified_user'
+        objeto.icon = 'verified_user'
+        break
+      case 'Conciliacion Parcial':
+        objeto.color = '#333C83'
+        objeto.label = '#333C83'
+        objeto.icon = 'add_to_queue'
+        break
+    }
+    return objeto
   }
 
   isAllSelected() {
@@ -152,14 +184,14 @@ export class ConciliacionContratosComponent implements OnInit {
 
     let data: any;
     const dialogRef = this.dialog.open(ConciliacionManualContratosComponent, {
-      width: '80%', disableClose: true,
+      width: '80%', disableClose: true,height: '95%',
       data: {
         title: 'Movimiento', disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
         info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de contratos', esDetalle: false
       }
     });
     dialogRef.afterClosed().subscribe((result) => {
-      if (result!=undefined) {
+      if (result != undefined) {
         this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
           .subscribe(data => {
             this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
@@ -170,15 +202,15 @@ export class ConciliacionContratosComponent implements OnInit {
             }
           })
       }
-    //   this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
-    //     .subscribe(data => {
-    //       this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
-    //       this.loadData();
-    //     }, error => {
-    //       if (error._embedded !== undefined) {
-    //         this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
-    //       }
-    //     })
+      //   this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
+      //     .subscribe(data => {
+      //       this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
+      //       this.loadData();
+      //     }, error => {
+      //       if (error._embedded !== undefined) {
+      //         this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
+      //       }
+      //     })
     });
   }
 
@@ -188,16 +220,99 @@ export class ConciliacionContratosComponent implements OnInit {
       clase: row.clase
     }, 'verConciliacion').subscribe(r => {
       const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
-        width: '80%', disableClose: true,
+        width: '80%', disableClose: true,height: '95%',
         data: {
           esMovimiento: r[0].porMovimiento, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
-          info: r[0], action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: true
+          info: r[0], action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: true, row: row
         }
       });
 
       dialogRef.afterClosed().subscribe((respuesta) => {
         if (respuesta) {
           this.loadData()
+        }
+      })
+    })
+  }
+
+  conciliacionParcial(row) {
+    let conciliacion
+    this.advanceTableService.index<any>(this._dominio, {
+      folio: row.raiz,
+      clase: row.claseRaiz
+    }, 'verConciliacion').subscribe(r => {
+      conciliacion = r[0].id
+let dialogRef
+      if (row.claseRaiz == 'LiquidacionBanco') {
+        dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
+          width: '80%', height: '95%', disableClose: true,
+          data: {
+            esMovimiento: r[0].porMovimiento,
+            disableClose: true,
+            fechaInicio: this.fechaInicio,
+            fechaFin: this.fechaFin,
+            detalle: r[0],
+            esDetalle: false,
+            title: 'Movimiento',
+            info: {
+              folio: r[0].detalles[0].movimiento[0].folio,
+              cuenta: r[0].detalles[0].movimiento[0].cuenta,
+              fecha: r[0].detalles[0].movimiento[0].fecha,
+              titular: r[0].detalles[0].movimiento[0].titular,
+              referencia: r[0].detalles[0].movimiento[0].referencia,
+              monto: r[0].detalles[0].movimiento[0].monto,
+              estatus: r[0].detalles[0].movimiento[0].estatus,
+              clase: r[0].detalles[0].movimiento[0].clase,
+            },
+            action: 'Agregar',
+            cabecera: 'Concilliaciòn manual de Movimientos',
+          }
+        });
+      } else {
+        dialogRef = this.dialog.open(ConciliacionManualContratosComponent, {
+          width: '80%', height: '95%', disableClose: true,
+          data: {
+            esMovimiento: r[0].porMovimiento,
+            disableClose: true,
+            fechaInicio: this.fechaInicio,
+            fechaFin: this.fechaFin,
+            detalle: r[0],
+            esDetalle: true,
+            title: 'Movimiento',
+            info: {
+              folio: r[0].detalles[0].operacion[0].folio,
+              contrato: r[0].detalles[0].operacion[0].contrato,
+              parcialidad: r[0].detalles[0].operacion[0].parcialidad,
+              fecha: r[0].detalles[0].operacion[0].fecha,
+              titular: r[0].detalles[0].operacion[0].titular,
+              monto: r[0].detalles[0].operacion[0].monto,
+              estatus: r[0].detalles[0].operacion[0].estatus,
+              clase: r[0].detalles[0].operacion[0].clase,
+            },
+            action: 'Agregar',
+            cabecera: 'Concilliaciòn manual de contratos',
+          }
+        });
+      }
+
+
+      const opts = this.globalService.getHttpOptions()
+      opts['params'] = {
+        fechaInicio: this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd'),
+        fechaFin: this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd'),
+        id: conciliacion
+      };
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result != undefined) {
+          this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientosParcial", result, opts)
+            .subscribe(data => {
+              this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
+              this.loadData();
+            }, error => {
+              if (error._embedded !== undefined) {
+                this.showNotification('snackbar-danger', '¡¡Error al guardar!!', 'bottom', 'center');
+              }
+            })
         }
       })
     })
@@ -228,6 +343,20 @@ export class ConciliacionContratosComponent implements OnInit {
         this.showNotification('snackbar-success', '0 Conciliaciones obtenidas', 'bottom', 'center');
       }
     })
+  }
+
+  accion(row) {
+    switch (row.estatus) {
+      case 'Conciliado':
+        this.detalles(row)
+        break
+      case 'Pendiente':
+        this.conciliar(row)
+        break
+      case 'Conciliacion Parcial':
+        this.conciliacionParcial(row)
+        break
+    }
   }
 }
 

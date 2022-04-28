@@ -14,6 +14,7 @@ class ReporteService {
     def year = new SimpleDateFormat('yyyy')
     def utilService
     def dateUtilService
+    def conciliacionesService
 
     def colecion(Long id) {
         def contrato = Contrato.findById(id)
@@ -71,7 +72,7 @@ class ReporteService {
                 colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                 codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
                 alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                noContrato                         : contratoFolio(contrato.numeroContrato, contrato.contratoPrueba, contrato.contratoMonterrey),
+                noContrato                         : contratoFolio(contrato),
                 montoPrestamo                      : contrato.montoTransferencia,
                 montoTotalPagar                    : montoTotal,
                 referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
@@ -136,17 +137,33 @@ class ReporteService {
 
     String contratoFolio(Contrato contrato) {
         String folio = contrato.numeroContrato
-        if (contrato.contratoPrueba) {
-            if (folio.length() <= 5) {
-                folio = '0' + folio
+            switch (contrato.tipoFolio) {
+                case 'CDMX':
+                    while (folio.length() < 5) {
+                        folio = '0' + folio
+                    }
+                    break
+                case 'GDL':
+                    while (folio.length() < 5) {
+                        folio = '0' + folio
+                    }
+                    folio = 'GDL' + folio
+                    break
+                case 'MTY':
+                    while (folio.length() < 5) {
+                        folio = '0' + folio
+                    }
+                    folio = 'MTY' + folio
+                    break
+                case 'P':
+                    folio = folio + 'P'
+                    while (folio.length() < 6) {
+                        folio = '0' + folio
+                    }
+                    break
             }
-        } else {
-            if (folio.length() <= 4) {
-                folio = '0' + folio
-            }
+            return folio
         }
-        return folio
-    }
 
     def numeroLetra(BigDecimal monto) {
         Locale usa = new Locale("en", "US")
@@ -224,6 +241,41 @@ class ReporteService {
                     gps        : it.gps,
                     interes    : it.interes
 
+            ]
+        })
+
+        return lista
+    }
+
+    def conciliaciones(Date fechaInicio, Date fechaFin) {
+//        def lista = Conciliaciones.findAllByFechaConciliacionBetween(fechaInicio, fechaFin).collect({
+//            [
+//                    parcialidad: it.parcialidad,
+//                    iva        : it.iva,
+//                    fechaRep   : it.fecha,
+//                    saldoFinal : it.saldoFinal,
+//                    subtotal   : it.subtotal,
+//                    capital    : it.capital,
+//                    monitoreo  : it.monitoreo,
+//                    contrato   : it.contrato.razonesSociales ? it.contrato.razonesSociales.descLabel.toUpperCase() : it.contrato.nombres.toUpperCase() + ' ' + it.contrato.primerApellido.toUpperCase() + ' ' + it.contrato.segundoApellido.toUpperCase(),
+//                    gps        : it.gps,
+//                    interes    : it.interes
+//
+//            ]
+//        })
+
+        def conciliaciones = Conciliaciones.findAllByFechaConciliacionBetween(fechaInicio, fechaFin)
+        def lista = ConciliacionesDetalles.findAllByConciliacionesInList(conciliaciones).collect({
+            [
+                    titular           : conciliacionesService.getTitular(ContratoDetalle.findById(it.folioOperacion as Long)),
+                    mensualidad       : ContratoDetalle.findById(it.folioOperacion as Long).parcialidad,
+                    montoTotal      : ContratoDetalle.findById(it.folioOperacion as Long).subtotal + ContratoDetalle.findById(it.folioOperacion as Long).iva,
+                    fechaPago         : ContratoDetalle.findById(it.folioOperacion as Long).fecha,
+                    referenciaBancaria: it.movimiento.referencia,
+                    fechaMovimiento   : it.movimiento.fecha,
+                    contrato          : contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato.numeroContrato, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoPrueba, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoMonterrey),
+                    formaConciliacion : it.formaConciliacion,
+                    montoMovimiento   : it.movimiento.monto
             ]
         })
 
@@ -346,19 +398,31 @@ class ReporteService {
         return fechaContrato == fechaLiquidacion ? '' : '(al tratarse de un dia inhábil) '
     }
 
-    String contratoFolio(String folio, Boolean contratoPrueba, Boolean contratoMonterrey) {
-        if (contratoPrueba) {
-            while (folio.length() < 5) {
-                folio = '0' + folio
-            }
-        } else {
-            while (folio.length() < 4) {
-                folio = '0' + folio
-            }
-
-            if (contratoMonterrey) {
+    String contratoFolio(String folio, String tipoFolio) {
+        switch (tipoFolio) {
+            case 'CDMX':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
+                break
+            case 'GDL':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
+                folio = 'GDL' + folio
+                break
+            case 'MTY':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
                 folio = 'MTY' + folio
-            }
+                break
+            case 'P':
+                folio = folio + 'P'
+                while (folio.length() < 6) {
+                    folio = '0' + folio
+                }
+                break
         }
         return folio
     }

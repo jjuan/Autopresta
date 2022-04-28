@@ -73,6 +73,7 @@ export class RestService {
     let controller = 'combo';
     if (_params !== undefined) { opts['params'] = _params; }
     if (_action !== undefined && _action !== '') { action = _action; }
+    if (_controller !== undefined && _controller !== '') { controller = _controller; }
     return this.http.get<T>(this.globalService.BASE_API_URL + controller + '/' + action, opts);
   }
 

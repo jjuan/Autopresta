@@ -85,11 +85,28 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         request.JSON
         params
 //        if (request.JSON.montoParcialidades && request.JSON.montoMovimientos && request.JSON.porMovimientos) {
-            Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String), request.JSON.porMovimientos)
-            for (detalle in request.JSON.detalles) {
-                conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
-            }
+        Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String), request.JSON.porMovimientos, request.JSON.conciliacionParcial)
+        for (detalle in request.JSON.detalles) {
+            conciliacionesService.crearConciliacionDetalle(folioConciliacion, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
+        }
 //        }
+
+        respond message: 'Conciliaciòn exitosa'
+    }
+
+    @Transactional
+    def conciliacionMovimientosParcial() {
+        request.JSON
+        params
+//        if (request.JSON.montoParcialidades && request.JSON.montoMovimientos && request.JSON.porMovimientos) {
+//        Long folioConciliacion = conciliacionesService.crearConciliacion(new BigDecimal(request.JSON.montoParcialidades as String), new BigDecimal(request.JSON.montoMovimientos as String), request.JSON.porMovimientos, request.JSON.conciliacionParcial)
+        for (detalle in request.JSON.detalles) {
+            conciliacionesService.crearConciliacionDetalle(params.id as long, getMovimiento(detalle.movimiento[0]), detalle.folioOperacion[0].toString(), detalle.tipoOperacion[0], request.JSON.formaConciliacion, getMovimiento(detalle.movimiento[0]), request.JSON.campo)
+        }
+        Conciliaciones conciliacion = Conciliaciones.findById(params.id as long)
+        conciliacion.conciliacionParcial = request.JSON.conciliacionParcial as Boolean
+        conciliacion.save(flush: true)
+        //        }
 
         respond message: 'Conciliaciòn exitosa'
     }
@@ -120,11 +137,37 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         def parcialidades = conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, false)
         for (parcialidad in parcialidades) {
             def concilio = conciliacionesService.conciliacionAutomaticaContratos(fechaInicio, fechaFin, parcialidad.folio as Long, true)
+            log.debug('folio ' + parcialidad.folio + 'concilio: ' + concilio == false ? 'no' : 'si')
             if (concilio != false) {
                 conciliaciones.push(concilio)
             }
         }
-        respond conciliaciones
+        def lista = []
+        if (conciliaciones.size() > 0) {
+            lista = ConciliacionesDetalles.findAllByConciliacionesInList(Conciliaciones.findAllByIdInList(conciliaciones)).collect({
+                [concilio         : true,
+//             , parcialidad: [
+//                    folio      : it.folioOperacion,
+//                    contrato   : reporteService.contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato),
+//                    titular    : conciliacionesService.getTitular(ContratoDetalle.findById(it.folioOperacion as Long)),
+//                    parcialidad: ContratoDetalle.findById(it.folioOperacion as Long).parcialidad,
+//                    fecha      : ContratoDetalle.findById(it.folioOperacion as Long).fecha,
+//                    monto      : ContratoDetalle.findById(it.folioOperacion as Long).subtotal + ContratoDetalle.findById(it.folioOperacion as Long).iva,
+//                    estatus    : ContratoDetalle.findById(it.folioOperacion as Long).conciliado ? 'Conciliado' : 'Pendiente',
+//                    clase      : conciliacionesService.getFolioAndClass(ContratoDetalle.findById(it.folioOperacion as Long)).clase
+//            ], movimiento       : [
+//                    folio     : it.movimiento.id,
+//                    cuenta    : it.movimiento.cuenta,
+//                    fecha     : it.movimiento.fecha,
+//                    referencia: it.movimiento.referencia,
+//                    monto     : it.movimiento.monto,
+//                    estatus   : it.movimiento.conciliado ? 'Conciliado' : 'Pendiente',
+//                    clase     : conciliacionesService.getFolioAndClass(it.movimiento).clase
+//            ],
+                 formaConciliacion: it.formaConciliacion]
+            })
+        }
+        respond lista
     }
 
     def verConciliacion() {
@@ -152,6 +195,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     def getDetalles(Conciliaciones conciliaciones) {
         return ConciliacionesDetalles.findAllByConciliaciones(conciliaciones).collect({
             [
+                    id               : it.id,
                     movimiento       : LiquidacionBanco.findById(it.movimiento.id).collect({
                         [folio     : it.id,
                          cuenta    : it.cuenta,
@@ -195,4 +239,74 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         respond message: 'ok'
     }
 
+    @Transactional
+    def eliminarConciliacionDetalle() {
+        ConciliacionesDetalles detalle = ConciliacionesDetalles.findById(params.id as Long)
+        Conciliaciones conciliacion = Conciliaciones.findById(detalle.conciliaciones.id)
+        if (detalle.conciliaciones.porMovimiento) {
+            ContratoDetalle contratoDetalle = ContratoDetalle.findById(detalle.folioOperacion as long)
+            contratoDetalle.conciliado = false
+            contratoDetalle.save(flush: true)
+            conciliacion.montoXoperaciones = conciliacion.montoXoperaciones - (contratoDetalle.subtotal + contratoDetalle.iva)
+        } else {
+            LiquidacionBanco liquidacionBanco = LiquidacionBanco.findById(detalle.movimiento.id)
+            liquidacionBanco.conciliado = false
+            liquidacionBanco.save(flush: true)
+            conciliacion.montoXmovimientos = conciliacion.montoXmovimientos - liquidacionBanco.monto
+        }
+        conciliacion.diferencia = conciliacionesService.calculoDiferencia(conciliacion.montoXoperaciones, conciliacion.montoXmovimientos).diferencia
+        conciliacion.descripcionDiferencia = conciliacionesService.calculoDiferencia(conciliacion.montoXoperaciones, conciliacion.montoXmovimientos).descripcionDiferencia
+        conciliacion.save(flush: true)
+        detalle.delete(flush: true)
+
+
+        def detalles = ConciliacionesDetalles.findAllByConciliaciones(conciliacion)
+        if (detalles.size() == 0) {
+            conciliacion.delete(flush: true)
+        }
+//        }
+        respond message: 'ok'
+    }
+
+    def getStatus(String nc) {
+        respond Contrato.findByNumeroContrato(nc).collect({
+            [
+                    numeroContrato: it.numeroContrato,
+                    titular       : getTitular(it),
+                    referencia    : it.referencia != null ? it.referencia : 'No tiene',
+                    rfc           : it.rfc != null ? it.rfc : 'No tiene',
+                    placas        : it.placas != null ? it.placas : 'No tiene',
+                    modelo        : it.modelo != null ? it.modelo.descLabel : 'No tiene',
+                    mensualidades : getMensualidades(it)
+            ]
+        })
+    }
+
+    def getMensualidades(Contrato contrato) {
+        return ContratoDetalle.findAllByContrato(contrato).collect({
+            [
+                    id               : it.id,
+                    parcialidad      : it.parcialidad,
+                    fecha            : it.fecha,
+                    total            : it.subtotal + it.iva,
+                    conciliado       : it.conciliado,
+                    folioConciliacion: it.conciliado == true ? ConciliacionesDetalles.findByFolioOperacion(it.id.toString())!=null?ConciliacionesDetalles.findByFolioOperacion(it.id.toString()).conciliaciones.id : 'Esta conciliado por estatus':'No tiene'
+            ]
+        })
+    }
+
+    def getTitular(Contrato contrato) {
+        String titular = ''
+        if (contrato.razonesSociales != null) {
+            titular = contrato.razonesSociales.razonSocial
+        } else {
+            if (contrato.nombreLargo != null) {
+                titular = contrato.nombreLargo
+            } else {  
+
+                titular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+            }
+        }
+        return titular
+    }
 }

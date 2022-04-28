@@ -1,29 +1,39 @@
 package mx.saccsa.autopresta
 
 import grails.rest.RestfulController
+import mx.saccsa.common.Parametros
 
 class ComboController {
 
-    def comboAutoPresta(String id){
+    def combos(String tipo) {
+        respond Combo.findAllByComboAndHabilitado(tipo, true).collect({
+            [
+                    id         : it.clave,
+                    descripcion: it.descripcion
+            ]
+        })
+    }
+
+    def comboAutoPresta(String id) {
         String groupId = 'mx.saccsa.autopresta'
 //        log.error groupId+"."+id
-        Class c = Class.forName(groupId+"."+id.capitalize())
-        def data = c.list().collect{
+        Class c = Class.forName(groupId + "." + id.capitalize())
+        def data = c.list().collect {
             [
-                    id:it?.id,
+                    id         : it?.id,
                     descripcion: it?.descLabel
             ]
         }
         respond data
     }
 
-    def comboController(String id){
+    def comboController(String id) {
         String groupId = 'mx.saccsa.autopresta'
 //        log.error groupId+"."+id
-        Class c = Class.forName(groupId+"."+id.capitalize())
-        def data = c.list().collect{
+        Class c = Class.forName(groupId + "." + id.capitalize())
+        def data = c.list().collect {
             [
-                    id:it?.id,
+                    id         : it?.id,
                     descripcion: it?.descLabel
             ]
         }
@@ -33,50 +43,51 @@ class ComboController {
     def comboCuenta(String id, String banco) {
         def cuentas
         Banco bancoId = Banco.findById(banco as long)
-        if (id != '0' && banco != '0'){
+        if (id != '0' && banco != '0') {
             Portafolios razonSocial = Portafolios.findById(id as Long);
             cuentas = CuentasBancarias.findAllByRazonSocialAndBanco(razonSocial, bancoId)
-        } else if (id != '0' && banco == '0'){
+        } else if (id != '0' && banco == '0') {
             Portafolios razonSocial = Portafolios.findById(id as Long);
             cuentas = CuentasBancarias.findAllByRazonSocial(razonSocial)
-        }else if (id == '0' && banco != '0'){
+        } else if (id == '0' && banco != '0') {
             cuentas = CuentasBancarias.findAllByBanco(bancoId)
         }
-        respond cuentas.collect{
+        respond cuentas.collect {
             [
                     id         : it.id,
                     descripcion: it.alias,
-                    cuenta: it.cuenta
+                    cuenta     : it.cuenta
             ]
         }
     }
 
-    def comboPortafolios(String id){
-        def data = Portafolios.list().collect{
+    def comboPortafolios(String id) {
+        def data = Portafolios.list().collect {
             [
-                    id:it?.cvePortafolio,
+                    id         : it?.cvePortafolio,
                     descripcion: it?.descLabel
             ]
         }
         respond data
     }
 
-    def comboSecurity(String id){
+    def comboSecurity(String id) {
         String groupId = 'mx.saccsa.security'
 //        log.error groupId+"."+id
-        Class c = Class.forName(groupId+"."+id)
-        def data = c.list().collect{
+        Class c = Class.forName(groupId + "." + id)
+        def data = c.list().collect {
             [
-                    id:it.getId(),
+                    id         : it.getId(),
                     descripcion: it.getDescLabel()
             ]
         }
         respond data
     }
-    def comboMercados(){
-        def data = Mercados.list().collect{
+
+    def comboMercados() {
+        def data = Mercados.list().collect {
             [
-                    id:it.cveMercado,
+                    id         : it.cveMercado,
                     descripcion: it.getDescLabel()
             ]
         }
@@ -93,20 +104,20 @@ class ComboController {
 //        respond data
 //    }
 
-    def comboDivisas(){
-        def data = Divisas.list().collect{
+    def comboDivisas() {
+        def data = Divisas.list().collect {
             [
-                    id:it.clave,
+                    id         : it.clave,
                     descripcion: it.getDescLabel()
             ]
         }
         respond data
     }
 
-    def comboMarcas(){
-        def data = Marcas.list().collect{
+    def comboMarcas() {
+        def data = Marcas.list().collect {
             [
-                    id:it.id,
+                    id         : it.id,
                     descripcion: it.getDescLabel()
             ]
         }
@@ -115,7 +126,7 @@ class ComboController {
         respond data
     }
 
-    def comboFactura(String id){
+    def comboFactura(String id) {
         String groupId = 'mx.saccsa.autopresta'
         Class c = Class.forName(groupId + "." + id.capitalize())
         def data = c.list().collect {
@@ -126,6 +137,7 @@ class ComboController {
         }
         respond data
     }
+
     def comboCp(String id) {
         Estados estado = Estados.findById(id as long)
         def lista = Cp.findAllByEstado(estado.descripcion as String).collect({
@@ -141,19 +153,19 @@ class ComboController {
         respond(lista)
     }
 
-    def comboColonias(String id){
+    def comboColonias(String id) {
         respond(Cp.findAllByCodigoPostal(id).collect({
             [
-                    id: it.asentamiento,
+                    id         : it.asentamiento,
                     descripcion: it.asentamiento
             ]
         }))
     }
 
-    def comboModelos(Long id){
+    def comboModelos(Long id) {
         def data = Modelos.findAllByMarca(Marcas.findById(id)).collect({
             [
-                    id: it.id,
+                    id         : it.id,
                     descripcion: it.nombre
             ]
         })
@@ -161,19 +173,24 @@ class ComboController {
         respond(data)
     }
 
-    def comboAutos(Long id){
+    def comboAutos(Long id) {
         def data = Automoviles.findAllByModelo(Modelos.findById(id)).collect({
             [
-                    id: it.id,
+                    id         : it.id,
                     descripcion: it.anio
             ]
         })
         data = data.sort({ it.descripcion })
         respond(data)
     }
-    def comboDocumentos(){
+
+    def comboDocumentos() {
         def data = IdentificacionesOficiales.list()
         respond(data)
     }
 
+    def maxAutorizado(){
+        def max = Parametros.getValorByParametro('MontoMaximoAutorizado')
+        respond max: max
+    }
 }

@@ -154,15 +154,24 @@ export const ROUTES: RouteInfo[] = [
         groupTitle: false,
         submenu: []
       },
-      // {
-      //   path: 'Catalogos/Proveedores',
-      //   title: 'Proveedores',
-      //   moduleName: 'Catalogos',
-      //   icon: '',
-      //   class: 'ml-menu',
-      //   groupTitle: false,
-      //   submenu: []
-      // },
+      {
+        path: 'Catalogos/Folios',
+        title: 'Folios',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Catalogos/Folios-Recuperados',
+        title: 'Folios Recuperados',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
       {
         path: 'Catalogos/Mercados',
         title: 'Mercados',
@@ -311,6 +320,14 @@ export const ROUTES: RouteInfo[] = [
       {
         path: 'Reportes/Pagos-Realizados',
         title: 'Pagos Realizados',
+        moduleName: 'Reportes',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },{
+        path: 'Reportes/Reporte-Conciliaciones',
+        title: 'Reporte de Conciliaciones',
         moduleName: 'Reportes',
         icon: '',
         class: 'ml-menu',

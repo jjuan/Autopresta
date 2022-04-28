@@ -87,6 +87,16 @@ class Contrato {
     String nombreLargo
     String nombreLargoCoacreditado
     Long folioCarga
+    String tipoFolio
+
+    Long inicio
+    Long fin
+
+    Long inicioReq
+    Long finReq
+
+    BigDecimal montoReqAct
+    Boolean actualizado
 
     static constraints = {
         regimenFiscal nullable: true, blank: true
@@ -169,6 +179,13 @@ class Contrato {
         nombreLargoCoacreditado blank: true, nullable: true
         folioCarga blank: true, nullable: true
         contratoMonterrey blank: true, nullable: true
+        tipoFolio blank: true, nullable: true
+        inicio blank: true, nullable: true
+        inicioReq blank: true, nullable: true
+        finReq blank: true, nullable: true
+        fin blank: true, nullable: true
+        montoReqAct blank: true, nullable: true
+        actualizado blank: true, nullable: true
     }
 
     static mapping = {
@@ -255,5 +272,12 @@ class Contrato {
         nombreLargoCoacreditado name: 'nombreLargoCoacreditado', column: 'nombreLargoCoacreditado'
         folioCarga name: 'folioCarga', column: 'folioCarga'
         contratoMonterrey name: 'contratoMonterrey', column: 'contratoMonterrey'
+        tipoFolio name: 'tipoFolio', column: 'tipoFolio'
+        inicio name: 'inicio', column: 'inicio'
+        inicioReq name: 'inicioReq', column: 'inicioReq'
+        finReq name: 'finReq', column: 'finReq'
+        fin name: 'fin', column: 'fin'
+        montoReqAct name: 'montoReqAct', column: 'montoReqAct'
+        actualizado name: 'actualizado', column: 'actualizado'
     }
 }

@@ -12,6 +12,7 @@ import {DatePipe} from "@angular/common";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
 import {map} from "rxjs/operators";
+import {ConciliacionDetallesComponent} from "../conciliacion-detalles/conciliacion-detalles.component";
 
 @Component({
   selector: 'app-conciliacion-manual-contratos',
@@ -51,32 +52,46 @@ export class ConciliacionManualContratosComponent implements OnInit {
   ]
 
   constructor(
-    public dialogRef: MatDialogRef<ConciliacionManualContratosComponent>, @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ConciliacionManualContratosComponent>, @Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient,
     public httpClient: HttpClient, private globalService: GlobalService, public dialog: MatDialog, private datePipe: DatePipe,
     public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder, public restService: RestService,
   ) {
   }
 
   ngOnInit(): void {
+    let firstDay = (new Date().getMonth() + 1) + "/01/" + new Date().getFullYear();
+    let lastDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    let lastDay = (lastDate.getMonth() + 1) + "/" + lastDate.getDate() + "/" + lastDate.getFullYear();
+
     this.advanceTableService.initService(this._dominio);
     this.action = this.data.action;
-    this.saldo = this.data.info.monto
-    this.etiqueta = 'Saldo excedente'
+    this.saldo = this.data.detalle!=undefined?this.data.detalle.diferencia:this.data.info.monto
+    this.etiqueta = this.data.detalle!=undefined?this.data.detalle.descripcionDiferencia:'Saldo en contra'
     this.dialogTitle = this.data.cabecera
     this.titulo = this.data.title
     this.formulario = this.restService.buildForm({
       formaConciliacion: [''],
       campo: [''],
+      conciliacionParcial: [true],
       // });
       // this.formularioBusqueda = this.restService.buildForm({
-      fechaInicio: [new Date("02/01/22 00:00:00"), Validators.required],
-      fechaFin: [new Date("02/07/22 00:00:00"), Validators.required]
+      fechaInicio: [new Date(firstDay +" 00:00:00"), Validators.required],
+      fechaFin: [new Date(lastDay +" 00:00:00"), Validators.required]
     })
     this.loadData();
   }
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  showNotification(colorName, text, placementFrom, placementAlign) {
+    this.snackBar.open(text, '', {
+      duration: 2000,
+      verticalPosition: placementFrom,
+      horizontalPosition: placementAlign,
+      panelClass: colorName
+    });
   }
 
   public confirmAdd(): void {
@@ -100,6 +115,7 @@ export class ConciliacionManualContratosComponent implements OnInit {
       etiqueta: this.etiqueta,
       porMovimientos: false,
       formaConciliacion: this.formulario.get('formaConciliacion').value,
+      conciliacionParcial: this.formulario.get('conciliacionParcial').value,
       campo: this.formulario.get('campo').value,
       montoParcialidades: this.data.info.monto.toFixed(2),
       montoMovimientos: this.montoMovimientos.toFixed(2)
@@ -110,6 +126,30 @@ export class ConciliacionManualContratosComponent implements OnInit {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.renderedData.length;
     return numSelected === numRows;
+  }
+
+  desconciliarMovimiento(p: any, texto: string) {
+    const formData = new FormData();
+    formData.append('id', p.id);
+    this.http.post(this.globalService.BASE_API_URL + 'Conciliaciones/eliminarConciliacionDetalle', formData, {
+      headers: {
+        'Authorization': 'Bearer=' + this.globalService.getAuthToken()
+      }
+    }).subscribe(r => {
+      // this.showNotification('snackbar-danger', texto, 'bottom', 'center');
+      // this.dialogRef.close()
+      console.log(this.data)
+      this.advanceTableService.index<any>(this._dominio, {
+        folio: this.data.info.folio,
+        clase: this.data.info.clase
+      }, 'verConciliacion').subscribe(r => {
+        this.data.detalle = r[0]
+
+        this.saldo = this.data.detalle.diferencia
+        this.etiqueta = this.data.detalle.descripcionDiferencia
+        this.actualizarMonto()
+      })
+    });
   }
 
   masterToggle() {
@@ -136,18 +176,19 @@ export class ConciliacionManualContratosComponent implements OnInit {
     this.selection.selected.forEach((item) => {
       this.montoMovimientos = this.montoMovimientos + item.monto
     });
-    if (this.data.info.monto == this.montoMovimientos) {
+    let monto = this.data.detalle!=undefined?this.data.detalle.diferencia:this.data.info.monto
+    if (monto == this.montoMovimientos) {
       this.etiqueta = 'Liquidado'
       this.saldo = 0
-    } else if (this.data.info.monto > this.montoMovimientos && this.montoMovimientos > 0) {
-      this.etiqueta = 'Saldo excedente'
-      this.saldo = this.data.info.monto - this.montoMovimientos
-    } else if (this.data.info.monto < this.montoMovimientos) {
-      this.etiqueta = 'Saldo remanente'
-      this.saldo = this.montoMovimientos - this.data.info.monto
+    } else if (monto > this.montoMovimientos && this.montoMovimientos > 0) {
+      this.etiqueta = 'Saldo a favor'
+      this.saldo = monto + this.montoMovimientos
+    } else if (monto < this.montoMovimientos) {
+      this.etiqueta = 'Saldo en contra'
+      this.saldo = this.montoMovimientos + monto
     } else if (this.montoMovimientos == 0) {
-      this.saldo = this.data.info.monto
-      this.etiqueta = 'Saldo excedente'
+      this.saldo = monto
+      this.etiqueta = 'Saldo a favor'
     }
   }
 }

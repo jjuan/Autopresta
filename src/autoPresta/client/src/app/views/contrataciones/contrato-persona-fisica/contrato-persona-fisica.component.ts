@@ -8,6 +8,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {DateAdapter} from "@angular/material/core";
 import {GeneracionContratoComponent} from "../../procesos/contrato/generacion-contrato/generacion-contrato.component";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-contrato-persona-fisica',
@@ -42,6 +43,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
   tasaMonitoreo = 1;
   tasaGPS = 0.75;
 
+  porcentajeMax = 70
   public longitud = 1
 
   public respuesta: Contrato;
@@ -68,7 +70,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
 
   constructor(
     private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
-    private snack: MatSnackBar, public dialog: MatDialog, private dateAdapter: DateAdapter<Date>
+    private snack: MatSnackBar, public dialog: MatDialog, private dateAdapter: DateAdapter<Date>, private http: HttpClient
   ) {
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
@@ -94,6 +96,10 @@ export class ContratoPersonaFisicaComponent implements OnInit {
     this.genericRestService.combo<IdentificacionesOficiales[]>({}, 'comboDocumentos').subscribe(result => {
       this.documentoOficialCombo = result
     });
+    this.genericRestService.combo<any>({}, 'maxAutorizado').subscribe(result => {
+      this.porcentajeMax = result.max
+    });
+
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
   }
@@ -172,6 +178,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
       fechaCompromiso: [data ? data.fechaCompromiso : ''],
       descuentosRetenciones: [data ? data.descuentosRetenciones : ''],
       contratoMonterrey: [data ? data.contratoMonterrey : ''],
+      tipoFolio:['']
     });
   }
 
@@ -200,6 +207,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
         fechaCompromiso: result.fechaCompromiso,
         referencia: result.referenciaBancariaBBVA,
         descuentosRetenciones: result.descuentosRetenciones,
+        tipoFolio: result.tipoContrato
       })
       this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(() => {
         this.ngOnInit();
@@ -226,7 +234,7 @@ export class ContratoPersonaFisicaComponent implements OnInit {
   }
 
   calcularMaximoAutorizado(monto: number) {
-    this.montoMaximoAutorizado = monto * 0.7;
+    this.montoMaximoAutorizado = monto * (this.porcentajeMax /100);
     this.formulario.patchValue({
       montoMaximoAutorizado: (this.montoMaximoAutorizado).toFixed(2)
     })

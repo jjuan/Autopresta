@@ -5,6 +5,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RestService} from "../../../../core/service/rest.service";
 import {GlobalService} from "../../../../core/service/global.service";
 import {Subscription} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-generacion-contrato',
@@ -17,11 +18,12 @@ export class GeneracionContratoComponent implements OnInit {
   dialogTitle: string;
   calificacionClientesCombo: Combo[];
   folios: Folios;
+  public comboContratos: Combo[];
 
   constructor(
     public dialogRef: MatDialogRef<GeneracionContratoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private globalService: GlobalService,
-    public restService: RestService,
+    public restService: RestService, private http: HttpClient
   ) {
   }
 
@@ -40,6 +42,7 @@ export class GeneracionContratoComponent implements OnInit {
     this.dialogTitle = 'Generar contrato';
 
     this.restService.combo<Combo[]>({id: 'CalificacionCliente'}, 'comboAutoPresta').subscribe(r => this.calificacionClientesCombo = r)
+    this.restService.combo<Combo[]>({tipo: 'TipoContrato'}, 'combos').subscribe(r => this.comboContratos = r)
     this.formulario = this.restService.buildForm({
       calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : '', Validators.required],
       fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
@@ -52,16 +55,12 @@ export class GeneracionContratoComponent implements OnInit {
       fechaSolicitud: [this.data.data.fechaSolicitud ? this.data.data.fechaSolicitud : ''],
       montoLiquidar: [this.data.data.montoLiquidar ? this.data.data.montoLiquidar : ''],
       fechaCompromiso: [this.data.data.fechaCompromiso ? this.data.data.fechaCompromiso : ''],
+      tipoContrato: [''],
       detalleDescuentos: ['N/A', Validators.required]
     });
     this.restService.edit<Portafolios>(1, 'Portafolios').subscribe(result => {
       this.formulario.patchValue({fechaContrato: result.fecha + 'T00:00:00'});
     });
-
-    this.restService.index<Folios>('Contrato', {}, 'folios').subscribe(r => {
-      this.folios = r
-      this.formulario.patchValue({numeroContrato: this.folios.folio})
-    })
   }
 
   cambiarFolio(checked: boolean, folioMty) {
@@ -70,10 +69,15 @@ export class GeneracionContratoComponent implements OnInit {
         numeroContrato: this.folios.folioPrueba, contratoPrueba: true, contratoMonterrey: false
       })
     } else if (checked == false && folioMty == true) {
-      this.formulario.patchValue({numeroContrato: this.folios.folioMty , contratoPrueba: false, contratoMonterrey: true})
+      this.formulario.patchValue({numeroContrato: this.folios.folioMty, contratoPrueba: false, contratoMonterrey: true})
     } else {
-      this.formulario.patchValue({numeroContrato: this.folios.folio , contratoPrueba: false, contratoMonterrey: false})
+      this.formulario.patchValue({numeroContrato: this.folios.folio, contratoPrueba: false, contratoMonterrey: false})
     }
   }
 
+  obtenerFolio(clave) {
+    this.restService.combo<any>({clave: clave}, 'obtenerFolio', 'Contrato').subscribe(r =>
+      this.formulario.patchValue({numeroContrato: r.folio})
+    )
+  }
 }

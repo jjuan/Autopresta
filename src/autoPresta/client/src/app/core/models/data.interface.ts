@@ -263,6 +263,23 @@ export class _cuentaBancaria {
   fechaDeCancelacion: Date;
 }
 
+export interface Folio {
+  cveTipo: string;
+  folio: number;
+}
+
+export interface FoliosRecuerados {
+  id: number;
+  cveTipo: string;
+  folio: number;
+}
+
+export interface objetoConciliacion {
+  color?: string,
+  label?: string
+  icon?: string
+}
+
 export interface Divisas {
   id: number;
   clave: string;
@@ -512,30 +529,31 @@ export interface Contrataciones {
   estatus: string;
 }
 
-export interface parcialidad{
-    folio      : any,
-  contrato   : string,
+export interface parcialidad {
+  folio: any,
+  contrato: string,
   parcialidad: string,
-  fecha      : Date,
-  monto      : number,
-  estatus    : string,
-  clase      : string
+  fecha: Date,
+  monto: number,
+  estatus: string,
+  clase: string
 
 }
-export interface movimiento{
-    folio      : any,
-  cuenta   : string,
+
+export interface movimiento {
+  folio: any,
+  cuenta: string,
   referencia: string,
-  fecha      : Date,
-  monto      : number,
-  estatus    : string,
-  clase      : string
+  fecha: Date,
+  monto: number,
+  estatus: string,
+  clase: string
 
 }
 
-export interface detalleConciliacion{
-  concilio    : Boolean,
+export interface detalleConciliacion {
+  concilio: Boolean,
   parcialidad: parcialidad,
-  movimiento       : movimiento  ,
+  movimiento: movimiento,
   formaConciliacion: string
 }
