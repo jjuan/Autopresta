@@ -2,11 +2,8 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {_razonSocial} from "../../../../core/models/data.interface";
+import {_razonSocial, Combo} from "../../../../core/models/data.interface";
 import {RestService} from "../../../../core/service/rest.service";
-
-class _combo {
-}
 
 @Component({
   selector: 'app-usuario-form',
@@ -20,9 +17,9 @@ export class UsuarioFormComponent implements OnInit {
   _usuarioForm: FormGroup;
   dialogTitle: string;
   advanceTable: _razonSocial;
-  public razonSocialCombo: _combo[];
-  public cargoCombo: _combo[];
-  public perfillCombo: _combo[];
+  public razonSocialCombo: Combo[];
+  public cargoCombo: Combo[];
+  public perfillCombo: Combo[];
   constructor(
     public dialogRef: MatDialogRef<UsuarioFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -30,7 +27,7 @@ export class UsuarioFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  users: _combo[] = [
+  users: Combo[] = [
     {id: 'Avatar', descripcion: 'Avatar'},
     {id: 'Avatar2', descripcion: 'Avatar2'},
     {id: 'Avatar3', descripcion: 'Avatar3'},
@@ -56,8 +53,8 @@ export class UsuarioFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.advanceTableService.combo<_combo[]>({id: 'RazonSocial'}, 'comboController').subscribe(result =>
-      this.razonSocialCombo = result);
+    // this.advanceTableService.combo<Combo[]>({id: 'RazonSocial'}, 'comboController').subscribe(result =>
+    //   this.razonSocialCombo = result);
     this.action = this.data.action;
     if (this.action === 'Editar') {
      // this.cargarPuestos(this.data.data.razonSocial.id)
@@ -73,7 +70,7 @@ export class UsuarioFormComponent implements OnInit {
         mail: [this.data.data.mail, [Validators.required, Validators.email]],
         puesto: [this.data.data.puesto, [Validators.required]],
         avatar: [this.data.data.avatar, [Validators.required]],
-        razonSocial: [this.data.data.razonSocial.id, [Validators.required]],
+        // razonSocial: [this.data.data.razonSocial.id, [Validators.required]],
         desde: [this.data.data.desde, [Validators.required]],
         nuevo: [this.data.data.nuevo, [Validators.required]],
         enabled: [this.data.data.enabled, [Validators.required]],
@@ -84,7 +81,7 @@ export class UsuarioFormComponent implements OnInit {
       });
     } else {
       this.dialogTitle = 'Crear ' + this.data.title;
-      this.advanceTableService.combo<_combo[]>({id: 'Role'}, 'comboSecurity').subscribe(result =>
+      this.advanceTableService.combo<Combo[]>({id: 'Role'}, 'comboSecurity').subscribe(result =>
         this.perfillCombo = result);
       this._usuarioForm = this.advanceTableService.buildForm({
         id: [this.data.data.id],
@@ -97,7 +94,7 @@ export class UsuarioFormComponent implements OnInit {
         mail: [this.data.data.mail, [Validators.required, Validators.email]],
         puesto: [this.data.data.cargo, [Validators.required]],
         avatar: ['Avatar', [Validators.required]],
-        razonSocial: [this.data.data.razonSocial, [Validators.required]],
+        // razonSocial: [this.data.data.razonSocial, [Validators.required]],
         desde: [this.data.data.desde, [Validators.required]],
         nuevo: [this.data.data.nuevo, [Validators.required]],
         enabled: [this.data.data.enabled, [Validators.required]],
@@ -110,7 +107,7 @@ export class UsuarioFormComponent implements OnInit {
   }
 
   cargarPuestos(value: any) {
-    this.advanceTableService.combo<_combo[]>( {id: value}, 'comboPuestos').subscribe( result => {
+    this.advanceTableService.combo<Combo[]>( {id: value}, 'comboPuestos').subscribe( result => {
       this.cargoCombo = result
       if (result.length == 0){
         this.showNotification( 'snackbar-danger', '¡No se encontraron puestos dentro de esta Razon Social!', 'bottom', 'center' );

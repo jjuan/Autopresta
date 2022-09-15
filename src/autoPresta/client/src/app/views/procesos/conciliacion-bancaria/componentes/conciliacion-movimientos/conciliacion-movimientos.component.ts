@@ -168,7 +168,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result) => {
         if (result != undefined) {
-          this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientos", result, opts)
+          this.httpClient.post(this.globalService.BASE_API_URL + this._dominio + "/conciliacionMovimientosNueva", result, opts)
             .subscribe(data => {
               this.showNotification('snackbar-success', 'Conciliacion creada!!', 'bottom', 'center');
               this.loadData();

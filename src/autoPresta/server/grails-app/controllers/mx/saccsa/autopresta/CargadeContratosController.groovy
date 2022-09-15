@@ -308,9 +308,9 @@ class CargadeContratosController extends CatalogoController<CargadeContratos> {
 
     def cargaDetalles(Contrato contrato, Integer inicio, Integer fin) {
         for (Integer i = inicio; i <= fin; i++) {
-            def costoMensualInteres = (contrato.montoRequerido * 5) / 100
-            def costoMensualMonitoreo = (contrato.montoRequerido * 1) / 100 < 800 ? 800 : (contrato.montoRequerido * 1) / 100
-            def costoMensualGPS = (contrato.montoRequerido * 0.75) / 100 < 600 ? 600 : (contrato.montoRequerido * 0.75) / 100
+            def costoMensualInteres = (contrato.montoReqAct * 5) / 100
+            def costoMensualMonitoreo = (contrato.montoReqAct * 1) / 100 < 800 ? 800 : (contrato.montoReqAct * 1) / 100
+            def costoMensualGPS = (contrato.montoReqAct * 0.75) / 100 < 600 ? 600 : (contrato.montoReqAct * 0.75) / 100
 
             def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
@@ -324,10 +324,21 @@ class CargadeContratosController extends CatalogoController<CargadeContratos> {
             contratoDetalle.subtotal = i == 12 ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + montoRequeido(contrato)) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
             contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
             contratoDetalle.saldoFinal = i == 12 ? 0 : montoRequeido(contrato)
+            contratoDetalle.conciliado = false
             contratoDetalle.save(flush: true, failOnError: true)
+            contrato.actualizado = true
+            contrato.save(flush: true, failOnError: true)
         }
     }
 
+    @Transactional
+    def extender (){
+        def contratos = Contrato.findAllByActualizado(false)
+        for (contrato in contratos){
+            cargaDetalles(contrato, contrato.inicio as Integer, contrato.fin as Integer)
+        }
+        respond m:'listo'
+    }
     BigDecimal montoRequeido(Contrato contrato) {
         return contrato.montoTransferencia + new BigDecimal(contrato.detalleDescuentos)
     }

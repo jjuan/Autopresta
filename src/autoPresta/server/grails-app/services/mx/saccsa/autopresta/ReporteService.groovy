@@ -98,10 +98,26 @@ class ReporteService {
                 acuerdoLiquidacion                 : solicitudLiquidacion(contrato),
                 duracion                           : contrato.tipoContrato.duracion.toString(),
                 pagoMensual                        : (desempenio.subtotal + desempenio.iva),
-                fechaContrato                      : contrato.fechaContrato
+                fechaContrato                      : contrato.fechaContrato,
+                marcaAuto                          : contrato.marca.nombre.toUpperCase(),
+                modeloAuto                         : contrato.modelo.nombre.toUpperCase(),
+                colorAuto                          : contrato.color.toUpperCase(),
+                anioAuto                           : contrato.anio,
+                direccionSucursal                  : datosSucursal(contrato.tipoFolio).direccionSucursal,
+                telefonoSucursal                   : datosSucursal(contrato.tipoFolio).telefonoSucursal,
+                descripcionSucursal                : datosSucursal(contrato.tipoFolio).descripcionSucursal,
         ]
 
         return lista
+    }
+
+    def datosSucursal(String cve) {
+        def sc = Sucursales.findByRegion(Regiones.findByClave(cve))
+        String direccionSucursal = sc.direccion.toUpperCase() + ', ' + sc.colonia.toUpperCase() + ', ' + sc.ciudad.toUpperCase() + ', ' + sc.region.descripcion + '; C.P. ' + sc.codigoPostal.toUpperCase()
+        String telefonoSucursal = sc.telefono.toUpperCase()
+        String descripcionSucursal = sc.descripcion.toUpperCase()
+
+        return [direccionSucursal: direccionSucursal, telefonoSucursal: telefonoSucursal, descripcionSucursal: descripcionSucursal]
     }
 
     String descripcion(Contrato contrato) {
@@ -120,9 +136,7 @@ class ReporteService {
     def fecha(Date f) {
         Calendar c = Calendar.getInstance()
         c.setTime(f)
-        def meses = [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio',
-                'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
+        def meses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre']
         return dateUtilService.diaSemana(f) + ', ' + c.get(Calendar.DAY_OF_MONTH) + ' de ' + meses[c.get(Calendar.MONTH)] + ' de ' + c.get(Calendar.YEAR)
     }
 
@@ -137,33 +151,33 @@ class ReporteService {
 
     String contratoFolio(Contrato contrato) {
         String folio = contrato.numeroContrato
-            switch (contrato.tipoFolio) {
-                case 'CDMX':
-                    while (folio.length() < 5) {
-                        folio = '0' + folio
-                    }
-                    break
-                case 'GDL':
-                    while (folio.length() < 5) {
-                        folio = '0' + folio
-                    }
-                    folio = 'GDL' + folio
-                    break
-                case 'MTY':
-                    while (folio.length() < 5) {
-                        folio = '0' + folio
-                    }
-                    folio = 'MTY' + folio
-                    break
-                case 'P':
-                    folio = folio + 'P'
-                    while (folio.length() < 6) {
-                        folio = '0' + folio
-                    }
-                    break
-            }
-            return folio
+        switch (contrato.tipoFolio) {
+            case 'CDMX':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
+                break
+            case 'GDL':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
+                folio = 'GDL' + folio
+                break
+            case 'MTY':
+                while (folio.length() < 5) {
+                    folio = '0' + folio
+                }
+                folio = 'MTY' + folio
+                break
+            case 'P':
+                folio = folio + 'P'
+                while (folio.length() < 6) {
+                    folio = '0' + folio
+                }
+                break
         }
+        return folio
+    }
 
     def numeroLetra(BigDecimal monto) {
         Locale usa = new Locale("en", "US")
@@ -269,17 +283,369 @@ class ReporteService {
             [
                     titular           : conciliacionesService.getTitular(ContratoDetalle.findById(it.folioOperacion as Long)),
                     mensualidad       : ContratoDetalle.findById(it.folioOperacion as Long).parcialidad,
-                    montoTotal      : ContratoDetalle.findById(it.folioOperacion as Long).subtotal + ContratoDetalle.findById(it.folioOperacion as Long).iva,
+                    montoTotal        : ContratoDetalle.findById(it.folioOperacion as Long).subtotal + ContratoDetalle.findById(it.folioOperacion as Long).iva,
                     fechaPago         : ContratoDetalle.findById(it.folioOperacion as Long).fecha,
                     referenciaBancaria: it.movimiento.referencia,
                     fechaMovimiento   : it.movimiento.fecha,
-                    contrato          : contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato.numeroContrato, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoPrueba, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoMonterrey),
+//                    contrato          : contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato.numeroContrato, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoPrueba, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoMonterrey),
                     formaConciliacion : it.formaConciliacion,
                     montoMovimiento   : it.movimiento.monto
             ]
         })
 
         return lista
+    }
+
+    def reporteMorosidad(Date fecha, String tipoMorosidad, Integer diaInicio, Integer diaFin) {
+        def lista
+        def estatus = ["I", "C", "P"]
+        def estatusContrato = ['Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude']
+        def numeroContrato = ['']
+        switch (tipoMorosidad) {
+            case 'Morosidad Mayor 200':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActLessThan(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 200000.00
+                )
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+                def pagos = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(excluidos, false, fechaInicio, fechaFin)
+                lista = pagos.collect({
+                    if (it.contrato.montoRequerido >= 200000) {
+                        [
+                                numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                                titular       : getTitular(it.contrato),
+                                generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                                cobranza      : cobrador(it.contrato?.numeroContrato),
+                                auto          : texto(it.contrato?.modelo?.descLabel),
+                                placas        : texto(it.contrato?.placas),
+                                gps1          : texto(it.contrato?.gps1?.nombre),
+                                gps2          : texto(it.contrato?.gps2?.nombre),
+                                montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                                mayor         : it.subtotal,
+                                menor         : 0,
+                                fechaFirma    : it.contrato?.fechaContrato,
+                                fechaCorte    : it.fecha,
+                                mensualidades : texto(it.parcialidad),
+                                diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                                telefono      : texto(it.contrato?.telefonoCelular),
+                                parcial       : 0,
+                                estatus       : it.contrato.estatusContrato,
+                        ]
+                    }
+                })
+                break
+            case 'Morosidad Mayor 100':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActLessThan(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 100000.00
+                )
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+
+                def pagos = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(excluidos, false, fechaInicio, fechaFin)
+                lista = pagos.collect({
+//                    log.error("contrato: " + it.contrato.numeroContrato + " montoConciliado: " + it.montoConciliado + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.montoConciliado - (it.subtotal + it.iva)) + " fecha: " + it.fecha)
+                    [
+                            numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                            titular       : getTitular(it.contrato),
+                            generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                            cobranza      : cobrador(it.contrato?.numeroContrato),
+                            auto          : texto(it.contrato?.modelo?.descLabel),
+                            placas        : texto(it.contrato?.placas),
+                            gps1          : texto(it.contrato?.gps1?.nombre),
+                            gps2          : texto(it.contrato?.gps2?.nombre),
+                            montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                            mayor         : it.subtotal,
+                            menor         : 0,
+                            fechaFirma    : it.contrato?.fechaContrato,
+                            fechaCorte    : it.fecha,
+                            mensualidades : texto(it.parcialidad),
+                            diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                            telefono      : texto(it.contrato?.telefonoCelular),
+                            parcial       : 0,
+                            estatus       : it.contrato.estatusContrato,
+                    ]
+                })
+                break
+            case 'Morosidad Mayor':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActGreaterThanEquals(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 100000.00
+                )
+                Calendar calendar = Calendar.getInstance();
+
+
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+
+                def pagos = ContratoDetalle.findAllByFechaBetweenAndContratoNotInListAndConciliado(
+//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
+                        fechaInicio, fechaFin, excluidos, false
+                )
+                lista = pagos.collect({
+                    log.error("contrato: " + it.contrato.numeroContrato + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.subtotal + it.iva) + " fecha: " + it.fecha)
+                    [
+                            numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                            titular       : getTitular(it.contrato),
+                            generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                            cobranza      : cobrador(it.contrato?.numeroContrato),
+                            auto          : texto(it.contrato?.modelo?.descLabel),
+                            placas        : texto(it.contrato?.placas),
+                            gps1          : texto(it.contrato?.gps1?.nombre),
+                            gps2          : texto(it.contrato?.gps2?.nombre),
+                            montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                            mayor         : it.subtotal,
+                            menor         : 0,
+                            fechaFirma    : it.contrato?.fechaContrato,
+                            fechaCorte    : it.fecha,
+                            mensualidades : texto(it.parcialidad),
+                            diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                            telefono      : texto(it.contrato?.telefonoCelular),
+                            parcial       : 0,
+                            estatus       : it.contrato.estatusContrato,
+                    ]
+                })
+                break case 'Morosidad Mayor 10':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActGreaterThanEquals(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 100000.00
+                )
+                Calendar calendar = Calendar.getInstance();
+
+
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -10);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+
+                def pagos = ContratoDetalle.findAllByFechaLessThanEqualsAndContratoNotInListAndConciliado(
+//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
+                        fechaInicio, excluidos, false
+                )
+                lista = pagos.collect({
+                    log.error("contrato: " + it.contrato.numeroContrato + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.subtotal + it.iva) + " fecha: " + it.fecha)
+                    [
+                            numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                            titular       : getTitular(it.contrato),
+                            generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                            cobranza      : cobrador(it.contrato?.numeroContrato),
+                            auto          : texto(it.contrato?.modelo?.descLabel),
+                            placas        : texto(it.contrato?.placas),
+                            gps1          : texto(it.contrato?.gps1?.nombre),
+                            gps2          : texto(it.contrato?.gps2?.nombre),
+                            montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                            mayor         : it.subtotal,
+                            menor         : 0,
+                            fechaFirma    : it.contrato?.fechaContrato,
+                            fechaCorte    : it.fecha,
+                            mensualidades : texto(it.parcialidad),
+                            diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                            telefono      : texto(it.contrato?.telefonoCelular),
+                            parcial       : 0,
+                            estatus       : it.contrato.estatusContrato,
+                    ]
+                })
+                break
+            case 'Morosidad Menor 100':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActLessThan(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 100000.00
+                )
+                Calendar calendar = Calendar.getInstance();
+
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+
+                def pagos = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetweenAndMontoConciliadoIsNotNull(
+//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
+                        excluidos, true, fechaInicio, fechaFin
+                )
+                lista = pagos.collect({
+//                    log.error("contrato: " + it.contrato.numeroContrato + " montoConciliado: " + it.montoConciliado + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.montoConciliado - (it.subtotal + it.iva)) + " fecha: " + it.fecha)
+                    if (it.montoConciliado >= (it.subtotal + it.iva) / 2 && it.montoConciliado <= (it.subtotal + it.iva) && it.montoConciliado - (it.subtotal + it.iva) < 0 && it.contrato.montoRequerido >= 100000) {
+                        [
+                                numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                                titular       : getTitular(it.contrato),
+                                generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                                cobranza      : cobrador(it.contrato?.numeroContrato),
+                                auto          : texto(it.contrato?.modelo?.descLabel),
+                                placas        : texto(it.contrato?.placas),
+                                gps1          : texto(it.contrato?.gps1?.nombre),
+                                gps2          : texto(it.contrato?.gps2?.nombre),
+                                montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                                mayor         : it.subtotal+it.iva,
+                                menor         : (it.subtotal - it.montoConciliado) + it.iva,
+                                fechaFirma    : it.contrato?.fechaContrato,
+                                fechaCorte    : it.fecha,
+                                mensualidades : texto(it.parcialidad),
+                                diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                                telefono      : texto(it.contrato?.telefonoCelular),
+                                parcial       : 0,
+                                estatus       : it.contrato.estatusContrato,
+                        ]
+                    }
+                })
+                break
+            case 'Morosidad Menor':
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInListOrMontoReqActGreaterThanEquals(
+                        true, 'P', estatus, estatusContrato, numeroContrato, 100000.00
+                )
+
+                Calendar calendar = Calendar.getInstance();
+
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaInicio);
+                Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+
+                def pagos = ContratoDetalle.findAllByFechaBetweenAndContratoNotInListAndConciliadoAndMontoConciliadoIsNotNull(
+//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
+                        fechaInicio, fechaFin
+                        , excluidos, true
+                )
+                lista = pagos.collect({
+                    log.error("contrato: " + it.contrato.numeroContrato + " montoConciliado: " + it.montoConciliado + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.montoConciliado - (it.subtotal + it.iva)) + " fecha: " + it.fecha)
+                    if (it.contrato != null && it.montoConciliado >= (it.subtotal + it.iva) / 2 && it.montoConciliado <= (it.subtotal + it.iva) && it.montoConciliado - (it.subtotal + it.iva) < 0) {
+                        [
+                                numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                                titular       : getTitular(it.contrato),
+                                generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                                cobranza      : cobrador(it.contrato?.numeroContrato),
+                                auto          : texto(it.contrato?.modelo?.descLabel),
+                                placas        : texto(it.contrato?.placas),
+                                gps1          : texto(it.contrato?.gps1?.nombre),
+                                gps2          : texto(it.contrato?.gps2?.nombre),
+                                montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                                mayor         : it.subtotal,
+                                menor         : (it.subtotal - it.montoConciliado) + it.iva,
+                                fechaFirma    : it.contrato?.fechaContrato,
+                                fechaCorte    : it.fecha,
+                                mensualidades : texto(it.parcialidad),
+                                diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                                telefono      : texto(it.contrato?.telefonoCelular),
+                                parcial       : 0,
+                                estatus       : it.contrato.estatusContrato,
+                        ]
+                    }
+                })
+                break
+            case 'Fraude':
+
+                estatusContrato = ['Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo']
+                def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusInListOrEstatusContratoInListOrNumeroContratoInList(
+                        true, 'P', estatus, estatusContrato, numeroContrato
+                )
+                Calendar calendar = Calendar.getInstance();
+
+
+
+                calendar.setTime(fecha)
+                calendar.add(Calendar.DATE, -diaFin);
+                Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+
+                def pagos = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaLessThanEquals(excluidos, false, fechaInicio)
+                lista = pagos.collect({
+                    if (it.contrato.montoRequerido >= 200000) {
+                        [
+                                numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
+                                titular       : getTitular(it.contrato),
+                                generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
+                                cobranza      : cobrador(it.contrato?.numeroContrato),
+                                auto          : texto(it.contrato?.modelo?.descLabel),
+                                placas        : texto(it.contrato?.placas),
+                                gps1          : texto(it.contrato?.gps1?.nombre),
+                                gps2          : texto(it.contrato?.gps2?.nombre),
+                                montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
+                                mayor         : it.subtotal,
+                                menor         : 0,
+                                fechaFirma    : it.contrato?.fechaContrato,
+                                fechaCorte    : it.fecha,
+                                mensualidades : texto(it.parcialidad),
+                                diasRetraso   : TimeCategory.minus(fecha, it.fecha).days,
+                                telefono      : texto(it.contrato?.telefonoCelular),
+                                parcial       : 0,
+                                estatus       : it.contrato.estatusContrato,
+                        ]
+                    }
+                })
+                break
+        }
+        lista.removeAll([null])
+        return lista
+    }
+
+    def reporteCobranza(Date fecha) {
+        def lista
+        def excluidos = "select id from Contrato where estatus in ('C', 'I', 'P') or estatusContrato in ('Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude') or tipoFolio = 'P' or numeroContrato = ''"
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fecha)
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        Date fechaInicio = sdf.parse(sdf.format(calendar.getTime()));
+        calendar.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+
+        Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
+
+        def total = ContratoDetalle.executeQuery("select sum(subtotal) as monto, count(contrato) as pagos from ContratoDetalle where  montoConciliado < (subtotal) and fecha >=:fechaInicio and fecha <=:fechaFin and contrato not in (" + excluidos + ")",
+                [fechaInicio: fechaInicio, fechaFin: fechaFin]).collect { [monto: it[0], pagos: it[1]] }
+        log.error("monto: " + total[0].monto + " pagos: " + total[0].pagos)
+        def pagos = ContratoDetalle.executeQuery(
+                "select DAY(fecha) as dia,fecha, sum(subtotal) as subtotal, count(id) as clientes, sum(montoConciliado) as monto from ContratoDetalle where montoConciliado < (subtotal) and fecha >=:fechaInicio and fecha <=:fechaFin and contrato not in (" + excluidos + ")  group  by fecha",
+                [fechaInicio: fechaInicio, fechaFin: fechaFin])
+                .collect({
+                    [
+                            rango                  : it[0],
+                            porcentaje             : (it[2]) / total[0].monto,
+                            intentosXc             : it[2],
+                            pagosPreeliminar       : it[1] <= fecha ? (ContratoDetalle.executeQuery('Select count(conciliado) from ContratoDetalle where montoConciliado<(subtotal) and fecha=:fecha', [fecha: it[1]])[0]) : 0,
+                            ingresosPagosPreliminar: it[1] <= fecha ? (it[4] ? it[4] : 0) : 0,
+                            cobradoPreliminar      : it[1] <= fecha ? ((it[4] ? it[4] : 0) / total[0].monto) : 0,
+                            fechaPago              : it[1],
+                            pagosCierre            : it[1] <= fecha ? (ContratoDetalle.executeQuery('Select count(conciliado) from ContratoDetalle where conciliado = 1 and montoConciliado<(subtotal) and fecha=:fecha', [fecha: it[1]])[0]) : 0,
+                            ingresosPagosCierre    : it[1] <= fecha ? (it[4] ? it[4] : 0) : 0,
+                            cobradoCierre          : it[1] <= fecha ? ((it[4] ? it[4] : 0) / total[0].monto) : 0,
+                            acumulado              : 0,
+                    ]
+                })
+        pagos.removeAll([null])
+        return pagos
+    }
+
+    def texto(def t) {
+        if (t && t != null) {
+            return t.toString()
+        }
+        return ' '
     }
 
     def cpFormato(Long cp) {
@@ -398,6 +764,22 @@ class ReporteService {
         return fechaContrato == fechaLiquidacion ? '' : '(al tratarse de un dia inhábil) '
     }
 
+    def getTitular(Contrato contrato) {
+        String titular = ''
+        if (contrato.razonesSociales != null) {
+            titular = contrato.razonesSociales.razonSocial
+        } else {
+            if (contrato.nombreLargo != null) {
+                titular = contrato.nombreLargo
+            } else {
+
+                titular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+            }
+        }
+        return titular
+    }
+
+
     String contratoFolio(String folio, String tipoFolio) {
         switch (tipoFolio) {
             case 'CDMX':
@@ -425,5 +807,21 @@ class ReporteService {
                 break
         }
         return folio
+    }
+
+    String cobrador(String numeroContrato) {
+        String nombre = ""
+        def sufijo = new Long(numeroContrato.split('').last())
+        def tipo = (new Long(numeroContrato)) % 2 == 0
+        if (!tipo && sufijo < 5) {
+            nombre = "Adolfo"
+        } else if (!tipo && sufijo >= 5) {
+            nombre = "Karina"
+        } else if (tipo && sufijo < 5) {
+            nombre = "Ulises"
+        } else if (tipo && sufijo >= 5) {
+            nombre = "Noé"
+        }
+        return nombre
     }
 }

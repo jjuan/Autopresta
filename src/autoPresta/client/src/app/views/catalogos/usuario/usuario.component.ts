@@ -101,4 +101,15 @@ export class UsuarioComponent implements OnInit {
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', { duration: 2000, verticalPosition: placementFrom, horizontalPosition: placementAlign, panelClass: colorName });
   }
+
+  liberar(i) {
+    this.advanceTableService.update<string>(i.id, {}, 'Usuario', {}, 'liberarSesion')
+      .subscribe(data => {
+        this.showNotification( 'snackbar-danger', data['message'], 'bottom', 'center' );
+        this.index();
+      }, error => {
+        console.log(error)
+        this.showNotification( 'snackbar-danger',  error.error['message'], 'bottom', 'center' );
+      });
+  }
 }

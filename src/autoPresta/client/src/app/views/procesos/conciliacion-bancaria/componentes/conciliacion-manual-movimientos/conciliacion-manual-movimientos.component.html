@@ -74,7 +74,7 @@
             </mat-form-field>
           </div>
           <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 mt-28">
-            <mat-slide-toggle formControlName="conciliacionParcial">Conciliacion parcial</mat-slide-toggle>
+            <mat-slide-toggle formControlName="conciliacionParcial">Conciliacion Parcial</mat-slide-toggle>
           </div>
         </div>
         <!--  </form>-->
@@ -134,6 +134,13 @@
                       <div class="icon-button-demo m-l-10" [hidden]=!selection.hasValue()>
                         <button mat-mini-fab color="primary" (click)="confirmAdd()">
                           <mat-icon class="col-white" matTooltip="Conciliar Movimientos">import_contacts</mat-icon>
+                        </button>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="icon-button-demo m-l-10">
+                        <button mat-mini-fab (click)="Cerrar()">
+                          <mat-icon class="col-white" matTooltip="Cerrar conciliacion">lock</mat-icon>
                         </button>
                       </div>
                     </li>

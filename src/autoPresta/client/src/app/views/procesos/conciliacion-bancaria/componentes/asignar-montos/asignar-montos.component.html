@@ -1,0 +1,99 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+<!--      <div class="row">-->
+<!--        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">-->
+<!--          <mat-form-field class="full-width" appearance="outline">-->
+<!--            <mat-label>Folio</mat-label>-->
+<!--            <input matInput formControlName="id" readonly>-->
+<!--            <mat-icon matSuffix>turned_in_not</mat-icon>-->
+<!--            <mat-error *ngIf="formulario.get('id').hasError('required')">-->
+<!--              Folio es requerido-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
+<!--      </div>-->
+
+
+      <div class="tableBody">
+        <div class="table-responsive">
+          <table class="table table-hover dashboard-task-infos">
+            <thead>
+            <tr>
+              <th>Abono Mensual</th>
+              <th>Interés Normal</th>
+              <th>Moratorios</th>
+              <th>Penalizacion</th>
+              <th>Venta de autos</th>
+              <th>Aportación a capital</th>
+              <th>Monto Conciliado</th>
+              <th>Monto Conciliado(Disponible)</th>
+<!--              <th>20% extensión capital</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><b>{{data.data.subtotal|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.iva|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.moratorios|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.penalizacion|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.ventaDeAutos|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.aportacionAcapital|currency: 'USD'}}</b></td>
+              <td><b>{{data.data.montoConciliado|currency: 'USD'}}</b></td>
+              <td><b>{{((data.data.montoConciliado) -
+                (data.data.subtotal + data.data.iva + data.data.moratorios + data.data.penalizacion + data.data.ventaDeAutos + data.data.aportacionAcapital)
+              )|currency: 'USD'}}</b></td>
+<!--              <td><b>{{data.data.montoConciliado|currency: 'USD'}}</b></td>-->
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Estado del cliente</mat-label>
+            <mat-select formControlName="tipoConcepto">
+              <mat-option *ngFor="let item of estatusContratoCombo" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="formulario.get('tipoConcepto').hasError('required')">
+              Estado del contrato es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Monto asignado</mat-label>
+            <input matInput formControlName="monto" mask="separator" thousandSeparator=",">
+            <mat-error *ngIf="formulario.get('monto').hasError('required')">
+              Monto asignado es requerido
+            </mat-error>
+            <mat-error *ngIf="formulario.get('monto').hasError('max')">
+              El valor no debe ser mayor a {{((data.data.montoConciliado) -(data.data.subtotal + data.data.iva + data.data.moratorios + data.data.penalizacion + data.data.ventaDeAutos + data.data.aportacionAcapital))|currency: 'USD'}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

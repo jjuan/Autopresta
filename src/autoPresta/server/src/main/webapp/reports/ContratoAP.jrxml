@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.6.1  -->
-<!-- 2022-02-18T14:59:56 -->
+<!-- 2022-07-27T17:56:44 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3943bb9a-4398-4c2f-9d17-d84f3bce4aae">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -72,6 +72,13 @@
 	<field name="nombresCoacreditado" class="java.lang.String"/>
 	<field name="pagoMensual" class="java.math.BigDecimal"/>
 	<field name="fechaContrato" class="java.util.Date"/>
+	<field name="marcaAuto" class="java.lang.String"/>
+	<field name="modeloAuto" class="java.lang.String"/>
+	<field name="colorAuto" class="java.lang.String"/>
+	<field name="anioAuto" class="java.lang.String"/>
+	<field name="direccionSucursal" class="java.lang.String"/>
+	<field name="telefonoSucursal" class="java.lang.String"/>
+	<field name="descripcionSucursal" class="java.lang.String"/>
 	<detail>
 		<band height="23" splitType="Immediate">
 			<textField>
@@ -3087,7 +3094,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Calle Lava 232, Jardines del Pedregal, Del. Álvaro Obregón, Ciudad de México, CDMX]]></text>
 			</staticText>
 		</band>
-		<band height="380">
+		<band height="390">
 			<image>
 				<reportElement x="1" y="0" width="269" height="54" uuid="6633e8e5-848e-47e3-ba11-05da841cb352"/>
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
@@ -3132,16 +3139,17 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				</textElement>
 				<text><![CDATA[Razón Social:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="101" y="111" width="479" height="50" uuid="d93f77e6-2c5c-48a9-9f06-37ded3a82c21"/>
-				<box>
+			<textField>
+				<reportElement mode="Transparent" x="101" y="111" width="479" height="50" forecolor="#000000" backcolor="#FFFFFF" uuid="190ff570-e928-46ae-8a2e-f2aecd4ed405"/>
+				<box padding="0" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="styled">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
 				</textElement>
-				<text><![CDATA[CALLE LAVA, NO_EXT 232, COL. JARDINES DEL PEDREGAL, DELEGACIÓN ALVARO OBREGON, CIUDAD DE MEXICO, CP: 01900]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{direccionSucursal}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="423" y="80" width="157" height="31" uuid="a0924d3a-2c25-4a06-a764-7ea84a4160fe"/>
 				<box>
@@ -3170,16 +3178,17 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="101" y="161" width="479" height="29" uuid="b9238754-c869-46a8-876a-c679b9629f89"/>
-				<box>
+			<textField>
+				<reportElement mode="Transparent" x="101" y="161" width="479" height="29" forecolor="#000000" backcolor="#FFFFFF" uuid="3cedc6f5-a38a-4301-8a26-1604a6fe5aa3"/>
+				<box padding="0" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="styled">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
 				</textElement>
-				<text><![CDATA[(55) 7619 8801]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{telefonoSucursal}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="1" y="190" width="100" height="30" uuid="2c9cfcaa-273f-4e02-89b6-923134298df9"/>
 				<box>
@@ -3192,17 +3201,18 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				</textElement>
 				<text><![CDATA[Sucursal:]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="101" y="190" width="479" height="30" uuid="970f2d5a-2eec-49fa-8d60-8b49cfa6303b"/>
-				<box>
+			<textField>
+				<reportElement mode="Transparent" x="101" y="190" width="479" height="30" forecolor="#000000" backcolor="#FFFFFF" uuid="dcfeea6c-bdf0-44df-965b-382f0a9da544"/>
+				<box padding="0" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="12"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" rotation="None" markup="styled">
+					<font fontName="Arial" size="12" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
 				</textElement>
-				<text><![CDATA[CORPORATIVO]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$F{descripcionSucursal}]]></textFieldExpression>
+			</textField>
 			<staticText>
 				<reportElement x="1" y="111" width="100" height="50" uuid="c0590638-21ed-4529-ae5f-f5bb588807fd"/>
 				<box>
@@ -3231,7 +3241,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[PRODUCTO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="270" width="116" height="30" uuid="ac580d6b-4b7f-415b-846b-167d9fc27817">
+				<reportElement x="1" y="270" width="131" height="30" uuid="ac580d6b-4b7f-415b-846b-167d9fc27817">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -3245,12 +3255,12 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Monto Solicitado:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="330" width="116" height="30" uuid="19a81479-980a-46aa-a77a-0cc0025a0db4">
+				<reportElement x="1" y="330" width="131" height="30" uuid="19a81479-980a-46aa-a77a-0cc0025a0db4">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
 					<leftPen lineWidth="1.0"/>
-					<bottomPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.0"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
@@ -3259,7 +3269,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Pagos Mensuales:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="240" width="116" height="30" uuid="96535ada-a6df-400e-84d0-8096707a2021">
+				<reportElement x="1" y="240" width="131" height="30" uuid="96535ada-a6df-400e-84d0-8096707a2021">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -3273,7 +3283,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Cliente:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="1" y="300" width="116" height="30" uuid="07e9a55d-f45d-4bc4-bcff-adc66f5bbe09">
+				<reportElement x="1" y="300" width="131" height="30" uuid="07e9a55d-f45d-4bc4-bcff-adc66f5bbe09">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -3287,17 +3297,20 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[Plazo:]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="117" y="240" width="222" height="30" uuid="60de8d6b-6eab-4a6c-a26c-027872c66d34">
+				<reportElement x="132" y="240" width="448" height="30" uuid="60de8d6b-6eab-4a6c-a26c-027872c66d34">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="12" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$###,##0.00">
-				<reportElement x="117" y="270" width="222" height="30" uuid="43168050-40ae-4345-8b27-59efa2523b84">
+				<reportElement x="132" y="270" width="222" height="30" uuid="43168050-40ae-4345-8b27-59efa2523b84">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
@@ -3312,7 +3325,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{prestamo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Transparent" x="117" y="300" width="222" height="30" backcolor="#E8E8E8" uuid="4fa09687-9769-411f-b474-eb86abccb132">
+				<reportElement mode="Transparent" x="132" y="300" width="222" height="30" backcolor="#E8E8E8" uuid="4fa09687-9769-411f-b474-eb86abccb132">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -3328,7 +3341,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$###,##0.00">
-				<reportElement x="117" y="330" width="222" height="30" uuid="b1765ea2-fc8c-4307-8a8a-d82c71d72cd1">
+				<reportElement x="132" y="330" width="222" height="30" uuid="b1765ea2-fc8c-4307-8a8a-d82c71d72cd1">
 					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
@@ -3338,7 +3351,123 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{pagoMensual}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1" y="360" width="579" height="20" backcolor="#E8E8E8" uuid="734aa186-e6f4-4cd9-9844-575ca16dbb1e">
+				<reportElement x="1" y="360" width="131" height="30" uuid="9aa05dbb-49fb-4c00-a702-90e5b925662f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="14" isBold="true"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[Fecha de Entrega:]]></text>
+			</staticText>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="132" y="360" width="222" height="30" uuid="9ae0362a-f040-4f91-9a44-d69d2dd5c001">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fechaContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="432" y="270" width="148" height="30" uuid="48bae0e9-0bca-4ed2-b73c-2d68a3c8b73d"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{marcaAuto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="354" y="270" width="78" height="30" uuid="42997f39-8775-40e0-a627-5d162486feac"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="300" width="148" height="30" uuid="2b2a64a7-f67e-4427-9a07-653f38421b03"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modeloAuto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="354" y="300" width="78" height="30" uuid="172ee956-dc18-4bf0-8ab1-ca36c0c2b98f"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Modelo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="330" width="148" height="30" uuid="384b4195-7b7c-4cf9-a95d-20b0a461f851"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{colorAuto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="354" y="330" width="78" height="30" uuid="8a609764-484f-4b75-b0c3-8a0175fba8a3"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Color:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="432" y="360" width="148" height="30" uuid="bd5fc456-4a9b-4e34-9a7a-4f49df64c7c0"/>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{anioAuto}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="354" y="360" width="78" height="30" uuid="af1bbec9-a3cc-47bb-beef-42b6c75add7a"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+		</band>
+		<band height="337">
+			<subreport>
+				<reportElement x="1" y="87" width="579" height="129" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
+				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{listaDatos})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ContratoAP_sub.jasper"]]></subreportExpression>
+			</subreport>
+			<textField>
+				<reportElement x="102" y="290" width="346" height="20" uuid="c80e2794-4b12-47d8-a880-466958708a48"/>
+				<textElement textAlignment="Center" markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="80" y="270" width="400" height="20" uuid="a6a521bb-a15c-456d-a530-ec8e1cf69302"/>
+				<textElement textAlignment="Center">
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[__________________________________________________________]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1" y="60" width="579" height="20" backcolor="#E8E8E8" uuid="734aa186-e6f4-4cd9-9844-575ca16dbb1e">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -3354,93 +3483,63 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[NOTA: LA ÚLTIMA MENSUALIDAD SERÁ EL PAGO MENSUAL MÁS EL CAPITAL]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="347" y="240" width="122" height="30" uuid="9aa05dbb-49fb-4c00-a702-90e5b925662f">
-					<property name="local_mesure_unitheight" value="pixel"/>
+				<reportElement x="1" y="0" width="131" height="30" uuid="20617a17-99db-4a4b-8ffe-3de18e892cec">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="14" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Fecha de Entrega:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="347" y="270" width="122" height="40" uuid="20617a17-99db-4a4b-8ffe-3de18e892cec">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[Tasa de Renta:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="347" y="310" width="122" height="50" uuid="214d55f8-664e-441f-ba26-3bf82a703adb">
+				<reportElement x="132" y="0" width="448" height="30" uuid="2f3ac3bc-86e9-4047-bb09-317a6db8c3b5">
+					<property name="local_mesure_unitheight" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
+				<box>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="14"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[5.0%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="30" width="131" height="30" uuid="214d55f8-664e-441f-ba26-3bf82a703adb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="14" isBold="true"/>
+					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[IVA:
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="480" y="310" width="100" height="50" uuid="0a2a4505-938c-487a-a73a-a81e7b70e80a">
+				<reportElement x="132" y="30" width="448" height="30" uuid="0a2a4505-938c-487a-a73a-a81e7b70e80a">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="1.0"/>
 					<rightPen lineWidth="1.0"/>
 				</box>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial" size="14"/>
+					<paragraph leftIndent="5"/>
 				</textElement>
 				<text><![CDATA[16%
 ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="480" y="270" width="100" height="40" uuid="2f3ac3bc-86e9-4047-bb09-317a6db8c3b5">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="14"/>
-				</textElement>
-				<text><![CDATA[5.0%]]></text>
-			</staticText>
-			<textField pattern="dd/MM/yyyy">
-				<reportElement x="480" y="240" width="100" height="30" uuid="9ae0362a-f040-4f91-9a44-d69d2dd5c001">
-					<property name="local_mesure_unitheight" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<box>
-					<rightPen lineWidth="1.0"/>
-				</box>
-				<textElement verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="12"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{fechaContrato}]]></textFieldExpression>
-			</textField>
-		</band>
-		<band height="346">
-			<subreport>
-				<reportElement x="1" y="7" width="579" height="129" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
-				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{listaDatos})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ContratoAP_sub.jasper"]]></subreportExpression>
-			</subreport>
-			<textField>
-				<reportElement x="102" y="280" width="346" height="20" uuid="c80e2794-4b12-47d8-a880-466958708a48"/>
-				<textElement textAlignment="Center" markup="styled">
-					<font fontName="Arial" size="12" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="80" y="260" width="400" height="20" uuid="a6a521bb-a15c-456d-a530-ec8e1cf69302"/>
-				<textElement textAlignment="Center">
-					<font size="12"/>
-				</textElement>
-				<text><![CDATA[__________________________________________________________]]></text>
 			</staticText>
 		</band>
 		<band height="453">

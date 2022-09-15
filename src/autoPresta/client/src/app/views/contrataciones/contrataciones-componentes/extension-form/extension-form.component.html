@@ -1,0 +1,150 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Descripción</mat-label>
+            <input matInput formControlName="descripcion" readonly>
+            <mat-error *ngIf="formulario.get('descripcion').hasError('required')">
+              Descripción es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Contrato</mat-label>
+            <input matInput formControlName="noContrato" readonly>
+            <mat-error *ngIf="formulario.get('noContrato').hasError('required')">
+              Contrato es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12" hidden>
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Contrato</mat-label>
+            <input matInput formControlName="contrato" readonly>
+            <mat-error *ngIf="formulario.get('contrato').hasError('required')">
+              Contrato es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Parcialidad Inicial</mat-label>
+            <input matInput formControlName="parcialidadInicio">
+            <mat-error *ngIf="formulario.get('parcialidadInicio').hasError('required')">
+              Parcialidad Inicial es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Parcialidad Final</mat-label>
+            <input matInput formControlName="parcialidadFin">
+            <mat-error *ngIf="formulario.get('parcialidadFin').hasError('required')">
+              Parcialidad Final es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Monto Requerido</mat-label>
+            <input matInput formControlName="montoRequerido"
+                   (keyup)="calcular(formulario.get('montoRequerido').value)" mask="separator"
+                   thousandSeparator=",">
+            <mat-error *ngIf="formulario.get('montoRequerido').hasError('required')">
+              Monto Requerido es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+<!--        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">-->
+<!--          <mat-form-field class="full-width" appearance="outline">-->
+<!--            <mat-label>Total a pagar</mat-label>-->
+<!--            <input matInput formControlName="totalApagar" mask="separator" thousandSeparator="," readonly>-->
+<!--            <mat-error *ngIf="formulario.get('totalApagar').hasError('required')">-->
+<!--              Total a pagar es requerido-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+<!--        </div>-->
+
+
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Costo Mensual (Interes)</mat-label>
+            <input matInput formControlName="costoMensualInteres" mask="separator" thousandSeparator=","
+                   readonly>
+            <mat-error *ngIf="formulario.get('costoMensualInteres').hasError('required')">
+              Costo Mensual (Interes) es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Costo Mensual (Monitoreo)</mat-label>
+            <input matInput formControlName="costoMensualMonitoreo" mask="separator" thousandSeparator=","
+                   readonly>
+            <mat-error *ngIf="formulario.get('costoMensualMonitoreo').hasError('required')">
+              Costo Mensual (Monitoreo) es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Costo Mensual (GPS)</mat-label>
+            <input matInput formControlName="costoMensualGPS" mask="separator" thousandSeparator="," readonly>
+            <mat-error *ngIf="formulario.get('costoMensualGPS').hasError('required')">
+              Costo Mensual (GPS) es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Total Auto Presta</mat-label>
+            <input matInput formControlName="totalAutoPresta" mask="separator" thousandSeparator="," readonly>
+            <mat-error *ngIf="formulario.get('totalAutoPresta').hasError('required')">
+              Total Auto Presta es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>IVA</mat-label>
+            <input matInput formControlName="iva" mask="separator" thousandSeparator="," readonly>
+            <mat-error *ngIf="formulario.get('iva').hasError('required')">
+              IVA es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Costo Mensual Total</mat-label>
+            <input matInput formControlName="costoMensualTotal" mask="separator" thousandSeparator="," readonly>
+            <mat-error *ngIf="formulario.get('costoMensualTotal').hasError('required')">
+              Costo Mensual Total es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -12,6 +12,7 @@ import {MatSort} from "@angular/material/sort";
 import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
 import Swal from "sweetalert2";
 import {map} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-contrataciones',
@@ -39,7 +40,7 @@ export class ContratacionesComponent implements OnInit {
   selection = new SelectionModel<Contrataciones>(true, []);
   dataSource: registros | null;
 
-  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar,
+  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar, private router: Router,
               private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService) {
   }
 
@@ -125,7 +126,10 @@ export class ContratacionesComponent implements OnInit {
   }
 
   editar(id) {
-
+    this.router.navigate(['/Contrataciones/Edicion-Contrato/'+id])
+    // this.restService.edit<any>(id, this.datos.controlador, {}, 'edicionContrato').subscribe(r => {
+    //   console.log(r)
+    // })
   }
 }
 
@@ -171,8 +175,8 @@ export class registros extends DataSource<Contrataciones> {
             campo.titular +
             campo.representante +
             campo.estatus +
-            campo.estatusLabel+
-              campo.numeroContrato
+            campo.estatusLabel +
+            campo.numeroContrato
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });

@@ -1,6 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {DataSource, SelectionModel} from "@angular/cdk/collections";
 import {
+  Agencias,
   ConciliacionAutomatica,
   conciliacionContratosTable,
   conciliacionMovimientosTable,
@@ -28,6 +29,9 @@ import {
 import {ConciliacionDetallesComponent} from "../conciliacion-detalles/conciliacion-detalles.component";
 import {ConciliacionPreviewComponent} from "../conciliacion-preview/conciliacion-preview.component";
 import {DateAdapter} from "@angular/material/core";
+import {CambioEstatusComponent} from "../../../../consultas/contratos-firmados/cambio-estatus/cambio-estatus.component";
+import {AsignarMontosComponent} from "../asignar-montos/asignar-montos.component";
+import {DialogService} from "../../../../../core/service/dialog.service";
 
 @Component({
   selector: 'app-conciliacion-contratos',
@@ -76,7 +80,7 @@ export class ConciliacionContratosComponent implements OnInit {
   constructor(
     public httpClient: HttpClient,
     private dateAdapter: DateAdapter<Date>, private globalService: GlobalService, public dialog: MatDialog, private datePipe: DatePipe,
-    public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder
+    public advanceTableService: RestService, private snackBar: MatSnackBar, private fBuilder: FormBuilder, private dialogService: DialogService
   ) {
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
@@ -357,6 +361,30 @@ let dialogRef
         this.conciliacionParcial(row)
         break
     }
+  }
+
+  asignarMonto(row) {
+    this.advanceTableService.edit<Agencias>(row.folio, this._dominio, {id : row.folio}, 'getMontoConciliado').subscribe(result => {
+      const dialogRef = this.dialog.open(AsignarMontosComponent, {
+        data: {title: 'Asignacion de Montos Conciliados', disableClose: true, data: result[0], action: 'Editar'},
+        height: 'auto',
+        width: '60%'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        this.advanceTableService.update<string>(row.folio, result,  this._dominio, {result}, 'guardarMonto').subscribe(() => {
+          this.dialogService.snack('success', '¡¡ Estatus actualizado!!');
+          this.loadData();
+        }, error => {
+          if (error._embedded !== undefined) {
+            this.dialogService.snack('danger', 'Error al actualizar');
+          }
+        });
+        // this.refreshTable();
+      });
+    });
   }
 }
 

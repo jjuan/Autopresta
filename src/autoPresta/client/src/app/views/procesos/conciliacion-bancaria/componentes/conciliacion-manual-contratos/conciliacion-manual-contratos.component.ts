@@ -62,7 +62,7 @@ export class ConciliacionManualContratosComponent implements OnInit {
     let firstDay = (new Date().getMonth() + 1) + "/01/" + new Date().getFullYear();
     let lastDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
     let lastDay = (lastDate.getMonth() + 1) + "/" + lastDate.getDate() + "/" + lastDate.getFullYear();
-
+    console.log(this.data.detalle!=undefined?this.data.detalle.montoXoperaciones:0)
     this.advanceTableService.initService(this._dominio);
     this.action = this.data.action;
     this.saldo = this.data.detalle!=undefined?this.data.detalle.diferencia:this.data.info.monto
@@ -181,15 +181,23 @@ export class ConciliacionManualContratosComponent implements OnInit {
       this.etiqueta = 'Liquidado'
       this.saldo = 0
     } else if (monto > this.montoMovimientos && this.montoMovimientos > 0) {
-      this.etiqueta = 'Saldo a favor'
-      this.saldo = monto + this.montoMovimientos
-    } else if (monto < this.montoMovimientos) {
       this.etiqueta = 'Saldo en contra'
-      this.saldo = this.montoMovimientos + monto
+      this.saldo = monto - this.montoMovimientos
+    } else if (monto < this.montoMovimientos) {
+      this.etiqueta = 'Saldo a favor'
+      this.saldo = this.montoMovimientos - monto
     } else if (this.montoMovimientos == 0) {
       this.saldo = monto
       this.etiqueta = 'Saldo a favor'
     }
+  }
+
+  Cerrar() {
+    this.http.post(this.globalService.BASE_API_URL + 'Conciliaciones/cerrarConciliacion', {id: this.data.info.folio}, {
+      headers: {
+        'Authorization': 'Bearer=' + this.globalService.getAuthToken()
+      }
+    }).subscribe(() =>this.dialogRef.close())
   }
 }
 

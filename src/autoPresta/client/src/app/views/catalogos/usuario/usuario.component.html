@@ -30,7 +30,7 @@
                   <div class="user-name">{{user.username}}</div>
                   <div class="name-center">{{user.role}}</div>
                 </div>
-                <img src="assets/images/avatars/256x256/{{user.avatar}}.png" class="user-img" alt="">
+                <img src="assets/images/user/256x256/{{user.avatar}}.png" class="user-img" alt="">
                 <p><b>{{user.nombre}} {{user.apellidoPaterno}} {{user.apellidoMaterno}}</b></p>
                 <p>{{user.razonSocial}}</p>
                 <p>{{user.mail}}</p>
@@ -41,9 +41,12 @@
                   <button mat-icon-button color="warn" matTooltip="Eliminar {{_datos._title}}: {{user.username}}" (click)="deleteItem(user)">
                     <mat-icon>delete</mat-icon>
                   </button>
-                  <button *ngIf="user.accountLocked" mat-icon-button color="accent" matTooltip="Desbloquear {{_datos._title}}: {{user.username}}">
-                    <mat-icon>lock_open</mat-icon>
+                  <button  mat-icon-button color="accent" matTooltip="Liberar seseion {{_datos._title}}: {{user.username}}" (click)="liberar(user)">
+                    <mat-icon>schedule</mat-icon>
                   </button>
+<!--                  <button *ngIf="user.accountLocked" mat-icon-button color="accent" matTooltip="Desbloquear {{_datos._title}}: {{user.username}}">-->
+<!--                    <mat-icon>lock_open</mat-icon>-->
+<!--                  </button>-->
                 </div>
               </div>
             </div>

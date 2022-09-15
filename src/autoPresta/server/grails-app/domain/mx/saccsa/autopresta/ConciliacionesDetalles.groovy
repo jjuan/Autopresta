@@ -11,6 +11,8 @@ class ConciliacionesDetalles {
     Usuario usuario
     HojaConciliacion hojaConciliacion
     String formaConciliacion
+    String referenciaBancaria
+    String cuenta
 
     static constraints = {
         conciliaciones nullable: false, blank: false
@@ -19,6 +21,8 @@ class ConciliacionesDetalles {
         tipoOperacion nullable: false, blank: false
         hojaConciliacion nullable: true, blank: true
         formaConciliacion nullable: true, blank: true
+        referenciaBancaria nullable: true, blank: true
+        cuenta nullable: true, blank: true
     }
 
     static mapping = {
@@ -31,5 +35,7 @@ class ConciliacionesDetalles {
         tipoOperacion name: "tipoOperacion", column: "tipoOperacion"
         hojaConciliacion name: "hojaConciliacion", column: "hojaConciliacion"
         formaConciliacion name: "formaConciliacion", column: "formaConciliacion"
+        referenciaBancaria name: "referenciaBancaria", column: "referenciaBancaria"
+        cuenta name: "cuenta", column: "cuenta"
     }
 }

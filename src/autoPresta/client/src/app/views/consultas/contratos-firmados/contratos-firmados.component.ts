@@ -15,6 +15,7 @@ import {DetallePagosComponent} from "./detalle-pagos/detalle-pagos.component";
 import {FormAgenciasComponent} from "../../catalogos/agencias/form-agencias/form-agencias.component";
 import {CamboEstadoComponent} from "./cambo-estado/cambo-estado.component";
 import {Router, RouterModule} from "@angular/router";
+import {CambioEstatusComponent} from "./cambio-estatus/cambio-estatus.component";
 
 @Component({
   selector: 'app-contratos-firmados',
@@ -37,6 +38,7 @@ export class ContratosFirmadosComponent implements OnInit {
     'montoPrestamo',
     'total',
     'estatus',
+    'estatusCliente',
     'actions'
   ];
   selection = new SelectionModel<Contrataciones>(true, []);
@@ -150,7 +152,36 @@ export class ContratosFirmadosComponent implements OnInit {
   }
 
   extenderContrato(id) {
-    this.router.navigate(['Consultas/Extension-Contrato/'+id])
+    this.router.navigate(['Consultas/Extension-Contrato/' + id])
+  }
+
+  generaExtension(row) {
+    this.router.navigate(['/Contrataciones/Extension-Contrato/'+row.id])
+  }
+
+  cambiarEstatusCliente(id) {
+    this.restService.edit<Agencias>(id, this.datos.controlador).subscribe(result => {
+      const dialogRef = this.dialog.open(CambioEstatusComponent, {
+        data: {title: 'Cambiar estado del cliente', disableClose: true, data: result, action: 'Editar'},
+        height: 'auto',
+        width: '40%'
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
+        this.restService.update<string>(id, result, this.datos.controlador, {}, 'estatusCliente').subscribe(() => {
+          this.dialogService.snack('success', '¡¡ Estatus actualizado!!');
+          this.loadData();
+        }, error => {
+          if (error._embedded !== undefined) {
+            this.dialogService.snack('danger', 'Error al actualizar');
+          }
+        });
+        this.refreshTable();
+      });
+    });
+
   }
 }
 
@@ -195,6 +226,7 @@ export class registros extends DataSource<Contrataciones> {
             campo.total +
             campo.estatusContrato +
             campo.numeroContrato +
+            campo.estatusCliente +
             campo.estatus
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
@@ -233,6 +265,9 @@ export class registros extends DataSource<Contrataciones> {
           break;
         case 'estatus':
           [propertyA, propertyB] = [a.estatus, b.estatus]
+          break;
+        case 'estatusCliente':
+          [propertyA, propertyB] = [a.estatusCliente, b.estatusCliente]
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;

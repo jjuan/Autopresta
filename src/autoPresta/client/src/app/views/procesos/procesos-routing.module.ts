@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {ContratoComponent} from "./contrato/contrato.component";
+import {ContratoComponent} from "../contrataciones/contrato/contrato.component";
 import {GeneraLiquidacionComponent} from "./genera-liquidacion/genera-liquidacion.component";
 import {ImportacionesComponent} from "./importaciones/importaciones.component";
 import {ConciliacionEgresosComponent} from "./conciliacion-bancaria/conciliacion-egresos/conciliacion-egresos.component";
-import {ConciliacionIngresosComponent} from "./conciliacion-bancaria/conciliacion-ingresos/conciliacion-ingresos.component";
 import {
   ConciliacionMovimientosComponent
 } from "./conciliacion-bancaria/componentes/conciliacion-movimientos/conciliacion-movimientos.component";
@@ -19,7 +18,6 @@ const routes: Routes = [
   { path:'Genera-Liquidacion', component: GeneraLiquidacionComponent  },
   { path:'Importaciones', component: ImportacionesComponent },
   { path:'Conciliacion-Egresos', component: ConciliacionEgresosComponent },
-  // { path:'Conciliacion-Ingresos', component: ConciliacionIngresosComponent },
   { path:'Conciliacion-Ingresos/Movimientos', component: ConciliacionMovimientosComponent },
   { path:'Conciliacion-Ingresos/Mensualidades', component: ConciliacionContratosComponent },
 ];

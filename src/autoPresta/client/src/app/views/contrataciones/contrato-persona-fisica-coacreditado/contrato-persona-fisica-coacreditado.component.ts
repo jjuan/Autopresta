@@ -5,7 +5,7 @@ import {GlobalService} from "../../../core/service/global.service";
 import {DateAdapter} from "@angular/material/core";
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute} from "@angular/router";
-import {GeneracionContratoComponent} from "../../procesos/contrato/generacion-contrato/generacion-contrato.component";
+import {GeneracionContratoComponent} from "../contrataciones-componentes/generacion-contrato/generacion-contrato.component";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 

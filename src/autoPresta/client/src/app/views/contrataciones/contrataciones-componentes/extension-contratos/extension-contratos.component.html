@@ -1,0 +1,299 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Numero Contrato: {{datosContrato?.contrato?.numeroContrato}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">Sucursal: {{datosContrato?.contrato?.sucursal}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">Estatus del contrato: {{datosContrato?.contrato?.estatusContrato}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0">
+      <div class="card">
+        <div class="body">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">Datos del cliente</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="body pb-0">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Nombre(s)</b>
+                  <p class="align-right">{{datosContrato?.contrato?.nombres}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Primer Apellido</b>
+                  <p class="align-right">{{datosContrato?.contrato?.primerApellido}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Segundo Apellido</b>
+                  <p class="align-right">{{datosContrato?.contrato?.segundoApellido}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>CURP</b>
+                  <p class="align-right">{{datosContrato?.contrato?.curp}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>RFC</b>
+                  <p class="align-right">{{datosContrato?.contrato?.rfc}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>F. de Nac.</b>
+                  <p class="align-right">{{datosContrato?.contrato?.fechaNacimiento|date:'dd/MM/yyyy'}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Edad</b>
+                  <p class="align-right">{{datosContrato?.contrato?.edad}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Genero</b>
+                  <p class="align-right">{{datosContrato?.contrato?.genero}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Documento Oficial</b>
+                  <p class="align-right">{{datosContrato?.contrato?.documentoOficial}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Numero de Identificación</b>
+                  <p class="align-right">{{datosContrato?.contrato?.claveElector}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Telefono Fijo</b>
+                  <p class="align-right">{{datosContrato?.contrato?.telefonoFijo}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Telefono Celular</b>
+                  <p class="align-right">{{datosContrato?.contrato?.telefonoCelular}}</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0 border">
+                  <b>Telefono Oficina</b>
+                  <p class="align-right">{{datosContrato?.contrato?.telefonoOficina}}</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0 border">
+                  <b>Correo Electronico</b>
+                  <p class="align-right">{{datosContrato?.contrato?.correoElectronico}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0">
+      <div class="card">
+        <div class="body pb-0">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">Datos del vehículo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="body">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Marca</b>
+                  <p class="align-right">{{datosContrato?.contrato?.marca}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Modelo</b>
+                  <p class="align-right">{{datosContrato?.contrato?.modelo}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Año</b>
+                  <p class="align-right">{{datosContrato?.contrato?.anio}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Version</b>
+                  <p class="align-right">{{datosContrato?.contrato?.version}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Color</b>
+                  <p class="align-right">{{datosContrato?.contrato?.color}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Placas</b>
+                  <p class="align-right">{{datosContrato?.contrato?.placas}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Numero de motor</b>
+                  <p class="align-right">{{datosContrato?.contrato?.numerodemotor}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>No. de Factura</b>
+                  <p class="align-right">{{datosContrato?.contrato?.noDeFactura}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>F. Factura</b>
+                  <p class="align-right">{{datosContrato?.contrato?.fechaFactura|date: 'dd/MM/yyyy'}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Emisora de Factura</b>
+                  <p class="align-right">{{datosContrato?.contrato?.emisoraDeFactura}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Numero de VIN</b>
+                  <p class="align-right">{{datosContrato?.contrato?.numeroDeVIN}}</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12   m-0 border">
+                  <b>Valor de Venta</b>
+                  <p class="align-right">{{datosContrato?.contrato?.valorDeVenta|currency: 'USD'}}</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0 border">
+                  <b>Valor de Compra</b>
+                  <p class="align-right">{{datosContrato?.contrato?.valorDeCompra|currency: 'USD'}}</p>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12   m-0 border">
+                  <b>Monto Maximo Autorizado</b>
+                  <p class="align-right">{{datosContrato?.contrato?.montoMaximoAutorizado|currency: 'USD'}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12   m-0">
+
+      <div class="row mb-2">
+        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+          <div class="example-button-row align-right">
+            <button mat-raised-button class="btn-primary" (click)="generaExtension()">Generar nueva extension de contrtato
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="body pb-0">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">Detalles del prestamo</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table table-hover dashboard-task-infos">
+            <thead>
+            <tr>
+              <th>Genracion</th>
+              <th>Monto del prestamo</th>
+              <th>Parcialidad Iniciak</th>
+              <th>Parcialidad Final</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let c of datosContrato?.extensiones">
+              <td class="text-center">{{c.descripcion}}</td>
+              <td class="text-right">{{c.montoRequerido  | currency: 'USD'}}</td>
+              <td class="text-right">{{c.parcialidadInicio}}</td>
+              <td class="text-right">{{c.parcialidadFin}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12   m-0">
+
+<!--      <div class="row mb-2">-->
+<!--        <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">-->
+<!--          <div class="example-button-row align-right">-->
+<!--            <button mat-raised-button class="btn-primary" (click)="aplicar()">Aplicar extension de contrtato-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+      <div class="card">
+        <div class="body">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">Generación de pagos actual</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <table class="table table-hover dashboard-task-infos">
+            <thead>
+            <tr>
+              <th>Parcialidad</th>
+              <th>Fecha</th>
+              <th>Interés</th>
+              <th>Monitoreo</th>
+              <th>GPS</th>
+              <th>Capital</th>
+              <th>Subtotal</th>
+              <th>IVA</th>
+              <th>Saldo Final</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let c of datosContrato?.detalles">
+              <td class="text-center">{{c.parcialidad}}</td>
+              <td class="text-right">{{c.fecha | date: 'dd/MM/yyyy'}}</td>
+              <td class="text-right">{{c.interes | currency: 'USD'}}</td>
+              <td class="text-right">{{c.monitoreo | currency: 'USD'}}</td>
+              <td class="text-right">{{c.gps | currency: 'USD'}}</td>
+              <td class="text-right">{{c.capital | currency: 'USD'}}</td>
+              <td class="text-right">{{c.subtotal | currency: 'USD'}}</td>
+              <td class="text-right">{{c.iva | currency: 'USD'}}</td>
+              <td class="text-right">{{c.saldoFinal | currency: 'USD'}}</td>
+              <td>
+
+                <button mat-icon-button matTooltip="Aplicar extension desde esta parcialidad"
+                        (click)="aplicar(c.parcialidad)">
+                  <mat-icon aria-label="Edit">edit</mat-icon>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

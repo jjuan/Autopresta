@@ -21,6 +21,14 @@ export class ConfigService {
           collapsed: false, // options:  true & false
           backgroundColor: 'light' // options:  light & dark
         }
+      // layout: {
+      //   variant: 'dark', // options:  light & dark
+      //   theme_color: 'dark', // options:  white, cyan, black, purple, orange, green, red
+      //   logo_bg_color: 'black', // options:  white, cyan, black, purple, orange, green, red
+      //   sidebar: {
+      //     collapsed: false, // options:  true & false
+      //     backgroundColor: 'dark' // options:  light & dark
+      //   }
       }
     };
   }

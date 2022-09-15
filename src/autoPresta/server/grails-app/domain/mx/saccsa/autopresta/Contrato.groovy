@@ -88,6 +88,7 @@ class Contrato {
     String nombreLargoCoacreditado
     Long folioCarga
     String tipoFolio
+    String estatusCliente
 
     Long inicio
     Long fin
@@ -186,6 +187,7 @@ class Contrato {
         fin blank: true, nullable: true
         montoReqAct blank: true, nullable: true
         actualizado blank: true, nullable: true
+        estatusCliente blank: true, nullable: true
     }
 
     static mapping = {
@@ -210,6 +212,7 @@ class Contrato {
         telefonoOficina name: 'telefonoOficina', column: 'telefonoOficina'
         correoElectronico name: 'correoElectronico', column: 'correoElectronico'
         estatusContrato name: 'estatusContrato', column: 'estatusContrato'
+        estatusCliente name: 'estatusCliente', column: 'estatusCliente'
 
         nombresCoacreditado name: 'nombresCoacreditado', column: 'nombresCoacreditado'
         primerApellidoCoacreditado name: 'primerApellidoCoacreditado', column: 'primerApellidoCoacreditado'

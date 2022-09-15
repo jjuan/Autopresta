@@ -46,15 +46,15 @@ export const ROUTES: RouteInfo[] = [
     class: 'menu-toggle',
     groupTitle: false,
     submenu: [
-      {
-        path: 'Catalogos/Agencias',
-        title: 'Agencias',
-        moduleName: 'Catalogos',
-        icon: '',
-        class: 'ml-menu',
-        groupTitle: false,
-        submenu: []
-      },
+      // {
+      //   path: 'Catalogos/Agencias',
+      //   title: 'Agencias',
+      //   moduleName: 'Catalogos',
+      //   icon: '',
+      //   class: 'ml-menu',
+      //   groupTitle: false,
+      //   submenu: []
+      // },
       {
         path: 'Catalogos/Marcas',
         title: 'Marcas',
@@ -328,6 +328,24 @@ export const ROUTES: RouteInfo[] = [
       },{
         path: 'Reportes/Reporte-Conciliaciones',
         title: 'Reporte de Conciliaciones',
+        moduleName: 'Reportes',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Reportes/Reporte-Cobranza',
+        title: 'Reporte de Cobranza',
+        moduleName: 'Reportes',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
+        path: 'Reportes/Reporte-Morosidad',
+        title: 'Reporte de Morosidad',
         moduleName: 'Reportes',
         icon: '',
         class: 'ml-menu',

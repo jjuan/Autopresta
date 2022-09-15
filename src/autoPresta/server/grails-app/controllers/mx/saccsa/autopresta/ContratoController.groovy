@@ -23,6 +23,7 @@ class ContratoController extends RestfulController<Contrato> {
     def contratoService
     def folioService
     SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd')
+
     def index() {
         String validar = Parametros.getValorByParametro('Pruebas')
         def contratos
@@ -35,7 +36,7 @@ class ContratoController extends RestfulController<Contrato> {
             [
                     id                           : it?.id,
                     regimenFiscal                : it?.regimenFiscal?.descLabel,
-                    titular                      : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    titular                      : getTitular(it),
                     representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
                     fechaContrato                : it?.fechaContrato,
                     nombres                      : it?.nombres,
@@ -238,7 +239,7 @@ class ContratoController extends RestfulController<Contrato> {
             [
                     id                           : it?.id,
                     regimenFiscal                : it?.regimenFiscal?.descLabel,
-                    titular                      : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    titular                      : getTitular(it),
                     representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
                     fechaContrato                : it?.fechaContrato,
                     nombres                      : it?.nombres,
@@ -307,7 +308,9 @@ class ContratoController extends RestfulController<Contrato> {
                     montoLiquidar                : it?.montoLiquidar,
                     fechaCompromiso              : it?.fechaCompromiso,
                     estatusContrato              : it?.estatusContrato,
-                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
+                    estatusCliente              : it?.estatusCliente,
+                    total                        : ContratoDetalle.executeQuery('SELECT SUM(subtotal + iva) FROM ContratoDetalle WHERE contrato =:contrato', [contrato: it])[0],
+//                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
                     direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
                         [
                                 id                : it.id,
@@ -340,9 +343,9 @@ class ContratoController extends RestfulController<Contrato> {
         bindData contrato, request.JSON
         def folio = getFolioRecuperado(getClave(contrato.tipoFolio))
         if (folio == 0) {
-            contrato.numeroContrato = contrato.tipoFolio=='P'?folioService.generaFolio(getClave(contrato.tipoFolio)).toString()+'P':folioService.generaFolio(getClave(contrato.tipoFolio)).toString()
+            contrato.numeroContrato = contrato.tipoFolio == 'P' ? folioService.generaFolio(getClave(contrato.tipoFolio)).toString() + 'P' : folioService.generaFolio(getClave(contrato.tipoFolio)).toString()
         } else {
-            contrato.numeroContrato = contrato.tipoFolio=='P'?folio.toString()+'P':folio.toString()
+            contrato.numeroContrato = contrato.tipoFolio == 'P' ? folio.toString() + 'P' : folio.toString()
             FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio(getClave(contrato.tipoFolio), folio.toString())
             foliosRecuperado.delete(flush: true, failOnError: true)
         }
@@ -419,7 +422,7 @@ class ContratoController extends RestfulController<Contrato> {
         FoliosRecuperados foliosRecuperados = new FoliosRecuperados()
 
         foliosRecuperados.cveTipo = getClave(contrato.tipoFolio)
-        foliosRecuperados.folio = contrato.tipoFolio=='P'? { def folios = folio.split('P'); folios[0]}:folio
+        foliosRecuperados.folio = contrato.tipoFolio == 'P' ? { def folios = folio.split('P'); folios[0] } : folio
 
         foliosRecuperados.save(flush: true, failOnError: true)
 
@@ -439,8 +442,8 @@ class ContratoController extends RestfulController<Contrato> {
 
     @Transactional
     def verificarFR() {
-        def folios = FoliosRecuperados.findAllByFolioOrFolioOrFolioIsEmptyOrFolioNotIsNull(' ','')
-        if (folios.size()>0) {
+        def folios = FoliosRecuperados.findAllByFolioOrFolioOrFolioIsEmptyOrFolioNotIsNull(' ', '')
+        if (folios.size() > 0) {
             for (folio in folios) {
                 folio.delete(flush: true, failOnError: true)
             }
@@ -448,7 +451,6 @@ class ContratoController extends RestfulController<Contrato> {
     }
 
     def getFolioRecuperado(String cveTipo) {
-//        verificarFR();
         def validar = FoliosRecuperados.findAllByCveTipo(cveTipo)
         if (validar.size() > 0) {
             def folioRecuperado = FoliosRecuperados.executeQuery('Select min(folio) from FoliosRecuperados where cveTipo= :cveTipo', [cveTipo: cveTipo])
@@ -574,38 +576,30 @@ class ContratoController extends RestfulController<Contrato> {
 
     @Transactional
     def generacionDetalles() {
-        def contratos = Contrato.findAllByActualizado(false)
-        for (contrato in contratos) {
-            for (Integer i = contrato.inicioReq; i <= contrato.finReq; i++) {
-                def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
-                ContratoDetalle contratoDetalle = new ContratoDetalle()
+        def contrato = Contrato.findById(2277)
+        for (Integer i = contrato.inicioReq; i <= contrato.finReq; i++) {
+            def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
+            ContratoDetalle contratoDetalle = new ContratoDetalle()
 
-                def costoMensualInteres = (contrato.montoReqAct * 5) / 100
-                def costoMensualMonitoreo = (contrato.montoReqAct * 1) / 100 < 800 ? 800 : (contrato.montoReqAct * 1) / 100
-                def costoMensualGPS = (contrato.montoReqAct * 0.75) / 100 < 600 ? 600 : (contrato.montoReqAct * 0.75) / 100
+            def costoMensualInteres = (contrato.montoRequerido * 5) / 100
+            def costoMensualMonitoreo = (contrato.montoRequerido * 1) / 100 < 800 ? 800 : (contrato.montoRequerido * 1) / 100
+            def costoMensualGPS = (contrato.montoRequerido * 0.75) / 100 < 600 ? 600 : (contrato.montoRequerido * 0.75) / 100
 
-                contratoDetalle.contrato = contrato
-                contratoDetalle.parcialidad = i
-                contratoDetalle.fecha = fecha
-                contratoDetalle.interes = costoMensualInteres
-                contratoDetalle.monitoreo = costoMensualMonitoreo
-                contratoDetalle.gps = costoMensualGPS
-                contratoDetalle.capital = i == 12 ? contrato.montoReqAct : 0
-                contratoDetalle.subtotal = i == 12 ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + contrato.montoReqAct) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
-                contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
-                contratoDetalle.saldoFinal = i == 12 ? 0 : contrato.montoReqAct
-                contratoDetalle.estatus = 'P'
-                contratoDetalle.conciliado = false
-                contratoDetalle.save(flush: true, failOnError: true)
-            }
+            contratoDetalle.contrato = contrato
+            contratoDetalle.parcialidad = i
+            contratoDetalle.fecha = fecha
+            contratoDetalle.interes = costoMensualInteres
+            contratoDetalle.monitoreo = costoMensualMonitoreo
+            contratoDetalle.gps = costoMensualGPS
+            contratoDetalle.capital = i == 12 ? contrato.montoRequerido : 0
+            contratoDetalle.subtotal = i == 12 ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + contrato.montoRequerido) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
+            contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
+            contratoDetalle.saldoFinal = i == 12 ? 0 : contrato.montoRequerido
+            contratoDetalle.estatus = 'P'
+            contratoDetalle.conciliado = false
+            contratoDetalle.save(flush: true, failOnError: true)
             contrato.actualizado = true
             contrato.save(flush: true, failOnError: true)
-
-            CargadeContratos cargadeContratos = CargadeContratos.findByNumeroContrato(contrato.numeroContrato)
-            if (cargadeContratos!= null){
-                cargadeContratos.cargado = true
-                cargadeContratos.save(flush: true, failOnError: true)
-            }
 
         }
         respond message: 'ok'
@@ -614,30 +608,44 @@ class ContratoController extends RestfulController<Contrato> {
     @Transactional
     def ajuste() {
         def listaExcuidos = [
-                '2242', '2232', 'MTY4', '2236', '2134', '2218', '1596', '1843', '1946', '1917', '2133', '2101', '1953',
-                '2271', '1722', '2119', '1643', '2220', '1995', '1741', '1268', '2049', '2074', '1283', '1110', '1754',
-                '2203', 'MTY1', '1419', '1643', '1972', '1981', '2207', '2214', 'MTY4', 'MTY12', '676', '682', '844',
-                '915', '952', '1013', '1060', '1061', '1122', '1203', '1254', '1259', '1312', '1361', '1363', '1418',
-                '1420', '1484', '1578', '1718', '1724', '1762', '1831', '1833', '1908', '1978', '2041', '2044', '2104',
-                '2105', '2107', '2155', '2157', '2159', 'MTY5', '2156', '1555', '2072', '1945', '1942', '2015', '1741',
-                '2125', '2144', '2218', '1050', '358', '120', '1907', '907', '1748', '1638', '2026', '524', '1411',
-                '2042', '787', '1835', '356', '2103', '528', '1200', '1422', '523', '1180', '1580', '1068', '910',
-                '130', '388', '1359', '363', '600', '2194', '1742', '2156', '1645', '2032', '863', '1515', '1955',
-                '1405', '1530', '905', '1786', '1065', '1970', '136', '2138', '2193', '2237', '1632', '2127', '1728',
-                '1943', '1983', '1595', '2145', '1014', 'MTY8', '2255', '2177', '764', '2069', '1221', '684', '1281',
-                '1294', '1575', '1827', '1429', '1838', '1018', '1224', '1424', '1256', '1720', '1087', '1056', '2008',
-                '1344', '2039', '1388', '1717', '1658', '1826', '1714', '1436', '1681', '1914', '2017', '1469', '1839',
-                '1735', '1371', '24', '1783', 'MTY8'
+                '2242', '2232', 'MTY4', '2236', '2134', '2218', '1596', '1843', '1946', '1917', '2133', '2101', '1953', '2271', '1722',
+                '2119', '1643', '2220', '1995', '1741', '1268', '2049', '2074', '1283', '1110', '1754', '2203', 'MTY1', '1419', '1643',
+                '1972', '1981', '2207', '2214', 'MTY4', 'MTY12', '1423', '1022', '1680', '1618', '2020', '1512', '1884', '647', '2024',
+                '513', '1351', '1691', '2188', '2190', '1112', '1183', '1239', '1526', '1626', '1628', '1706', '2029', '2150', '2195',
+                '280', '458', '836', '1534', '1631', '1636', '1829', '1967', '2154', '98', '123', '159', '676', '682', '844', '915', '952',
+                '1013', '1060', '1061', '1122', '1203', '1254', '1259', '1312', '1361', '1363', '1418', '1420', '1484', '1578', '1718',
+                '1724', '1762', '1831', '1833', '1908', '1978', '2041', '2044', '2104', '2105', '2107', '2155', '2157', '2159', 'MTY5',
+                '2156', '1555', '2072', '1945', '1942', '2015', '1741', '2125', '2144', '2218', '1014', '1022', '1680', '1530', '1418',
+                '1636', '98', '2046', '1657', '1665', '807', '2126', '1274', '2062', '1090', '1172', '2057', '1394', '889', '721', '773',
+                '884', '1038', '2064', '1744', '6', '939', '445', '586', '1237', '1282', '142', '1179', '1960', '2088', '1102', '588',
+                '783', '1627', '1184', '1964', '1824', '1576', '1522', '348', '1703', '1709', '1350', '1108', '326', '1635', '1116',
+                '403', '111', '1965', '2258', '830', '672', '1752', '2205', '845', '1050', '358', '120', '1907', '907', '1748', '1638',
+                '2026', '524', '1411', '2042', '787', '1835', '356', '2103', '528', '1200', '1422', '523', '1180', '1580', '1068',
+                '910', '130', '388', '1359', '363', '600', '189', '181', '167', '482', '484', '700', '530', '69', '1669', '437', '367',
+                '332', '987', '746', '993', '1402', '1510', '1231', '1495', '613', '1020', '1904', '487', '564', '1321', '1989', '1862',
+                '1715', '1435', '1491', '1874', '8', '240', '1951', '1509', '1569', '1843', '1298', '1379', '2114', '738', '1759', '680',
+                '1391', '1969', '1037', '1682', '734', '2109', '1442', '1360', '793', '1383', '1380', '1993', '1612', '1418', '1772',
+                '1481', '2131', '1900', '435', '1484', '1648', '1465', '2030', '1373', '1907', '1492', '342', '534', '1569', '1221',
+                '2117', '2171', '2127', '1439', '814', '1579', '1660', '1896', '2140', '1443', '1163', '1518', '922', '2195', '2074',
+                '2197', '1506', '2190', '1890', '1792', '1693', '840', '2194', '1742', '2156', '1645', '2032', '863', '1515', '1955',
+                '1405', '1530', '905', '1786', '1065', '1970', '136', '2138', '2193', '2237', '1632', '2127', '1728', '1943', '1983',
+                '1595', '2145', '1014', 'MTY8', '2255', '2177', '764', '2069', '1221', '1462', '1548', '1704', '369', '683', '1120',
+                '1313', '718', '798', '1214', '1669', '1787', '684', '1281', '1294', '1575', '1827', '1429', '1838', '1018', '1224',
+                '1424', '1256', '1720', '1087', '1056', '2008', '1344', '2039', '1388', '1717', '1658', '1826', '1714', '1436',
+                '1681', '1914', '2017', '1469', '1839', '1735', '1371', '24', '1783', 'MTY8'
+
         ]
 
         def ex = Contrato.findAllByNumeroContratoInList(listaExcuidos)
 
-//        def contratos = Contrato.findAllByIdBetweenAndTipoFolioAndNumeroContratoNotInList(1, 2135, 'CDMX',listaExcuidos)
-//        def contratos = Contrato.findAllByIdBetweenAndTipoFolioAndNumeroContratoNotInList(1, 2135, 'CDMX',listaExcuidos)
         def contratoDetalles = ContratoDetalle.findAllByFechaLessThanEqualsAndContratoNotInList(sdf.parse('2022-04-18'), ex)
-        for (cd in contratoDetalles){
+        log.error "Total: " + contratoDetalles.size()
+        Long contador = 0
+        for (cd in contratoDetalles) {
             cd.conciliado = true
             cd.save(flush: true, failOnError: true)
+            contador = contador + 1
+            log.error "Actualizados: " + contador + ' de ' + contratoDetalles.size().toString()
         }
         respond me: 'ok'
     }
@@ -675,7 +683,7 @@ class ContratoController extends RestfulController<Contrato> {
             [id: new Long(it.folioOperacion)]
         }).unique()
 
-        for (li in lista){
+        for (li in lista) {
             def cons = ContratoDetalle.findAllById(li.id)
             if (cons == null) {
                 ids.push(li)
@@ -687,19 +695,295 @@ class ContratoController extends RestfulController<Contrato> {
 
     def ajusteConciliacion() {
         def cd = ConciliacionesDetalles.list()
-        for (c in cd){
-            ContratoDetalle detalle =  ContratoDetalle.findById(c.folioOperacion as Long)
-            if (detalle!=null) {
+        for (c in cd) {
+            ContratoDetalle detalle = ContratoDetalle.findById(c.folioOperacion as Long)
+            if (detalle != null) {
                 detalle.conciliado = true
-                detalle.save(flush:true, failOnError: true)
+                detalle.save(flush: true, failOnError: true)
             }
             LiquidacionBanco lb = LiquidacionBanco.findById(c.movimiento.id)
-            if (lb!=null) {
+            if (lb != null) {
                 lb.conciliado = true
-                lb.save(flush:true, failOnError: true)
+                lb.save(flush: true, failOnError: true)
             }
         }
 
         respond m: 'listo'
+    }
+
+    def getTitular(Contrato contrato) {
+        String titular = ''
+        if (contrato.razonesSociales != null) {
+            titular = contrato.razonesSociales.razonSocial
+        } else {
+            if (contrato.nombreLargo != null) {
+                titular = contrato.nombreLargo
+            } else {
+
+                titular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+            }
+        }
+        return titular
+    }
+
+    def edicionContrato(Long id) {
+        def contrato = Contrato.findById(id)
+        def detalles = ContratoDetalle.findAllByContrato(contrato)
+        def direcciones = Direccion.findAllByContrato(contrato)
+        if (contrato.razonesSociales != null) {
+            def razonSocial = RazonesSociales.findAllById(contrato.razonesSociales.id)
+            respond contrato: contrato, detalles: detalles, direcciones: direcciones, razonSocial: razonSocial
+        }
+        respond contrato: contrato, detalles: detalles, direcciones: direcciones
+    }
+
+    def extensionContrato(Long id) {
+        def contrato = Contrato.findById(id)
+        def direcciones = Direccion.findAllByContrato(contrato)
+        def extensiones = HistoricoExtensiones.findAllByContrato(contrato)
+        def tope = HistoricoExtensiones.findByContratoAndEsDefault(contrato, true)
+        def detalles = ContratoDetalle.findAllByContratoAndParcialidadBetween(contrato, tope.parcialidadInicio as Integer, tope.parcialidadFin as Integer)
+//        if (contrato.razonesSociales != null) {
+//            def razonSocial = RazonesSociales.findAllById(contrato.razonesSociales.id)
+//            respond contrato: contrato, detalles: detalles, direcciones: direcciones, razonSocial: razonSocial
+//        }
+
+        def datos = [
+                id                   : contrato.id,
+                nombres              : contrato.nombres,
+                primerApellido       : contrato.primerApellido,
+                segundoApellido      : contrato.segundoApellido,
+                curp                 : contrato.curp,
+                rfc                  : contrato.rfc,
+                fechaNacimiento      : contrato.fechaNacimiento,
+                edad                 : contrato.edad,
+                genero               : contrato.genero == 'M' ? 'Masculino' : 'Femenino',
+                documentoOficial     : IdentificacionesOficiales.findById(contrato.documentoOficial.toLong()).descLabel,
+                claveElector         : contrato.claveElector,
+                telefonoFijo         : contrato.telefonoFijo,
+                telefonoCelular      : contrato.telefonoCelular,
+                telefonoOficina      : contrato.telefonoOficina,
+                correoElectronico    : contrato.correoElectronico,
+                marca                : contrato.marca.nombre.toUpperCase(),
+                modelo               : contrato.modelo.nombre.toUpperCase(),
+                anio                 : contrato.anio,
+                version              : contrato.version,
+                color                : contrato.color,
+                placas               : contrato.placas,
+                numerodemotor        : contrato.numeroDeMotor,
+                noDeFactura          : contrato.numeroDeFactura,
+                fechaFactura         : contrato.fechaDeFactura,
+                emisoraDeFactura     : contrato.emisoraDeFactura,
+                numeroDeVIN          : contrato.numeroVin,
+                valorDeVenta         : contrato.valorDeVenta,
+                valorDeCompra        : contrato.valorDeCompra,
+                montoMaximoAutorizado: contrato.montoMaximoAutorizado,
+                numeroContrato       : contratoFolio(contrato.numeroContrato, contrato.tipoFolio),
+                sucursal             : Sucursales.findByRegion(Regiones.findByClave(contrato.tipoFolio)).descripcion,
+                estatusContrato      : contrato.estatusContrato
+        ]
+        respond contrato: datos, detalles: detalles, extensiones: extensiones
+    }
+
+    @Transactional
+    def update() {
+        params
+        def instance = request.JSON
+        Contrato contrato = Contrato.findById(params.id)
+        bindData contrato, instance
+        contrato.save(flush: true, failOnError: true)
+        def direcciones = []
+        for (dir in instance.direccion) {
+            Direccion direccion = Direccion.findById(dir.id)
+            if (direccion != null) {
+                direccion.contrato = contrato
+                direccion.dirTrabajo = dir.dirTrabajo
+                direccion.dirAdicional = dir.dirAdicional
+                direccion.direccionPrincipal = dir.direccionPrincipal
+                direccion.exterior = dir.exterior
+                direccion.interior = dir.interior
+                direccion.cp = new Long(dir.cp as String)
+                direccion.colonia = dir.colonia
+                direccion.municipio = dir.municipio
+                direccion.entidad = dir.entidad
+                direccion.principal = dir.principal
+                direccion.save(flush: true, failOnError: true)
+                direcciones.push(direccion.id)
+            } else {
+                direccion = new Direccion()
+                direccion.contrato = contrato
+                direccion.dirTrabajo = dir.dirTrabajo
+                direccion.dirAdicional = dir.dirAdicional
+                direccion.direccionPrincipal = dir.direccionPrincipal
+                direccion.exterior = dir.exterior
+                direccion.interior = dir.interior
+                direccion.cp = new Long(dir.cp as String)
+                direccion.colonia = dir.colonia
+                direccion.municipio = dir.municipio
+                direccion.entidad = dir.entidad
+                direccion.principal = instance.direccion.size() > 1
+                direccion.save(flush: true, failOnError: true)
+            }
+        }
+        def eliminaDirecciones = Direccion.findAllByContratoAndIdNotInList(contrato, direcciones)
+        for (eDir in eliminaDirecciones) {
+            eDir.delete(flush: true, failOnError: true)
+        }
+        Integer tope = ContratoDetalle.executeQuery("SELECT MAX(parcialidad) FROM ContratoDetalle WHERE contrato =:id", [id: contrato])[0]
+        def detalles = ContratoDetalle.findAllByContratoAndParcialidadBetween(contrato, tope - 12, tope)
+
+
+        for (det in detalles) {
+            det.interes = contrato.costoMensualInteres
+            det.monitoreo = contrato.costoMensualMonitoreo
+            det.gps = contrato.costoMensualGPS
+            det.capital = det.parcialidad == 12 ? contrato.montoRequerido : 0
+            det.subtotal = det.parcialidad == 12 ? (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS + contrato.montoRequerido) : (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS)
+            det.iva = (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS) * 0.16
+            det.saldoFinal = det.parcialidad == 12 ? 0 : contrato.montoRequerido
+            det.save(flush: true, failOnError: true)
+        }
+
+        respond message: 'Contrato con folio: ' + contratoFolio(contrato.numeroContrato, contrato.tipoFolio) + ' Actualizado'
+    }
+
+    @Transactional
+    def ajustePagos() {
+        def listaContratos = Contrato.findAllByEstatusNotEqual('C')
+        for (contratoID in listaContratos) {
+            def contrato = ContratoDetalle.executeQuery("select count(parcialidad) as parcialidades from ContratoDetalle where contrato=:contrato", [contrato: contratoID])[0]
+            def minima = ContratoDetalle.executeQuery("select min(parcialidad) as parcialidades from ContratoDetalle where contrato=:contrato", [contrato: contratoID])[0]
+            def maxima = ContratoDetalle.executeQuery("select max(parcialidad) as parcialidades from ContratoDetalle where contrato=:contrato", [contrato: contratoID])[0]
+            log.error('' + contratoID.id)
+            if (contrato == 12) {
+                HistoricoExtensiones historicoExtensiones = new HistoricoExtensiones()
+                historicoExtensiones.descripcion = '1G'
+                historicoExtensiones.contrato = contratoID
+                historicoExtensiones.parcialidadInicio = minima
+                historicoExtensiones.parcialidadFin = maxima
+                historicoExtensiones.montoRequerido = contratoID.montoRequerido
+                def totalApagar = ContratoDetalle.findByContratoAndParcialidad(contratoID, maxima)
+                historicoExtensiones.totalApagar = totalApagar.subtotal + totalApagar.iva
+                historicoExtensiones.esDefault = true
+                historicoExtensiones.save(flush: true, failOnError: true)
+            }
+            if (contrato > 12) {
+                HistoricoExtensiones historicoExtensiones2 = new HistoricoExtensiones()
+                historicoExtensiones2.descripcion = '1G'
+                historicoExtensiones2.contrato = contratoID
+                historicoExtensiones2.parcialidadInicio = minima
+                historicoExtensiones2.parcialidadFin = maxima - 12
+                historicoExtensiones2.montoRequerido = contratoID.montoRequerido
+                def totalApagar2 = ContratoDetalle.findByContratoAndParcialidad(contratoID, maxima - 12)
+                historicoExtensiones2.totalApagar = totalApagar2.subtotal + totalApagar2.iva
+                historicoExtensiones2.esDefault = false
+                historicoExtensiones2.save(flush: true, failOnError: true)
+
+                HistoricoExtensiones historicoExtensiones = new HistoricoExtensiones()
+                historicoExtensiones.descripcion = '2G'
+                historicoExtensiones.contrato = contratoID
+                historicoExtensiones.parcialidadInicio = maxima - 11
+                historicoExtensiones.parcialidadFin = maxima
+                historicoExtensiones.montoRequerido = contratoID.montoRequerido
+                def totalApagar = ContratoDetalle.findByContratoAndParcialidad(contratoID, maxima)
+                historicoExtensiones.totalApagar = totalApagar.subtotal + totalApagar.iva
+                historicoExtensiones.esDefault = true
+                historicoExtensiones.save(flush: true, failOnError: true)
+
+            }
+        }
+        respond message: 'OK'
+    }
+
+    def nuevaExtension() {
+        def instance = [:]
+        Contrato contrato = Contrato.findById(params.id as Long)
+        Long extAct = HistoricoExtensiones.executeQuery('select count(descripcion) from HistoricoExtensiones where contrato =: contrato', [contrato: contrato])[0]
+        def extAnt = HistoricoExtensiones.findByDescripcionAndContrato(extAct.toString() + 'G', contrato)
+        instance.descripcion = (extAct + 1) + 'G'
+        instance.contrato = contrato.id
+        instance.noContrato = contratoFolio(contrato.numeroContrato, contrato.tipoFolio)
+        instance.parcialidadInicio = extAnt.parcialidadFin + 1
+        instance.parcialidadFin = extAnt.parcialidadFin + 12
+        instance.montoRequerido = extAnt.montoRequerido * 0.80
+        respond instance
+    }
+
+    @Transactional
+    def generarExtension() {
+        params
+        request.JSON
+        Contrato contrato = Contrato.findById(request.JSON.contrato as Long)
+        HistoricoExtensiones anterior = HistoricoExtensiones.findByEsDefaultAndContrato(true, contrato)
+        anterior.esDefault = false
+        anterior.save(flush: true, failOnError: true)
+
+        ContratoDetalle up = ContratoDetalle.findByParcialidadAndContrato(anterior.parcialidadFin, anterior.contrato)
+
+        HistoricoExtensiones he = new HistoricoExtensiones()
+        bindData(he, request.JSON)
+        he.esDefault = true
+        he.save(flush: true, failOnError: true)
+
+        def inicio = request.JSON.parcialidadInicio
+        def fin = request.JSON.parcialidadFin
+        BigDecimal mr = (new BigDecimal(request.JSON.montoRequerido as String) / 8) * 10
+
+        for (Integer i = inicio; i <= fin; i++) {
+            def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
+            ContratoDetalle contratoDetalle = new ContratoDetalle()
+            BigDecimal costoMensualInteres = (mr * 5) / 100.00
+            BigDecimal costoMensualMonitoreo = (mr * 1) / 100.00 < 800.00 ? 800.00 : (mr * 1) / 100.00
+            BigDecimal costoMensualGPS = (mr * 0.75) / 100.00 < 600.00 ? 600.00 : (mr * 0.75) / 100.00
+
+            contratoDetalle.contrato = contrato
+            contratoDetalle.parcialidad = i
+            contratoDetalle.fecha = fecha
+            contratoDetalle.interes = costoMensualInteres
+            contratoDetalle.monitoreo = costoMensualMonitoreo
+            contratoDetalle.gps = costoMensualGPS
+            contratoDetalle.capital = i == fin ? mr : 0
+            contratoDetalle.subtotal = i == fin ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + mr) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
+            contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
+            contratoDetalle.saldoFinal = i == fin ? 0 : mr
+            contratoDetalle.estatus = 'P'
+            contratoDetalle.conciliado = false
+            contratoDetalle.validate()
+            contratoDetalle.save(flush: true, failOnError: true)
+        }
+        respond message: 'Extension generada satisfactoriamente'
+    }
+
+    def aplicaExtensionContrato() {
+        HistoricoExtensiones he = HistoricoExtensiones.findByContratoAndEsDefault(Contrato.findById(params.id as Long), true)
+        def  parcialidad = new Integer(params?.parcialidad as String)
+        for (Integer i = parcialidad as Integer; i <= he.parcialidadFin; i++) {
+            BigDecimal mr = he.montoRequerido
+            ContratoDetalle contratoDetalle = ContratoDetalle.findByContratoAndParcialidad(he.contrato, i)
+            BigDecimal costoMensualInteres = (mr * 5) / 100.00
+            BigDecimal costoMensualMonitoreo = (mr * 1) / 100.00 < 800.00 ? 800.00 : (mr * 1) / 100.00
+            BigDecimal costoMensualGPS = (mr * 0.75) / 100.00 < 600.00 ? 600.00 : (mr * 0.75) / 100.00
+
+            contratoDetalle.interes = costoMensualInteres
+            contratoDetalle.monitoreo = costoMensualMonitoreo
+            contratoDetalle.gps = costoMensualGPS
+            contratoDetalle.capital = i == he.parcialidadFin ? mr : 0
+            contratoDetalle.subtotal = i == he.parcialidadFin ? (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS + mr) : (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS)
+            contratoDetalle.iva = (costoMensualInteres + costoMensualMonitoreo + costoMensualGPS) * 0.16
+            contratoDetalle.saldoFinal = i == he.parcialidadFin ? 0 : mr
+            contratoDetalle.estatus = 'P'
+            contratoDetalle.conciliado = false
+            contratoDetalle.validate()
+            contratoDetalle.save(flush: true, failOnError: true)
+        }
+        respond message: 'Extension generada satisfactoriamente'
+    }
+
+    @Transactional
+    def estatusCliente(Long id) {
+        Contrato contrato = Contrato.findById(id)
+        contrato.estatusCliente = request.JSON.estatusCliente
+        contrato.save(flush: true, failOnError: true)
+        respond(contrato)
     }
 }

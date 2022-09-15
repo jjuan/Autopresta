@@ -150,6 +150,15 @@
                               [ngStyle]="{'color': getColor(row.estatus).color}" mat-icon-button matTooltip="Modificar Conciliacion {{subtitulo}}">
                         <mat-icon aria-label="Delete">{{getColor(row.estatus).icon}}</mat-icon>
                       </button>
+
+
+                      <button *ngIf="row.estatus!='Pendiente'" (click)="$event.stopPropagation();asignarMonto(row)"
+                              [ngStyle]="{'color': getColor(row.estatus).color}"
+                              mat-icon-button
+                              matTooltip="Asignar monto conciliado">
+                        <mat-icon aria-label="Delete">attach_money</mat-icon>
+                      </button>
+
                     </mat-cell>
                   </ng-container>
 

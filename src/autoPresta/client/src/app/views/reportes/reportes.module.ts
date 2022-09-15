@@ -6,10 +6,12 @@ import { ContratosFirmadosComponent } from './contratos-firmados/contratos-firma
 import {SharedModule} from "../../shared/shared.module";
 import {PagosRealizadosComponent} from "./pagos-realizados/pagos-realizados.component";
 import { ConciliacionesComponent } from './conciliaciones/conciliaciones.component';
+import { MorosidadComponent } from './morosidad/morosidad.component';
+import { CobranzaComponent } from './cobranza/cobranza.component';
 
 
 @NgModule({
-  declarations: [ContratosFirmadosComponent, PagosRealizadosComponent, ConciliacionesComponent],
+  declarations: [ContratosFirmadosComponent, PagosRealizadosComponent, ConciliacionesComponent, MorosidadComponent, CobranzaComponent],
   imports: [
     CommonModule, SharedModule,
     ReportesRoutingModule

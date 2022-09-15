@@ -485,6 +485,7 @@ export class _razonSocial {
 }
 
 export interface direccion {
+  id?: number
   contrato?: Contrato;
   dirTrabajo: boolean;
   dirAdicional: boolean;
@@ -527,6 +528,7 @@ export interface Contrataciones {
   total: monto[];
   montoPrestamo: number;
   estatus: string;
+  estatusCliente?: string;
 }
 
 export interface parcialidad {

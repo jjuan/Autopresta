@@ -2,7 +2,7 @@ package mx.saccsa.autopresta
 
 class ContratoDetalle {
     Contrato contrato
-    String parcialidad
+    Integer parcialidad
     Date fecha
     BigDecimal interes
     BigDecimal monitoreo
@@ -21,6 +21,11 @@ class ContratoDetalle {
     BigDecimal subtotalReal
     BigDecimal ivaReal
     BigDecimal saldoFinalReal
+    BigDecimal montoConciliado=0.00
+    BigDecimal moratorios
+    BigDecimal penalizacion
+    BigDecimal ventaDeAutos
+    BigDecimal aportacionAcapital
 
     static constraints = {
         contrato nullable: false, blank: false
@@ -43,6 +48,11 @@ class ContratoDetalle {
         subtotalReal nullable: true, blank:true
         ivaReal nullable: true, blank:true
         saldoFinalReal nullable: true, blank:true
+        montoConciliado nullable: true, blank:true
+        moratorios nullable: true, blank:true
+        penalizacion nullable: true, blank:true
+        ventaDeAutos nullable: true, blank:true
+        aportacionAcapital nullable: true, blank:true
     }
 
     static mapping = {
@@ -69,5 +79,10 @@ class ContratoDetalle {
         subtotalReal name: 'subtotalReal', column: 'subtotalReal'
         ivaReal name: 'ivaReal', column: 'ivaReal'
         saldoFinalReal name: 'saldoFinalReal', column: 'saldoFinalReal'
+        montoConciliado name: 'montoConciliado', column: 'montoConciliado'
+        moratorios name: 'moratorios', column: 'moratorios'
+        penalizacion name: 'penalizacion', column: 'penalizacion'
+        ventaDeAutos name: 'ventaDeAutos', column: 'ventaDeAutos'
+        aportacionAcapital name: 'aportacionAcapital', column: 'aportacionAcapital'
     }
 }

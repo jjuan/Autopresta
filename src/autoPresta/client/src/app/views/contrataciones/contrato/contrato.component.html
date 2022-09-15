@@ -612,7 +612,7 @@
               <div class="example-button-row">
                 <button mat-raised-button class="btn-primary"
                         [disabled]="direccion.invalid"
-                        (click)="addNewBeneficiario()">Añadir dirección adicional
+                        (click)="agregarDireccion()">Añadir dirección adicional
                 </button>
               </div>
             </div>
@@ -635,6 +635,7 @@
                   <th>Colonia</th>
                   <th>Municipio</th>
                   <th>Entidad</th>
+                  <th>Editar</th>
                   <th>Eliminar</th>
                 </tr>
                 </thead>
@@ -651,8 +652,14 @@
                   <td>{{c.entidad}}</td>
 
                   <td>
-                    <button mat-icon-button color="warn" matTooltip="Eliminar concepto"
-                            (click)="eliminarBeneficiario(c)">
+                    <button mat-icon-button matTooltip="Editar direccion"
+                            (click)="editarDireccion(c)">
+                      <mat-icon aria-label="Edit">edit</mat-icon>
+                    </button>
+                  </td>
+                  <td>
+                    <button mat-icon-button color="warn" matTooltip="Eliminar direccion"
+                            (click)="eliminarDireccion(c)">
                       <mat-icon aria-label="Delete">delete</mat-icon>
                     </button>
                   </td>
@@ -1046,8 +1053,8 @@
                   [disabled]="formulario.invalid"
                   (click)="save()">Guardar
           </button>
-<!--          <button mat-raised-button color="warn" class="ml-2" type="reset" (click)="ngOnInit()">Cancelar</button>-->
-                    <button mat-raised-button color="warn" class="ml-2" (click)="pruebas()">Cancelar</button>
+          <button mat-raised-button color="warn" class="ml-2" type="reset" (click)="ngOnInit()">Cancelar</button>
+<!--                    <button mat-raised-button color="warn" class="ml-2" (click)="pruebas()">Cancelar</button>-->
         </div>
       </div>
     </div>

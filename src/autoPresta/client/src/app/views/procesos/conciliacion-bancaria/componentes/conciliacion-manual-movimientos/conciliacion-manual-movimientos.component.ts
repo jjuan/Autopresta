@@ -115,7 +115,7 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
       movimiento: this.data.info,
       saldo: this.saldo.toFixed(2),
       etiqueta: this.etiqueta,
-      porMovimientos: true,
+      porMovimientos: false,
       formaConciliacion: this.formulario.get('formaConciliacion').value,
       conciliacionParcial: this.formulario.get('conciliacionParcial').value,
       campo: this.formulario.get('campo').value,
@@ -194,6 +194,14 @@ export class ConciliacionManualMovimientosComponent implements OnInit {
       this.etiqueta = 'Saldo a favor'
     }
   }
+
+  Cerrar() {
+    this.http.post(this.globalService.BASE_API_URL + 'Conciliaciones/cerrarConciliacion', {id: this.data.info.folio}, {
+      headers: {
+        'Authorization': 'Bearer=' + this.globalService.getAuthToken()
+      }
+    }).subscribe(() => this.dialogRef.close())
+  }
 }
 
 export class BancosDataSource extends DataSource<conciliacionContratosTable> {
@@ -222,7 +230,7 @@ export class BancosDataSource extends DataSource<conciliacionContratosTable> {
       this._dataSource.getAdvancedTable<any>(this._dominio, this.esDetalle ?
           {} :
           {fechaInicio: this.fechaInicio, fechaFin: this.fechaFin, cargoAbono: this.cargoAbono, conciliados: false},
-        'cargarParcialidades');
+        'cargarParcialidadesManualNueva');
     }
 
     return merge(...displayDataChanges).pipe(map(() => {

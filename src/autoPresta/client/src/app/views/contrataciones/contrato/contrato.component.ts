@@ -12,11 +12,14 @@ import {
 import {AbstractControl, FormGroup, Validators} from "@angular/forms";
 import {GlobalService} from "../../../core/service/global.service";
 import {MatDialog} from "@angular/material/dialog";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {RestService} from "../../../core/service/rest.service";
 import {DateAdapter} from "@angular/material/core";
-import {GeneracionContratoComponent} from "./generacion-contrato/generacion-contrato.component";
+import {
+  GeneracionContratoComponent
+} from "../contrataciones-componentes/generacion-contrato/generacion-contrato.component";
+import {number} from "ngx-custom-validators/src/app/number/validator";
 
 @Component({
   selector: 'app-contrato',
@@ -81,10 +84,12 @@ export class ContratoComponent implements OnInit {
   ];
   public documentoOficialCombo: IdentificacionesOficiales[];
   public documentoOficialCoacreditadoCombo: IdentificacionesOficiales[];
+  id;
+  contratoEdicion;
 
   constructor(
-    private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
-    private snack: MatSnackBar, public dialog: MatDialog, private dateAdapter: DateAdapter<Date>
+    private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute, private router: Router,
+    private snack: MatSnackBar, public dialog: MatDialog, private dateAdapter: DateAdapter<Date>, private route: ActivatedRoute
   ) {
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
@@ -100,11 +105,8 @@ export class ContratoComponent implements OnInit {
     this.costoMensualTotal = 0;
     this.genericRestService.combo<Combo[]>({id: 'Marcas'}, 'comboAutoPresta').subscribe(res => this.marcasCombo = res);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps1Combo = result);
-    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores1Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps2Combo = result);
-    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores2Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'Gps'}, 'comboAutoPresta').subscribe(result => this.gps3Combo = result);
-    // this.genericRestService.combo<Combo[]>({id: 'Proveedores'}, 'comboAutoPresta').subscribe(result => this.provedores3Combo = result);
     this.genericRestService.combo<Combo[]>({id: 'TipoContrato'}, 'comboAutoPresta').subscribe(result => this.tipoContratoCombo = result);
     this.genericRestService.combo<Combo[]>({id: 'C_RegimenFiscal'}, 'comboFactura').subscribe(result => this.regimenFiscalCombo = result);
     this.genericRestService.combo<Combo[]>({id: 'Estados'}, 'comboAutoPresta').subscribe(result => {
@@ -118,10 +120,54 @@ export class ContratoComponent implements OnInit {
     });
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
+
+    if (this.route.snapshot.params.id != undefined) {
+      this.id = this.route.snapshot.params.id
+      this.genericRestService.edit<any>(this.id, this._datos._dominio, {}, 'edicionContrato').subscribe(datos => {
+        this.contratoEdicion = datos
+        this.documentoOficialValidator(datos.contrato.documentoOficial, false)
+        this.calcularMaximoAutorizado(datos.contrato.valorDeCompra)
+        if (datos.direcciones.length == 1) {
+          this.cargarDatos((datos.direcciones[0].cp.toString()).length == 4 ? '0' + datos.direcciones[0].cp : datos.direcciones[0].cp, false)
+          this.direccion.patchValue({
+            id: datos.direcciones[0].id,
+            dirTrabajo: datos.direcciones[0].dirTrabajo,
+            dirAdicional: datos.direcciones[0].dirAdicional,
+            direccionPrincipal: datos.direcciones[0].direccionPrincipal,
+            exterior: datos.direcciones[0].exterior,
+            interior: datos.direcciones[0].interior,
+            cp: (datos.direcciones[0].cp.toString()).length == 4 ? '0' + datos.direcciones[0].cp : datos.direcciones[0].cp,
+            colonia: datos.direcciones[0].colonia,
+            municipio: datos.direcciones[0].municipio,
+            principal: datos.direcciones[0].principal,
+            entidad: datos.direcciones[0].entidad
+          })
+        } else {
+          for (let dir of datos.direcciones) {
+            this.direcciones.push({
+              id: dir.id,
+              dirTrabajo: dir.dirTrabajo,
+              dirAdicional: dir.dirAdicional,
+              direccionPrincipal: dir.direccionPrincipal,
+              exterior: dir.exterior,
+              interior: dir.interior,
+              cp: (dir.cp.toString()).length == 4 ? '0' + dir.cp : dir.cp,
+              colonia: dir.colonia,
+              municipio: dir.municipio,
+              entidad: dir.entidad,
+              principal: dir.principal
+            });
+          }
+        }
+        this.cargarModelos(datos.contrato.marca.id)
+        this.onEdit(datos.contrato)
+      })
+    }
   }
 
   direccionFormulario() {
     this.direccion = this.genericRestService.buildForm({
+      id: [''],
       dirTrabajo: [false, Validators.required],
       dirAdicional: [false, Validators.required],
       direccionPrincipal: ['', Validators.required],
@@ -130,6 +176,7 @@ export class ContratoComponent implements OnInit {
       cp: ['', Validators.required],
       colonia: ['', Validators.required],
       municipio: ['', Validators.required],
+      principal: [''],
       entidad: ['', Validators.required]
     });
   }
@@ -220,7 +267,6 @@ export class ContratoComponent implements OnInit {
       montoMaximoAutorizado: [data ? data.montoMaximoAutorizado : '', Validators.required],
       numeroVin: [data ? data.numeroVin : '', Validators.required],
       gps1: [data ? data.gps1 : '', Validators.required],
-      // proveedor1: [data ? data.proveedor1 : '', Validators.required],
       gps2: [data ? data.gps2 : ''],
       proveedor2: [data ? data.proveedor2 : ''],
       gps3: [data ? data.gps3 : ''],
@@ -250,12 +296,27 @@ export class ContratoComponent implements OnInit {
 
   save() {
     if (this.direcciones.length == 0) {
-      this.addNewBeneficiario()
+      this.agregarDireccion()
     }
     this.formulario.patchValue({direccion: this.direcciones})
-
     const dialogRef = this.dialog.open(GeneracionContratoComponent, {
-      data: {title: 'nombre', disableClose: true, data: 'result', action: 'Editar'}, height: 'auto', width: '40%'
+      data: {
+        title: 'nombre', disableClose: true, data: {
+          calificacionCliente: this.contratoEdicion.contrato.calificacionCliente.id,
+          fechaContrato: this.contratoEdicion.contrato.fechaContrato,
+          contratoPrueba: this.contratoEdicion.contrato.contratoPrueba,
+          contratoMonterrey: this.contratoEdicion.contrato.contratoMonterrey,
+          numeroContrato: this.contratoEdicion.contrato.numeroContrato,
+          referenciaBancariaBBVA: this.contratoEdicion.contrato.referenciaBancariaBBVA,
+          montoTransferencia: this.contratoEdicion.contrato.montoTransferencia,
+          descuentosRetenciones: this.contratoEdicion.contrato.descuentosRetenciones,
+          fechaSolicitud: this.contratoEdicion.contrato.fechaSolicitud,
+          montoLiquidar: this.contratoEdicion.contrato.montoLiquidar,
+          fechaCompromiso: this.contratoEdicion.contrato.fechaCompromiso,
+          tipoContrato: this.contratoEdicion.contrato.tipoFolio,
+          detalleDescuentos: this.contratoEdicion.contrato.detalleDescuentos,
+        }, action: 'Editar'
+      }, height: 'auto', width: '40%'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {
@@ -273,21 +334,16 @@ export class ContratoComponent implements OnInit {
         referencia: result.referenciaBancariaBBVA,
         descuentosRetenciones: result.descuentosRetenciones,
       })
-      this.genericRestService.save<Contrato>(this.formulario.value, {}, this._datos._dominio).subscribe(data => {
-        // this.download(data.id)
-        this.ngOnInit();
-        this.snack.open(this._datos._title + ' capturado!', 'OK', {duration: 4000});
+      this.genericRestService.update<Contrato>(this.contratoEdicion.contrato.id, this.formulario.value, this._datos._dominio).subscribe(data => {
+        // this.ngOnInit();
+        this.snack.open(data['message'], 'OK', {duration: 4000});
+        this.router.navigate(['Consultas/Contrataciones'])
       }, error => {
         this.snack.open(error.error.mensaje, 'OK', {duration: 4000});
       });
     });
   }
 
-  download(id: number) {
-    const _dominio = 'Reporte'
-    const _observable = this.genericRestService.getReport('contratoAutoPresta', _dominio, {id: id});
-    return this.genericRestService.printReport(_observable, 'Contrato AP #1');
-  }
 
   calcular(monto: number) {
     this.costoMensualInteres = (monto * this.tasaInteres) / 100
@@ -315,10 +371,6 @@ export class ContratoComponent implements OnInit {
     this.genericRestService.combo<Combo[]>({id: value}, 'comboModelos').subscribe(res => this.modelosCombo = res);
   }
 
-  // cargarAnios(value) {
-  //   this.genericRestService.combo<Combo[]>({id: value}, 'comboAutos').subscribe(res => this.aniosCombo = res);
-  // }
-
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snack.open(text, '', {
       duration: 2000,
@@ -329,8 +381,9 @@ export class ContratoComponent implements OnInit {
   }
 
 
-  addNewBeneficiario() {
+  agregarDireccion() {
     this.direcciones.push({
+      id: this.direccion.get('id').value,
       dirTrabajo: this.direccion.get('dirTrabajo').value,
       dirAdicional: this.direccion.get('dirAdicional').value,
       direccionPrincipal: this.direccion.get('direccionPrincipal').value,
@@ -339,21 +392,40 @@ export class ContratoComponent implements OnInit {
       cp: this.direccion.get('cp').value,
       colonia: this.direccion.get('colonia').value,
       municipio: this.direccion.get('municipio').value,
-      entidad: this.direccion.get('entidad').value
+      entidad: this.direccion.get('entidad').value,
+      principal: this.direccion.get('principal').value
     });
     this.direccionFormulario();
   }
 
-
-  eliminarBeneficiario(c: direccion) {
+  eliminarDireccion(c: direccion) {
+    this.direccionFormulario()
     const indice = this.direcciones.indexOf(c);
     this.direcciones.splice(indice, 1);
     this.direccionFormulario()
   }
 
-  datos(d: string, coacreditado: boolean) {
-    console.log(d)
-    const data = d.split('');
+  editarDireccion(c: direccion) {
+    const indice = this.direcciones.indexOf(c);
+    this.cargarDatos(c.cp.toString(), false)
+    this.direccion.patchValue({
+      id: c.id,
+      dirTrabajo: c.dirTrabajo,
+      dirAdicional: c.dirAdicional,
+      direccionPrincipal: c.direccionPrincipal,
+      exterior: c.exterior,
+      interior: c.interior,
+      cp: c.cp,
+      colonia: c.colonia,
+      municipio: c.municipio,
+      principal: c.principal,
+      entidad: c.entidad
+    });
+    this.direcciones.splice(indice, 1);
+  }
+
+  datos(d, coacreditado: boolean) {
+    const data = (d.toString()).split('');
     if (data.length == 18) {
       const a = Number(data[4])
       let complemento
@@ -393,9 +465,9 @@ export class ContratoComponent implements OnInit {
     }
   }
 
-  cargarDatos(value: string, moral: boolean) {
+  cargarDatos(value, moral: boolean) {
     if (moral) {
-      if (value.length == 5) {
+      if ((value.toString()).length == 5) {
         this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
             this.formulario.patchValue({
               entidadMoral: r[0].estado,
@@ -423,7 +495,7 @@ export class ContratoComponent implements OnInit {
       }
 
     } else {
-      if (value.length == 5) {
+      if ((value.toString()).length == 5) {
         this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
             this.direccion.patchValue({
               entidad: r[0].estado,
@@ -501,16 +573,6 @@ export class ContratoComponent implements OnInit {
     }
   }
 
-  pruebas() {
-    console.log(this.formulario.errors)
-    console.log(this.formulario.value)
-    console.log(this.formulario)
-    console.log(this.direccion)
-    console.log(this.direccion.value)
-    console.log(this.direccion.errors)
-    console.log(this.direcciones.length)
-  }
-
   documentoOficialValidator(event, esCoacreditado) {
     for (let doc of this.documentoOficialCombo) {
       if (doc.id == event) {
@@ -523,22 +585,89 @@ export class ContratoComponent implements OnInit {
     }
   }
 
-  imprimir() {
-    console.log(this.formulario.value)
-  }
-
-  fechaFactura(fecha: string) {
-
-    if (fecha.length == 10) {
-      let campos = fecha.split('/')
-      let anio = campos[2]
-      const mes = campos[1]
-      const dia = campos[0]
-
-      let dateString = anio + '-' + mes + '-' + dia + 'T00:00:00'
-
-      let newDate = new Date(dateString);
-      this.formulario.patchValue({fechaDeFactura: newDate})
-    }
+  onEdit(datos) {
+    this.formulario.patchValue({
+      regimenFiscal: datos.regimenFiscal.clave,
+      razonSocialMoral: datos.razonSocialMoral,
+      rfcMoral: datos.rfcMoral,
+      telefonoFijoMoral: datos.telefonoFijoMoral,
+      telefonoCelularMoral: datos.telefonoCelularMoral,
+      telefonoOficinaMoral: datos.telefonoOficinaMoral,
+      calleDireccionFiscalMoral: datos.calleDireccionFiscalMoral,
+      numeroExteriorMoral: datos.numeroExteriorMoral,
+      numeroInteriorMoral: datos.numeroInteriorMoral,
+      codigoPostalMoral: datos.codigoPostalMoral,
+      fechaF: datos.fechaF,
+      coloniaMoral: datos.coloniaMoral,
+      municipioMoral: datos.municipioMoral,
+      entidadMoral: datos.entidadMoral,
+      nombres: datos.nombres,
+      primerApellido: datos.primerApellido,
+      segundoApellido: datos.segundoApellido,
+      genero: datos.genero,
+      edad: datos.edad,
+      rfc: datos.rfc,
+      fechaNacimiento: datos.fechaNacimiento,
+      curp: datos.curp,
+      documentoOficial: Number(datos.documentoOficial),
+      claveElector: datos.claveElector,
+      telefonoFijo: datos.telefonoFijo,
+      telefonoCelular: datos.telefonoCelular,
+      telefonoOficina: datos.telefonoOficina,
+      correoElectronico: datos.correoElectronico,
+      nombresCoacreditado: datos.nombresCoacreditado,
+      primerApellidoCoacreditado: datos.primerApellidoCoacreditado,
+      segundoApellidoCoacreditado: datos.segundoApellidoCoacreditado,
+      generoCoacreditado: datos.generoCoacreditado,
+      edadCoacreditado: datos.edadCoacreditado,
+      rfcCoacreditado: datos.rfcCoacreditado,
+      fechaNacimientoCoacreditado: datos.fechaNacimientoCoacreditado,
+      curpCoacreditado: datos.curpCoacreditado,
+      claveElectorCoacreditado: datos.claveElectorCoacreditado,
+      telefonoFijoCoacreditado: datos.telefonoFijoCoacreditado,
+      telefonoCelularCoacreditado: datos.telefonoCelularCoacreditado,
+      telefonoOficinaCoacreditado: datos.telefonoOficinaCoacreditado,
+      correoElectronicoCoacreditado: datos.correoElectronicoCoacreditado,
+      direccion: datos.direccion,
+      anio: datos.anio,
+      marca: datos.marca.id,
+      modelo: datos.modelo.id,
+      versionAuto: datos.numeroVin,
+      color: datos.color,
+      placas: datos.placas,
+      numeroDeMotor: datos.numeroDeMotor,
+      numeroDeFactura: datos.numeroDeFactura,
+      fechaDeFactura: datos.fechaDeFactura,
+      emisoraDeFactura: datos.emisoraDeFactura,
+      valorDeVenta: datos.valorDeVenta,
+      valorDeCompra: datos.valorDeCompra,
+      montoMaximoAutorizado: datos.montoMaximoAutorizado,
+      numeroVin: datos.numeroVin,
+      gps1: datos.gps1 ? datos.gps1.id : '',
+      gps2: datos.gps2 ? datos.gps2.id : '',
+      proveedor2: datos.proveedor2,
+      gps3: datos.gps3 ? datos.gps3.id : '',
+      proveedor3: datos.proveedor3,
+      montoRequerido: datos.montoRequerido,
+      costoMensualInteres: datos.costoMensualInteres,
+      costoMensualMonitoreo: datos.costoMensualMonitoreo,
+      costoMensualGPS: datos.costoMensualGPS,
+      totalAutoPresta: datos.totalAutoPresta,
+      iva: datos.iva,
+      costoMensualTotal: datos.costoMensualTotal,
+      tipoContrato: datos.tipoContrato.id,
+      referencia: datos.referencia,
+      clabe: datos.clabe,
+      coacreditado: datos.coacreditado,
+      calificacionCliente: datos.calificacionCliente,
+      contratoPrueba: datos.contratoPrueba,
+      montoTransferencia: datos.montoTransferencia,
+      detalleDescuentos: datos.detalleDescuentos,
+      fechaSolicitud: datos.fechaSolicitud,
+      fechaContrato: datos.fechaContrato,
+      montoLiquidar: datos.montoLiquidar,
+      fechaCompromiso: datos.fechaCompromiso,
+      descuentosRetenciones: datos.descuentosRetenciones,
+    })
   }
 }

@@ -7,7 +7,7 @@ import {ActivatedRoute} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {MatDialog} from "@angular/material/dialog";
 import {DateAdapter} from "@angular/material/core";
-import {GeneracionContratoComponent} from "../../procesos/contrato/generacion-contrato/generacion-contrato.component";
+import {GeneracionContratoComponent} from "../contrataciones-componentes/generacion-contrato/generacion-contrato.component";
 import {HttpClient} from "@angular/common/http";
 
 @Component({

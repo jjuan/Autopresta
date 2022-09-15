@@ -40,7 +40,7 @@ export class GeneracionContratoComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogTitle = 'Generar contrato';
-
+    console.log(this.data)
     this.restService.combo<Combo[]>({id: 'CalificacionCliente'}, 'comboAutoPresta').subscribe(r => this.calificacionClientesCombo = r)
     this.restService.combo<Combo[]>({tipo: 'TipoContrato'}, 'combos').subscribe(r => this.comboContratos = r)
     this.formulario = this.restService.buildForm({
@@ -48,14 +48,14 @@ export class GeneracionContratoComponent implements OnInit {
       fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
       contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
       contratoMonterrey: [this.data.data.contratoMonterrey ? this.data.data.contratoMonterrey : false, Validators.required],
-      numeroContrato: [this.folios ? this.folios.folio : '', Validators.required],
+      numeroContrato: [this.data.data.numeroContrato ? this.data.data.numeroContrato : '', Validators.required],
       referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : ''],
       montoTransferencia: [this.data.data.montoTransferencia ? this.data.data.montoTransferencia : '', Validators.required],
       descuentosRetenciones: [this.data.data.descuentosRetenciones ? this.data.data.descuentosRetenciones : 'N/A', Validators.required],
       fechaSolicitud: [this.data.data.fechaSolicitud ? this.data.data.fechaSolicitud : ''],
       montoLiquidar: [this.data.data.montoLiquidar ? this.data.data.montoLiquidar : ''],
       fechaCompromiso: [this.data.data.fechaCompromiso ? this.data.data.fechaCompromiso : ''],
-      tipoContrato: [''],
+      tipoContrato: [this.data.data.tipoContrato ? this.data.data.tipoContrato : ''],
       detalleDescuentos: ['N/A', Validators.required]
     });
     this.restService.edit<Portafolios>(1, 'Portafolios').subscribe(result => {

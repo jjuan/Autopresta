@@ -9,10 +9,11 @@ import { DetallePagosComponent } from './contratos-firmados/detalle-pagos/detall
 import { CamboEstadoComponent } from './contratos-firmados/cambo-estado/cambo-estado.component';
 import { FirmaComponent } from './firma/firma.component';
 import {PdfViewerModule} from "ng2-pdf-viewer";
+import { CambioEstatusComponent } from './contratos-firmados/cambio-estatus/cambio-estatus.component';
 
 
 @NgModule({
-  declarations: [ContratacionesComponent, ContratosFirmadosComponent, DetallePagosComponent, CamboEstadoComponent, FirmaComponent],
+  declarations: [ContratacionesComponent, ContratosFirmadosComponent, DetallePagosComponent, CamboEstadoComponent, FirmaComponent, CambioEstatusComponent],
   imports: [
     CommonModule, SharedModule,
     ConsultasRoutingModule, PdfViewerModule,

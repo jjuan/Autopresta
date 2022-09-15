@@ -33,6 +33,13 @@ export class ConciliacionDetallesComponent implements OnInit {
   confirmDelete(): void {
     this.dialogRef.close(true);
   }
+  Cerrar() {
+    this.http.post(this.globalService.BASE_API_URL + 'Conciliaciones/cerrarConciliacion', {id:this.data.info.detalles[0].operacion[0].folio}, {
+      headers: {
+        'Authorization': 'Bearer=' + this.globalService.getAuthToken()
+      }
+    }).subscribe()
+  }
 
   showNotification(colorName, text, placementFrom, placementAlign) {
     this.snackBar.open(text, '', {

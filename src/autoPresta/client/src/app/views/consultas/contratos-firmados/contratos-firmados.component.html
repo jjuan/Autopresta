@@ -120,11 +120,15 @@
                 </ng-container>
                 <ng-container matColumnDef="total">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Total a pagar</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{getTotal(row.total)|currency:'USD'}}</mat-cell>
+                  <mat-cell *matCellDef="let row">{{row.total|currency:'USD'}}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="estatus">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus del contrato</mat-header-cell>
                   <mat-cell *matCellDef="let row">{{row.estatusContrato}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="estatusCliente">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Estatus del cliente</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.estatusCliente}}</mat-cell>
                 </ng-container>
 
                 <!-- actions -->
@@ -138,12 +142,17 @@
 
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="cambiarEstado(row.id, 'cambiarEstado')" color="danger" matTooltip="Cambiar estatus del contrato">
                       <mat-icon>assignment</mat-icon>
+                    </button><button mat-icon-button (click)="cambiarEstatusCliente(row.id)" color="danger" matTooltip="Cambiar estatus del cliente">
+                      <mat-icon>account_circle</mat-icon>
                     </button>
 <!--                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="extenderContrato(row.id)" color="info" matTooltip="Generar extension de contrato">-->
 <!--                      <mat-icon>schedule</mat-icon>-->
 <!--                    </button>-->
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="verDetalles(row.id, 'detalles')" color="danger" matTooltip="Ver parcialidades">
                       <mat-icon>date_range</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="generaExtension(row)" color="danger" matTooltip="Generar Extension contrato {{row.numeroContrato}}.">
+                      <mat-icon>event</mat-icon>
                     </button>
                     <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'" (click)="download(row.id, row.numeroContrato);loadData()" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">
                       <mat-icon>file_download</mat-icon>
@@ -161,7 +170,7 @@
               <div class="no-results" [style.display]="dataSource.renderedData.length == 0 ? '' : 'none'">No se
                 encontraron Resultados
               </div>
-              <mat-paginator #paginator [length]="dataSource.filteredData.length" [pageIndex]="0" [pageSize]="10"
+              <mat-paginator #paginator [length]="dataSource.filteredData?.length" [pageIndex]="0" [pageSize]="10"
                              [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
             </div>
           </div>

@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ProcesosRoutingModule } from './procesos-routing.module';
-import { ContratoComponent } from './contrato/contrato.component';
+import { ContratoComponent } from '../contrataciones/contrato/contrato.component';
 import {SharedModule} from "../../shared/shared.module";
-import { ContratoDetalleComponent } from './contrato/contrato-detalle/contrato-detalle.component';
-import { GeneracionContratoComponent } from './contrato/generacion-contrato/generacion-contrato.component';
+import { ContratoDetalleComponent } from '../contrataciones/contrataciones-componentes/contrato-detalle/contrato-detalle.component';
+import { GeneracionContratoComponent } from '../contrataciones/contrataciones-componentes/generacion-contrato/generacion-contrato.component';
 import {GeneraLiquidacionComponent} from "./genera-liquidacion/genera-liquidacion.component";
 import {GeneraLiquidacionFormComponent} from "./genera-liquidacion/genera-liquidacion-form/genera-liquidacion-form.component";
 import {GeneraLiquidacionDeleteComponent} from "./genera-liquidacion/genera-liquidacion-delete/genera-liquidacion-delete.component";
@@ -22,12 +21,13 @@ import { ConciliacionManualMovimientosComponent } from './conciliacion-bancaria/
 import { ConciliacionManualContratosComponent } from './conciliacion-bancaria/componentes/conciliacion-manual-contratos/conciliacion-manual-contratos.component';
 import { ConciliacionPreviewComponent } from './conciliacion-bancaria/componentes/conciliacion-preview/conciliacion-preview.component';
 import { ConciliacionDetallesComponent } from './conciliacion-bancaria/componentes/conciliacion-detalles/conciliacion-detalles.component';
+import { AsignarMontosComponent } from './conciliacion-bancaria/componentes/asignar-montos/asignar-montos.component';
 
 
 @NgModule({
   declarations: [ContratoComponent, ContratoDetalleComponent, GeneracionContratoComponent, GeneraLiquidacionComponent,
   GeneraLiquidacionFormComponent, GeneraLiquidacionDeleteComponent, GeneraLiquidacionReglaComponent, TablaReglasComponent,
-  ImportacionesComponent, CargaExtractosComponent, ConciliacionIngresosComponent, ConciliacionEgresosComponent, ConciliacionMovimientosComponent, ConciliacionContratosComponent, ConciliacionManualMovimientosComponent, ConciliacionManualContratosComponent, ConciliacionPreviewComponent, ConciliacionDetallesComponent],
+  ImportacionesComponent, CargaExtractosComponent, ConciliacionIngresosComponent, ConciliacionEgresosComponent, ConciliacionMovimientosComponent, ConciliacionContratosComponent, ConciliacionManualMovimientosComponent, ConciliacionManualContratosComponent, ConciliacionPreviewComponent, ConciliacionDetallesComponent, AsignarMontosComponent],
     imports: [
         CommonModule, SharedModule,
         ProcesosRoutingModule, CatalogosModule
