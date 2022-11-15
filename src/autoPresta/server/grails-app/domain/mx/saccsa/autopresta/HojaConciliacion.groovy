@@ -1,8 +1,7 @@
 package mx.saccsa.autopresta
 
 class HojaConciliacion {
-    String clase
-    String folio
+    Contrato folio
     String regla1
     String regla2
     String regla3
@@ -13,7 +12,6 @@ class HojaConciliacion {
     String regla8
 
     static constraints = {
-        clase nullable: false, blank: false
         folio nullable: false, blank: false
         regla1 nullable: true, blank: true
         regla2 nullable: true, blank: true
@@ -28,7 +26,6 @@ class HojaConciliacion {
     static mapping = {
         table('HojaConciliacion')
         id generator: 'identity'
-        clase name: 'clase', column: 'clase'
         folio name: 'folio', column: 'folio'
         regla1 name: 'regla1', column: 'regla1'
         regla2 name: 'regla2', column: 'regla2'

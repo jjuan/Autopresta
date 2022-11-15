@@ -99,6 +99,8 @@ class Contrato {
     BigDecimal montoReqAct
     Boolean actualizado
 
+    Long mensualidadActual
+
     static constraints = {
         regimenFiscal nullable: true, blank: true
         fechaContrato nullable: true, blank: true
@@ -188,6 +190,7 @@ class Contrato {
         montoReqAct blank: true, nullable: true
         actualizado blank: true, nullable: true
         estatusCliente blank: true, nullable: true
+        mensualidadActual blank: true, nullable: true
     }
 
     static mapping = {
@@ -282,5 +285,6 @@ class Contrato {
         fin name: 'fin', column: 'fin'
         montoReqAct name: 'montoReqAct', column: 'montoReqAct'
         actualizado name: 'actualizado', column: 'actualizado'
+        mensualidadActual name: 'mensualidadActual', column: 'mensualidadActual'
     }
 }

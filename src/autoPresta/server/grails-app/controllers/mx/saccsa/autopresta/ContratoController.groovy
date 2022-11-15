@@ -106,7 +106,7 @@ class ContratoController extends RestfulController<Contrato> {
                     fechaCompromiso              : it?.fechaCompromiso,
                     estatusLabel                 : getEstatus(it.estatus),
                     total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
-                    direccion                    : getDirecciones(it)
+//                    direccion                    : getDirecciones(it)
             ]
         })
 
@@ -311,22 +311,22 @@ class ContratoController extends RestfulController<Contrato> {
                     estatusCliente              : it?.estatusCliente,
                     total                        : ContratoDetalle.executeQuery('SELECT SUM(subtotal + iva) FROM ContratoDetalle WHERE contrato =:contrato', [contrato: it])[0],
 //                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
-                    direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
-                        [
-                                id                : it.id,
-                                contrato          : it.contrato.numeroContrato,
-                                dirTrabajo        : it.dirTrabajo,
-                                dirAdicional      : it.dirAdicional,
-                                direccionPrincipal: it.direccionPrincipal,
-                                exterior          : it.exterior,
-                                interior          : it.interior,
-                                cp                : it.cp,
-                                colonia           : it.colonia,
-                                municipio         : it.municipio,
-                                entidad           : it.entidad,
-                                principal         : it.principal,
-                        ]
-                    })
+//                    direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
+//                        [
+//                                id                : it.id,
+//                                contrato          : it.contrato.numeroContrato,
+//                                dirTrabajo        : it.dirTrabajo,
+//                                dirAdicional      : it.dirAdicional,
+//                                direccionPrincipal: it.direccionPrincipal,
+//                                exterior          : it.exterior,
+//                                interior          : it.interior,
+//                                cp                : it.cp,
+//                                colonia           : it.colonia,
+//                                municipio         : it.municipio,
+//                                entidad           : it.entidad,
+//                                principal         : it.principal,
+//                        ]
+//                    })
             ]
         })
 
@@ -546,37 +546,17 @@ class ContratoController extends RestfulController<Contrato> {
         respond message: 'ok'
     }
 
-    def actualizaInicioFin() {
-        def contratos = CargadeContratos.findAllByParcialidadActualIsNotNull()
-        for (contrato in contratos) {
-            if (contrato.parcialidadActual >= 1 && contrato.parcialidadActual <= 12) {
-                contrato.inicio = 1
-                contrato.fin = 12
-            } else if (contrato.parcialidadActual >= 13 && contrato.parcialidadActual <= 24) {
-                contrato.inicio = 13
-                contrato.fin = 24
-            } else if (contrato.parcialidadActual >= 25 && contrato.parcialidadActual <= 36) {
-                contrato.inicio = 25
-                contrato.fin = 36
-            } else if (contrato.parcialidadActual >= 37 && contrato.parcialidadActual <= 48) {
-                contrato.inicio = 37
-                contrato.fin = 48
-            }
-            contrato.cargado = false
-            contrato.save(flush: true, failOnError: true)
-        }
-        respond message: 'ok'
-    }
 
-    def eliminar() {
-        def carga = CargadeContratos.list()
-        def contratos = Contrato.findAllByFolioCargaIsNotNull()
-        respond message: 'ok'
+    def cargaAp(){
+        def contratos = Contrato.findAllByMensualidadActualIsNotNull()
+        for (contrato in contratos){
+            generacionDetalles(contrato)
+        }
+        respond message: 'OK'
     }
 
     @Transactional
-    def generacionDetalles() {
-        def contrato = Contrato.findById(2277)
+    def generacionDetalles(Contrato contrato) {
         for (Integer i = contrato.inicioReq; i <= contrato.finReq; i++) {
             def fecha = contratoService.calcularFechaPago(i, contrato.fechaContrato)
             ContratoDetalle contratoDetalle = new ContratoDetalle()
@@ -602,8 +582,40 @@ class ContratoController extends RestfulController<Contrato> {
             contrato.save(flush: true, failOnError: true)
 
         }
-        respond message: 'ok'
+    return contrato
+}
+
+@Transactional
+def crearHojas(){
+    def contador = 0
+    def contratos = Contrato.findAllByMensualidadActualIsNotNull()
+    for (contrato in contratos){
+        generaHoja(contrato)
+        contador = contador +1
+        log.info "Contrato " +  contador + " de " +contratos.size()
     }
+    respond message: 'OK'
+}
+
+@Transactional
+def generaHoja(Contrato contrato){
+   HojaConciliacion hojaConciliacion= new HojaConciliacion()
+    hojaConciliacion.folio = contrato
+
+    hojaConciliacion.regla1 = getTitular(contrato)
+
+    hojaConciliacion.regla2 = contrato.numeroContrato
+    hojaConciliacion.regla3 = contrato.numeroContrato
+
+    if (contrato.rfc !=null) {
+        hojaConciliacion.regla5 = contrato.rfc
+    }
+    if (contrato.placas !=null) {
+        hojaConciliacion.regla6 = contrato.placas
+    }
+    hojaConciliacion.save(flush: true, failOnError: true)
+    return hojaConciliacion
+}
 
     @Transactional
     def ajuste() {

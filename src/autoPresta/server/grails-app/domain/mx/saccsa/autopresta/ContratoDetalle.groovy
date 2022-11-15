@@ -14,18 +14,18 @@ class ContratoDetalle {
     Date fechaPago
     String estatus
     Boolean conciliado
-    BigDecimal interesReal
-    BigDecimal monitoreoReal
-    BigDecimal gpsReal
-    BigDecimal capitalReal
-    BigDecimal subtotalReal
-    BigDecimal ivaReal
-    BigDecimal saldoFinalReal
+
     BigDecimal montoConciliado=0.00
-    BigDecimal moratorios
-    BigDecimal penalizacion
-    BigDecimal ventaDeAutos
-    BigDecimal aportacionAcapital
+    BigDecimal mensualidad=0.00
+    BigDecimal moratorios=0.00
+    BigDecimal penalizacion=0.00
+    BigDecimal ventaDeAutos=0.00
+    BigDecimal aportacionAcapital=0.00
+    Date fechaPagoCapital
+    BigDecimal saldoFinalRestante
+    Long diasAtraso=0
+    BigDecimal moraoriosCondonados=0.00
+    BigDecimal moraoriosPagados=0.00
 
     static constraints = {
         contrato nullable: false, blank: false
@@ -41,18 +41,17 @@ class ContratoDetalle {
         fechaPago nullable: true, blank: true
         estatus nullable: true, blank: true
         conciliado nullable: true, blank: true
-        interesReal nullable: true, blank:true
-        monitoreoReal nullable: true, blank:true
-        gpsReal nullable: true, blank:true
-        capitalReal nullable: true, blank:true
-        subtotalReal nullable: true, blank:true
-        ivaReal nullable: true, blank:true
-        saldoFinalReal nullable: true, blank:true
+        mensualidad nullable: true, blank:true
         montoConciliado nullable: true, blank:true
         moratorios nullable: true, blank:true
         penalizacion nullable: true, blank:true
         ventaDeAutos nullable: true, blank:true
         aportacionAcapital nullable: true, blank:true
+        fechaPagoCapital nullable: true, blank:true
+        saldoFinalRestante nullable: true, blank:true
+        diasAtraso nullable: true, blank:true
+        moraoriosCondonados nullable: true, blank:true
+        moraoriosPagados nullable: true, blank:true
     }
 
     static mapping = {
@@ -72,17 +71,16 @@ class ContratoDetalle {
         fechaPago name: 'fechaPago', column: 'fechaPago'
         estatus name: 'estatus', column: 'estatus'
         conciliado name: 'conciliado', column: 'conciliado'
-        interesReal name: 'interesReal', column: 'interesReal'
-        monitoreoReal name: 'monitoreoReal', column: 'monitoreoReal'
-        gpsReal name: 'gpsReal', column: 'gpsReal'
-        capitalReal name: 'capitalReal', column: 'capitalReal'
-        subtotalReal name: 'subtotalReal', column: 'subtotalReal'
-        ivaReal name: 'ivaReal', column: 'ivaReal'
-        saldoFinalReal name: 'saldoFinalReal', column: 'saldoFinalReal'
+        mensualidad name: 'mensualidad', column: 'mensualidad'
         montoConciliado name: 'montoConciliado', column: 'montoConciliado'
         moratorios name: 'moratorios', column: 'moratorios'
         penalizacion name: 'penalizacion', column: 'penalizacion'
         ventaDeAutos name: 'ventaDeAutos', column: 'ventaDeAutos'
         aportacionAcapital name: 'aportacionAcapital', column: 'aportacionAcapital'
+        fechaPagoCapital name: 'fechaPagoCapital', column: 'fechaPagoCapital'
+        saldoFinalRestante name: 'saldoFinalRestante', column: 'saldoFinalRestante'
+        diasAtraso name: 'diasAtraso', column: 'diasAtraso'
+        moraoriosCondonados name: 'moraoriosCondonados', column: 'moraoriosCondonados'
+        moraoriosPagados name: 'moraoriosPagados', column: 'moraoriosPagados'
     }
 }
