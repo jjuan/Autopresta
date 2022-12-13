@@ -143,15 +143,15 @@
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="cambiarEstado(row.id, 'cambiarEstado')" color="danger" matTooltip="Cambiar estatus del contrato">
                       <mat-icon>assignment</mat-icon>
                     </button><button mat-icon-button (click)="cambiarEstatusCliente(row.id)" color="danger" matTooltip="Cambiar estatus del cliente">
-                      <mat-icon>account_circle</mat-icon>
-                    </button>
-<!--                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="extenderContrato(row.id)" color="info" matTooltip="Generar extension de contrato">-->
-<!--                      <mat-icon>schedule</mat-icon>-->
-<!--                    </button>-->
+                    <mat-icon>account_circle</mat-icon>
+                  </button>
+                    <!--                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="extenderContrato(row.id)" color="info" matTooltip="Generar extension de contrato">-->
+                    <!--                      <mat-icon>schedule</mat-icon>-->
+                    <!--                    </button>-->
                     <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="verDetalles(row.id, 'detalles')" color="danger" matTooltip="Ver parcialidades">
                       <mat-icon>date_range</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="row.estatus == 'F'" (click)="generaExtension(row)" color="danger" matTooltip="Generar Extension contrato {{row.numeroContrato}}.">
+                    <button mat-icon-button *ngIf="row.estatusCliente == 'Planea Extender'" (click)="generaExtension(row)" color="danger" matTooltip="Generar Extension contrato {{row.numeroContrato}}.">
                       <mat-icon>event</mat-icon>
                     </button>
                     <button mat-icon-button *ngIf="row.estatus != 'C' && row.estatus != 'F'" (click)="download(row.id, row.numeroContrato);loadData()" color="danger" matTooltip="Imprimir {{datos.titulo}} folio: {{row.numeroContrato}}">

@@ -16,8 +16,8 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     def reporteService
 
     def cargarMovimientos() {
-        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
-        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+        def fechaInicio = sdf.parse(params.fechaInicio)
+        def fechaFin = sdf.parse(params.fechaFin)
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
         if (params.conciliados) {
             respond(conciliacionesService.cargarMovimientos(cuenta, new Boolean(params.cargoAbono), fechaInicio, fechaFin, new Boolean(params.conciliados)))
@@ -27,8 +27,8 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     }
 
     def cargarParcialidades() {
-        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
-        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+        def fechaInicio = sdf.parse(params.fechaInicio)
+        def fechaFin = sdf.parse(params.fechaFin)
         if (params.conciliados) {
             respond(conciliacionesService.cargarParcialidades(fechaInicio, fechaFin, new Boolean(params.conciliados)))
         } else {
@@ -57,23 +57,45 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     }
 
     def cargarParcialidadesManualNueva() {
-        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
-        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
-        def conciliados = Conciliaciones.findAllByConciliacionParcial(false)
-        def conDet = ConciliacionesDetalles.findAllByConciliacionesInList(conciliados).collect({ [folio: new Long(it.folioOperacion)] }).unique()
-        def lista = ContratoDetalle.findAllByContratoNotInListAndIdNotInListAndFechaBetween(conciliacionesService.contratosExcluidos(), conDet*.folio, fechaInicio, fechaFin)
-        lista = lista.collect({
-            [folio      : it.id,
-             contrato   : reporteService.contratoFolio(it.contrato),
-             titular    : conciliacionesService.getTitular(it),
-             parcialidad: it.parcialidad,
-             fecha      : it.fecha,
-             monto      : it.subtotal + it.iva,
-             estatus    : ConciliacionesDetalles.findByFolioOperacion(it.id.toString()) != null ? conciliacionesService.getStatus(ConciliacionesDetalles.findByFolioOperacion(it.id.toString()), false) : 'Pendiente',
-             clase      : conciliacionesService.getFolioAndClass(it).clase,
-             raiz       : conciliacionesService.getRaiz(it.id.toString(), conciliacionesService.getFolioAndClass(it).clase).id,
-             claseRaiz  : conciliacionesService.getRaiz(it.id.toString(), conciliacionesService.getFolioAndClass(it).clase).clase,
-            ]
+        def fechaInicio = sdf.parse(params.fechaInicio)
+        def fechaFin = sdf.parse(params.fechaFin)
+//        def conciliados = Conciliaciones.findAllByConciliacionParcial(false)
+        def lista = []
+        def estatusContrato = ['Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude']
+//        if (conciliados.size() > 0) {
+//            def conDet = ConciliacionesDetalles.findAllByConciliacionesInList(conciliados).collect({ [folio: new Long(it.folioOperacion)] }).unique()
+//            ContratoDetalle.findAllByContratoNotInListAndIdNotInListAndFechaBetween(conciliacionesService.contratosExcluidos(), conDet*.folio, fechaInicio, fechaFin)
+//            lista = lista.collect({
+//                [folio      : it.id,
+//                 contrato   : reporteService.contratoFolio(it.contrato),
+//                 titular    : conciliacionesService.getTitular(it),
+//                 parcialidad: it.parcialidad,
+//                 fecha      : it.fecha,
+//                 monto      : it.subtotal + it.iva,
+//                 estatus    : ConciliacionesDetalles.findByFolioOperacion(it.id.toString()) != null ? conciliacionesService.getStatus(ConciliacionesDetalles.findByFolioOperacion(it.id.toString()), false) : 'Pendiente',
+//                 clase      : conciliacionesService.getFolioAndClass(it).clase,
+//                 raiz       : conciliacionesService.getRaiz(it.id.toString(), conciliacionesService.getFolioAndClass(it).clase).id,
+//                 claseRaiz  : conciliacionesService.getRaiz(it.id.toString(), conciliacionesService.getFolioAndClass(it).clase).clase,
+//                ]
+//            })
+//        }
+        lista = Contrato.findAllByFechaCorteBetweenAndEstatusContratoNotInListAndTipoFolioNotEqualAndContratoPruebaAndEstatusNotEqualAndNumeroContratoNotEqual(
+                fechaInicio, fechaFin, estatusContrato, "P", false, "C", "").collect({
+            ContratoDetalle cd = ContratoDetalle.findByContratoAndParcialidad(it, it.mensualidadActual as Integer)
+
+            if (cd != null) {
+                [folio      : cd.id,
+                 contrato   : reporteService.contratoFolio(it),
+                 titular    : conciliacionesService.getTitular2(it),
+                 parcialidad: it.mensualidadActual,
+                 fecha      : it.fechaCorte,
+                 monto      : (cd.subtotal + cd.iva - cd.capital),
+                 estatus    : ConciliacionesDetalles.findByFolioOperacion(it.id.toString()) != null ? conciliacionesService.getStatus(ConciliacionesDetalles.findByFolioOperacion(it.id.toString()), false) : 'Pendiente',
+                 clase      : conciliacionesService.getFolioAndClass(it).clase,
+                 raiz       : conciliacionesService.getRaiz(cd.id.toString(), conciliacionesService.getFolioAndClass(cd).clase).id,
+                 claseRaiz  : conciliacionesService.getRaiz(cd.id.toString(), conciliacionesService.getFolioAndClass(cd).clase).clase,
+                ]
+            }
         })
         respond lista
     }
@@ -285,7 +307,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
     }
 
     @Transactional
-    def conciliacionGeneralMovimentos() {
+    def conciliacionGeneralMovimentos2() {
         def conciliaciones = []
 
         def idMovimientos = []
@@ -296,9 +318,12 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
         String cuenta = params.cuenta ? params.cuenta as String : Parametros.getValorByParametro('CuentaAP')
         def cuentaBancariaCliente = false
         def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContratoOrEstatusContratoOrEstatusContratoOrEstatusContratoOrEstatusContrato(true, "P", "C", "", 'Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude')
-        def contratos = Contrato.findAllByIdNotInList(excluidos*.id).sort({ it.numeroContrato.length() }).reverse()
+        def contratos = Contrato.findAllByIdNotInListAndFechaCorteLessThanEqualsAndMensualidadActualIsNotNull(excluidos*.id, fechaFin).sort({ it.numeroContrato.length() }).reverse()
 
-        def parcialidades = ContratoDetalle.findAllByContratoInListAndConciliadoAndFechaLessThanEquals(contratos, false, fechaFin)
+        def parcialidades = []
+        for (contrato in contratos) {
+            parcialidades.push(ContratoDetalle.findByParcialidadAndContrato(contrato.mensualidadActual as Integer, contrato))
+        }
         def contador = 0
         for (parcialidad in parcialidades) {
             def movimientos = LiquidacionBanco.findAllByConciliadoAndCargoAbonoAndFechaBetween(false, false, fechaInicio, fechaFin)
@@ -448,7 +473,6 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
                     conciliaciones.push(concilio)
                     idMovimientos.push(concilio.movimiento.folio)
                     idMensualidades.push(concilio.parcialidad.folio)
-//                    log.error "mov: " + concilio.movimiento.folio + " parcialidad: " + concilio.parcialidad.folio + 'Campo ' + campo
                 }
             } else {
                 respond conciliaciones
@@ -468,7 +492,7 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
 //        }
 
 
-        parcialidades = ContratoDetalle.findAllByContratoInListAndConciliadoAndFechaLessThanEquals(contratos, false, fechaFin)
+//        parcialidades = ContratoDetalle.findAllByContratoInListAndConciliadoAndFechaLessThanEquals(contratos*.id, false, fechaFin)
         def LB = LiquidacionBanco.findAllByConciliadoAndCargoAbonoAndFechaBetween(false, false, fechaInicio, fechaFin)
 //        log.error "MV: " + LB.size().toString()
         if (LB.size() > 0) {
@@ -538,6 +562,8 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
                                 '%SPEI RECIBIDOSCOTIABANK/ 0' + contrato + '%'
                         )
                     }
+
+
                     if (mv == null && contrato.length() > 1) {
                         mv = LiquidacionBanco.findByReferenciaLikeAndConciliadoAndCargoAbonoAndFechaBetweenAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLikeAndReferenciaNotLike(
                                 '% ' + contrato, false, false, fechaInicio, fechaFin, '% BNET    ' + contrato + '%',
@@ -949,6 +975,193 @@ class ConciliacionesController extends CatalogoController<Conciliaciones> {
             }
         }
         respond conciliaciones
+    }
+
+    @Transactional
+    def conciliacionGeneralMovimentos() {
+        def fechaInicio = params.fechaInicio ? sdf.parse(params.fechaInicio) : null
+        def fechaFin = params.fechaFin ? sdf.parse(params.fechaFin) : null
+
+        def conciliaciones = []
+        def idMovimientos = []
+        def idMensualidades = []
+
+        def liquidaciones = LiquidacionBanco.findAllByConciliadoAndCargoAbonoAndFechaBetween(false, false, fechaInicio, fechaFin)
+
+        if (liquidaciones.size() == 0) {
+            respond conciliaciones
+        }
+
+        for (liquidacion in liquidaciones) {
+            def concilio = conciiliaReferencia(liquidacion, fechaFin)
+            if (concilio != false) {
+                conciliaciones.push(concilio)
+                idMovimientos.push(concilio.movimiento.folio)
+                idMensualidades.push(concilio.parcialidad.folio)
+            }
+        }
+
+        respond conciliaciones
+    }
+
+    def conciiliaReferencia(LiquidacionBanco lb, def fechaFin) {
+        def refPrincipal = lb.afavor
+        String cadena = ""
+        String numRef = ""
+        String alfaRef = ""
+        String tipo = ""
+        String campo = ""
+        String formaConciliacion = ""
+        def concilio = false
+        if (refPrincipal.startsWith('CE')) {
+            cadena = (refPrincipal.replaceFirst('CE', '')).trim()
+            numRef = (cadena.substring(0, cadena.indexOf('/'))).replaceFirst("^0*", "")
+            if (numRef.length() == 5) {
+                numRef = (numRef.substring(0, numRef.length() - 1))
+            }
+            alfaRef = (cadena.substring((cadena.indexOf('/')) + 8, cadena.length() - 7)).trim();
+            tipo = "CE"
+        }
+        if (refPrincipal.startsWith('SPEI RECIBIDO')) {
+            def str = refPrincipal.split(' ')
+            def remover = str[0] + ' ' + str[1] + ' ' + str[2] + ' ' + str[3] + ' '
+            cadena = (refPrincipal.replace(remover, '')).trim()
+            numRef = (cadena.substring(0, 7)).replaceFirst("^0*", "");
+            alfaRef = cadena.substring(7, cadena.length());
+            tipo = 'SPEI'
+        }
+        if (refPrincipal.startsWith('PAGO CUENTA DE TERCERO/')) {
+            def str = refPrincipal.split(' ')
+            def remover = str[0] + ' ' + str[1] + ' ' + str[2] + ' ' + str[3] + ' ' + str[4] + ' ' + str[5] + ' ' + str[6]
+            cadena = (refPrincipal.replace(remover, '')).trim()
+            alfaRef = (cadena.substring(10, cadena.length())).trim()
+            tipo = "PAGO CUENTA DE TERCERO"
+        }
+        if (refPrincipal.startsWith('DEPOSITO EFECTIVO PRACTIC/')) {
+            def remover = "DEPOSITO EFECTIVO PRACTIC/******4176 "
+            cadena = (refPrincipal.replace(remover, '')).trim()
+            alfaRef = (cadena.substring(0, cadena.length() - 15)).trim();
+            tipo = "DEPOSITO EFECTIVO PRACTIC"
+        }
+        if (refPrincipal.startsWith('DEPOSITO EN EFECTIVO')) {
+            def remover = "DEPOSITO EN EFECTIVO/"
+            alfaRef = (refPrincipal.replace(remover, '')).trim()
+//            alfaRef = (cadena.substring(cadena.length() - 4, cadena.length())).trim();
+            tipo = "DEPOSITO EN EFECTIVO"
+        }
+        if (alfaRef == "" && numRef == "") {
+            log.error refPrincipal
+        }
+        alfaRef = alfaRef.replace(' 0', ' ')
+        def tipoContrato = 'CDMX'
+        if (alfaRef.contains('GDL')) {
+            tipoContrato = 'GDL'
+        } else if (alfaRef.contains('MTY')) {
+            tipoContrato = 'MTY'
+        }
+
+        char[] chars = alfaRef.toCharArray();
+        StringBuilder sb = new StringBuilder();
+        for (char c : chars) {
+            if (Character.isDigit(c)) {
+                sb.append(c);
+            }
+        }
+        String numeroContrato = ""
+        if (sb.length() > 0) {
+            numeroContrato = sb.replaceFirst("^0*", "");
+        }
+        if (numeroContrato.length() > 4){
+            numeroContrato = numeroContrato.substring(numeroContrato.length() - 4, numeroContrato.length())
+        }
+//        if (numeroContrato != "" || numRef.length() > 1 && numRef.length() <= 4) {
+//            log.error tipo + " Num. Ref.: " + numRef + " Alfa. Ref.: " + alfaRef + tipoContrato + ' contrato: ' + numeroContrato
+//        }
+
+        Contrato contrato = null
+        ContratoDetalle parcialidad = null
+        if (numeroContrato != "") {
+            log.error "Dato " + numeroContrato
+            contrato = Contrato.findByNumeroContratoAndTipoFolio(numeroContrato, tipoContrato)
+            if(contrato != null) {
+                parcialidad = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.mensualidadActual as Integer)
+                formaConciliacion = "Numero de Contrato"
+                campo = numeroContrato
+            }
+        } else if (contrato == null && numRef.length() > 1 && numRef.length() <= 4) {
+            log.error "Dato " + numRef
+            contrato = Contrato.findByNumeroContratoAndTipoFolio(numRef, 'CDMX')
+            if(contrato != null) {
+                parcialidad = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.mensualidadActual as Integer)
+                formaConciliacion = "Numero de Contrato"
+                campo = numRef
+            }
+        } else {
+            def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContratoOrEstatusContratoOrEstatusContratoOrEstatusContratoOrEstatusContrato(true, "P", "C", "", 'Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude')
+            def contratos = Contrato.findAllByIdNotInListAndFechaCorteLessThanEquals(excluidos*.id, fechaFin)
+            def hojas = HojaConciliacion.findByFolioInList(contratos)
+
+            for (hoja in hojas){
+//                Regla 1
+                if (hoja.regla1 != null && hoja.regla1 != "" && campo != ""){
+                    if (alfaRef.contains(hoja.regla1)){
+                        formaConciliacion = "Nombre del cliente"
+                        campo = hoja.regla1
+                    }
+                }
+//                Regla 2
+                if (hoja.regla2 != null && hoja.regla2 != "" && campo != ""){
+                    if (alfaRef.contains(hoja.regla2)){
+                        formaConciliacion = "Referencia bancaria"
+                        campo = hoja.regla2
+                    }
+                }
+//                Regla 5
+                if (hoja.regla5 != null && hoja.regla5 != "" && campo != ""){
+                    if (alfaRef.contains(hoja.regla5)){
+                        formaConciliacion = "RFC del cliente"
+                        campo = hoja.regla5
+                    }
+                }
+//                Regla 6
+                if (hoja.regla6 != null && hoja.regla6 != "" && campo != ""){
+                    if (alfaRef.contains(hoja.regla6)){
+                        formaConciliacion = "Placas del vehículo del cliente"
+                        campo = hoja.regla6
+                    }
+                }
+
+                if (campo != ""){
+                    parcialidad = ContratoDetalle.findByContratoAndParcialidad(hoja.folio, hoja.folio.mensualidadActual as Integer)
+                }
+            }
+        }
+
+        if (parcialidad != null) {
+            def operacion = conciliacionesService.getFolioAndClass(parcialidad)
+            def conciliacion = conciliacionesService.crearConciliacion(parcialidad.iva + parcialidad.subtotal, lb.monto, false, true)
+            conciliacionesService.crearConciliacionDetalle(conciliacion, lb, operacion.folio, operacion.clase, formaConciliacion, parcialidad, campo)
+
+            concilio = [concilio: true, parcialidad: [
+                    folio      : parcialidad.id,
+                    contrato   : reporteService.contratoFolio(parcialidad.contrato),
+                    titular    : conciliacionesService.getTitular(parcialidad),
+                    parcialidad: parcialidad.parcialidad,
+                    fecha      : parcialidad.fecha,
+                    monto      : parcialidad.subtotal + parcialidad.iva,
+                    estatus    : parcialidad.conciliado ? 'Conciliado' : 'Pendiente',
+                    clase      : conciliacionesService.getFolioAndClass(parcialidad).clase
+            ], movimiento       : [
+                    folio     : lb.id,
+                    cuenta    : lb.cuenta,
+                    fecha     : lb.fecha,
+                    referencia: lb.referencia,
+                    monto     : lb.monto,
+                    estatus   : lb.conciliado ? 'Conciliado' : 'Pendiente',
+                    clase     : conciliacionesService.getFolioAndClass(lb).clase
+            ], formaConciliacion: formaConciliacion]
+        }
+        return concilio
     }
 
     def verConciliacion() {

@@ -100,10 +100,11 @@ class Contrato {
     Boolean actualizado
 
     Long mensualidadActual
-
+    Date fechaCorte
     static constraints = {
         regimenFiscal nullable: true, blank: true
         fechaContrato nullable: true, blank: true
+        fechaCorte nullable: true, blank: true
 
         nombres nullable: true, blank: true
         primerApellido nullable: true, blank: true
@@ -199,6 +200,7 @@ class Contrato {
         id generator: 'identity'
         regimenFiscal name: 'regimenFiscal', column: 'regimenFiscal'
         fechaContrato name: 'fechaContrato', column: 'fechaContrato'
+        fechaCorte name: 'fechaCorte', column: 'fechaCorte'
 
         nombres name: 'nombres', column: 'nombres'
         primerApellido name: 'primerApellido', column: 'primerApellido'

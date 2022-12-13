@@ -1,6 +1,6 @@
 USE AUTOPRESTA
 ALTER TABLE[dbo].[ContratoDetalle]
-ALTER COLUMN [parcialidad] INT
+    ALTER COLUMN [parcialidad] INT
 
 DELETE FROM AUTOPRESTA.dbo.Agencias
 DELETE FROM AUTOPRESTA.dbo.SUCURSAL WHERE  AUTOPRESTA.dbo.SUCURSAL.id > 3
@@ -26,4 +26,6 @@ UPDATE AUTOPRESTA.dbo.ContratoDetalle SET
 
 ALTER TABLE Contrato ADD estatusCliente VARCHAR(200)
 -- update HistoricoExtensiones set fechaInicio = (select fecha from ContratoDetalle where ContratoDetalle.contrato = HistoricoExtensiones.contrato and parcialidad = HistoricoExtensiones.parcialidadInicio + 1) where descripcion = '2G'
-up
+update Contrato set fin = 24, finReq = 24 where mensualidadActual >=13 and mensualidadActual<=24
+update Contrato set fin = 36, finReq = 36 where mensualidadActual >=25 and mensualidadActual<=36
+update Contrato set fin = 48, finReq = 48 where mensualidadActual >=37 and mensualidadActual<=48

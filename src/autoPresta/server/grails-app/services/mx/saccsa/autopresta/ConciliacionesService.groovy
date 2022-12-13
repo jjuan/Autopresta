@@ -1,6 +1,7 @@
 package mx.saccsa.autopresta
 
 import grails.gorm.transactions.Transactional
+import groovy.time.TimeCategory
 import mx.saccsa.security.Usuario
 import org.apache.tools.ant.taskdefs.Length
 import org.w3c.dom.CDATASection
@@ -40,10 +41,15 @@ class ConciliacionesService {
 
     def cargarParcialidades(Date fechaInicio, Date fechaFin, Boolean... conciliados) {
         def lista
+        def estatusContrato = ['Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude']
         if (conciliados) {
-            lista = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(contratosExcluidos(), conciliados[0] as Boolean, fechaInicio, fechaFin)
+            lista = ContratoDetalle.findAllByIdInListAndConciliado(
+                    Contrato.findAllByFechaCorteBetweenAndEstatusContratoNotInListAndTipoFolioNotEqualAndContratoPruebaAndEstatusNotEqualAndNumeroContratoNotEqual(
+                            fechaInicio, fechaFin, estatusContrato, "P", false, "C", "")*.mensualidadActual, conciliados[0] as Boolean)
         } else {
-            lista = ContratoDetalle.findAllByContratoNotInListAndFechaBetween(contratosExcluidos(), fechaInicio, fechaFin)
+            lista = ContratoDetalle.findAllByIdInList(
+                    Contrato.findAllByFechaCorteBetweenAndEstatusContratoNotInListAndTipoFolioNotEqualAndContratoPruebaAndEstatusNotEqualAndNumeroContratoNotEqual(
+                            fechaInicio, fechaFin, estatusContrato, "P", false, "C", "")*.mensualidadActual)
         }
         lista = lista.collect({
             [folio      : it.id,
@@ -56,7 +62,6 @@ class ConciliacionesService {
              clase      : getFolioAndClass(it).clase,
              raiz       : getRaiz(it.id.toString(), getFolioAndClass(it).clase).id,
              claseRaiz  : getRaiz(it.id.toString(), getFolioAndClass(it).clase).clase,
-//             porMovimiento: ConciliacionesDetalles.findByFolioOperacion(it.id.toString())!=null?Conciliaciones.findById(ConciliacionesDetalles.findByFolioOperacion(it.id.toString()).id).porMovimiento:'N/A'
             ]
         })
         return lista
@@ -84,105 +89,21 @@ class ConciliacionesService {
         return [id: id, clase: clase]
     }
 
-    def conciliacionAutomaticaMovimientos(String cargoAbono, Date fechaInicio, Date fechaFin, Long id, ArrayList idMensualidades, Boolean ... confirmaConciliacion) {
+    def conciliacionAutomaticaMovimientos(String cargoAbono, Date fechaInicio, Date fechaFin, Long id, ArrayList idMensualidades, Boolean... confirmaConciliacion) {
         LiquidacionBanco moviento = LiquidacionBanco.findById(id)
         String formaConciliacion = ''
         String campo = ''
         Boolean concilio = false
         def pagos = []
+        def estatusContrato = ['Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude']
         if (cargoAbono == 'false') {
 
-            def excluidos  = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContrato(true, "P", "C", "")
+            def excluidos = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContrato(true, "P", "C", "")
             def contratos = Contrato.findAllByIdNotInList(excluidos*.id).sort({ it.numeroContrato.length() }).reverse()
-//            for (contrato1 in contratos) {
-//                def parcialidades = ContratoDetalle.findAllByContratoAndConciliadoAndFechaLessThanEquals(contrato1, false, fechaFin)
-//                for (parcialidad in parcialidades) {
-////                log.error " numero: " + parcialidad.contrato.numeroContrato
-//                    HojaConciliacion hojaConciliacion = verificarHoja(parcialidad.contrato)
-//                    Boolean encontro = false
-//                    BigDecimal monto = parcialidad.iva + parcialidad.subtotal
-////                if (monto == moviento.monto) {
-//                    String cliente = parcialidad.contrato.razonesSociales != null ? parcialidad.contrato.razonesSociales.razonSocial.toLowerCase() : nombreCliente(parcialidad.contrato)
-
-//                    String contrato = parcialidad.contrato.numeroContrato != null ? parcialidad.contrato.numeroContrato.toLowerCase() : null
-//                    String rfc = parcialidad.contrato.razonesSociales != null ? parcialidad.contrato.razonesSociales.rfc.toLowerCase() : parcialidad.contrato.rfc.toLowerCase()
-//                    String placas = parcialidad.contrato.placas != null ? parcialidad.contrato.placas.toLowerCase() : null
-//
-//                    if (moviento.referencia.toLowerCase().contains(cliente) && !encontro) {
-//                        pagos.push(parcialidad)
-//                        hojaConciliacion.regla1 = cliente
-//                        campo = cliente
-//                        formaConciliacion = 'Nombre del cliente'
-//                        hojaConciliacion.save(flush: true, failOnError: true)
-//                        log.error "movimiento: " + moviento.id
-//                        return concilia(parcialidad, moviento, formaConciliacion, campo)
-//                    }
-//
-
-//
-////                    if (moviento.referencia.toLowerCase().contains(contrato) && !encontro && moviento.referencia.toLowerCase().contains('0941763 ') == false) {
-////                        pagos.push(parcialidad)
-////                        hojaConciliacion.regla3 = contrato
-////                        campo = contrato
-////                        encontro = true
-////                        formaConciliacion = 'Número de contrato'
-////                        hojaConciliacion.save(flush: true, failOnError: true)
-////                        log.error "movimiento: " + moviento.id
-////                        return concilia(parcialidad, moviento, formaConciliacion, campo)
-////                    }
-//
-////                    if (hojaConciliacion.regla4 != null && moviento.referencia.toLowerCase().contains(hojaConciliacion.regla4) && !encontro && moviento.referencia.toLowerCase().contains('0941763 ') == false) {
-////                        pagos.push(parcialidad)
-////                        campo = contrato
-////                        encontro = true
-////                        formaConciliacion = 'Número de cuenta'
-////                        hojaConciliacion.save(flush: true, failOnError: true)
-////                        log.error "movimiento: " + moviento.id
-////                        return concilia(parcialidad, moviento, formaConciliacion, campo)
-////                    }
-//                    if (rfc != null) {
-//                        if (moviento.referencia.toLowerCase().contains(rfc) && !encontro) {
-//                            pagos.push(parcialidad)
-//                            hojaConciliacion.regla5 = rfc
-//                            campo = rfc
-//                            encontro = true
-//                            formaConciliacion = 'RFC del cliente'
-//                            hojaConciliacion.save(flush: true, failOnError: true)
-//                            log.error "movimiento: " + moviento.id
-//                            return concilia(parcialidad, moviento, formaConciliacion, campo)
-//                        }
-//                    }
-//
-//                    if (placas != null) {
-//                        if (moviento.referencia.toLowerCase().contains(placas) && !encontro) {
-//                            pagos.push(parcialidad)
-//                            hojaConciliacion.regla6 = placas
-//                            campo = placas
-//                            encontro = true
-//                            formaConciliacion = 'Placas del vehículo del cliente'
-//                            hojaConciliacion.save(flush: true, failOnError: true)
-//                            log.error "movimiento: " + moviento.id
-//                            return concilia(parcialidad, moviento, formaConciliacion, campo)
-//                        }
-//                    }
-//
-//                    if (hojaConciliacion.regla8 != null && moviento.referencia.toLowerCase().contains(hojaConciliacion.regla8) && !encontro && moviento.referencia.toLowerCase().contains('0941763 ') == false) {
-//                        pagos.push(parcialidad)
-//                        campo = hojaConciliacion.regla8
-//                        encontro = true
-//                        formaConciliacion = 'Cajero'
-//                        hojaConciliacion.save(flush: true, failOnError: true)
-//                        log.error "movimiento: " + moviento.id
-//                        return concilia(parcialidad, moviento, formaConciliacion, campo)
-//                    }
-//
-//                    hojaConciliacion.save(flush: true, failOnError: true)
-////                }
-//                }
-//            }
             for (contrato1 in contratos) {
-                def parcialidades = ContratoDetalle.findAllByContratoAndConciliadoAndFechaLessThanEqualsAndIdNotInList(contrato1, false, fechaFin, idMensualidades)
-
+                def parcialidades = ContratoDetalle.findAllByIdInListAndConciliado(
+                        Contrato.findAllByFechaCorteLessThanEqualsAndEstatusContratoNotInListAndTipoFolioNotEqualAndContratoPruebaAndEstatusNotEqualAndNumeroContratoNotEqual(
+                                fechaFin, estatusContrato, "P", false, "C", "")*.mensualidadActual, false)
                 for (parcialidad in parcialidades) {
                     String ap = '0941763'
                     HojaConciliacion hojaConciliacion = verificarHoja(parcialidad.contrato)
@@ -208,37 +129,7 @@ class ConciliacionesService {
                         return concilia(parcialidad, moviento, formaConciliacion, campo)
                     }
                     hojaConciliacion.save(flush: true, failOnError: true)
-//                }
                 }
-//            log.error 'va el ' + moviento.id.toString() + ' coincidencias: ' + pagos.size().toString()
-//            if (pagos.size() >= 1) {
-//                ContratoDetalle parcialidad = ContratoDetalle.findById(pagos[0].id as Long)
-//                def operacion = getFolioAndClass(parcialidad)
-//                if (confirmaConciliacion && (confirmaConciliacion[0] as Boolean)) {
-//                    def conciliacion = crearConciliacion(parcialidad.iva + parcialidad.subtotal, moviento.monto, true, true)
-//                    crearConciliacionDetalle(conciliacion, moviento, operacion.folio, operacion.clase, formaConciliacion, moviento, campo)
-//                }
-//                concilio = true
-//                return [concilio    : concilio, parcialidad: [
-//                        folio      : parcialidad.id,
-//                        contrato   : reporteService.contratoFolio(parcialidad.contrato),
-//                        titular    : getTitular(parcialidad),
-//                        parcialidad: parcialidad.parcialidad,
-//                        fecha      : parcialidad.fecha,
-//                        monto      : parcialidad.subtotal + parcialidad.iva,
-//                        estatus    : parcialidad.conciliado ? 'Conciliado' : 'Pendiente',
-//                        clase      : getFolioAndClass(parcialidad).clase
-//                ], movimiento       : [
-//                        folio     : moviento.id,
-//                        cuenta    : moviento.cuenta,
-//                        fecha     : moviento.fecha,
-//                        referencia: moviento.referencia,
-//                        monto     : moviento.monto,
-//                        estatus   : moviento.conciliado ? 'Conciliado' : 'Pendiente',
-//                        clase     : getFolioAndClass(moviento).clase
-//                ], formaConciliacion: formaConciliacion]
-//            }
-
             }
             return false
         }
@@ -246,12 +137,9 @@ class ConciliacionesService {
 
 
     def concilia(ContratoDetalle parcialidad, LiquidacionBanco moviento, String formaConciliacion, String campo) {
-//        ContratoDetalle parcialidad = ContratoDetalle.findById(pagos[0].id as Long)
         def operacion = getFolioAndClass(parcialidad)
-//        if (confirmaConciliacion && (confirmaConciliacion[0] as Boolean)) {
         def conciliacion = crearConciliacion(parcialidad.iva + parcialidad.subtotal, moviento.monto, false, true)
         crearConciliacionDetalle(conciliacion, moviento, operacion.folio, operacion.clase, formaConciliacion, moviento, campo)
-//        }
         return [concilio    : true, parcialidad: [
                 folio      : parcialidad.id,
                 contrato   : reporteService.contratoFolio(parcialidad.contrato),
@@ -293,15 +181,13 @@ class ConciliacionesService {
         HojaConciliacion hojaConciliacion = verificarHoja(contratoDetalle.contrato)
         Boolean concilio = false
         def pagos = []
-//        def movimientos = LiquidacionBanco.findAllByCargoAbonoAndMontoAndConciliadoAndFechaBetween(false, contratoDetalle.subtotal + contratoDetalle.iva, false, fechaInicial, fechaFinal)
         def movimientos = LiquidacionBanco.findAllByCargoAbonoAndConciliadoAndFechaBetween(false, false, fechaInicial, fechaFinal)
         for (movimiento in movimientos) {
             Boolean encontro = false
             String cliente = contratoDetalle.contrato.razonesSociales != null ? contratoDetalle.contrato.razonesSociales.razonSocial.toLowerCase() : nombreCliente(contratoDetalle.contrato)
-            String referencia = contratoDetalle.contrato.referencia!=null?contratoDetalle.contrato.referencia.toLowerCase():null
-//            String contrato = contratoDetalle.contrato.numeroContrato.toLowerCase()
-            String rfc = contratoDetalle.contrato.razonesSociales != null ? contratoDetalle.contrato.razonesSociales.rfc.toLowerCase() : contratoDetalle.contrato.rfc!=null?contratoDetalle.contrato.rfc.toLowerCase():null
-            String placas = contratoDetalle.contrato.placas!=null? contratoDetalle.contrato.placas.toLowerCase():null
+            String referencia = contratoDetalle.contrato.referencia != null ? contratoDetalle.contrato.referencia.toLowerCase() : null
+            String rfc = contratoDetalle.contrato.razonesSociales != null ? contratoDetalle.contrato.razonesSociales.rfc.toLowerCase() : contratoDetalle.contrato.rfc != null ? contratoDetalle.contrato.rfc.toLowerCase() : null
+            String placas = contratoDetalle.contrato.placas != null ? contratoDetalle.contrato.placas.toLowerCase() : null
             if (movimiento.referencia.toLowerCase().contains(cliente) && !encontro) {
                 pagos.push(movimiento)
                 hojaConciliacion.regla1 = cliente
@@ -316,21 +202,6 @@ class ConciliacionesService {
                 encontro = true
                 formaConciliacion = 'Referencia bancaria'
             }
-
-//            if (movimiento.referencia.toLowerCase().contains(contrato) && !encontro && movimiento.referencia.toLowerCase().contains('0941763 ') == false) {
-//                pagos.push(movimiento)
-//                hojaConciliacion.regla3 = contrato
-//                campo = contrato
-//                encontro = true
-//                formaConciliacion = 'Número de contrato'
-//            }
-
-//            if (hojaConciliacion.regla4 != null && movimiento.referencia.toLowerCase().contains(hojaConciliacion.regla4 && movimiento.referencia.toLowerCase().contains('0941763 ') == false) && !encontro) {
-//                pagos.push(movimiento)
-//                campo = contrato
-//                encontro = true
-//                formaConciliacion = 'Número de cuenta'
-//            }
 
             if (rfc != null && movimiento.referencia.toLowerCase().contains(rfc) && !encontro) {
                 pagos.push(movimiento)
@@ -385,36 +256,6 @@ class ConciliacionesService {
                     clase     : getFolioAndClass(mv).clase
             ], formaConciliacion: formaConciliacion]
         }
-//        else if (pagos.size() > 1) {
-//            def montoXmovimientos = 0
-//            def conciliacion = crearConciliacion(contratoDetalle.iva + contratoDetalle.subtotal, 0 as BigDecimal, false, true)
-//            for (pago in pagos) {
-//                if (monto > 0) {
-//                    LiquidacionBanco mv = LiquidacionBanco.findById(pago.id as Long)
-//                    monto = monto - mv.monto
-//                    montoXmovimientos = mv.monto
-//                    def operacion = getFolioAndClass(contratoDetalle)
-//                    if (confirmaConciliacion && (confirmaConciliacion[0] as Boolean)) {
-//                        crearConciliacionDetalle(conciliacion, mv, operacion.folio, operacion.clase, formaConciliacion, contratoDetalle, campo)
-//                        hojaConciliacion.save(flush: true, failOnError: true)
-//                    }
-//                    concilio = true
-//                    conciliaciones.push(conciliacion)
-//
-//                }
-//            }
-//
-//            Conciliaciones instance = Conciliaciones.findById(conciliacion)
-//            instance.montoXmovimientos = montoXmovimientos
-//            def diferencia = calculoDiferencia(instance.montoXoperaciones, montoXmovimientos as BigDecimal)
-//            instance.diferencia = diferencia.diferencia as BigDecimal
-//            instance.descripcionDiferencia = diferencia.descripcionDiferencia
-//            instance.save(flush: true, failOnError: true)
-//
-//            conciliaciones.push(conciliacion)
-//
-////            return [concilio: concilio, detalles: getDetalles(instance), formaConciliacion: formaConciliacion]
-//        }
         return concilio == false ? concilio : conciliaciones
     }
 
@@ -478,7 +319,8 @@ class ConciliacionesService {
         }
         instance.save(flush: true, failOnError: true)
         actualizaMovimento(movimiento.id)
-        actualizarOperacion(folioOperacion, tipoOperacion, movimiento, Conciliaciones.findById(conciliaciones))
+//        actualizarOperacion(folioOperacion, tipoOperacion, movimiento, Conciliaciones.findById(conciliaciones))
+        actualizaPagoMensualidad(movimiento, ContratoDetalle.findById(folioOperacion as Long).contrato)
         return instance.id
     }
 
@@ -528,27 +370,50 @@ class ConciliacionesService {
     }
 
     def contratosExcluidos() {
-
-//        def excluidos  = Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContrato(true, "P", "C", "")
-//        def contratos = Contrato.findAllByIdNotInList(excluidos*.id).sort({ it.numeroContrato.length() }).reverse()
         return Contrato.findAllByContratoPruebaOrTipoFolioOrEstatusOrNumeroContratoOrEstatusContratoOrEstatusContratoOrEstatusContratoOrEstatusContrato(true, "P", "C", "", 'Inpago (vendido)', 'Liquidado anticipado', 'Liquidado a tiempo', 'Fraude')
     }
 
     String nombreCliente(Contrato contrato) {
-//        return contrato.nombreLargo != null ? contrato.nombreLargo : contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
         return contrato.nombreLargo != null ? contrato.nombreLargo.toLowerCase() : contrato.nombres.toLowerCase() + ' ' + contrato.primerApellido.toLowerCase()
     }
 
-    HojaConciliacion verificarHoja(Object objeto) {
-        def registro = getFolioAndClass(objeto)
-        HojaConciliacion hojaConciliacion = HojaConciliacion.findByFolioAndClase(registro.folio, registro.clase)
+    HojaConciliacion verificarHoja(Contrato contrato) {
+        HojaConciliacion hojaConciliacion = HojaConciliacion.findByFolio(contrato)
         if (hojaConciliacion == null) {
             hojaConciliacion = new HojaConciliacion()
-            hojaConciliacion.folio = registro.folio
-            hojaConciliacion.clase = registro.clase
+
+            hojaConciliacion.folio = contrato
+
+            hojaConciliacion.regla1 = getTitular2(contrato)
+
+            hojaConciliacion.regla2 = contrato.numeroContrato
+            hojaConciliacion.regla3 = contrato.numeroContrato
+
+            if (contrato.rfc != null) {
+                hojaConciliacion.regla5 = contrato.rfc
+            }
+            if (contrato.placas != null) {
+                hojaConciliacion.regla6 = contrato.placas
+            }
+
             hojaConciliacion.save(flush: true, failOnError: true)
         }
         return hojaConciliacion
+    }
+
+    def getTitular2(Contrato contrato) {
+        String titular = ''
+        if (contrato.razonesSociales != null) {
+            titular = contrato.razonesSociales.razonSocial
+        } else {
+            if (contrato.nombreLargo != null) {
+                titular = contrato.nombreLargo
+            } else {
+
+                titular = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
+            }
+        }
+        return titular
     }
 
     def getTitular(ContratoDetalle contratoDetalle) {
@@ -565,6 +430,64 @@ class ConciliacionesService {
             }
         }
         return titular
+    }
+
+    @Transactional
+    def actualizaPagoMensualidad(LiquidacionBanco lb, Contrato co) {
+
+        ContratoDetalle cd = ContratoDetalle.findByContratoAndParcialidad(co, co.mensualidadActual as Integer)
+        def excedente = 0
+        def montoMensualidad = cd.subtotal + cd.iva - cd.capital
+        if (cd.fechaPago == null) {
+            if (lb.fecha <= cd.fecha) {
+                cd.fechaPago = lb.fecha
+                cd.mensualidad = cd.mensualidad + lb.monto
+            } else {
+                cd.fechaPago = lb.fecha
+                def dias = TimeCategory.minus(lb.fecha , cd.fecha).days
+                cd.diasAtraso = dias
+                cd.moratorios = (montoMensualidad * 0.10) * dias
+                cd.mensualidad = cd.mensualidad + lb.monto
+            }
+        } else {
+            if (cd.mensualidad < (cd.subtotal + cd.iva - cd.capital)) {
+                cd.fechaPago = lb.fecha
+                def dias = TimeCategory.minus(lb.fecha, cd.fecha).days
+                cd.diasAtraso = dias
+                cd.moratorios = (montoMensualidad * 0.10) * dias
+                cd.mensualidad = cd.mensualidad + lb.monto
+            } else {
+                cd.mensualidad = cd.mensualidad + lb.monto
+            }
+        }
+
+        if (cd.mensualidad > montoMensualidad) {
+            def monto = cd.mensualidad
+            cd.mensualidad = montoMensualidad
+            cd.moraoriosPagados = monto - montoMensualidad
+
+            if (cd.moraoriosPagados > cd.moratorios) {
+                excedente = cd.moraoriosPagados - cd.moratorios
+                cd.moraoriosPagados = cd.moratorios
+            }
+        }
+        cd.save(flush: true, failOnError: true)
+
+        if (cd.mensualidad == montoMensualidad){
+            Contrato contrato = Contrato.findById(co.id)
+            def sigMen = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.mensualidadActual + 1 as Integer)
+            if (sigMen != null) {
+                contrato.mensualidadActual = sigMen.parcialidad
+                contrato.fechaCorte = sigMen.fecha
+                contrato.save(flush: true, failOnError: true)
+
+//                if (excedente > 0){
+////                    sigMen.mensualidad = excedente
+////                    sigMen.fechaPago = lb.fecha
+//                    sigMen.save(flush: true, failOnError: true)
+//                }
+            }
+        }
     }
 
     String getForma(String forma) {
@@ -600,7 +523,6 @@ class ConciliacionesService {
 
     String getStatus(ConciliacionesDetalles cd, Boolean movimiento) {
         String status = 'Pendiente'
-//        if (cd.conciliaciones.porMovimiento && cd.conciliaciones.conciliacionParcial && movimiento || !cd.conciliaciones.porMovimiento && cd.conciliaciones.conciliacionParcial && !movimiento) {
         if (cd.conciliaciones.conciliacionParcial) {
             status = 'Conciliacion Parcial'
         } else {

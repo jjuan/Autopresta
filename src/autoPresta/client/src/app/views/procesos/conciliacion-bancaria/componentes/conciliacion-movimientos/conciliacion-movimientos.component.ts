@@ -160,7 +160,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
 
     let data: any;
     const dialogRef = this.dialog.open(ConciliacionManualMovimientosComponent, {
-      width: '80%', disableClose: true,
+      width: '80%', height: '90%', disableClose: true,
       data: {
         title: 'Parcialidad', disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
         info: row, action: 'Agregar', cabecera: 'Concilliaciòn manual de movimientos', esDetalle: false
@@ -188,7 +188,7 @@ export class ConciliacionMovimientosComponent implements OnInit {
       clase: row.clase
     }, 'verConciliacion').subscribe(r => {
       const dialogRef = this.dialog.open(ConciliacionDetallesComponent, {
-        width: '80%', disableClose: true, height: '95%',
+        width: '80%', height: '90%', disableClose: true,
         data: {
           esMovimiento: r[0].porMovimiento, disableClose: true, fechaInicio: this.fechaInicio, fechaFin: this.fechaFin,
           info: r[0], action: 'Agregar', cabecera: 'Resumen de la conciliacion', esDetalle: true, row: row

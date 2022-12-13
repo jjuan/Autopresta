@@ -140,7 +140,7 @@ export class ContratosFirmadosComponent implements OnInit {
   verDetalles(id, accion: string) {
     this.restService.index<ContratoDetalle[]>('ContratoDetalle', {id: id}, accion).subscribe(pagos => {
       this.dialog.open(DetallePagosComponent, {
-        data: {datos: pagos, titulo: 'Parcialidades del contrato ' + id}
+        data: {datos: pagos, titulo: 'Parcialidades del contrato ' + id}, height: '80%'
       })
     })
   }

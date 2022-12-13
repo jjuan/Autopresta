@@ -230,7 +230,7 @@ class ReporteService {
     def contratosFirmados(Date fechaInicio, Date fechaFin) {
         def lista = Contrato.findAllByContratoPruebaAndEstatusAndFechaContratoBetween(false, 'F', fechaInicio, fechaFin).collect({
             [
-                    numeroContrato: it.numeroContrato != '' ? contratoFolio(it) : '',
+                    numeroContrato: contratoFolio(it),
                     titular       : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
                     representante : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
                     fechaContrato : it?.fechaContrato,
@@ -287,7 +287,7 @@ class ReporteService {
                     fechaPago         : ContratoDetalle.findById(it.folioOperacion as Long).fecha,
                     referenciaBancaria: it.movimiento.referencia,
                     fechaMovimiento   : it.movimiento.fecha,
-//                    contrato          : contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato.numeroContrato, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoPrueba, ContratoDetalle.findById(it.folioOperacion as Long).contrato.contratoMonterrey),
+                    contrato          : contratoFolio(ContratoDetalle.findById(it.folioOperacion as Long).contrato),
                     formaConciliacion : it.formaConciliacion,
                     montoMovimiento   : it.movimiento.monto
             ]
