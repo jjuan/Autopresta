@@ -63,7 +63,8 @@ export class ContratoPersonaFisicaComponent implements OnInit {
     {id: '2019', descripcion: '2019'},
     {id: '2020', descripcion: '2020'},
     {id: '2021', descripcion: '2021'},
-    {id: '2022', descripcion: '2022'}
+    {id: '2022', descripcion: '2022'},
+    {id: '2023', descripcion: '2023'}
 
   ];
   public documentoOficialCombo: IdentificacionesOficiales[];

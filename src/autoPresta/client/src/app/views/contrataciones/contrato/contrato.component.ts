@@ -57,6 +57,8 @@ export class ContratoComponent implements OnInit {
   tasaMonitoreo = 1;
   tasaGPS = 0.75;
 
+
+  porcentajeMax = 70
   public longitud = 1
   public longitudCoacreditado = 1
 
@@ -79,7 +81,8 @@ export class ContratoComponent implements OnInit {
     {id: '2019', descripcion: '2019'},
     {id: '2020', descripcion: '2020'},
     {id: '2021', descripcion: '2021'},
-    {id: '2022', descripcion: '2022'}
+    {id: '2022', descripcion: '2022'},
+    {id: '2023', descripcion: '2023'}
 
   ];
   public documentoOficialCombo: IdentificacionesOficiales[];
@@ -121,6 +124,9 @@ export class ContratoComponent implements OnInit {
     this.genericRestService.create<Contrato>(this._datos._dominio).subscribe(data => this.form(data));
     this.direccionFormulario()
 
+    this.genericRestService.combo<any>({}, 'maxAutorizado').subscribe(result => {
+      this.porcentajeMax = result.max
+    });
     if (this.route.snapshot.params.id != undefined) {
       this.id = this.route.snapshot.params.id
       this.genericRestService.edit<any>(this.id, this._datos._dominio, {}, 'edicionContrato').subscribe(datos => {
@@ -361,7 +367,7 @@ export class ContratoComponent implements OnInit {
   }
 
   calcularMaximoAutorizado(monto: number) {
-    this.montoMaximoAutorizado = monto * 0.7;
+    this.montoMaximoAutorizado = monto * (this.porcentajeMax / 100);
     this.formulario.patchValue({
       montoMaximoAutorizado: (this.montoMaximoAutorizado).toFixed(2)
     })
