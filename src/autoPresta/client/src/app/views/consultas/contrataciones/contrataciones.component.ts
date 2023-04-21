@@ -163,6 +163,7 @@ export class registros extends DataSource<Contrataciones> {
     ];
 
     this.ds.getAdvancedTable<any>(this.controller, {'max': 100});
+    // console.log(this.ds)
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Contrataciones) => {
           const searchStr = (

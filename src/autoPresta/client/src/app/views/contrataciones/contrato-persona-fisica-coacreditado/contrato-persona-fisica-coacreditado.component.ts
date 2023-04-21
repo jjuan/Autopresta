@@ -186,7 +186,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
       costoMensualTotal: [data ? data.costoMensualTotal : this.costoMensualTotal],
       tipoContrato: [data ? data.tipoContrato : ''],
       referencia: [data ? data.referencia : ''],
-      clabe: [data ? data.clabe : ''],
+      clabe: [data ? data.clabe : '', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
       coacreditado: [true],
       calificacionCliente: [data ? data.calificacionCliente : ''],
       contratoPrueba: [data ? data.contratoPrueba : ''],

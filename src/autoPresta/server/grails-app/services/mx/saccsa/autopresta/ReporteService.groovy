@@ -24,7 +24,7 @@ class ReporteService {
         for (pago in pagos) {
             montoTotal = montoTotal + (pago.subtotal + pago.iva)
         }
-        String clabe = Parametros.getValorByParametro('CLABE_BANCO')
+//        String clabe = Parametros.getValorByParametro('CLABE_BANCO')
         ContratoDetalle.findAllByContrato(contrato).eachWithIndex { ContratoDetalle it, int i ->
             listaDatos.add index: i + 1,
                     fechaPago: it.fecha,
@@ -76,7 +76,7 @@ class ReporteService {
                 montoPrestamo                      : contrato.montoTransferencia,
                 montoTotalPagar                    : montoTotal,
                 referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
-                clabe                              : clabe,
+                clabe                              : contrato.clabe,
                 plazo                              : '12 MESES',
                 desempeño                          : fecha(desempenio.fecha),
                 caracteristicas                    : descripcion(contrato),

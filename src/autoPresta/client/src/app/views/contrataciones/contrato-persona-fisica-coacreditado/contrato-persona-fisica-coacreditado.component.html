@@ -832,6 +832,21 @@
               </mat-error>
             </mat-form-field>
           </div>
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Clabe</mat-label>
+              <input matInput formControlName="clabe">
+              <mat-error *ngIf="formulario.get('clabe').hasError('required')">
+                Clabe es requerido
+              </mat-error>
+              <mat-error *ngIf="formulario.controls.clabe.hasError('minlength')">
+                La longitud del campo Clabe no debe ser menor a 18 caracteres
+              </mat-error>
+              <mat-error *ngIf="formulario.controls.clabe.hasError('maxlength')">
+                La longitud del campo Clabe no debe ser mayor a 18 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </div>

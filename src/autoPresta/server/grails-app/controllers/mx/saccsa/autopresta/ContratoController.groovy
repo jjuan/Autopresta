@@ -28,85 +28,26 @@ class ContratoController extends RestfulController<Contrato> {
         String validar = Parametros.getValorByParametro('Pruebas')
         def contratos
         if (validar == '1') {
-            contratos = Contrato.findAllByEstatusNotEqual('F')
+            contratos = Contrato.findAllByEstatusNotEqualAndEstatusInList('F', ['R', 'I', 'C'])
         } else {
-            contratos = Contrato.findAllByContratoPruebaAndEstatusNotEqual(false, 'F')
+            contratos = Contrato.findAllByContratoPruebaAndEstatusNotEqualAndEstatusInList(false, 'F', ['R', 'I', 'C'])
         }
         def lista = contratos.collect({
+            HistoricoExtensiones ext = HistoricoExtensiones.findByContratoAndEsDefault(it, true)
+            def detalles = 0.00
+
+            if (ext) {
+                detalles = ContratoDetalle.executeQuery('SELECT SUM(iva + subtotal) FROM ContratoDetalle WHERE contrato =:contrato AND parcialidad BETWEEN ' + ext.parcialidadInicio + ' AND ' + ext.parcialidadFin, [contrato: it])[0]
+            }
             [
-                    id                           : it?.id,
-                    regimenFiscal                : it?.regimenFiscal?.descLabel,
-                    titular                      : getTitular(it),
-                    representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
-                    fechaContrato                : it?.fechaContrato,
-                    nombres                      : it?.nombres,
-                    primerApellido               : it?.primerApellido,
-                    segundoApellido              : it?.segundoApellido,
-                    genero                       : it?.genero,
-                    rfc                          : it?.rfc,
-                    edad                         : it?.edad,
-                    fechaNacimiento              : it?.fechaNacimiento,
-                    curp                         : it?.curp,
-                    claveElector                 : it?.claveElector,
-                    documentoOficial             : it?.documentoOficial,
-                    telefonoFijo                 : it?.telefonoFijo,
-                    telefonoCelular              : it?.telefonoCelular,
-                    telefonoOficina              : it?.telefonoOficina,
-                    correoElectronico            : it?.correoElectronico,
-                    nombresCoacreditado          : it?.nombresCoacreditado,
-                    primerApellidoCoacreditado   : it?.primerApellidoCoacreditado,
-                    segundoApellidoCoacreditado  : it?.segundoApellidoCoacreditado,
-                    generoCoacreditado           : it?.generoCoacreditado,
-                    rfcCoacreditado              : it?.rfcCoacreditado,
-                    edadCoacreditado             : it?.edadCoacreditado,
-                    fechaNacimientoCoacreditado  : it?.fechaNacimientoCoacreditado,
-                    curpCoacreditado             : it?.curpCoacreditado,
-                    documentoOficialCoacreditado : it?.documentoOficialCoacreditado?.nombre,
-                    claveElectorCoacreditado     : it?.claveElectorCoacreditado,
-                    telefonoFijoCoacreditado     : it?.telefonoFijoCoacreditado,
-                    telefonoCelularCoacreditado  : it?.telefonoCelularCoacreditado,
-                    telefonoOficinaCoacreditado  : it?.telefonoOficinaCoacreditado,
-                    correoElectronicoCoacreditado: it?.correoElectronicoCoacreditado,
-                    anio                         : it?.anio,
-                    marca                        : it?.marca?.nombre,
-                    modelo                       : it?.modelo?.nombre,
-                    versionAuto                  : it?.versionAuto,
-                    color                        : it?.color,
-                    placas                       : it?.placas,
-                    numeroDeMotor                : it?.numeroDeMotor,
-                    numeroDeFactura              : it?.numeroDeFactura,
-                    fechaDeFactura               : it?.fechaDeFactura,
-                    emisoraDeFactura             : it?.emisoraDeFactura,
-                    valorDeVenta                 : it?.valorDeVenta,
-                    valorDeCompra                : it?.valorDeCompra,
-                    montoMaximoAutorizado        : it?.montoMaximoAutorizado,
-                    numeroVin                    : it?.numeroVin,
-                    gps1                         : it?.gps1?.descLabel,
-                    gps2                         : it?.gps2?.descLabel,
-                    gps3                         : it?.gps3?.descLabel,
-                    montoRequerido               : it?.montoRequerido,
-                    costoMensualInteres          : it?.costoMensualInteres,
-                    costoMensualMonitoreo        : it?.costoMensualMonitoreo,
-                    costoMensualGPS              : it?.costoMensualGPS,
-                    totalAutoPresta              : it?.totalAutoPresta,
-                    iva                          : it?.iva,
-                    costoMensualTotal            : it?.costoMensualTotal,
-                    tipoContrato                 : it?.tipoContrato?.descLabel,
-                    estatus                      : it?.estatus,
-                    referencia                   : it?.referencia,
-                    clabe                        : it?.clabe,
-                    razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
-                    calificacionCliente          : it?.calificacionCliente?.descLabel,
-                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.tipoFolio) : '',
-                    contratoPrueba               : it?.contratoPrueba,
-                    montoTransferencia           : it?.montoTransferencia,
-                    detalleDescuentos            : it?.detalleDescuentos,
-                    fechaSolicitud               : it?.fechaSolicitud,
-                    montoLiquidar                : it?.montoLiquidar,
-                    fechaCompromiso              : it?.fechaCompromiso,
-                    estatusLabel                 : getEstatus(it.estatus),
-                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
-//                    direccion                    : getDirecciones(it)
+                    id            : it?.id,
+                    titular       : getTitular(it),
+                    representante : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
+                    fechaContrato : it?.fechaContrato,
+                    montoRequerido: it?.montoRequerido,
+                    numeroContrato: it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.tipoFolio) : '',
+                    estatus       : getEstatus(it.estatus),
+                    total         : detalles,
             ]
         })
 
@@ -231,102 +172,27 @@ class ContratoController extends RestfulController<Contrato> {
         String validar = Parametros.getValorByParametro('Pruebas')
         def contratos
         if (validar == '1') {
-            contratos = Contrato.findAllByEstatus('F')
+            contratos = Contrato.findAllByEstatusNotInList(['R', 'I', 'C'])
         } else {
-            contratos = Contrato.findAllByContratoPruebaAndEstatus(false, 'F')
+            contratos = Contrato.findAllByContratoPruebaAndEstatusNotInList(false, ['R', 'I', 'C'])
         }
         def lista = contratos.collect({
+            HistoricoExtensiones ext = HistoricoExtensiones.findByContratoAndEsDefault(it, true)
+            def detalles = 0.00
+
+            if (ext) {
+                detalles = ContratoDetalle.executeQuery('SELECT SUM(iva + subtotal) FROM ContratoDetalle WHERE contrato =:contrato AND parcialidad BETWEEN ' + ext.parcialidadInicio + ' AND ' + ext.parcialidadFin, [contrato: it])[0]
+            }
             [
-                    id                           : it?.id,
-                    regimenFiscal                : it?.regimenFiscal?.descLabel,
-                    titular                      : getTitular(it),
-                    representante                : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
-                    fechaContrato                : it?.fechaContrato,
-                    nombres                      : it?.nombres,
-                    primerApellido               : it?.primerApellido,
-                    segundoApellido              : it?.segundoApellido,
-                    genero                       : it?.genero,
-                    rfc                          : it?.rfc,
-                    edad                         : it?.edad,
-                    fechaNacimiento              : it?.fechaNacimiento,
-                    curp                         : it?.curp,
-                    claveElector                 : it?.claveElector,
-                    documentoOficial             : it?.documentoOficial,
-                    telefonoFijo                 : it?.telefonoFijo,
-                    telefonoCelular              : it?.telefonoCelular,
-                    telefonoOficina              : it?.telefonoOficina,
-                    correoElectronico            : it?.correoElectronico,
-                    nombresCoacreditado          : it?.nombresCoacreditado,
-                    primerApellidoCoacreditado   : it?.primerApellidoCoacreditado,
-                    segundoApellidoCoacreditado  : it?.segundoApellidoCoacreditado,
-                    generoCoacreditado           : it?.generoCoacreditado,
-                    rfcCoacreditado              : it?.rfcCoacreditado,
-                    edadCoacreditado             : it?.edadCoacreditado,
-                    fechaNacimientoCoacreditado  : it?.fechaNacimientoCoacreditado,
-                    curpCoacreditado             : it?.curpCoacreditado,
-                    documentoOficialCoacreditado : it?.documentoOficialCoacreditado?.nombre,
-                    claveElectorCoacreditado     : it?.claveElectorCoacreditado,
-                    telefonoFijoCoacreditado     : it?.telefonoFijoCoacreditado,
-                    telefonoCelularCoacreditado  : it?.telefonoCelularCoacreditado,
-                    telefonoOficinaCoacreditado  : it?.telefonoOficinaCoacreditado,
-                    correoElectronicoCoacreditado: it?.correoElectronicoCoacreditado,
-                    anio                         : it?.anio,
-                    marca                        : it?.marca?.nombre,
-                    modelo                       : it?.modelo?.nombre,
-                    versionAuto                  : it?.versionAuto,
-                    color                        : it?.color,
-                    placas                       : it?.placas,
-                    numeroDeMotor                : it?.numeroDeMotor,
-                    numeroDeFactura              : it?.numeroDeFactura,
-                    fechaDeFactura               : it?.fechaDeFactura,
-                    emisoraDeFactura             : it?.emisoraDeFactura,
-                    valorDeVenta                 : it?.valorDeVenta,
-                    valorDeCompra                : it?.valorDeCompra,
-                    montoMaximoAutorizado        : it?.montoMaximoAutorizado,
-                    numeroVin                    : it?.numeroVin,
-                    gps1                         : it?.gps1?.descLabel,
-                    gps2                         : it?.gps2?.descLabel,
-                    gps3                         : it?.gps3?.descLabel,
-                    montoRequerido               : it?.montoRequerido,
-                    costoMensualInteres          : it?.costoMensualInteres,
-                    costoMensualMonitoreo        : it?.costoMensualMonitoreo,
-                    costoMensualGPS              : it?.costoMensualGPS,
-                    totalAutoPresta              : it?.totalAutoPresta,
-                    iva                          : it?.iva,
-                    costoMensualTotal            : it?.costoMensualTotal,
-                    tipoContrato                 : it?.tipoContrato?.descLabel,
-                    estatus                      : it?.estatus,
-                    referencia                   : it?.referencia,
-                    clabe                        : it?.clabe,
-                    razonesSociales              : it?.razonesSociales ? it.razonesSociales.descLabel : '',
-                    calificacionCliente          : it?.calificacionCliente?.descLabel,
-                    numeroContrato               : it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.tipoFolio) : '',
-                    contratoPrueba               : it?.contratoPrueba,
-                    montoTransferencia           : it?.montoTransferencia,
-                    detalleDescuentos            : it?.detalleDescuentos,
-                    fechaSolicitud               : it?.fechaSolicitud,
-                    montoLiquidar                : it?.montoLiquidar,
-                    fechaCompromiso              : it?.fechaCompromiso,
-                    estatusContrato              : it?.estatusContrato,
-                    estatusCliente              : it?.estatusCliente,
-                    total                        : ContratoDetalle.executeQuery('SELECT SUM(subtotal + iva) FROM ContratoDetalle WHERE contrato =:contrato', [contrato: it])[0],
-//                    total                        : ContratoDetalle.findAllByContrato(Contrato.findById(it.id)).collect({ [monto: it.subtotal + it.iva] }),
-//                    direccion                    : Direccion.findAllByContrato(Contrato.findById(it.id)).collect({
-//                        [
-//                                id                : it.id,
-//                                contrato          : it.contrato.numeroContrato,
-//                                dirTrabajo        : it.dirTrabajo,
-//                                dirAdicional      : it.dirAdicional,
-//                                direccionPrincipal: it.direccionPrincipal,
-//                                exterior          : it.exterior,
-//                                interior          : it.interior,
-//                                cp                : it.cp,
-//                                colonia           : it.colonia,
-//                                municipio         : it.municipio,
-//                                entidad           : it.entidad,
-//                                principal         : it.principal,
-//                        ]
-//                    })
+                    id            : it?.id,
+                    titular       : getTitular(it),
+                    representante : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
+                    fechaContrato : it?.fechaContrato,
+                    montoRequerido: it?.montoRequerido,
+                    numeroContrato: it.numeroContrato != '' ? contratoFolio(it.numeroContrato, it.tipoFolio) : '',
+                    estatus       : getEstatus(it.estatus),
+                    estatusCliente: it.estatusCliente,
+                    total         : detalles,
             ]
         })
 
@@ -518,7 +384,7 @@ class ContratoController extends RestfulController<Contrato> {
     def estatusContratos() {
         def registrado = Contrato.countByEstatusAndContratoPrueba('R', false)
         def impreso = Contrato.countByEstatusAndContratoPrueba('I', false)
-        def firmado = Contrato.countByEstatusAndContratoPrueba('F', false)
+        def firmado = Contrato.countByEstatusNotInListAndContratoPrueba(['R', 'I', 'C'], false)
         def cancelado = Contrato.countByEstatusAndContratoPrueba('C', false)
         def total = registrado + impreso + firmado + cancelado
 
@@ -573,13 +439,13 @@ class ContratoController extends RestfulController<Contrato> {
     }
 
 
-    def cargaAp(){
+    def cargaAp() {
         def contador = 0
         def contratos = Contrato.findAllByIdGreaterThanEqualsAndActualizado(43044, false)
-        for (contrato in contratos){
+        for (contrato in contratos) {
             generaHoja(contrato)
-            contador = contador +1
-            log.error "Contrato " +  contador + " de " +contratos.size()
+            contador = contador + 1
+            log.error "Contrato " + contador + " de " + contratos.size()
         }
         respond message: 'OK'
     }
@@ -617,32 +483,33 @@ class ContratoController extends RestfulController<Contrato> {
     }
 
     @Transactional
-    def mensualidadesFaltan(){
+    def mensualidadesFaltan() {
         def contador = 0
         def contratos = Contrato.findAllByMensualidadActualIsNotNull()
-        for (contrato in contratos){
+        for (contrato in contratos) {
             generacionDetalles(contrato)
             generaHoja(contrato)
-            contador = contador +1
-            log.error "Contrato " +  contador + " de " +contratos.size()
-        }
-        respond message: 'OK'
-    }
-    @Transactional
-    def crearHojas(){
-        def contador = 0
-        def contratos = Contrato.findAllByMensualidadActualIsNotNull()
-        for (contrato in contratos){
-            generaHoja(contrato)
-            contador = contador +1
-            log.error "Contrato " +  contador + " de " +contratos.size()
+            contador = contador + 1
+            log.error "Contrato " + contador + " de " + contratos.size()
         }
         respond message: 'OK'
     }
 
     @Transactional
-    def generaHoja(Contrato contrato){
-        HojaConciliacion hojaConciliacion= new HojaConciliacion()
+    def crearHojas() {
+        def contador = 0
+        def contratos = Contrato.findAllByMensualidadActualIsNotNull()
+        for (contrato in contratos) {
+            generaHoja(contrato)
+            contador = contador + 1
+            log.error "Contrato " + contador + " de " + contratos.size()
+        }
+        respond message: 'OK'
+    }
+
+    @Transactional
+    def generaHoja(Contrato contrato) {
+        HojaConciliacion hojaConciliacion = new HojaConciliacion()
         hojaConciliacion.folio = contrato
 
         hojaConciliacion.regla1 = getTitular(contrato)
@@ -650,10 +517,10 @@ class ContratoController extends RestfulController<Contrato> {
         hojaConciliacion.regla2 = contrato.numeroContrato
         hojaConciliacion.regla3 = contrato.numeroContrato
 
-        if (contrato.rfc !=null) {
+        if (contrato.rfc != null) {
             hojaConciliacion.regla5 = contrato.rfc
         }
-        if (contrato.placas !=null) {
+        if (contrato.placas != null) {
             hojaConciliacion.regla6 = contrato.placas
         }
         hojaConciliacion.save(flush: true, failOnError: true)
@@ -751,7 +618,7 @@ class ContratoController extends RestfulController<Contrato> {
                 fechaNacimiento      : contrato.fechaNacimiento,
                 edad                 : contrato.edad,
                 genero               : contrato.genero == 'M' ? 'Masculino' : 'Femenino',
-                documentoOficial     : contrato.documentoOficial!=null?IdentificacionesOficiales.findById(contrato.documentoOficial.toLong()).descLabel:'',
+                documentoOficial     : contrato.documentoOficial != null ? IdentificacionesOficiales.findById(contrato.documentoOficial.toLong()).descLabel : '',
                 claveElector         : contrato.claveElector,
                 telefonoFijo         : contrato.telefonoFijo,
                 telefonoCelular      : contrato.telefonoCelular,
@@ -860,7 +727,7 @@ class ContratoController extends RestfulController<Contrato> {
                 historicoExtensiones.esDefault = true
                 historicoExtensiones.save(flush: true, failOnError: true)
             }
-            if (contrato > 12 && contrato  <= 24) {
+            if (contrato > 12 && contrato <= 24) {
                 HistoricoExtensiones historicoExtensiones2 = new HistoricoExtensiones()
                 historicoExtensiones2.descripcion = '1G'
                 historicoExtensiones2.contrato = contratoID
@@ -884,7 +751,7 @@ class ContratoController extends RestfulController<Contrato> {
                 historicoExtensiones.save(flush: true, failOnError: true)
 
             }
-            if (contrato > 24 && contrato  <= 36) {
+            if (contrato > 24 && contrato <= 36) {
                 HistoricoExtensiones historicoExtensiones2 = new HistoricoExtensiones()
                 historicoExtensiones2.descripcion = '1G'
                 historicoExtensiones2.contrato = contratoID
@@ -920,7 +787,7 @@ class ContratoController extends RestfulController<Contrato> {
                 historicoExtensiones3.save(flush: true, failOnError: true)
 
             }
-            if (contrato > 36 && contrato  <= 48) {
+            if (contrato > 36 && contrato <= 48) {
                 HistoricoExtensiones historicoExtensiones2 = new HistoricoExtensiones()
                 historicoExtensiones2.descripcion = '1G'
                 historicoExtensiones2.contrato = contratoID
@@ -981,7 +848,7 @@ class ContratoController extends RestfulController<Contrato> {
         instance.noContrato = contratoFolio(contrato.numeroContrato, contrato.tipoFolio)
         instance.parcialidadInicio = extAnt.parcialidadFin + 1
         instance.parcialidadFin = extAnt.parcialidadFin + 12
-        instance.montoRequerido = contrato.montoRequerido - ((contrato.montoRequerido * 0.20)* (extAct as BigDecimal))
+        instance.montoRequerido = contrato.montoRequerido - ((contrato.montoRequerido * 0.20) * (extAct as BigDecimal))
         respond instance
     }
 
@@ -1036,7 +903,7 @@ class ContratoController extends RestfulController<Contrato> {
 
         def contador = 0
         def contratos = Contrato.findAllByActualizado(false)
-        for (contrato in contratos){
+        for (contrato in contratos) {
             HistoricoExtensiones anterior = HistoricoExtensiones.findByEsDefaultAndContrato(true, contrato)
             anterior.esDefault = false
             anterior.save(flush: true, failOnError: true)
@@ -1054,11 +921,11 @@ class ContratoController extends RestfulController<Contrato> {
 //            he.parcialidadFin = extAnt.parcialidadFin + 12
 //            he.montoRequerido = contrato.montoRequerido - ((contrato.montoRequerido * 0.20)* (extAct as BigDecimal))
 
-            he.descripcion= (extAct + 1) + 'G'
+            he.descripcion = (extAct + 1) + 'G'
             he.contrato = contrato
             he.parcialidadInicio = extAnt.parcialidadFin + 1
             he.parcialidadFin = extAnt.parcialidadFin + 12
-            he.montoRequerido = contrato.montoRequerido - ((contrato.montoRequerido * 0.20)* (extAct as BigDecimal))
+            he.montoRequerido = contrato.montoRequerido - ((contrato.montoRequerido * 0.20) * (extAct as BigDecimal))
 //            he.totalApagar
 //            he.fechaInicio
 //            he.esDefault
@@ -1093,8 +960,8 @@ class ContratoController extends RestfulController<Contrato> {
                 contratoDetalle.validate()
                 contratoDetalle.save(flush: true, failOnError: true)
             }
-            contador = contador +1
-            log.error "Contrato " +  contador + " de " +contratos.size()
+            contador = contador + 1
+            log.error "Contrato " + contador + " de " + contratos.size()
         }
         respond message: 'OK'
 
@@ -1103,7 +970,7 @@ class ContratoController extends RestfulController<Contrato> {
 
     def aplicaExtensionContrato() {
         HistoricoExtensiones he = HistoricoExtensiones.findByContratoAndEsDefault(Contrato.findById(params.id as Long), true)
-        def  parcialidad = new Integer(params?.parcialidad as String)
+        def parcialidad = new Integer(params?.parcialidad as String)
         for (Integer i = parcialidad as Integer; i <= he.parcialidadFin; i++) {
             BigDecimal mr = he.montoRequerido
             ContratoDetalle contratoDetalle = ContratoDetalle.findByContratoAndParcialidad(he.contrato, i)
