@@ -4,6 +4,7 @@ import grails.compiler.GrailsCompileStatic
 import groovy.transform.EqualsAndHashCode
 import groovy.transform.ToString
 import mx.saccsa.autopresta.Portafolios
+import mx.saccsa.autopresta.Sucursales
 
 @GrailsCompileStatic
 @EqualsAndHashCode(includes='username')
@@ -23,6 +24,7 @@ class Usuario implements Serializable {
     String avatar = "Avatar"
     Date desde
     Boolean nuevo = true
+    Sucursales sucursal
 
 //    Portafolios portafolio
 
@@ -47,6 +49,7 @@ class Usuario implements Serializable {
         desde nullable: true, blank:true
 //        portafolio nullable: false, blank: false
         nuevo nullable: true, blank:true
+        sucursal nullable: true, blank:true
     }
 
     static mapping = {

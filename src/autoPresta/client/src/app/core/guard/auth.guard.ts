@@ -51,16 +51,20 @@ export class AuthGuard implements CanActivate {
   nombre() {
     return this.cookieService.get('nombre');
   }
+  sucursal() {
+    return this.cookieService.get('sucursal');
+  }
 
   destroySession() {
     this.cookieService.delete( 'authToken', '/');
   }
 
-  saveCredentials(role: string, puesto: string, avatar: string, nombre: string, menu: RouteInfo[]){
+  saveCredentials(role: string, puesto: string, avatar: string, nombre: string, menu: RouteInfo[], sucursal: string){
     this.cookieService.set( 'role', role, undefined, '/');
     this.cookieService.set( 'puesto', puesto, undefined, '/');
     this.cookieService.set( 'avatar', avatar, undefined, '/');
     this.cookieService.set( 'nombre', nombre, undefined, '/');
+    this.cookieService.set( 'sucursal', sucursal, undefined, '/');
     this.sideMenu = menu;
   }
 

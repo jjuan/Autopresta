@@ -58,8 +58,8 @@ export class GeneracionContratoComponent implements OnInit {
       tipoContrato: [this.data.data.tipoContrato ? this.data.data.tipoContrato : ''],
       detalleDescuentos: ['N/A', Validators.required]
     });
-    this.restService.edit<Portafolios>(1, 'Portafolios').subscribe(result => {
-      this.formulario.patchValue({fechaContrato: result.fecha + 'T00:00:00'});
+    this.restService.index<any>( 'Sucursales', {}, 'cargarFolio').subscribe(result => {
+      this.formulario.patchValue({fechaContrato: result.fecha + 'T00:00:00',numeroContrato: result.numeroContrato, tipoContrato: result.tipoContrato });
     });
   }
 

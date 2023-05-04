@@ -314,7 +314,7 @@ class ContratoController extends RestfulController<Contrato> {
         FoliosRecuperados foliosRecuperados = new FoliosRecuperados()
 
         foliosRecuperados.cveTipo = getClave(contrato.tipoFolio)
-        foliosRecuperados.folio = contrato.tipoFolio == 'P' ? { def folios = folio.split('P'); folios[0] } : folio
+        foliosRecuperados.folio = contrato.tipoFolio == 'P' ? folio.replace('P', '') : folio
 
         foliosRecuperados.save(flush: true, failOnError: true)
 

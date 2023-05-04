@@ -2,6 +2,8 @@ package autopresta
 
 import grails.gorm.transactions.Transactional
 import mx.saccsa.autopresta.Portafolios
+import mx.saccsa.autopresta.Sucursales
+import mx.saccsa.common.Parametros
 import mx.saccsa.security.Usuario
 import mx.saccsa.security.UsuarioRole
 
@@ -24,8 +26,13 @@ class InitController {
         Portafolios portafolio = Portafolios.findByCvePortafolio(1)
         portafolio.fecha = sdf.parse(sdf.format(new Date()))
         portafolio.save(flush: true, failOnError: true)
+        if (currentUser.sucursal == null) {
+            Sucursales sc = Sucursales.findByDescripcion(Parametros.findByParametro("SUCURSAL_DEFAULT").valor)
+            currentUser.sucursal = sc
+            currentUser.save(flush: true, failOnError: true)
+        }
 //        session.setAttribute('portafolio',currentUser.portafolio)
 
-        respond username: currentUser.username, role: role.role.authority, avatar: currentUser.avatar, usuario: currentUser.descLabel, puesto: currentUser.puesto.capitalize()
+        respond username: currentUser.username, role: role.role.authority, avatar: currentUser.avatar, usuario: currentUser.descLabel, puesto: currentUser.puesto.capitalize(), sucursal: currentUser.sucursal.id
     }
 }

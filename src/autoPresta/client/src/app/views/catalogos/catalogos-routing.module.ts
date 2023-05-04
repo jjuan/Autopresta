@@ -20,6 +20,7 @@ import {UsuarioComponent} from "./usuario/usuario.component";
 import {BancosComponent} from "./bancos/bancos.component";
 import {FoliosComponent} from "./folios/folios.component";
 import {FliosRecupeadosComponent} from "./flios-recupeados/flios-recupeados.component";
+import {CpComponent} from "./cp/cp.component";
 
 
 const routes: Routes = [
@@ -44,6 +45,7 @@ const routes: Routes = [
   { path:'Bancos', component: BancosComponent },
   { path:'Folios', component: FoliosComponent },
   { path:'Folios-Recuperados', component: FliosRecupeadosComponent },
+  { path:'Cp', component: CpComponent },
 
 ];
 

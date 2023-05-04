@@ -9,7 +9,7 @@ class CpController extends RestfulController<Cp>{
         super(Cp)
     }
     def index() {
-        respond Cp.list().collect{
+        respond Cp.findAllByCodigoPostal(params.cp as  String).collect{
             [
                     id: it.id,
                     codigoPostal: it.codigoPostal,

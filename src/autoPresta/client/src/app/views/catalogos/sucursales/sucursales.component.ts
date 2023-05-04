@@ -31,6 +31,7 @@ export class SucursalesComponent implements OnInit {
     'colonia',
     'codigoPostal',
     'telefono',
+    'fecha',
     'actions'
   ];
   selection = new SelectionModel<Sucursales>(true, []);
@@ -122,6 +123,7 @@ export class SucursalesComponent implements OnInit {
       '<p><span class="font-weight-bold">Colonia: </span>' + row.colonia + '</p>' +
       '<p><span class="font-weight-bold">Codigo Postal: </span>' + row.codigoPostal + '</p>' +
       '<p><span class="font-weight-bold">Telefono: </span>' + row.telefono + '</p>' +
+      '<p><span class="font-weight-bold">Fecha: </span>' + row.fecha + '</p>' +
       '</div>';
     Swal.fire({
       titleText: this.datos.titulo,
@@ -174,7 +176,8 @@ export class registros extends DataSource<Sucursales> {
             campo.direccion +
             campo.colonia +
             campo.codigoPostal +
-            campo.telefono
+            campo.telefono +
+            campo.fecha
           ).toLowerCase();
           return searchStr.indexOf(this.filter.toLowerCase()) !== -1;
         });
@@ -213,6 +216,9 @@ export class registros extends DataSource<Sucursales> {
           break;
         case 'telefono':
           [propertyA, propertyB] = [a.telefono, b.telefono]
+          break;
+        case 'fecha':
+          [propertyA, propertyB] = [a.fecha, b.fecha]
           break;
 
       }

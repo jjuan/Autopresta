@@ -3,6 +3,7 @@ import {FormGroup, Validators} from "@angular/forms";
 import {Combo} from "../../../../core/models/data.interface";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RestService} from "../../../../core/service/rest.service";
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-form-sucursales',
@@ -17,8 +18,11 @@ export class FormSucursalesComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FormSucursalesComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public restService: RestService,
-  ) {}
+    public restService: RestService
+    ,private dateAdapter: DateAdapter<Date>
+  ) {
+    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
+    }
 
   submit() {}
 
@@ -42,6 +46,12 @@ export class FormSucursalesComponent implements OnInit {
       colonia: [this.data.data.colonia ? this.data.data.colonia : '', Validators.required],
       codigoPostal: [this.data.data.codigoPostal ? this.data.data.codigoPostal : '', Validators.required],
       telefono: [this.data.data.telefono ? this.data.data.telefono : '', Validators.required],
+      fecha: [this.data.data.fecha ? this.data.data.fecha+'T00:00:00' : '', Validators.required],
     });
+  }
+
+  myFilter = (d: Date): boolean => {
+    const day = d.getDay();
+    return day !== 0 && day !== 6;
   }
 }

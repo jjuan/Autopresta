@@ -21,62 +21,20 @@ const document: any = window.document;
   styleUrls: ['./header.component.sass']
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
-  rutas: ruteo[] = [
-    {path: 'Inicio/Tablero', descripcion: 'Tablero'},
-    {path: 'Catalogos/razonesSociales', descripcion: 'Razones Sociales'},
-    {path: 'Catalogos/Usuarios', descripcion: 'Usuarios'},
-    {path: 'Catalogos/Roles', descripcion: 'Roles'},
-    {path: 'Catalogos/Bancos', descripcion: 'Bancos'},
-    {path: 'Catalogos/Divisas', descripcion: 'Divisas'},
-    {path: 'Catalogos/Cuentas-Bancarias', descripcion: 'Cuentas Bancarias'},
-    {path: 'Catalogos/Tipo-de-Cambio', descripcion: 'Tipo de Cambio'},
-    {path: 'Catalogos/Forma-de-Liquidacion', descripcion: 'Forma de Liquidacion'},
-    {path: 'Catalogos/Categorias', descripcion: 'Categorias'},
-    {path: 'Catalogos/Subconceptos', descripcion: 'Subconceptos'},
-    {path: 'Egresos/Proveedores', descripcion: 'Proveedores'},
-    {path: 'Egresos/Instrucciones-de-Pago', descripcion: 'Instrucciones de Pago'},
-    {path: 'Egresos/Terminos-de-Pago', descripcion: 'Términos de Pago'},
-    {path: 'Ingresos/Clientes', descripcion: 'Clientes'},
-    {path: 'Ingresos/Terminos-de-Cobro', descripcion: 'Términos de Cobro'},
-    {path: 'Procesos/Pago-a-Proveedores', descripcion: 'Pago a Proveedores'},
-    {path: 'Procesos/Requisiciones', descripcion: 'Requisiciones'},
-    {path: 'Procesos/Traspasos', descripcion: 'Traspasos'},
-    {path: 'Procesos/Control-de-Cheques', descripcion: 'Control de Cheques'},
-    {path: 'Procesos/Autorizacion-de-Pagos/Revisar-Pagos', descripcion: 'Revisar'},
-    {path: 'Procesos/Autorizacion-de-Pagos/Liberar-Pagos', descripcion: 'Liberar'},
-    {path: 'Procesos/Autorizacion-de-Pagos/Estatus-de-Pagos', descripcion: 'Estatus de Pagos'},
-    {path: 'Procesos/Importaciones', descripcion: 'Importaciones'},
-    {path: 'Procesos/Registro-de-Cobranza', descripcion: 'Registro de Cobranza'},
-    {path: 'Procesos/Propuesta-de-Pagos', descripcion: 'Propuesta de Pagos'},
-    {path: 'Procesos/Facturacion/Facturas', descripcion: 'Facturas'},
-    {path: 'Procesos/Facturacion/Timbrar', descripcion: 'Timbrar'},
-    {path: 'Procesos/Conciliacion/Conciliacion-de-Cobros', descripcion: 'Conciliacion de Cobros'},
-    {path: 'Procesos/Conciliacion/Conciliacion-de-Pagos', descripcion: 'Conciliacion de Pagos'},
-    {path: 'Procesos/Comprobantes-de-Pago', descripcion: 'Comprobantes de Pago'},
-    {path: 'Procesos/Genera-Liquidacion', descripcion: 'Genera Liquidacion'},
-    {path: 'Procesos/Recepcion', descripcion: 'Recepción'},
-    {path: 'Reportes/Saldos', descripcion: 'Saldos'},
-    {path: 'Reportes/Historico-de-Pagos', descripcion: 'Histórico de Pagos'},
-    {path: 'Reportes/Cuentas-por-Cobrar/Antiguedad-de-Saldos', descripcion: 'Antigüedad de Saldos'},
-    {path: 'Reportes/Cuentas-por-Cobrar/Facturas-por-Cobrar', descripcion: 'Facturas por Cobrar'},
-    {path: 'Reportes/Cuentas-por-Pagar/Antiguedad-de-Saldos', descripcion: 'Antigüedad de Saldos'},
-    {path: 'Reportes/Cuentas-por-Pagar/Facturas-por-Pagar', descripcion: 'Facturas por Pagar'},
-    {path: 'Reportes/Tablero-de-Control/Flujo-de-Caja-Anual', descripcion: 'Flujo de Caja Anual'},
-  ];
   public config: any = {};
   isNavbarCollapsed = true;
   isNavbarShow: boolean;
   logoName = 'Autopresta';
-  langStoreValue: string;
-  defaultFlag: string;
   public avatar: string;
   formulario: FormGroup
+  sucursal: number
+  sucursalCombo: Combo[];
+  usuario: FormGroup;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(WINDOW) private window: Window,
     private renderer: Renderer2,
-    public elementRef: ElementRef,
     private dataService: RightSidebarService,
     private configService: ConfigService,
     private router: Router,
@@ -88,13 +46,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ) {
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
-
-  listLang = [
-    {text: 'English', flag: 'assets/images/flags/us.jpg', lang: 'en'},
-    {text: 'Spanish', flag: 'assets/images/flags/spain.jpg', lang: 'es'},
-    {text: 'German', flag: 'assets/images/flags/germany.jpg', lang: 'de'}
-  ];
-  notifications: any[];
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -109,13 +60,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.config = this.configService.configData;
     this.avatar = this.globalService.getAvatar();
+    this.sucursal = Number(this.globalService.getSucursal())
     this.formulario = this.restService.buildForm({
-      cvePortafolio: [''],
-      descripcion: [''],
+      id: [''],
       fecha: [''],
-      mercados: [''],
     });
-    this.cargarP()
+    this.usuario = this.restService.buildForm({
+      sucursal: [this.sucursal],
+    });
+    this.cargarS()
   }
 
   ngAfterViewInit() {
@@ -164,7 +117,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.renderer.addClass(this.document.body, 'submenu-closed');
       }
     }
-    this.cargarP()
   }
 
   ruta(value: ruteo) {
@@ -235,13 +187,17 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   actualizarPortafolio() {
-    this.restService.update<string>(this.formulario.get('cvePortafolio').value, this.formulario.value, 'Portafolios').subscribe(() => {
-      this.dialogService.snack( 'success', 'Portafolio actualizado');
-      this.cargarP()
-    }, error => {
-      if (error._embedded !== undefined) {
-        this.dialogService.snack( 'danger', 'Error al actualizar');
-      }});
+     const id = this.usuario.get('sucursal').value
+    this.restService.update<any>(id, this.formulario.value, 'Sucursales', {}, 'actualizaFecha').subscribe(result => {
+      this.formulario.patchValue({ id: result.id, fecha: result.fecha+'T00:00:00', });
+    });
+  }
+  actualizarSucursal() {
+     const id = this.usuario.get('sucursal').value
+    this.restService.update<any>(id, this.usuario.value, 'Sucursales', {}, 'actualizaSucursal').subscribe(result => {
+      this.usuario.patchValue({ sucursal: result.sucursal, });
+      this.formulario.patchValue({ fecha: result.fecha+'T00:00:00', id: result.sucursal});
+    });
   }
 
   myFilter = (d: Date): boolean => {
@@ -249,14 +205,11 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     return day !== 0 && day !== 6;
   }
 
-  cargarP(){
-    this.restService.edit<Portafolios>(1, 'Portafolios').subscribe(result => {
-      this.formulario.patchValue({
-        cvePortafolio: result.cvePortafolio,
-        descripcion: result.descripcion,
-        fecha: result.fecha+'T00:00:00',
-        mercados: result.mercados,
-      });
+  cargarS(){
+    this.restService.combo<Combo[]>({id: 'Sucursales'}, 'comboAutoPresta').subscribe(res => this.sucursalCombo = res)
+    this.restService.index<any>("Sucursales",{}, "cargarSucursal").subscribe(result => {
+      this.usuario.patchValue({ sucursal: result.sucursal, });
+      this.formulario.patchValue({ fecha: result.fecha+'T00:00:00', id: result.sucursal});
     });
   }
 }

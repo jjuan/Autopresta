@@ -27,7 +27,7 @@
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fecha del contrato</mat-label>
             <input matInput [matDatepicker]="fechaContrato" name="fechaContrato"
-                   formControlName="fechaContrato">
+                   formControlName="fechaContrato" readonly>
             <mat-datepicker-toggle matSuffix [for]="fechaContrato"></mat-datepicker-toggle>
             <mat-datepicker #fechaContrato></mat-datepicker>
             <mat-error *ngIf="formulario.get('fechaContrato').hasError('required')">
@@ -50,7 +50,7 @@
         <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Tipo de contrato</mat-label>
-            <mat-select formControlName="tipoContrato" (selectionChange)="obtenerFolio($event.value)">
+            <mat-select formControlName="tipoContrato" (selectionChange)="obtenerFolio($event.value)" disabled>
               <mat-option *ngFor="let item of comboContratos"
                           [value]="item.id">{{item.descripcion}}</mat-option>
             </mat-select>

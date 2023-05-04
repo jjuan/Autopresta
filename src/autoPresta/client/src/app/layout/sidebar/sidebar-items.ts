@@ -119,6 +119,15 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
+        path: 'Catalogos/Cp',
+        title: 'Codigo Postal',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
         path: 'Catalogos/Portafolios',
         title: 'Portafolios',
         moduleName: 'Catalogos',

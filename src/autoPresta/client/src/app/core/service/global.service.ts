@@ -29,6 +29,7 @@ export class GlobalService {
   getPuesto() { return this.auth.puesto(); }
   getName() { return this.auth.nombre(); }
   getAvatar() { return this.auth.avatar(); }
+  getSucursal() { return this.auth.sucursal(); }
   getMenu() { return this.auth.menu(); }
   destroyToken() { this.auth.destroySession(); }
 

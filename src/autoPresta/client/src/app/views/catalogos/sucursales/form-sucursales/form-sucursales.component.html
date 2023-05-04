@@ -94,6 +94,18 @@
             </mat-error>
           </mat-form-field>
         </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepickerFilter]="myFilter" [matDatepicker]="Datepicker" name = "fecha" formControlName="fecha" >
+            <mat-datepicker-toggle matSuffix [for]="Datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #Datepicker></mat-datepicker>
+            <!--mat-icon matSuffix>turned_in_not</mat-icon--->
+            <mat-error *ngIf="formulario.get('fecha').hasError('required')">
+              Fecha es requerida
+            </mat-error>
+          </mat-form-field>
+        </div>
       </div>
 
       <div class="row">

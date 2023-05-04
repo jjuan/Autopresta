@@ -36,7 +36,7 @@ export class SigninComponent implements OnInit {
     validate.subscribe( data => {
       this.candado = false
       const c = data as any;
-      this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
+      this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu, c.sucursal);
       this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
     });
     this.candado = false
@@ -60,7 +60,7 @@ export class SigninComponent implements OnInit {
         this.candado = false
         this.submitButton.disabled = false;
         const c = next as any;
-        this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu);
+        this.authGuard.saveCredentials(c.role, c.puesto, c.avatar, c.usuario, c.menu, c.sucursal);
         this.router.navigate(['Contrataciones/Contrato-Persona-Fisica']);
       });
     }, error => {

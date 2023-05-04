@@ -2,17 +2,19 @@ package mx.saccsa.autopresta
 
 import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
+import mx.saccsa.security.Usuario
 
 import java.text.SimpleDateFormat
 
 @Transactional
 class ContratoService {
     def dateUtilService
+    def springSecurityService
     def sdf = new SimpleDateFormat('yyyy-MM-dd');
 
     def calcularFechaPago(Integer pago, Date... fecha) {
-
-        Portafolios portafolio = Portafolios.load(1)
+        Usuario user = springSecurityService.getCurrentUser() as Usuario
+        Sucursales portafolio = user.sucursal
         Calendar portafolioFecha = Calendar.getInstance()
         portafolioFecha.setTime(fecha?fecha[0]:portafolio.fecha)
 

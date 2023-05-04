@@ -772,8 +772,7 @@
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>F. Factura</mat-label>
 <!--              <input matInput formControlName="fechaF" (keyup)="fechaFactura(formulario.get('fechaF').value)">-->
-              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura"
-                     formControlName="fechaDeFactura">
+              <input matInput [matDatepicker]="fechaDeFactura" name="fechaDeFactura" formControlName="fechaDeFactura" placeholder="dd/MM/yyyy">
               <mat-datepicker-toggle matSuffix [for]="fechaDeFactura"></mat-datepicker-toggle>
               <mat-datepicker #fechaDeFactura></mat-datepicker>
               <mat-error *ngIf="formulario.get('fechaF').hasError('required')">

@@ -88,7 +88,7 @@ class ReporteService {
                 montoAvaluoLetra                   : numeroLetra(contrato.valorDeCompra),
                 porcentajePrestamoSobreAvaluo      : '(' + utilService.montoLetra(prestamoSobreAvaluo.intValue()) + ' PORCIENTO) ' + prestamoSobreAvaluo.intValue() + '%',
                 fechaLimiteFiniquito               : fecha(fechaFiniquito.fecha),
-                fecha                              : 'CDMX a ' + fecha(contrato.fechaContrato),
+                fecha                              : datosSucursal(contrato).sucursal + ' a ' + fecha(contrato.fechaContrato),
                 notasDescuentos                    : contrato.detalleDescuentos.toUpperCase(),
                 acuerdo                            : acuerdo(contrato),
                 anio                               : year.format(contrato.fechaContrato),
@@ -103,21 +103,33 @@ class ReporteService {
                 modeloAuto                         : contrato.modelo.nombre.toUpperCase(),
                 colorAuto                          : contrato.color.toUpperCase(),
                 anioAuto                           : contrato.anio,
-                direccionSucursal                  : datosSucursal(contrato.tipoFolio).direccionSucursal,
-                telefonoSucursal                   : datosSucursal(contrato.tipoFolio).telefonoSucursal,
-                descripcionSucursal                : datosSucursal(contrato.tipoFolio).descripcionSucursal,
+                direccionSucursal                  : datosSucursal(contrato).direccionSucursal,
+                telefonoSucursal                   : datosSucursal(contrato).telefonoSucursal,
+                descripcionSucursal                : datosSucursal(contrato).descripcionSucursal,
+                label                              : datosSucursal(contrato).label,
         ]
 
         return lista
     }
 
-    def datosSucursal(String cve) {
+    def datosSucursal(Contrato contrato) {
+        String cve = contrato.tipoFolio
         def sc = Sucursales.findByRegion(Regiones.findByClave(cve))
         String direccionSucursal = sc.direccion.toUpperCase() + ', ' + sc.colonia.toUpperCase() + ', ' + sc.ciudad.toUpperCase() + ', ' + sc.region.descripcion + '; C.P. ' + sc.codigoPostal.toUpperCase()
         String telefonoSucursal = sc.telefono.toUpperCase()
         String descripcionSucursal = sc.descripcion.toUpperCase()
+        String sucursal = ""
+        String label = ""
+        if (sc.region.clave in ['CDMX', 'P']) {
+            sucursal = 'CDMX'
+            label = 'Ciudad de México'
+        } else {
+            sucursal = (sc.descripcion.toLowerCase()).capitalize() + ', ' + sc.region.descripcion
+            label = (sc.descripcion.toLowerCase()).capitalize() + ', ' + sc.region.descripcion
+        }
 
-        return [direccionSucursal: direccionSucursal, telefonoSucursal: telefonoSucursal, descripcionSucursal: descripcionSucursal]
+        label = label + ' a _____de ________ de ' + year.format(contrato.fechaContrato)
+        return [direccionSucursal: direccionSucursal, telefonoSucursal: telefonoSucursal, descripcionSucursal: descripcionSucursal, sucursal: sucursal, label: label]
     }
 
     String descripcion(Contrato contrato) {
@@ -499,7 +511,7 @@ class ReporteService {
                                 gps1          : texto(it.contrato?.gps1?.nombre),
                                 gps2          : texto(it.contrato?.gps2?.nombre),
                                 montoCredito  : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.montoRequerido,
-                                mayor         : it.subtotal+it.iva,
+                                mayor         : it.subtotal + it.iva,
                                 menor         : (it.subtotal - it.montoConciliado) + it.iva,
                                 fechaFirma    : it.contrato?.fechaContrato,
                                 fechaCorte    : it.fecha,

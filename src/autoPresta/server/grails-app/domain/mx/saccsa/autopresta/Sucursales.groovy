@@ -8,6 +8,7 @@ class Sucursales {
     String colonia
     String codigoPostal
     String telefono
+    Date fecha
 
     static constraints = {
         descripcion size: 0..300
@@ -16,6 +17,7 @@ class Sucursales {
         colonia size: 0..200, nullable: true, blank: true
         codigoPostal size: 0..10, nullable: true, blank: true
         telefono size: 0..15, nullable: true, blank: true
+        fecha nullable: true, blank: true
     }
 
     static  mapping = {

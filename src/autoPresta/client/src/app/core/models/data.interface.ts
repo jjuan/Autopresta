@@ -363,6 +363,7 @@ export interface Sucursales {
   colonia: string;
   codigoPostal: string;
   telefono: string;
+  fecha: Date;
 }
 
 export interface _comboCp {

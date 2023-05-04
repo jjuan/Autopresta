@@ -45,6 +45,8 @@ import {BancosDeleteComponent} from "./bancos/bancos-delete/bancos-delete.compon
 import { FoliosComponent } from './folios/folios.component';
 import { FormFoliosComponent } from './folios/form-folios/form-folios.component';
 import { FliosRecupeadosComponent } from './flios-recupeados/flios-recupeados.component';
+import { CpComponent } from './cp/cp.component';
+import { CpFormComponent } from './cp/cp-form/cp-form.component';
 
 
 @NgModule({
@@ -55,7 +57,7 @@ import { FliosRecupeadosComponent } from './flios-recupeados/flios-recupeados.co
         DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent,
         CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, BancosComponent,
         IdentificacionesOficialesFormComponent, CuentasBancariasComponent, CuentasBancariasFormComponent, BancosFormComponent,
-        CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent, FoliosComponent, FormFoliosComponent, FliosRecupeadosComponent],
+        CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent, FoliosComponent, FormFoliosComponent, FliosRecupeadosComponent, CpComponent, CpFormComponent],
   exports: [
     AgenciasComponent,
     BancosComponent
