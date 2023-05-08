@@ -1,0 +1,93 @@
+<div class="addContainer">
+  <div class="modalHeader mb-3">
+    <div class="modalHeader clearfix mt-2">
+      <div class="font-weight-bold p-t-2 p-l-5 font-17">
+        {{dialogTitle}}</div>
+    </div>
+    <button mat-mini-fab (click)="dialogRef.close()" color="warn">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div>
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Folio</mat-label>
+            <input matInput formControlName="id" readonly>
+            <mat-icon matSuffix>turned_in_not</mat-icon>
+            <mat-error *ngIf="formulario.get('id').hasError('required')">
+              Folio es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Codigo Postal</mat-label>
+            <input matInput formControlName="codigoPostal">
+            <mat-error *ngIf="formulario.get('codigoPostal').hasError('required')">
+              Codigo Postal es requerido
+            </mat-error>
+            <mat-error *ngIf="formulario.controls.codigoPostal.hasError('minlength')">
+              La longitud del campo Codigo Postal no debe ser menor a 5 caracteres
+            </mat-error>
+            <mat-error *ngIf="formulario.controls.codigoPostal.hasError('maxlength')">
+              La longitud del campo Codigo Postal no debe ser mayor a 5 caracteres
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Estado</mat-label>
+            <input matInput formControlName="estado">
+            <mat-error *ngIf="formulario.get('estado').hasError('required')">
+              Estado es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Ciudad</mat-label>
+            <input matInput formControlName="ciudad">
+            <mat-error *ngIf="formulario.get('ciudad').hasError('required')">
+              Ciudad es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Municipio</mat-label>
+            <input matInput formControlName="municipio">
+            <mat-error *ngIf="formulario.get('municipio').hasError('required')">
+              Municipio es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Asentamiento</mat-label>
+            <input matInput formControlName="asentamiento">
+            <mat-error *ngIf="formulario.get('asentamiento').hasError('required')">
+              Asentamiento es requerido
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-12 col-lg-12  mb-1">
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit" [disabled]="!formulario.valid"
+                    (click)="confirmAdd()">Guardar
+            </button>
+            <button mat-raised-button color="warn" class="ml-2" (click)="onNoClick()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
