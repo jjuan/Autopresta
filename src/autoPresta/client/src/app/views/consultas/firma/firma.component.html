@@ -1,48 +1,48 @@
 <section class="content">
-<!--  <div class="container-fluid">-->
-<!--    <div class="block-header">-->
-<!--      <div class="row">-->
-<!--        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">-->
-<!--          <ul class="breadcrumb breadcrumb-style ">-->
-<!--            <li class="breadcrumb-item">-->
-<!--              <h4 class="page-title">{{datos.componente}}</h4>-->
-<!--            </li>-->
-<!--            <li class="breadcrumb-item bcrumb-1">-->
-<!--              <i class="{{datos.icono}}"></i> {{datos.modulo}}-->
-<!--            </li>-->
-<!--            <li class="breadcrumb-item bcrumb-2">{{datos.componente}}-->
-<!--            </li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="row">-->
-<!--      <div class="col-xl-6 col-lg-6 mb-1">-->
-<!--        <div class="firma-digital">-->
-<!--          Firma Digital-->
-<!--          <div class="firma-digital&#45;&#45;body">-->
-<!--            <canvas #firmaDigital height="160" style="touch-action: none "></canvas>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="col-xl-6 col-lg-6 mb-1">-->
-<!--      <div class="row">-->
-<!--        <div class="col-xl-6 col-lg-6 mb-1">-->
-<!--          <button mat-raised-button class="full-width" color="primary" (click)="deshacer()">Deshacer-->
-<!--          </button>-->
-<!--        </div>-->
-<!--        <div class="col-xl-6 col-lg-6 mb-1">-->
-<!--          <button mat-raised-button class="full-width" color="warn" (click)="limpiarFirma()">Borrar</button>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div class="row">-->
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{datos.componente}}</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <i class="{{datos.icono}}"></i> {{datos.modulo}}
+            </li>
+            <li class="breadcrumb-item bcrumb-2">{{datos.componente}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-6 col-lg-6 mb-1">
+        <div class="firma-digital">
+          Firma Digital
+          <div class="firma-digital--body">
+            <canvas #firmaDigital height="160" style="touch-action: none "></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-6 col-lg-6 mb-1">
+      <div class="row">
+        <div class="col-xl-6 col-lg-6 mb-1">
+          <button mat-raised-button class="full-width" color="primary" (click)="deshacer()">Deshacer
+          </button>
+        </div>
+        <div class="col-xl-6 col-lg-6 mb-1">
+          <button mat-raised-button class="full-width" color="warn" (click)="limpiarFirma()">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <pdf-viewer src="assets/files/CV.pdf"
                 [render-text]="0"
                 [original-size]="true"
                 style="min-height: 720px; min-width: 1024px; max-width: 1920px"
     ></pdf-viewer>
-<!--  </div>-->
+  </div>
 </section>

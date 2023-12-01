@@ -21,6 +21,7 @@ import {BancosComponent} from "./bancos/bancos.component";
 import {FoliosComponent} from "./folios/folios.component";
 import {FliosRecupeadosComponent} from "./flios-recupeados/flios-recupeados.component";
 import {CpComponent} from "./cp/cp.component";
+import {FechaInhabilComponent} from "./fecha-inhabil/fecha-inhabil.component";
 
 
 const routes: Routes = [
@@ -46,6 +47,7 @@ const routes: Routes = [
   { path:'Folios', component: FoliosComponent },
   { path:'Folios-Recuperados', component: FliosRecupeadosComponent },
   { path:'Cp', component: CpComponent },
+  { path:'Fecha-Inhabil', component: FechaInhabilComponent },
 
 ];
 

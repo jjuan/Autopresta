@@ -11,14 +11,14 @@ class FechaInhabil {
 
     static constraints = {
         fecha nullable: false
-        descripcion nullable:true,blank:true,size:0..30
+        descripcion nullable:true,blank:true,size:0..500
         divisa nullable: false
 
     }
     static mapping = {
         table "FECHAINHABIL"
-        id(generator: "sequence",params:['sequence':'FECHAINHABIL_SEQ'])
-        //id generator: 'identity'
+//        id(generator: "sequence",params:['sequence':'FECHAINHABIL_SEQ'])
+        id generator: 'identity'
         divisa name:"divisa",column: "divisa"
 
     }

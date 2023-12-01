@@ -113,8 +113,8 @@ environments:
         dataSource:
             type: "com.zaxxer.hikari.HikariDataSource"
             dbCreate: none
-            url: "jdbc:sqlserver://localhost:1433;databaseName=AUTOPRESTA"
-#            url: "jdbc:sqlserver://66.226.77.243:1443;databaseName=AUTOPRESTA"
+#            url: "jdbc:sqlserver://localhost:1433;databaseName=AUTOPRESTA"
+            url: "jdbc:sqlserver://66.226.77.243:1443;databaseName=AUTOPRESTA"
 #            url: "jdbc:sqlserver://66.226.77.243:1433;databaseName=GESTORFINANCIERO"
             #            url: "jdbc:sqlserver://localhost:1433;databaseName=FinanzasIQ"
 #            username: "alberto"

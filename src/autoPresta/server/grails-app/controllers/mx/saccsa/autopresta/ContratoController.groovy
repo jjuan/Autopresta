@@ -3,6 +3,7 @@ package mx.saccsa.autopresta
 import grails.rest.RestfulController
 import grails.validation.ValidationException
 import mx.saccsa.common.Parametros
+import mx.saccsa.security.Usuario
 
 import java.text.SimpleDateFormat
 
@@ -25,14 +26,14 @@ class ContratoController extends RestfulController<Contrato> {
     SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd')
 
     def index() {
-        String validar = Parametros.getValorByParametro('Pruebas')
+        Portafolios p = Portafolios.findByCvePortafolio(1)
+        def fechaInicio = (params.fechaInicio=="null")?p.fecha:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (params.fechaFin=="null")?p.fecha:(sdf.parse(params?.fechaFin))
         def contratos
-        if (validar == '1') {
-            contratos = Contrato.findAllByEstatusNotEqualAndEstatusInList('F', ['R', 'I', 'C'])
-        } else {
-            contratos = Contrato.findAllByContratoPruebaAndEstatusNotEqualAndEstatusInList(false, 'F', ['R', 'I', 'C'])
-        }
-        def lista = contratos.collect({
+
+        contratos = Contrato.findAll("from Contrato where  estatus != 'F' and fechaContrato >=:fechaInicio and fechaContrato <=:fechaFin", [fechaInicio: fechaInicio, fechaFin: fechaFin])
+
+        def lista = contratos.size() == 0? [] : contratos.collect({
             HistoricoExtensiones ext = HistoricoExtensiones.findByContratoAndEsDefault(it, true)
             def detalles = 0.00
 
@@ -169,14 +170,14 @@ class ContratoController extends RestfulController<Contrato> {
     }
 
     def contratosFirmados() {
-        String validar = Parametros.getValorByParametro('Pruebas')
+
+        Portafolios p = Portafolios.findByCvePortafolio(1)
+        def fechaInicio = (params.fechaInicio=="null")?p.fecha:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (params.fechaFin=="null")?p.fecha:(sdf.parse(params?.fechaFin))
+
         def contratos
-        if (validar == '1') {
-            contratos = Contrato.findAllByEstatusNotInList(['R', 'I', 'C'])
-        } else {
-            contratos = Contrato.findAllByContratoPruebaAndEstatusNotInList(false, ['R', 'I', 'C'])
-        }
-        def lista = contratos.collect({
+        contratos = Contrato.findAll("from Contrato where  estatus != 'R' and estatus != 'I' and estatus != 'C' and fechaContrato >=:fechaInicio and fechaContrato <=:fechaFin", [fechaInicio: fechaInicio, fechaFin: fechaFin])
+        def lista = contratos.size() == 0? [] : contratos.collect({
             HistoricoExtensiones ext = HistoricoExtensiones.findByContratoAndEsDefault(it, true)
             def detalles = 0.00
 
@@ -194,9 +195,7 @@ class ContratoController extends RestfulController<Contrato> {
                     estatusCliente: it.estatusCliente,
                     total         : detalles,
             ]
-        })
-
-        lista = lista.sort({ it.fechaContrato }).reverse()
+        }).sort({ it.fechaContrato }).reverse()
         respond(lista)
     }
 
@@ -331,6 +330,13 @@ class ContratoController extends RestfulController<Contrato> {
         contrato.save(flush: true, failOnError: true)
         respond(message: 'Folio: ' + contrato.numeroContrato + ' firmado')
     }
+    def impreso(Long id) {
+        Contrato contrato = Contrato.findById(id)
+        contrato.estatus = 'I'
+        contrato.estatusContrato = null
+        contrato.save(flush: true, failOnError: true)
+        respond(message: 'Folio: ' + contrato.numeroContrato + ' impreso')
+    }
 
     @Transactional
     def verificarFR() {
@@ -382,10 +388,15 @@ class ContratoController extends RestfulController<Contrato> {
     }
 
     def estatusContratos() {
-        def registrado = Contrato.countByEstatusAndContratoPrueba('R', false)
-        def impreso = Contrato.countByEstatusAndContratoPrueba('I', false)
-        def firmado = Contrato.countByEstatusNotInListAndContratoPrueba(['R', 'I', 'C'], false)
-        def cancelado = Contrato.countByEstatusAndContratoPrueba('C', false)
+
+        Portafolios p = Portafolios.findByCvePortafolio(1)
+        def fechaInicio = (params.fechaInicio=="null")?p.fecha:(sdf.parse(params?.fechaInicio))
+        def fechaFin = (params.fechaFin=="null")?p.fecha:(sdf.parse(params?.fechaFin))
+
+        def registrado = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('R', false, fechaInicio, fechaFin)
+        def impreso = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('I', false, fechaInicio, fechaFin)
+        def firmado = Contrato.countByEstatusNotInListAndContratoPruebaAndFechaContratoBetween(['R', 'I', 'C'], false, fechaInicio, fechaFin)
+        def cancelado = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('C', false, fechaInicio, fechaFin)
         def total = registrado + impreso + firmado + cancelado
 
         respond([
@@ -591,10 +602,11 @@ class ContratoController extends RestfulController<Contrato> {
         def detalles = ContratoDetalle.findAllByContrato(contrato)
         def direcciones = Direccion.findAllByContrato(contrato)
         if (contrato.razonesSociales != null) {
-            def razonSocial = RazonesSociales.findAllById(contrato.razonesSociales.id)
+            def razonSocial = RazonesSociales.findById(contrato.razonesSociales.id)
             respond contrato: contrato, detalles: detalles, direcciones: direcciones, razonSocial: razonSocial
+        } else {
+            respond contrato: contrato, detalles: detalles, direcciones: direcciones
         }
-        respond contrato: contrato, detalles: detalles, direcciones: direcciones
     }
 
     def extensionContrato(Long id) {
@@ -691,11 +703,27 @@ class ContratoController extends RestfulController<Contrato> {
         }
         Integer tope = ContratoDetalle.executeQuery("SELECT MAX(parcialidad) FROM ContratoDetalle WHERE contrato =:id", [id: contrato])[0]
         def detalles = ContratoDetalle.findAllByContratoAndParcialidadBetween(contrato, tope - 12, tope)
-
+        if (contrato.regimenFiscal == C_RegimenFiscal.findByClave('PM')) {
+            RazonesSociales rs = RazonesSociales.findById(contrato.razonesSociales.id)
+            rs.razonSocial = request.JSON.razonSocialMoral
+            rs.rfc = request.JSON.rfcMoral
+            rs.telefonoFijo = request.JSON.telefonoFijoMoral
+            rs.telefonoCelular = request.JSON.telefonoCelularMoral
+            rs.telefonoOficina = request.JSON.telefonoOficinaMoral
+            rs.calleDireccionFiscal = request.JSON.calleDireccionFiscalMoral
+            rs.numeroExterior = request.JSON.numeroExteriorMoral
+            rs.numeroInterior = request.JSON.numeroInteriorMoral
+            rs.codigoPostal = request.JSON.codigoPostalMoral
+            rs.colonia = request.JSON.coloniaMoral
+            rs.entidad = request.JSON.entidadMoral
+            rs.municipio = request.JSON.municipioMoral
+            rs.save(flush: true, failOnError: true)
+        }
 
         for (det in detalles) {
             det.interes = contrato.costoMensualInteres
             det.monitoreo = contrato.costoMensualMonitoreo
+            det.fecha = contratoService.calcularFechaPago(det.parcialidad, contrato.fechaContrato)
             det.gps = contrato.costoMensualGPS
             det.capital = det.parcialidad == 12 ? contrato.montoRequerido : 0
             det.subtotal = det.parcialidad == 12 ? (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS + contrato.montoRequerido) : (contrato.costoMensualInteres + contrato.costoMensualMonitoreo + contrato.costoMensualGPS)

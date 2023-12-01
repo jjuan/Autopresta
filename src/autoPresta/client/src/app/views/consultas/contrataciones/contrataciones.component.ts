@@ -5,7 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {RestService} from "../../../core/service/rest.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {GlobalService} from "../../../core/service/global.service";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DialogService} from "../../../core/service/dialog.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -13,6 +13,8 @@ import {BehaviorSubject, fromEvent, merge, Observable} from "rxjs";
 import Swal from "sweetalert2";
 import {map} from "rxjs/operators";
 import {Router} from "@angular/router";
+import {DatePipe} from "@angular/common";
+import {DateAdapter} from "@angular/material/core";
 
 @Component({
   selector: 'app-contrataciones',
@@ -39,9 +41,11 @@ export class ContratacionesComponent implements OnInit {
   ];
   selection = new SelectionModel<Contrataciones>(true, []);
   dataSource: registros | null;
+  formulario: FormGroup;
 
-  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar, private router: Router,
-              private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService) {
+  constructor(public dialog: MatDialog, public restService: RestService, private snackBar: MatSnackBar, private router: Router, private dateAdapter: DateAdapter<Date>,
+              private globalService: GlobalService, private formBuilder: FormBuilder, private dialogService: DialogService,  private datePipe: DatePipe) {
+    this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
   }
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -57,12 +61,21 @@ export class ContratacionesComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    const date = new Date(), y = date.getFullYear(), m = date.getMonth();
+    const firstDay = new Date(y, m, 1);
+    const lastDay = new Date(y, m + 1, 0);
+    this.formulario = this.restService.buildForm({
+      fechaInicio: [firstDay, Validators.required],
+      fechaFin: [lastDay, Validators.required],
+    })
     this.loadData();
   }
 
   loadData() {
+    const fechaInicio = this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd');
+    const fechaFin = this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd');
     this.estatusContratos()
-    this.dataSource = new registros(this.restService, this.paginator, this.sort, this.datos.controlador);
+    this.dataSource = new registros(this.restService, this.paginator, this.sort, this.datos.controlador, fechaInicio, fechaFin);
     fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
       if (!this.dataSource) {
         return;
@@ -119,7 +132,10 @@ export class ContratacionesComponent implements OnInit {
   }
 
   estatusContratos() {
-    this.restService.index<_statusContratos>(this.datos.controlador, {}, 'estatusContratos').subscribe(r => {
+    const fechaInicio = this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd');
+    const fechaFin = this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd');
+    this.restService.index<_statusContratos>(this.datos.controlador, {fechaInicio: fechaInicio,
+      fechaFin: fechaFin}, 'estatusContratos').subscribe(r => {
       this.conciliacionOperaciones = r
       console.log(this.conciliacionOperaciones)
     })
@@ -148,7 +164,7 @@ export class registros extends DataSource<Contrataciones> {
   filteredData: Contrataciones[] = [];
   renderedData: Contrataciones[] = [];
 
-  constructor(private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string) {
+  constructor(private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string, private fechaInicio, private fechaFin) {
     super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
@@ -162,7 +178,9 @@ export class registros extends DataSource<Contrataciones> {
       this.ds.dataChange, this._sort.sortChange, this.filterChange, this.paginator.page
     ];
 
-    this.ds.getAdvancedTable<any>(this.controller, {'max': 100});
+    this.ds.getAdvancedTable<any>(this.controller, {
+      fechaInicio: this.fechaInicio,
+      fechaFin: this.fechaFin, 'max': 100});
     // console.log(this.ds)
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Contrataciones) => {

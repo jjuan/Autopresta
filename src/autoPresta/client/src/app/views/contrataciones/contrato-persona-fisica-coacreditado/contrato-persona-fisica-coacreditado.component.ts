@@ -211,7 +211,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
     this.formulario.patchValue({direccion: this.direcciones})
 
     const dialogRef = this.dialog.open(GeneracionContratoComponent, {
-      data: {title: 'nombre', disableClose: true, data: 'result', action: 'Editar'}, height: 'auto', width: '40%'
+      data: {title: 'nombre', disableClose: true, data: 'result', action: 'Generar'}, height: 'auto', width: '40%'
     });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) {

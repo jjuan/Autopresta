@@ -16,6 +16,44 @@
         </div>
       </div>
     </div>
+    <form class="register-form" [formGroup]="formulario">
+      <div class="card">
+        <div class="body">
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha Inicio</mat-label>
+                <input matInput [matDatepicker]="DatepickerInicial" name="fechaInicio" formControlName="fechaInicio">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerInicial"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerInicial></mat-datepicker>
+                <mat-error *ngIf="formulario.get('fechaInicio').hasError('required')">
+                  Fecha Inicio es requerida
+                </mat-error>
+              </mat-form-field>
+            </div><div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Fecha Final</mat-label>
+                <input matInput [matDatepicker]="DatepickerFinal" name="fechaFin" formControlName="fechaFin">
+                <mat-datepicker-toggle matSuffix [for]="DatepickerFinal"></mat-datepicker-toggle>
+                <mat-datepicker #DatepickerFinal></mat-datepicker>
+                <mat-error *ngIf="formulario.get('fechaFin').hasError('required')">
+                  Fecha Final es requerida
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mt-2">
+              <div class="button-row">
+                <button mat-mini-fab color="primary" type="submit" [disabled]="!formulario.valid"
+                        [mat-dialog-close]="1" (click)="loadData()">
+                  <mat-icon class="col-white" matTooltip="Consultar ">search
+                  </mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
 
     <div class="plain-card">
       <div class="card-inner">

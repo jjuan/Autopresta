@@ -39,13 +39,14 @@ export class GeneracionContratoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dialogTitle = 'Generar contrato';
-    console.log(this.data)
+    this.action = this.data.action == "Editar"?"Editar":"Generar"
+    this.dialogTitle = this.action + ' contrato';
+    console.log(this.data.data)
     this.restService.combo<Combo[]>({id: 'CalificacionCliente'}, 'comboAutoPresta').subscribe(r => this.calificacionClientesCombo = r)
     this.restService.combo<Combo[]>({tipo: 'TipoContrato'}, 'combos').subscribe(r => this.comboContratos = r)
     this.formulario = this.restService.buildForm({
       calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : '', Validators.required],
-      fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato : '', Validators.required],
+      fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato+ 'T00:00:00' : '', Validators.required],
       contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
       contratoMonterrey: [this.data.data.contratoMonterrey ? this.data.data.contratoMonterrey : false, Validators.required],
       numeroContrato: [this.data.data.numeroContrato ? this.data.data.numeroContrato : '', Validators.required],
@@ -58,9 +59,15 @@ export class GeneracionContratoComponent implements OnInit {
       tipoContrato: [this.data.data.tipoContrato ? this.data.data.tipoContrato : ''],
       detalleDescuentos: ['N/A', Validators.required]
     });
-    this.restService.index<any>( 'Sucursales', {}, 'cargarFolio').subscribe(result => {
-      this.formulario.patchValue({fechaContrato: result.fecha + 'T00:00:00',numeroContrato: result.numeroContrato, tipoContrato: result.tipoContrato });
-    });
+    if (this.data.action != "Editar") {
+      this.restService.index<any>('Sucursales', {}, 'cargarFolio').subscribe(result => {
+        this.formulario.patchValue({
+          fechaContrato: result.fecha + 'T00:00:00',
+          numeroContrato: result.numeroContrato,
+          tipoContrato: result.tipoContrato
+        });
+      });
+    }
   }
 
   cambiarFolio(checked: boolean, folioMty) {

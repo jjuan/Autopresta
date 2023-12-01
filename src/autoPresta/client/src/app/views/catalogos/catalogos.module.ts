@@ -47,6 +47,8 @@ import { FormFoliosComponent } from './folios/form-folios/form-folios.component'
 import { FliosRecupeadosComponent } from './flios-recupeados/flios-recupeados.component';
 import { CpComponent } from './cp/cp.component';
 import { CpFormComponent } from './cp/cp-form/cp-form.component';
+import { FechaInhabilComponent } from './fecha-inhabil/fecha-inhabil.component';
+import { FormFechaInhabilComponent } from './fecha-inhabil/form-fecha-inhabil/form-fecha-inhabil.component';
 
 
 @NgModule({
@@ -57,7 +59,7 @@ import { CpFormComponent } from './cp/cp-form/cp-form.component';
         DivisasComponent, FormDivisasComponent, SucursalesComponent, RegionesComponent, ModelosComponent, FormModelosComponent,
         CalificacionClienteComponent, CalificacionClienteFormComponent, IdentificacionesOficialesComponent, BancosComponent,
         IdentificacionesOficialesFormComponent, CuentasBancariasComponent, CuentasBancariasFormComponent, BancosFormComponent,
-        CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent, FoliosComponent, FormFoliosComponent, FliosRecupeadosComponent, CpComponent, CpFormComponent],
+        CuentasBancariasDeleteComponent, UsuarioComponent, UsuarioFormComponent, UsuarioDeleteComponent, BancosDeleteComponent, FoliosComponent, FormFoliosComponent, FliosRecupeadosComponent, CpComponent, CpFormComponent, FechaInhabilComponent, FormFechaInhabilComponent],
   exports: [
     AgenciasComponent,
     BancosComponent

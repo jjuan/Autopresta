@@ -344,6 +344,13 @@ export interface Regiones {
   variacion: number;
 }
 
+export interface FechaInhabil {
+  id: number;
+  fecha: Date;
+  descripcion: string;
+  divisa: Divisas;
+}
+
 export interface Servicios {
   id: number;
   gps1: Gps;

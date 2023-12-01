@@ -131,6 +131,7 @@ export class ContratoComponent implements OnInit {
       this.id = this.route.snapshot.params.id
       this.genericRestService.edit<any>(this.id, this._datos._dominio, {}, 'edicionContrato').subscribe(datos => {
         this.contratoEdicion = datos
+        console.log(datos)
         this.documentoOficialValidator(datos.contrato.documentoOficial, false)
         this.calcularMaximoAutorizado(datos.contrato.valorDeCompra)
         if (datos.direcciones.length == 1) {
@@ -166,7 +167,12 @@ export class ContratoComponent implements OnInit {
           }
         }
         this.cargarModelos(datos.contrato.marca.id)
-        this.onEdit(datos.contrato)
+        if (datos.contrato.regimenFiscal.clave == "PM") {
+          this.onEditPM(datos.contrato, datos.razonSocial)
+        } else {
+
+          this.onEdit(datos.contrato)
+        }
       })
     }
   }
@@ -603,6 +609,91 @@ export class ContratoComponent implements OnInit {
       numeroExteriorMoral: datos.numeroExteriorMoral,
       numeroInteriorMoral: datos.numeroInteriorMoral,
       codigoPostalMoral: datos.codigoPostalMoral,
+      fechaF: datos.fechaF,
+      coloniaMoral: datos.coloniaMoral,
+      municipioMoral: datos.municipioMoral,
+      entidadMoral: datos.entidadMoral,
+      nombres: datos.nombres,
+      primerApellido: datos.primerApellido,
+      segundoApellido: datos.segundoApellido,
+      genero: datos.genero,
+      edad: datos.edad,
+      rfc: datos.rfc,
+      fechaNacimiento: datos.fechaNacimiento,
+      curp: datos.curp,
+      documentoOficial: Number(datos.documentoOficial),
+      claveElector: datos.claveElector,
+      telefonoFijo: datos.telefonoFijo,
+      telefonoCelular: datos.telefonoCelular,
+      telefonoOficina: datos.telefonoOficina,
+      correoElectronico: datos.correoElectronico,
+      nombresCoacreditado: datos.nombresCoacreditado,
+      primerApellidoCoacreditado: datos.primerApellidoCoacreditado,
+      segundoApellidoCoacreditado: datos.segundoApellidoCoacreditado,
+      generoCoacreditado: datos.generoCoacreditado,
+      edadCoacreditado: datos.edadCoacreditado,
+      rfcCoacreditado: datos.rfcCoacreditado,
+      fechaNacimientoCoacreditado: datos.fechaNacimientoCoacreditado,
+      curpCoacreditado: datos.curpCoacreditado,
+      claveElectorCoacreditado: datos.claveElectorCoacreditado,
+      telefonoFijoCoacreditado: datos.telefonoFijoCoacreditado,
+      telefonoCelularCoacreditado: datos.telefonoCelularCoacreditado,
+      telefonoOficinaCoacreditado: datos.telefonoOficinaCoacreditado,
+      correoElectronicoCoacreditado: datos.correoElectronicoCoacreditado,
+      direccion: datos.direccion,
+      anio: datos.anio,
+      marca: datos.marca.id,
+      modelo: datos.modelo.id,
+      versionAuto: datos.numeroVin,
+      color: datos.color,
+      placas: datos.placas,
+      numeroDeMotor: datos.numeroDeMotor,
+      numeroDeFactura: datos.numeroDeFactura,
+      fechaDeFactura: datos.fechaDeFactura,
+      emisoraDeFactura: datos.emisoraDeFactura,
+      valorDeVenta: datos.valorDeVenta,
+      valorDeCompra: datos.valorDeCompra,
+      montoMaximoAutorizado: datos.montoMaximoAutorizado,
+      numeroVin: datos.numeroVin,
+      gps1: datos.gps1 ? datos.gps1.id : '',
+      gps2: datos.gps2 ? datos.gps2.id : '',
+      proveedor2: datos.proveedor2,
+      gps3: datos.gps3 ? datos.gps3.id : '',
+      proveedor3: datos.proveedor3,
+      montoRequerido: datos.montoRequerido,
+      costoMensualInteres: datos.costoMensualInteres,
+      costoMensualMonitoreo: datos.costoMensualMonitoreo,
+      costoMensualGPS: datos.costoMensualGPS,
+      totalAutoPresta: datos.totalAutoPresta,
+      iva: datos.iva,
+      costoMensualTotal: datos.costoMensualTotal,
+      tipoContrato: datos.tipoContrato.id,
+      referencia: datos.referencia,
+      clabe: datos.clabe,
+      coacreditado: datos.coacreditado,
+      calificacionCliente: datos.calificacionCliente,
+      contratoPrueba: datos.contratoPrueba,
+      montoTransferencia: datos.montoTransferencia,
+      detalleDescuentos: datos.detalleDescuentos,
+      fechaSolicitud: datos.fechaSolicitud,
+      fechaContrato: datos.fechaContrato,
+      montoLiquidar: datos.montoLiquidar,
+      fechaCompromiso: datos.fechaCompromiso,
+      descuentosRetenciones: datos.descuentosRetenciones,
+    })
+  }
+  onEditPM(datos, rs) {
+    this.formulario.patchValue({
+      regimenFiscal: datos.regimenFiscal.clave,
+      razonSocialMoral: rs.razonSocial,
+      rfcMoral: rs.rfc,
+      telefonoFijoMoral: rs.telefonoFijo,
+      telefonoCelularMoral: rs.telefonoCelular,
+      telefonoOficinaMoral: rs.telefonoOficina,
+      calleDireccionFiscalMoral: rs.calleDireccionFiscal,
+      numeroExteriorMoral: rs.numeroExterior,
+      numeroInteriorMoral: rs.numeroInterior,
+      codigoPostalMoral: rs.codigoPostal,
       fechaF: datos.fechaF,
       coloniaMoral: datos.coloniaMoral,
       municipioMoral: datos.municipioMoral,

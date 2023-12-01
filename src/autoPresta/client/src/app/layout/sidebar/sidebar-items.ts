@@ -137,6 +137,15 @@ export const ROUTES: RouteInfo[] = [
         submenu: []
       },
       {
+        path: 'Catalogos/Fecha-Inhabil',
+        title: 'Fechas Inhabiles',
+        moduleName: 'Catalogos',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: []
+      },
+      {
         path: 'Catalogos/Cuentas-Bancarias',
         title: 'Cuentas-Bancarias',
         moduleName: 'Catalogos',
