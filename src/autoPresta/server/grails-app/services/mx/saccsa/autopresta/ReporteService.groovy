@@ -39,8 +39,13 @@ class ReporteService {
 
 
         }
-        def dir = Direccion.findByContratoAndPrincipal(contrato, true)
+        def dir = Direccion.findByContratoAndTipo(contrato, 'Domicilio casa cliente')
+        if (dir == null){
+            dir = Direccion.findByContratoAndPrincipal(contrato, true)
+        }
+        def dir2 = Direccion.findByContratoAndTipo(contrato, 'Domicilio donde radica el auto')
         String exterior = dir.exterior != null ? dir.exterior : 'S/N'
+        String exterior2 = dir2!=null ? (dir2.exterior != null ? dir2.exterior : 'S/N'): ''
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
         def fechaFiniquito = ContratoDetalle.findByContratoAndParcialidad(contrato, '12')
         def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeCompra) * 100)
@@ -72,6 +77,11 @@ class ReporteService {
                 colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                 codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
                 alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
+                calleNoExteriorS                    : dir2!=null ? campo(dir2.direccionPrincipal) + ' ' + exterior2: '',
+                noInteriorS                         : dir2!=null && dir2.interior != null ? dir.interior : '',
+                coloniaS                            : dir2!=null && dir2.colonia != null ? dir.colonia.toUpperCase() : '',
+                codigoPostalS                       : dir2!=null && dir2.cp != null ? cpFormato(dir.cp) : '',
+                alcaldiaS                           : dir2!=null && dir2.municipio != null ? dir.municipio.toUpperCase() : '',
                 noContrato                         : contratoFolio(contrato),
                 montoPrestamo                      : contrato.montoTransferencia,
                 montoTotalPagar                    : montoTotal,

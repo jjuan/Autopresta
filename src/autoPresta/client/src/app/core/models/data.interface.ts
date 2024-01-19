@@ -505,6 +505,7 @@ export interface direccion {
   municipio: string;
   entidad: string;
   principal?: boolean;
+  tipo?: string;
 }
 
 export interface Folios {

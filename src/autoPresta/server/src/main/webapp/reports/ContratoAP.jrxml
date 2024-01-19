@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.6.1  -->
-<!-- 2023-05-03T17:04:52 -->
+<!-- 2023-12-27T09:10:37 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexo" language="groovy" pageWidth="612" pageHeight="792" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3943bb9a-4398-4c2f-9d17-d84f3bce4aae">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -42,6 +42,11 @@
 	<field name="colonia" class="java.lang.String"/>
 	<field name="codigoPostal" class="java.lang.String"/>
 	<field name="alcaldia" class="java.lang.String"/>
+	<field name="calleNoExteriorS" class="java.lang.String"/>
+	<field name="noInteriorS" class="java.lang.String"/>
+	<field name="coloniaS" class="java.lang.String"/>
+	<field name="codigoPostalS" class="java.lang.String"/>
+	<field name="alcaldiaS" class="java.lang.String"/>
 	<field name="noContrato" class="java.lang.String"/>
 	<field name="montoPrestamo" class="java.math.BigDecimal"/>
 	<field name="montoTotalPagar" class="java.math.BigDecimal"/>
@@ -901,14 +906,305 @@
 				<textFieldExpression><![CDATA[$F{noIdentificacionOficial}]]></textFieldExpression>
 			</textField>
 		</band>
-		<band height="544">
+		<band height="33">
+			<staticText>
+				<reportElement x="431" y="10" width="148" height="8" uuid="71f15d7d-a17b-4e94-837f-ab4da4605f73"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALCALDÍA ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="431" y="18" width="148" height="15" uuid="5805e1a8-3507-455f-9801-4dc91bb6fdf9"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alcaldia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="18" width="71" height="15" uuid="e14e5b60-0bfe-446d-840c-bfbbee9d1a0a"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noInterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="18" width="160" height="15" uuid="cd04eeba-e597-4ad0-a172-3c15551651f3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{calleNoExterior}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="18" width="129" height="15" uuid="db6a8d1c-1307-42d5-a812-1cf65cf2e2eb"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{colonia}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="360" y="18" width="71" height="15" uuid="1bf4b1cf-e40a-4648-8ce9-c230c1f4e1c4"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoPostal}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="160" y="10" width="71" height="8" uuid="cacc74aa-b630-436d-aba3-2ab1bcaffb78"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO. INTERIOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="579" height="10" backcolor="#E8E8E8" uuid="6fa21781-cf6b-4ce3-abeb-54f1d7576bf6"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOMICILIO (CASA DEL CLIENTE)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="10" width="160" height="8" uuid="0944099a-ffec-4968-9afe-4a6bafc89e13"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CALLE Y NO. EXTERIOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="231" y="10" width="129" height="8" uuid="5706e414-6814-40ad-88cf-4488a0f945a0"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLONIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="10" width="71" height="8" uuid="43f311bb-1a9b-4d69-9bb1-23f59a884c6b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO POSTAL]]></text>
+			</staticText>
+		</band>
+		<band height="33">
+			<printWhenExpression><![CDATA[$F{calleNoExteriorS}!=""]]></printWhenExpression>
+			<textField>
+				<reportElement x="0" y="18" width="160" height="15" uuid="9be935bf-d613-4bee-a869-a95627dcaf44"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{calleNoExteriorS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="431" y="10" width="148" height="8" uuid="701b2b1c-d1cf-437f-b1a8-9d5583ee2e36"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ALCALDÍA ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="431" y="18" width="148" height="15" uuid="1a944196-a18b-427a-9e27-c802747e0d55"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{alcaldiaS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="231" y="18" width="129" height="15" uuid="7f88a05e-7cad-42af-90d0-715b8a56ad03"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{coloniaS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="231" y="10" width="129" height="8" uuid="e6cc9018-64d3-45af-98dd-cf1ef44560af"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COLONIA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="360" y="10" width="71" height="8" uuid="126e1876-51b9-4a2f-bc47-5588d31d3af3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CODIGO POSTAL]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="360" y="18" width="71" height="15" uuid="154b3976-491d-4ee9-8950-d80ca0e7b3d1"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigoPostalS}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="160" y="18" width="71" height="15" uuid="6d5177ee-a179-4773-af8d-2d969ff70a53"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noInteriorS}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="160" height="8" uuid="dc0a67b9-c60c-48a6-8a82-0d617ddae7ec"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CALLE Y NO. EXTERIOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="579" height="10" backcolor="#E8E8E8" uuid="a616f348-8acc-4981-805f-bf0c3380279f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOMICILIO DONDE RADICA EL AUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="160" y="10" width="71" height="8" uuid="86b58c08-1a19-4d58-9643-e2c4be8351d5"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NO. INTERIOR]]></text>
+			</staticText>
+		</band>
+		<band height="511">
 			<subreport>
-				<reportElement x="0" y="157" width="579" height="129" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
+				<reportElement x="0" y="118" width="579" height="129" uuid="1041625a-e94e-4e64-9e2a-ee5ef5b453c7"/>
 				<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($F{listaDatos})]]></dataSourceExpression>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ContratoAP_sub.jasper"]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="217" y="124" width="113" height="8" uuid="61e45096-d396-45f6-9d7d-fb951f2dd9d9"/>
+				<reportElement x="217" y="85" width="113" height="8" uuid="61e45096-d396-45f6-9d7d-fb951f2dd9d9"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -922,7 +1218,7 @@
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="40" y="49" width="59" height="24" uuid="8b215a07-7efb-4d2f-8191-23bf4649cd47"/>
+				<reportElement x="40" y="10" width="59" height="24" uuid="8b215a07-7efb-4d2f-8191-23bf4649cd47"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -935,7 +1231,7 @@
 				<text><![CDATA[TASA DE INTERÉS MENSUAL FIJA]]></text>
 			</staticText>
 			<textField pattern="$###,##0.00">
-				<reportElement x="370" y="73" width="50" height="48" uuid="471da1f2-0dd1-469d-b604-6c439f6f2deb"/>
+				<reportElement x="370" y="34" width="50" height="48" uuid="471da1f2-0dd1-469d-b604-6c439f6f2deb"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -948,20 +1244,7 @@
 				<textFieldExpression><![CDATA[$F{montoTotalPagar}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="231" y="13" width="129" height="8" uuid="ab43dea4-1edf-40a0-8d46-a9a78a871dac"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[COLONIA]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="501" y="124" width="78" height="8" uuid="664d53fc-75a8-458d-9c74-53c553df4a83"/>
+				<reportElement x="501" y="85" width="78" height="8" uuid="664d53fc-75a8-458d-9c74-53c553df4a83"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -974,7 +1257,7 @@
 				<text><![CDATA[]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="40" y="73" width="59" height="48" uuid="64d971eb-bcb7-4b0c-87cc-0f828ae2f46b"/>
+				<reportElement x="40" y="34" width="59" height="48" uuid="64d971eb-bcb7-4b0c-87cc-0f828ae2f46b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -991,7 +1274,7 @@ comparación
 FIJO SIN IVA]]></text>
 			</staticText>
 			<textField pattern="dd/MM/yyyy">
-				<reportElement mode="Opaque" x="330" y="124" width="171" height="8" backcolor="#E8E8E8" uuid="06e6aaa0-9c17-4254-b58b-ee6d33eaff3c"/>
+				<reportElement mode="Opaque" x="330" y="85" width="171" height="8" backcolor="#E8E8E8" uuid="06e6aaa0-9c17-4254-b58b-ee6d33eaff3c"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1004,7 +1287,7 @@ FIJO SIN IVA]]></text>
 				<textFieldExpression><![CDATA[$F{desempeño}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement mode="Opaque" x="99" y="124" width="118" height="8" backcolor="#E8E8E8" uuid="a4668f5a-5553-4468-a8f4-550ae1b9bd1d"/>
+				<reportElement mode="Opaque" x="99" y="85" width="118" height="8" backcolor="#E8E8E8" uuid="a4668f5a-5553-4468-a8f4-550ae1b9bd1d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1017,33 +1300,7 @@ FIJO SIN IVA]]></text>
 				<textFieldExpression><![CDATA[$F{plazo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="360" y="13" width="71" height="8" uuid="2774294f-a136-4d04-9890-e9d7549f6249"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CODIGO POSTAL]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="431" y="13" width="148" height="8" uuid="061932c6-3348-46c0-80ca-22bf90120041"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[ALCALDÍA ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="159" y="73" width="59" height="48" uuid="177afcb5-4d2f-4dcf-8322-1396d997be58"/>
+				<reportElement x="159" y="34" width="59" height="48" uuid="177afcb5-4d2f-4dcf-8322-1396d997be58"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1061,33 +1318,7 @@ ciento) 88% FIJO SIN
 IVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="3" width="579" height="10" backcolor="#E8E8E8" uuid="95b86ec0-8357-4d6b-90c0-b5c17a5ed32c"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DIRECCION]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="360" y="21" width="71" height="15" uuid="e9b43b42-4fd3-4125-84be-a26cdc932eeb"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{codigoPostal}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="218" y="49" width="152" height="24" uuid="09378bba-894c-438c-9729-ab831ec8f681"/>
+				<reportElement x="218" y="10" width="152" height="24" uuid="09378bba-894c-438c-9729-ab831ec8f681"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1100,7 +1331,7 @@ IVA]]></text>
 				<text><![CDATA[MONTO DEL PRESTAMO (TRANSFERENCIA)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="501" y="49" width="78" height="24" uuid="8b993af8-8e07-4e64-a462-fc56ae4ef78b"/>
+				<reportElement x="501" y="10" width="78" height="24" uuid="8b993af8-8e07-4e64-a462-fc56ae4ef78b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1115,20 +1346,7 @@ INTERBANCARIA
 BBVA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="160" y="13" width="71" height="8" uuid="6bf25af6-b751-4251-93ab-b76d65e9a75b"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[NO. INTERIOR]]></text>
-			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="0" y="39" width="579" height="10" backcolor="#E8E8E8" uuid="093e89b5-abfc-4855-ac0c-576c9fca55e4"/>
+				<reportElement mode="Opaque" x="0" y="0" width="579" height="10" backcolor="#E8E8E8" uuid="093e89b5-abfc-4855-ac0c-576c9fca55e4"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1141,7 +1359,7 @@ BBVA]]></text>
 				<text><![CDATA[DATOS DEL CONSUMIDOR]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="501" y="73" width="78" height="48" uuid="a7340510-64e3-42f1-8a20-336eb35ff074"/>
+				<reportElement x="501" y="34" width="78" height="48" uuid="a7340510-64e3-42f1-8a20-336eb35ff074"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1154,7 +1372,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{clabe}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="0" y="73" width="40" height="48" uuid="0fbcba28-262e-4d49-a62c-20df5e0dd3b8"/>
+				<reportElement x="0" y="34" width="40" height="48" uuid="0fbcba28-262e-4d49-a62c-20df5e0dd3b8"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1167,7 +1385,7 @@ BBVA]]></text>
 				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="124" width="99" height="8" uuid="9c6a96a3-03a4-422c-bbc7-80f38ad0f85d"/>
+				<reportElement x="0" y="85" width="99" height="8" uuid="9c6a96a3-03a4-422c-bbc7-80f38ad0f85d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1180,7 +1398,7 @@ BBVA]]></text>
 				<text><![CDATA[Plazo del préstamo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="49" width="60" height="24" uuid="ca31870f-5850-4924-814b-f350572f12d8"/>
+				<reportElement x="99" y="10" width="60" height="24" uuid="ca31870f-5850-4924-814b-f350572f12d8"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1195,21 +1413,8 @@ INTERÉS
 ANUAL FIJA
 ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="0" y="21" width="160" height="15" uuid="df15e040-fc2c-42f3-bf86-c0e6e88369df"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{calleNoExterior}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement mode="Transparent" x="0" y="132" width="579" height="22" backcolor="#A2C7E6" uuid="5fecb544-6230-4178-b13f-d23648e4f7d2"/>
+				<reportElement mode="Transparent" x="0" y="93" width="579" height="22" backcolor="#A2C7E6" uuid="5fecb544-6230-4178-b13f-d23648e4f7d2"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1223,7 +1428,7 @@ ANUAL FIJA
 ]]></text>
 			</staticText>
 			<textField pattern="$###,##0.00">
-				<reportElement x="218" y="73" width="152" height="48" uuid="32a176e8-7cbe-471a-bc2e-7004082d716d"/>
+				<reportElement x="218" y="34" width="152" height="48" uuid="32a176e8-7cbe-471a-bc2e-7004082d716d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1236,7 +1441,7 @@ ANUAL FIJA
 				<textFieldExpression><![CDATA[$F{montoPrestamo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="49" width="40" height="24" uuid="56329cfd-afc9-4f27-83da-bdde469c9c7a"/>
+				<reportElement x="0" y="10" width="40" height="24" uuid="56329cfd-afc9-4f27-83da-bdde469c9c7a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1250,47 +1455,8 @@ ANUAL FIJA
 CONTRATO
 ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="160" y="21" width="71" height="15" uuid="6ceaff8f-4650-4f73-8335-52aa934ad403"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{noInterior}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="0" y="13" width="160" height="8" uuid="b1e0dd7a-6cee-4a05-9226-bdda6b56b97e"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CALLE Y NO. EXTERIOR]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="431" y="21" width="148" height="15" uuid="f4837954-5ff2-45a5-8c88-825f6230aeba"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{alcaldia}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="420" y="49" width="81" height="24" uuid="187b27ae-ebe3-4291-9ef2-f194e8faa63e"/>
+				<reportElement x="420" y="10" width="81" height="24" uuid="187b27ae-ebe3-4291-9ef2-f194e8faa63e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1305,7 +1471,7 @@ PARA IDENTIFICAR LOS
 PAGOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="49" width="50" height="24" uuid="82d155ee-2587-44a3-9d61-660b2f127113"/>
+				<reportElement x="370" y="10" width="50" height="24" uuid="82d155ee-2587-44a3-9d61-660b2f127113"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1320,21 +1486,8 @@ TOTAL A
 PAGAR
 ]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="231" y="21" width="129" height="15" uuid="9a2d2b16-fdef-4aef-ae92-2b9702ad846d"/>
-				<box>
-					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle" markup="styled">
-					<font fontName="Arial" size="6" isBold="false"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{colonia}]]></textFieldExpression>
-			</textField>
 			<staticText>
-				<reportElement x="159" y="49" width="59" height="24" uuid="0bc6c9e2-e0fd-4a67-97d2-8ca3d8f5a7ae"/>
+				<reportElement x="159" y="10" width="59" height="24" uuid="0bc6c9e2-e0fd-4a67-97d2-8ca3d8f5a7ae"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1349,7 +1502,7 @@ Costo Anual Total
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="99" y="73" width="60" height="48" uuid="598af84e-63d7-49ce-9f4e-eeed3901de44"/>
+				<reportElement x="99" y="34" width="60" height="48" uuid="598af84e-63d7-49ce-9f4e-eeed3901de44"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1367,7 +1520,7 @@ ciento) 60% FIJO
 SIN IVA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="490" y="338" width="89" height="29" uuid="7856e35b-0eba-412d-95c9-0d9e71cc4271"/>
+				<reportElement x="490" y="299" width="89" height="29" uuid="7856e35b-0eba-412d-95c9-0d9e71cc4271"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1380,7 +1533,7 @@ SIN IVA]]></text>
 				<textFieldExpression><![CDATA[$F{prestamoSobreAvaluo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="298" width="288" height="21" uuid="0d4e8003-48b2-4114-babb-1ea99e61d55a"/>
+				<reportElement x="0" y="259" width="288" height="21" uuid="0d4e8003-48b2-4114-babb-1ea99e61d55a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1394,7 +1547,7 @@ SIN IVA]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="375" width="150" height="8" uuid="e17ebba1-c4cc-4f16-b09f-e368adebbbe5"/>
+				<reportElement x="0" y="336" width="150" height="8" uuid="e17ebba1-c4cc-4f16-b09f-e368adebbbe5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1408,7 +1561,7 @@ SIN IVA]]></text>
 				<text><![CDATA[Monto del avalúo (numero y letra):]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="319" width="150" height="19" backcolor="#E8E8E8" uuid="3fc26914-5161-4ae8-8b0b-4a2c0dae9bcc"/>
+				<reportElement mode="Opaque" x="0" y="280" width="150" height="19" backcolor="#E8E8E8" uuid="3fc26914-5161-4ae8-8b0b-4a2c0dae9bcc"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1422,7 +1575,7 @@ SIN IVA]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="427" width="579" height="8" uuid="b4161ffa-74b9-4a20-ba52-304eeade50a0"/>
+				<reportElement x="0" y="388" width="579" height="8" uuid="b4161ffa-74b9-4a20-ba52-304eeade50a0"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1437,7 +1590,7 @@ SIN IVA]]></text>
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="150" y="367" width="429" height="8" uuid="a90abd6b-8d69-43a0-be60-556cc0b9babd"/>
+				<reportElement x="150" y="328" width="429" height="8" uuid="a90abd6b-8d69-43a0-be60-556cc0b9babd"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1451,7 +1604,7 @@ SIN IVA]]></text>
 				<textFieldExpression><![CDATA[$F{montoPrestamoLetra}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="383" width="150" height="8" uuid="71c38a4b-8901-42f3-a50f-e5d7109800ff"/>
+				<reportElement x="0" y="344" width="150" height="8" uuid="71c38a4b-8901-42f3-a50f-e5d7109800ff"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1465,7 +1618,7 @@ SIN IVA]]></text>
 				<text><![CDATA[Porcentaje del préstamo sobre avalúo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="490" y="319" width="89" height="19" backcolor="#E8E8E8" uuid="1a386cd7-445b-4364-b6f9-776fea2f8a09"/>
+				<reportElement mode="Opaque" x="490" y="280" width="89" height="19" backcolor="#E8E8E8" uuid="1a386cd7-445b-4364-b6f9-776fea2f8a09"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1479,7 +1632,7 @@ SIN IVA]]></text>
 SOBRE AVALUO]]></text>
 			</staticText>
 			<textField isStretchWithOverflow="true">
-				<reportElement x="150" y="394" width="429" height="17" uuid="13b7057a-1d0b-443d-9147-b25a39215367"/>
+				<reportElement x="150" y="355" width="429" height="17" uuid="13b7057a-1d0b-443d-9147-b25a39215367"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1493,7 +1646,7 @@ SOBRE AVALUO]]></text>
 				<textFieldExpression><![CDATA[$F{notasDescuentos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="150" y="419" width="429" height="8" uuid="4d92bf73-bf5f-4969-88f5-7e131352e307"/>
+				<reportElement x="150" y="380" width="429" height="8" uuid="4d92bf73-bf5f-4969-88f5-7e131352e307"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1507,7 +1660,7 @@ SOBRE AVALUO]]></text>
 				<textFieldExpression><![CDATA[$F{fechaLimiteFiniquito}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="288" y="290" width="291" height="8" backcolor="#E8E8E8" uuid="dbee9516-32e5-405a-a54d-f74dccb00114"/>
+				<reportElement mode="Opaque" x="288" y="251" width="291" height="8" backcolor="#E8E8E8" uuid="dbee9516-32e5-405a-a54d-f74dccb00114"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1521,7 +1674,7 @@ SOBRE AVALUO]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="446" width="579" height="44" uuid="e2724fc0-5e9d-4f36-b63a-8c94f4066ced"/>
+				<reportElement x="0" y="407" width="579" height="44" uuid="e2724fc0-5e9d-4f36-b63a-8c94f4066ced"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1538,7 +1691,7 @@ Página de Internet: www.autopresta.com, en un horario de lunes a viernes de 9:0
 www.gob.mx/profeco]]></text>
 			</staticText>
 			<textField pattern="$###,##0.00">
-				<reportElement x="288" y="338" width="92" height="29" uuid="563281e3-47d7-48a1-b581-939433132cab"/>
+				<reportElement x="288" y="299" width="92" height="29" uuid="563281e3-47d7-48a1-b581-939433132cab"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1551,7 +1704,7 @@ www.gob.mx/profeco]]></text>
 				<textFieldExpression><![CDATA[$F{avaluo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="435" width="579" height="8" uuid="b9eae850-3d1b-49f5-bc41-b6321d5e0c4f"/>
+				<reportElement x="0" y="396" width="579" height="8" uuid="b9eae850-3d1b-49f5-bc41-b6321d5e0c4f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1566,7 +1719,7 @@ www.gob.mx/profeco]]></text>
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="150" y="383" width="429" height="8" uuid="f34f87cf-2794-4f65-8ee5-a31b46e6bada"/>
+				<reportElement x="150" y="344" width="429" height="8" uuid="f34f87cf-2794-4f65-8ee5-a31b46e6bada"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1580,7 +1733,7 @@ www.gob.mx/profeco]]></text>
 				<textFieldExpression><![CDATA[$F{porcentajePrestamoSobreAvaluo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="288" y="298" width="291" height="21" uuid="96bcb0a7-7282-4107-b728-69d59c8aff9e"/>
+				<reportElement x="288" y="259" width="291" height="21" uuid="96bcb0a7-7282-4107-b728-69d59c8aff9e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1594,7 +1747,7 @@ www.gob.mx/profeco]]></text>
 ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="150" y="338" width="138" height="29" uuid="1494412e-bad9-4efc-ab2c-677505b8f410"/>
+				<reportElement x="150" y="299" width="138" height="29" uuid="1494412e-bad9-4efc-ab2c-677505b8f410"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1607,7 +1760,7 @@ www.gob.mx/profeco]]></text>
 				<textFieldExpression><![CDATA[$F{noDeVin}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="380" y="319" width="110" height="19" backcolor="#E8E8E8" uuid="adb2508d-0178-49fc-8274-548cc4ddf68d"/>
+				<reportElement mode="Opaque" x="380" y="280" width="110" height="19" backcolor="#E8E8E8" uuid="adb2508d-0178-49fc-8274-548cc4ddf68d"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1620,7 +1773,7 @@ www.gob.mx/profeco]]></text>
 				<text><![CDATA[PRESTAMO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="290" width="288" height="8" backcolor="#E8E8E8" uuid="6f38157e-191d-4783-b19d-297fdd29627f"/>
+				<reportElement mode="Opaque" x="0" y="251" width="288" height="8" backcolor="#E8E8E8" uuid="6f38157e-191d-4783-b19d-297fdd29627f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1634,7 +1787,7 @@ www.gob.mx/profeco]]></text>
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="512" width="579" height="32" uuid="9eee5dfb-e312-48aa-bcdb-5ff88e0e34b5"/>
+				<reportElement x="0" y="473" width="579" height="32" uuid="9eee5dfb-e312-48aa-bcdb-5ff88e0e34b5"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1650,7 +1803,7 @@ CUMPLIMIENTO DEL CONTRATO, LAS PARTES ACUERDAN, SOMETERSE EN LA VÍA ADMINISTRAT
 DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE CELEBRA EL CONTRATO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="394" width="150" height="17" uuid="fcea4624-8489-44a3-815c-de1b5ab31e1b"/>
+				<reportElement x="0" y="355" width="150" height="17" uuid="fcea4624-8489-44a3-815c-de1b5ab31e1b"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1664,7 +1817,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[Notas y Descuentos al préstamo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="419" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
+				<reportElement x="0" y="380" width="150" height="8" uuid="59f9f2e8-1ecf-4dcc-b7b6-75f0279d923f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1679,7 +1832,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="490" width="579" height="22" uuid="357909cf-cc8c-4aba-a772-3f54a924e003"/>
+				<reportElement x="0" y="451" width="579" height="22" uuid="357909cf-cc8c-4aba-a772-3f54a924e003"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1694,7 +1847,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="150" y="319" width="138" height="19" backcolor="#E8E8E8" uuid="362c8fb5-737f-44c3-a7cd-32ff01688ef3"/>
+				<reportElement mode="Opaque" x="150" y="280" width="138" height="19" backcolor="#E8E8E8" uuid="362c8fb5-737f-44c3-a7cd-32ff01688ef3"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1707,7 +1860,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[NÚMERO DE VIN DE LA PRENDA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="411" width="150" height="8" uuid="ac074962-a328-407f-8a13-5177ceaddc07"/>
+				<reportElement x="0" y="372" width="150" height="8" uuid="ac074962-a328-407f-8a13-5177ceaddc07"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1721,7 +1874,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[Fecha de inicio de comercialización:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="367" width="150" height="8" uuid="b27b7992-e1ba-48af-976d-727a82d9be99"/>
+				<reportElement x="0" y="328" width="150" height="8" uuid="b27b7992-e1ba-48af-976d-727a82d9be99"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1735,7 +1888,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[Monto del préstamo (numero y letra):]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="338" width="150" height="29" uuid="acc00671-8dee-4935-b02f-9027d3206dec"/>
+				<reportElement x="0" y="299" width="150" height="29" uuid="acc00671-8dee-4935-b02f-9027d3206dec"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1748,7 +1901,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textFieldExpression><![CDATA[$F{caracteristicas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="150" y="375" width="429" height="8" uuid="6561fd15-7c2f-4841-ab25-1c0c0965ad6e"/>
+				<reportElement x="150" y="336" width="429" height="8" uuid="6561fd15-7c2f-4841-ab25-1c0c0965ad6e"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1762,7 +1915,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textFieldExpression><![CDATA[$F{montoAvaluoLetra}]]></textFieldExpression>
 			</textField>
 			<textField pattern="$###,##0.00">
-				<reportElement x="380" y="338" width="110" height="29" uuid="91222e39-ab5a-479a-9ae6-14fb3609644a"/>
+				<reportElement x="380" y="299" width="110" height="29" uuid="91222e39-ab5a-479a-9ae6-14fb3609644a"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1775,7 +1928,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<textFieldExpression><![CDATA[$F{prestamo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="288" y="319" width="92" height="19" backcolor="#E8E8E8" uuid="1f5242d3-1177-4746-937f-a4c80c9861b2"/>
+				<reportElement mode="Opaque" x="288" y="280" width="92" height="19" backcolor="#E8E8E8" uuid="1f5242d3-1177-4746-937f-a4c80c9861b2"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1788,7 +1941,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[AVALUO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="411" width="429" height="8" uuid="e1f86271-0ec5-49e5-865d-7601d7034d9f"/>
+				<reportElement x="150" y="372" width="429" height="8" uuid="e1f86271-0ec5-49e5-865d-7601d7034d9f"/>
 				<box>
 					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
@@ -1802,7 +1955,7 @@ DIFERENCIAS, A LA JURISDICCIÓN DE LOS TRIBUNALES COMPETENTES DEL LUGAR DONDE SE
 				<text><![CDATA[A partir de 60 días (consecutivos o no) de impago de las mensualidades descritas en la presente caratula ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="420" y="73" width="81" height="48" uuid="f1e4ae94-8596-4de7-8db8-98cf229f317d">
+				<reportElement x="420" y="34" width="81" height="48" uuid="f1e4ae94-8596-4de7-8db8-98cf229f317d">
 					<property name="local_mesure_unitwidth" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>

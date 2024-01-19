@@ -15,7 +15,6 @@ class ReporteController {
     def contratoAutoPresta(Long id) {
         params
         def listaDatos=reporteService.colecion(id)
-        Contrato contrato = Contrato.findById(id)
         def contexto = grailsApplication.mainContext.getResource("${grailsApplication.config.jasper.dir.reports}")
         params.SUBREPORT_DIR = contexto.file.getAbsolutePath() + contexto.file.separator
         params._file = 'ContratoAP'

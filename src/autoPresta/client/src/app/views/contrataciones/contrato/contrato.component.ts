@@ -30,7 +30,7 @@ export class ContratoComponent implements OnInit {
   public _datos = {
     _title: 'Contrato', _modulo: 'Procesos', _icono: 'fas fa-desktop', _dominio: 'Contrato', _componente: 'Contrato'
   };
-
+  public cveDir = 1
   montoMaximoAutorizado = 0
   public direcciones = [];
   public formulario: FormGroup;
@@ -82,10 +82,18 @@ export class ContratoComponent implements OnInit {
     {id: '2020', descripcion: '2020'},
     {id: '2021', descripcion: '2021'},
     {id: '2022', descripcion: '2022'},
-    {id: '2023', descripcion: '2023'}
+    {id: '2023', descripcion: '2023'},
+    {id: '2024', descripcion: '2024'},
+    {id: '2025', descripcion: '2025'},
+    {id: '2026', descripcion: '2026'},
+    {id: '2027', descripcion: '2027'},
+    {id: '2028', descripcion: '2028'},
+    {id: '2029', descripcion: '2029'},
+    {id: '2030', descripcion: '2030'},
 
   ];
   public documentoOficialCombo: IdentificacionesOficiales[];
+  public comboDir: Combo[];
   public documentoOficialCoacreditadoCombo: IdentificacionesOficiales[];
   id;
   contratoEdicion;
@@ -147,7 +155,8 @@ export class ContratoComponent implements OnInit {
             colonia: datos.direcciones[0].colonia,
             municipio: datos.direcciones[0].municipio,
             principal: datos.direcciones[0].principal,
-            entidad: datos.direcciones[0].entidad
+            entidad: datos.direcciones[0].entidad,
+            tipo: datos.direcciones[0].tipo,
           })
         } else {
           for (let dir of datos.direcciones) {
@@ -162,7 +171,8 @@ export class ContratoComponent implements OnInit {
               colonia: dir.colonia,
               municipio: dir.municipio,
               entidad: dir.entidad,
-              principal: dir.principal
+              principal: dir.principal,
+              tipo: dir.tipo,
             });
           }
         }
@@ -178,10 +188,11 @@ export class ContratoComponent implements OnInit {
   }
 
   direccionFormulario() {
+    this.genericRestService.combo<Combo[]>({cve: this.cveDir}, 'comboDir').subscribe(res => this.comboDir = res);
     this.direccion = this.genericRestService.buildForm({
       id: [''],
-      dirTrabajo: [false, Validators.required],
-      dirAdicional: [false, Validators.required],
+      dirTrabajo: [false],
+      dirAdicional: [false],
       direccionPrincipal: ['', Validators.required],
       exterior: ['', Validators.required],
       interior: [''],
@@ -189,7 +200,8 @@ export class ContratoComponent implements OnInit {
       colonia: ['', Validators.required],
       municipio: ['', Validators.required],
       principal: [''],
-      entidad: ['', Validators.required]
+      entidad: ['', Validators.required],
+      tipo: ['', Validators.required]
     });
   }
 
@@ -405,8 +417,10 @@ export class ContratoComponent implements OnInit {
       colonia: this.direccion.get('colonia').value,
       municipio: this.direccion.get('municipio').value,
       entidad: this.direccion.get('entidad').value,
-      principal: this.direccion.get('principal').value
+      principal: this.direccion.get('principal').value,
+      tipo: this.direccion.get('tipo').value
     });
+    this.cveDir++;
     this.direccionFormulario();
   }
 
@@ -414,6 +428,7 @@ export class ContratoComponent implements OnInit {
     this.direccionFormulario()
     const indice = this.direcciones.indexOf(c);
     this.direcciones.splice(indice, 1);
+    this.cveDir--;
     this.direccionFormulario()
   }
 
@@ -431,7 +446,8 @@ export class ContratoComponent implements OnInit {
       colonia: c.colonia,
       municipio: c.municipio,
       principal: c.principal,
-      entidad: c.entidad
+      entidad: c.entidad,
+      tipo: c.tipo
     });
     this.direcciones.splice(indice, 1);
   }

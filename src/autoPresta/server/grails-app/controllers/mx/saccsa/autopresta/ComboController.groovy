@@ -193,4 +193,13 @@ class ComboController {
         def max = Parametros.getValorByParametro('MontoMaximoAutorizado')
         respond max: max
     }
+
+    def comboDir(Long cve) {
+        respond Combo.findAllByComboAndOrden('TipoDireccion', cve).collect({
+            [
+                    id         : it.clave,
+                    descripcion: it.descripcion
+            ]
+        })
+    }
 }

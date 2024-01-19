@@ -18,6 +18,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
   public _datos = {
     _title: 'Contrato', _modulo: 'Procesos', _icono: 'fas fa-desktop', _dominio: 'Contrato', _componente: 'Contrato'
   };
+  public cveDir = 1
 
   montoMaximoAutorizado = 0
   public direcciones = [];
@@ -68,11 +69,17 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
     {id: '2022', descripcion: '2022'},
     {id: '2023', descripcion: '2023'},
     {id: '2024', descripcion: '2024'},
-    {id: '2025', descripcion: '2025'}
+    {id: '2025', descripcion: '2025'},
+    {id: '2026', descripcion: '2026'},
+    {id: '2027', descripcion: '2027'},
+    {id: '2028', descripcion: '2028'},
+    {id: '2029', descripcion: '2029'},
+    {id: '2030', descripcion: '2030'},
 
   ];
   public documentoOficialCombo: IdentificacionesOficiales[];
   public documentoOficialCoacreditadoCombo: IdentificacionesOficiales[];
+  public comboDir: Combo[];
 
   constructor(
     private globalService: GlobalService, private genericRestService: RestService, private activatedroute: ActivatedRoute,
@@ -113,16 +120,18 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
   }
 
   direccionFormulario() {
+    this.genericRestService.combo<Combo[]>({cve: this.cveDir}, 'comboDir').subscribe(res => this.comboDir = res);
     this.direccion = this.genericRestService.buildForm({
-      dirTrabajo: [false, Validators.required],
-      dirAdicional: [false, Validators.required],
+      dirTrabajo: [false],
+      dirAdicional: [false],
       direccionPrincipal: ['', Validators.required],
       exterior: ['', Validators.required],
       interior: [''],
       cp: ['', Validators.required],
       colonia: ['', Validators.required],
       municipio: ['', Validators.required],
-      entidad: ['', Validators.required]
+      entidad: ['', Validators.required],
+      tipo: ['', Validators.required]
     });
   }
 
@@ -285,8 +294,10 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
       cp: this.direccion.get('cp').value,
       colonia: this.direccion.get('colonia').value,
       municipio: this.direccion.get('municipio').value,
-      entidad: this.direccion.get('entidad').value
+      entidad: this.direccion.get('entidad').value,
+      tipo: this.direccion.get('tipo').value
     });
+    this.cveDir++;
     this.direccionFormulario();
   }
 
@@ -294,6 +305,7 @@ export class ContratoPersonaFisicaCoacreditadoComponent implements OnInit {
   eliminarBeneficiario(c: direccion) {
     const indice = this.direcciones.indexOf(c);
     this.direcciones.splice(indice, 1);
+    this.cveDir--;
     this.direccionFormulario()
   }
 

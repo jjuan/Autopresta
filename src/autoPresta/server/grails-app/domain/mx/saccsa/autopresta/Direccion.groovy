@@ -12,6 +12,7 @@ class Direccion {
     String municipio
     String entidad
     Boolean principal
+    String tipo
 
     static constraints = {
         contrato nullable: false, blank: false
@@ -24,6 +25,7 @@ class Direccion {
         colonia nullable: true, blank: true
         municipio nullable: true, blank: true
         entidad nullable: true, blank: true
+        tipo nullable: true, blank: true
     }
 
     static mapping = {
@@ -40,5 +42,6 @@ class Direccion {
         colonia name: 'colonia', column: 'colonia'
         municipio name: 'municipio', column: 'municipio'
         entidad name: 'entidad', column: 'entidad'
+        tipo name: 'tipo', column: 'tipo'
     }
     }

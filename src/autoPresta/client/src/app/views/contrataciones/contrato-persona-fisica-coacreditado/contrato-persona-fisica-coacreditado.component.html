@@ -452,11 +452,24 @@
                 </mat-error>
               </mat-form-field>
             </div>
-            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-              <mat-slide-toggle formControlName="dirTrabajo">Dir. Trabajo</mat-slide-toggle>
-            </div>
-            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-              <mat-slide-toggle formControlName="dirAdicional">Dir. Adicional</mat-slide-toggle>
+            <!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">-->
+            <!--              <mat-slide-toggle formControlName="dirTrabajo">Dir. Trabajo</mat-slide-toggle>-->
+            <!--            </div>-->
+            <!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">-->
+            <!--              <mat-slide-toggle formControlName="dirAdicional">Dir. Adicional</mat-slide-toggle>-->
+            <!--            </div>-->
+
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Tipo direccion</mat-label>
+                <mat-select formControlName="tipo">
+                  <mat-option *ngFor="let item of comboDir"
+                              [value]="item.descripcion">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion.get('tipo').hasError('required')">
+                  Tipo direccion es requerido
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
           <div class="row">
@@ -478,8 +491,8 @@
               <table class="table table-hover dashboard-task-infos">
                 <thead>
                 <tr>
-                  <th>Dir. Trabajo</th>
-                  <th>Dir. Adicional</th>
+                  <!--                  <th>Dir. Trabajo</th>-->
+                  <th>Tipo direccion</th>
                   <th>Dirección Principal</th>
                   <th>Exterior</th>
                   <th>Interior</th>
@@ -492,8 +505,8 @@
                 </thead>
                 <tbody>
                 <tr *ngFor="let c of direcciones">
-                  <td>{{c.dirTrabajo ? 'Si' : 'No'}}</td>
-                  <td>{{c.dirAdicional ? 'Si' : 'No'}}</td>
+                  <!--                  <td>{{c.dirTrabajo ? 'Si' : 'No'}}</td>-->
+                  <td>{{c.tipo}}</td>
                   <td>{{c.direccionPrincipal}}</td>
                   <td>{{c.exterior}}</td>
                   <td>{{c.interior}}</td>
@@ -855,7 +868,7 @@
       <div class="col-xl-12 col-lg-12  mb-1">
         <div class="button-row">
           <button mat-raised-button color="primary" type="button"
-                  [disabled]="formulario.invalid"
+                  [disabled]="formulario.invalid && direcciones.length > 2"
                   (click)="save()">Guardar
           </button>
                     <button mat-raised-button color="warn" class="ml-2" type="reset" (click)="ngOnInit()">Cancelar</button>

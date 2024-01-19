@@ -251,6 +251,7 @@ class ContratoController extends RestfulController<Contrato> {
             direccion.municipio = dir.municipio
             direccion.entidad = dir.entidad
             direccion.principal = principal
+            direccion.tipo = dir.tipo
             direccion.save(flush: true, failOnError: true)
             principal = false
         }
@@ -665,7 +666,7 @@ class ContratoController extends RestfulController<Contrato> {
         bindData contrato, instance
         contrato.save(flush: true, failOnError: true)
         def direcciones = []
-        for (dir in instance.direccion) {
+        for (dir in request.JSON.direccion) {
             Direccion direccion = Direccion.findById(dir.id)
             if (direccion != null) {
                 direccion.contrato = contrato
@@ -679,22 +680,26 @@ class ContratoController extends RestfulController<Contrato> {
                 direccion.municipio = dir.municipio
                 direccion.entidad = dir.entidad
                 direccion.principal = dir.principal
+                direccion.tipo = dir.tipo
                 direccion.save(flush: true, failOnError: true)
                 direcciones.push(direccion.id)
             } else {
-                direccion = new Direccion()
-                direccion.contrato = contrato
-                direccion.dirTrabajo = dir.dirTrabajo
-                direccion.dirAdicional = dir.dirAdicional
-                direccion.direccionPrincipal = dir.direccionPrincipal
-                direccion.exterior = dir.exterior
-                direccion.interior = dir.interior
-                direccion.cp = new Long(dir.cp as String)
-                direccion.colonia = dir.colonia
-                direccion.municipio = dir.municipio
-                direccion.entidad = dir.entidad
-                direccion.principal = instance.direccion.size() > 1
-                direccion.save(flush: true, failOnError: true)
+                Direccion dirNew = new Direccion()
+                dirNew.contrato = contrato
+                dirNew.dirTrabajo = dir.dirTrabajo
+                dirNew.dirAdicional = dir.dirAdicional
+                dirNew.direccionPrincipal = dir.direccionPrincipal
+                dirNew.exterior = dir.exterior
+                dirNew.interior = dir.interior
+                dirNew.cp = new Long(dir.cp as String)
+                dirNew.colonia = dir.colonia
+                dirNew.municipio = dir.municipio
+                dirNew.entidad = dir.entidad
+                dirNew.principal = request.JSON.direccion.size() == 1
+                dirNew.tipo = dir.tipo
+                dirNew.validate()
+                dirNew.save(flush: true, failOnError: true)
+                direcciones.push(dirNew.id)
             }
         }
         def eliminaDirecciones = Direccion.findAllByContratoAndIdNotInList(contrato, direcciones)
