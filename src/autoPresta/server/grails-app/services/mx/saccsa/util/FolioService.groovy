@@ -8,23 +8,29 @@ class FolioService {
 
     def sessionFactory
 
-    Long generaFolio(String tipo){
+    def generaFolio(String tipo) {
         tipo = tipo.toUpperCase()
         Folios objFolio
         objFolio = Folios.findByCveTipo(tipo)
-        if(objFolio){
+        if (objFolio) {
             objFolio.lock()
             objFolio.refresh()
             objFolio.folio++
-        }
-        else {
-            objFolio = new Folios()
-            objFolio.cveTipo = tipo.toUpperCase()
-            objFolio.folio = 1l
+            objFolio.save(flush: true)
+        } else {
+            if (tipo.length() > 1) {
+                objFolio = new Folios()
+                objFolio.cveTipo = tipo.toUpperCase()
+                objFolio.folio = 1l
+                objFolio.save(flush: true)
+            }
 
         }
-        objFolio.save(flush: true)
-        objFolio.folio
+        if (tipo.length() > 1) {
+            objFolio.folio
+        } else {
+            'Pendiente'
+        }
     }
 
 }

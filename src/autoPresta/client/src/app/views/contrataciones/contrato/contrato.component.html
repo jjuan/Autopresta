@@ -109,7 +109,7 @@
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Codigo Postal</mat-label>
               <input matInput formControlName="codigoPostalMoral"
-                     (keyup)="cargarDatos(this.formulario.get('codigoPostalMoral').value, true)">
+                     (keyup)="cargarDatos(this.formulario.get('codigoPostalMoral').value, 0)">
               <mat-error *ngIf="formulario.get('codigoPostalMoral').hasError('required')">
                 Codigo Postal es requerido
               </mat-error>
@@ -519,24 +519,24 @@
     <!--    Direccion-->
     <div class="card">
       <div class="body">
-        <div class="addContainer">
-          <div class="modalHeader">
-            <div class="editRowModal">
-              <div class="modalHeader clearfix">
-                <div class="modal-about">
-                  <div class="font-weight-bold p-t-5 p-l-10 font-17">Dirección</div>
+        <form [formGroup]="direccion1">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">{{this.direccion1.get('tipo').value}}</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <form [formGroup]="direccion">
           <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Dirección Principal</mat-label>
                 <input matInput formControlName="direccionPrincipal">
-                <mat-error *ngIf="direccion.get('direccionPrincipal').hasError('required')">
+                <mat-error *ngIf="direccion1.get('direccionPrincipal').hasError('required')">
                   El campo Dirección Principal es requerido
                 </mat-error>
               </mat-form-field>
@@ -544,8 +544,8 @@
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Codigo Postal</mat-label>
-                <input matInput formControlName="cp" (keyup)="cargarDatos(this.direccion.get('cp').value, false)">
-                <mat-error *ngIf="direccion.get('cp').hasError('required')">
+                <input matInput formControlName="cp" (keyup)="cargarDatos(this.direccion1.get('cp').value, 1)">
+                <mat-error *ngIf="direccion1.get('cp').hasError('required')">
                   El campo Codigo Postal es requerido
                 </mat-error>
               </mat-form-field>
@@ -554,7 +554,7 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Estado</mat-label>
                 <input matInput formControlName="entidad" readonly>
-                <mat-error *ngIf="direccion.get('entidad').hasError('required')">
+                <mat-error *ngIf="direccion1.get('entidad').hasError('required')">
                   El campo municipio es requerido
                 </mat-error>
               </mat-form-field>
@@ -563,7 +563,7 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Municipio</mat-label>
                 <input matInput formControlName="municipio" readonly>
-                <mat-error *ngIf="direccion.get('municipio').hasError('required')">
+                <mat-error *ngIf="direccion1.get('municipio').hasError('required')">
                   El campo municipio es requerido
                 </mat-error>
               </mat-form-field>
@@ -574,10 +574,10 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Colonia</mat-label>
                 <mat-select formControlName="colonia">
-                  <mat-option *ngFor="let item of coloniasCombo"
+                  <mat-option *ngFor="let item of coloniasCombo1"
                               [value]="item.id">{{item.descripcion}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="direccion.get('colonia').hasError('required')">
+                <mat-error *ngIf="direccion1.get('colonia').hasError('required')">
                   El campo colonia es requerido
                 </mat-error>
               </mat-form-field>
@@ -586,7 +586,7 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Número Externo</mat-label>
                 <input matInput formControlName="exterior">
-                <mat-error *ngIf="direccion.get('exterior').hasError('required')">
+                <mat-error *ngIf="direccion1.get('exterior').hasError('required')">
                   El campo número externo es requerido
                 </mat-error>
               </mat-form-field>
@@ -595,95 +595,317 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Número Interno</mat-label>
                 <input matInput formControlName="interior">
-                <mat-error *ngIf="direccion.get('interior').hasError('required')">
+                <mat-error *ngIf="direccion1.get('interior').hasError('required')">
                   El campo número interno es requerido
                 </mat-error>
               </mat-form-field>
             </div>
-            <!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">-->
-            <!--              <mat-slide-toggle formControlName="dirTrabajo">Dir. Trabajo</mat-slide-toggle>-->
-            <!--            </div>-->
-            <!--            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">-->
-            <!--              <mat-slide-toggle formControlName="dirAdicional">Dir. Adicional</mat-slide-toggle>-->
-            <!--            </div>-->
 
             <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Tipo direccion</mat-label>
-                <mat-select formControlName="tipo">
+                <mat-select formControlName="tipo" disabled>
                   <mat-option *ngFor="let item of comboDir"
                               [value]="item.descripcion">{{item.descripcion}}</mat-option>
                 </mat-select>
-                <mat-error *ngIf="direccion.get('tipo').hasError('required')">
+                <mat-error *ngIf="direccion1.get('tipo').hasError('required')">
                   Tipo direccion es requerido
                 </mat-error>
               </mat-form-field>
             </div>
           </div>
-          <div class="row">
-            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
-              <div class="example-button-row">
-                <button mat-raised-button class="btn-primary"
-                        [disabled]="direccion.invalid"
-                        (click)="agregarDireccion()">Añadir dirección adicional
-                </button>
+        </form>
+        <form [formGroup]="direccion2">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">{{this.direccion2.get('tipo').value}}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="tableBody" *ngIf="direcciones.length>=1">
-            <div class="row">
-              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Dirección Principal</mat-label>
+                <input matInput formControlName="direccionPrincipal">
+                <mat-error *ngIf="direccion2.get('direccionPrincipal').hasError('required')">
+                  El campo Dirección Principal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Codigo Postal</mat-label>
+                <input matInput formControlName="cp" (keyup)="cargarDatos(this.direccion2.get('cp').value, 2)">
+                <mat-error *ngIf="direccion2.get('cp').hasError('required')">
+                  El campo Codigo Postal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="entidad" readonly>
+                <mat-error *ngIf="direccion2.get('entidad').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Municipio</mat-label>
+                <input matInput formControlName="municipio" readonly>
+                <mat-error *ngIf="direccion2.get('municipio').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Colonia</mat-label>
+                <mat-select formControlName="colonia">
+                  <mat-option *ngFor="let item of coloniasCombo2"
+                              [value]="item.id">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion2.get('colonia').hasError('required')">
+                  El campo colonia es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Externo</mat-label>
+                <input matInput formControlName="exterior">
+                <mat-error *ngIf="direccion2.get('exterior').hasError('required')">
+                  El campo número externo es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Interno</mat-label>
+                <input matInput formControlName="interior">
+                <mat-error *ngIf="direccion2.get('interior').hasError('required')">
+                  El campo número interno es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Tipo direccion</mat-label>
+                <mat-select formControlName="tipo" disabled>
+                  <mat-option *ngFor="let item of comboDir"
+                              [value]="item.descripcion">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion2.get('tipo').hasError('required')">
+                  Tipo direccion es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <form [formGroup]="direccion3">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">{{this.direccion3.get('tipo').value}}</div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="table-responsive">
-              <table class="table table-hover dashboard-task-infos">
-                <thead>
-                <tr>
-                  <!--                  <th>Dir. Trabajo</th>-->
-                  <th>Tipo direccion</th>
-                  <th>Dirección Principal</th>
-                  <th>Exterior</th>
-                  <th>Interior</th>
-                  <th>CP</th>
-                  <th>Colonia</th>
-                  <th>Municipio</th>
-                  <th>Entidad</th>
-                  <th>Editar</th>
-                  <th>Eliminar</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let c of direcciones">
-                  <!--                  <td>{{c.dirTrabajo ? 'Si' : 'No'}}</td>-->
-                  <td>{{c.tipo}}</td>
-                  <td>{{c.direccionPrincipal}}</td>
-                  <td>{{c.exterior}}</td>
-                  <td>{{c.interior}}</td>
-                  <td>{{c.cp}}</td>
-                  <td>{{c.colonia}}</td>
-                  <td>{{c.municipio}}</td>
-                  <td>{{c.entidad}}</td>
+          </div>
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Dirección Principal</mat-label>
+                <input matInput formControlName="direccionPrincipal">
+                <mat-error *ngIf="direccion3.get('direccionPrincipal').hasError('required')">
+                  El campo Dirección Principal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Codigo Postal</mat-label>
+                <input matInput formControlName="cp" (keyup)="cargarDatos(this.direccion3.get('cp').value, 3)">
+                <mat-error *ngIf="direccion3.get('cp').hasError('required')">
+                  El campo Codigo Postal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="entidad" readonly>
+                <mat-error *ngIf="direccion3.get('entidad').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Municipio</mat-label>
+                <input matInput formControlName="municipio" readonly>
+                <mat-error *ngIf="direccion3.get('municipio').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Colonia</mat-label>
+                <mat-select formControlName="colonia">
+                  <mat-option *ngFor="let item of coloniasCombo3"
+                              [value]="item.id">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion3.get('colonia').hasError('required')">
+                  El campo colonia es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Externo</mat-label>
+                <input matInput formControlName="exterior">
+                <mat-error *ngIf="direccion3.get('exterior').hasError('required')">
+                  El campo número externo es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Interno</mat-label>
+                <input matInput formControlName="interior">
+                <mat-error *ngIf="direccion3.get('interior').hasError('required')">
+                  El campo número interno es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-                  <td>
-                    <button mat-icon-button matTooltip="Editar direccion"
-                            (click)="editarDireccion(c)">
-                      <mat-icon aria-label="Edit">edit</mat-icon>
-                    </button>
-                  </td>
-                  <td>
-                    <button mat-icon-button color="warn" matTooltip="Eliminar direccion"
-                            (click)="eliminarDireccion(c)">
-                      <mat-icon aria-label="Delete">delete</mat-icon>
-                    </button>
-                  </td>
-                </tr>
-                </tbody>
-              </table>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Tipo direccion</mat-label>
+                <mat-select formControlName="tipo" disabled>
+                  <mat-option *ngFor="let item of comboDir"
+                              [value]="item.descripcion">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion3.get('tipo').hasError('required')">
+                  Tipo direccion es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        <form [formGroup]="direccion4">
+          <div class="addContainer">
+            <div class="modalHeader">
+              <div class="editRowModal">
+                <div class="modalHeader clearfix">
+                  <div class="modal-about">
+                    <div class="font-weight-bold p-t-5 p-l-10 font-17">{{this.direccion4.get('tipo').value}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Dirección Principal</mat-label>
+                <input matInput formControlName="direccionPrincipal">
+                <mat-error *ngIf="direccion4.get('direccionPrincipal').hasError('required')">
+                  El campo Dirección Principal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Codigo Postal</mat-label>
+                <input matInput formControlName="cp" (keyup)="cargarDatos(this.direccion4.get('cp').value, 4)">
+                <mat-error *ngIf="direccion4.get('cp').hasError('required')">
+                  El campo Codigo Postal es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Estado</mat-label>
+                <input matInput formControlName="entidad" readonly>
+                <mat-error *ngIf="direccion4.get('entidad').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Municipio</mat-label>
+                <input matInput formControlName="municipio" readonly>
+                <mat-error *ngIf="direccion4.get('municipio').hasError('required')">
+                  El campo municipio es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Colonia</mat-label>
+                <mat-select formControlName="colonia">
+                  <mat-option *ngFor="let item of coloniasCombo4"
+                              [value]="item.id">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion4.get('colonia').hasError('required')">
+                  El campo colonia es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Externo</mat-label>
+                <input matInput formControlName="exterior">
+                <mat-error *ngIf="direccion4.get('exterior').hasError('required')">
+                  El campo número externo es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12 mb-2">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Número Interno</mat-label>
+                <input matInput formControlName="interior">
+                <mat-error *ngIf="direccion4.get('interior').hasError('required')">
+                  El campo número interno es requerido
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="col-xl-2 col-lg-2 col-md-12 col-sm-12  m-b-0">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Tipo direccion</mat-label>
+                <mat-select formControlName="tipo" disabled>
+                  <mat-option *ngFor="let item of comboDir"
+                              [value]="item.descripcion">{{item.descripcion}}</mat-option>
+                </mat-select>
+                <mat-error *ngIf="direccion4.get('tipo').hasError('required')">
+                  Tipo direccion es requerido
+                </mat-error>
+              </mat-form-field>
             </div>
           </div>
         </form>
       </div>
     </div>
+
 
     <!--    Datos del Automovil-->
     <div class="card">
@@ -1036,24 +1258,21 @@
           </div>
         </div>
         <div class="row">
-          <!--          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">-->
-          <!--            <mat-form-field class="full-width" appearance="outline">-->
-          <!--              <mat-label>Referencia Bancaria</mat-label>-->
-          <!--              <input matInput formControlName="referencia">-->
-          <!--              <mat-error *ngIf="formulario.get('referencia').hasError('required')">-->
-          <!--                Referencia Bancaria es requerido-->
-          <!--              </mat-error>-->
-          <!--            </mat-form-field>-->
-          <!--          </div>-->
-<!--          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">-->
-<!--            <mat-form-field class="full-width" appearance="outline">-->
-<!--              <mat-label>Clabe Interbancaria</mat-label>-->
-<!--              <input matInput formControlName="clabe">-->
-<!--              <mat-error *ngIf="formulario.get('clabe').hasError('required')">-->
-<!--                Clabe Interbancaria es requerido-->
-<!--              </mat-error>-->
-<!--            </mat-form-field>-->
-<!--          </div>-->
+          <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12  m-b-0">
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Clabe</mat-label>
+              <input matInput formControlName="clabe">
+              <mat-error *ngIf="formulario.get('clabe').hasError('required')">
+                Clabe es requerido
+              </mat-error>
+              <mat-error *ngIf="formulario.controls.clabe.hasError('minlength')">
+                La longitud del campo Clabe no debe ser menor a 18 caracteres
+              </mat-error>
+              <mat-error *ngIf="formulario.controls.clabe.hasError('maxlength')">
+                La longitud del campo Clabe no debe ser mayor a 18 caracteres
+              </mat-error>
+            </mat-form-field>
+          </div>
         </div>
       </div>
     </div>
@@ -1065,7 +1284,7 @@
                   [disabled]="formulario.invalid && direcciones.length > 2"
                   (click)="save()">Guardar
           </button>
-          <button mat-raised-button color="warn" class="ml-2" type="reset" (click)="ngOnInit()">Cancelar</button>
+          <button mat-raised-button color="warn" class="ml-2" type="reset" (click)="back()">Cancelar</button>
 <!--                    <button mat-raised-button color="warn" class="ml-2" (click)="pruebas()">Cancelar</button>-->
         </div>
       </div>

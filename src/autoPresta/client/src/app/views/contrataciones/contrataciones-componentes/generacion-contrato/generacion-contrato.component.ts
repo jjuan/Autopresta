@@ -47,9 +47,9 @@ export class GeneracionContratoComponent implements OnInit {
     this.formulario = this.restService.buildForm({
       calificacionCliente: [this.data.data.calificacionCliente ? this.data.data.calificacionCliente : '', Validators.required],
       fechaContrato: [this.data.data.fechaContrato ? this.data.data.fechaContrato+ 'T00:00:00' : '', Validators.required],
-      contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false, Validators.required],
-      contratoMonterrey: [this.data.data.contratoMonterrey ? this.data.data.contratoMonterrey : false, Validators.required],
-      numeroContrato: [this.data.data.numeroContrato ? this.data.data.numeroContrato : '', Validators.required],
+      contratoPrueba: [this.data.data.contratoPrueba ? this.data.data.contratoPrueba : false,],
+      contratoMonterrey: [this.data.data.contratoMonterrey ? this.data.data.contratoMonterrey : false,],
+      numeroContrato: [this.data.data.numeroContrato ? this.data.data.numeroContrato : '',],
       referenciaBancariaBBVA: [this.data.data.referenciaBancariaBBVA ? this.data.data.referenciaBancariaBBVA : ''],
       montoTransferencia: [this.data.data.montoTransferencia ? this.data.data.montoTransferencia : '', Validators.required],
       descuentosRetenciones: [this.data.data.descuentosRetenciones ? this.data.data.descuentosRetenciones : 'N/A', Validators.required],
@@ -63,6 +63,14 @@ export class GeneracionContratoComponent implements OnInit {
       this.restService.index<any>('Sucursales', {}, 'cargarFolio').subscribe(result => {
         this.formulario.patchValue({
           fechaContrato: result.fecha + 'T00:00:00',
+          // numeroContrato: result.numeroContrato,
+          // tipoContrato: result.tipoContrato
+        });
+      });
+    }else if (this.data.data.numeroContrato=='Pendiente'){
+      this.restService.index<any>('Sucursales', {}, 'cargarFolio').subscribe(result => {
+        this.formulario.patchValue({
+          fechaContrato: this.data.data.fechaContrato + 'T00:00:00',
           numeroContrato: result.numeroContrato,
           tipoContrato: result.tipoContrato
         });

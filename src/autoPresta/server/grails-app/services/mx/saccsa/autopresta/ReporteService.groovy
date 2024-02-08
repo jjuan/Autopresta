@@ -3,6 +3,7 @@ package mx.saccsa.autopresta
 import grails.gorm.transactions.Transactional
 import groovy.time.TimeCategory
 import mx.saccsa.common.Parametros
+import mx.saccsa.security.Usuario
 
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -39,13 +40,17 @@ class ReporteService {
 
 
         }
-        def dir = Direccion.findByContratoAndTipo(contrato, 'Domicilio casa cliente')
+        def dir = Direccion.findByContratoAndTipo(contrato, Combo.findByComboAndClave('TipoDireccion', '1').descripcion)
         if (dir == null){
             dir = Direccion.findByContratoAndPrincipal(contrato, true)
         }
-        def dir2 = Direccion.findByContratoAndTipo(contrato, 'Domicilio donde radica el auto')
+        def dir2 = Direccion.findByContratoAndTipo(contrato, Combo.findByComboAndClave('TipoDireccion', '2').descripcion)
+        def dir3 = Direccion.findByContratoAndTipo(contrato, Combo.findByComboAndClave('TipoDireccion', '3').descripcion)
+        def dir4 = Direccion.findByContratoAndTipo(contrato, Combo.findByComboAndClave('TipoDireccion', '4').descripcion)
         String exterior = dir.exterior != null ? dir.exterior : 'S/N'
-        String exterior2 = dir2!=null ? (dir2.exterior != null ? dir2.exterior : 'S/N'): ''
+        String exterior2 = dir2!=null ? (dir2.exterior != null ? dir2.exterior : 'S/N'): 'N/A'
+        String exterior3 = dir3!=null ? (dir3.exterior != null ? dir3.exterior : 'S/N'): 'N/A'
+        String exterior4 = dir4!=null ? (dir4.exterior != null ? dir4.exterior : 'S/N'): 'N/A'
         def desempenio = ContratoDetalle.findByContratoAndParcialidad(contrato, contrato.tipoContrato.duracion.toString())
         def fechaFiniquito = ContratoDetalle.findByContratoAndParcialidad(contrato, '12')
         def prestamoSobreAvaluo = ((contrato.montoRequerido / contrato.valorDeCompra) * 100)
@@ -77,18 +82,33 @@ class ReporteService {
                 colonia                            : dir.colonia != null ? dir.colonia.toUpperCase() : '',
                 codigoPostal                       : dir.cp != null ? cpFormato(dir.cp) : '',
                 alcaldia                           : dir.municipio != null ? dir.municipio.toUpperCase() : '',
-                calleNoExteriorS                    : dir2!=null ? campo(dir2.direccionPrincipal) + ' ' + exterior2: '',
-                noInteriorS                         : dir2!=null && dir2.interior != null ? dir.interior : '',
-                coloniaS                            : dir2!=null && dir2.colonia != null ? dir.colonia.toUpperCase() : '',
-                codigoPostalS                       : dir2!=null && dir2.cp != null ? cpFormato(dir.cp) : '',
-                alcaldiaS                           : dir2!=null && dir2.municipio != null ? dir.municipio.toUpperCase() : '',
+
+                calleNoExteriorS                    : dir2!=null ? campo(dir2.direccionPrincipal) + ' ' + exterior2: 'N/A',
+                noInteriorS                         : dir2!=null && dir2.interior != null ? dir2.interior : 'N/A',
+                coloniaS                            : dir2!=null && dir2.colonia != null ? dir2.colonia.toUpperCase() : 'N/A',
+                codigoPostalS                       : dir2!=null && dir2.cp != null ? cpFormato(dir2.cp) : 'N/A',
+                alcaldiaS                           : dir2!=null && dir2.municipio != null ? dir2.municipio.toUpperCase() : 'N/A',
+
+                calleNoExteriorT                    : dir3!=null ? campo(dir3.direccionPrincipal) + ' ' + exterior3: 'N/A',
+                noInteriorT                         : dir3!=null && dir3.interior != null ? dir3.interior : 'N/A',
+                coloniaT                            : dir3!=null && dir3.colonia != null ? dir3.colonia.toUpperCase() : 'N/A',
+                codigoPostalT                       : dir3!=null && dir3.cp != null ? cpFormato(dir3.cp) : 'N/A',
+                alcaldiaT                           : dir3!=null && dir3.municipio != null ? dir3.municipio.toUpperCase() : 'N/A',
+
+                calleNoExteriorC                    : dir4!=null ? campo(dir4.direccionPrincipal) + ' ' + exterior4: 'N/A',
+                noInteriorC                         : dir4!=null && dir4.interior != null ? dir4.interior : 'N/A',
+                coloniaC                            : dir4!=null && dir4.colonia != null ? dir4.colonia.toUpperCase() : 'N/A',
+                codigoPostalC                       : dir4!=null && dir4.cp != null ? cpFormato(dir4.cp) : 'N/A',
+                alcaldiaC                           : dir4!=null && dir4.municipio != null ? dir4.municipio.toUpperCase() : 'N/A',
+
+
                 noContrato                         : contratoFolio(contrato),
                 montoPrestamo                      : contrato.montoTransferencia,
                 montoTotalPagar                    : montoTotal,
                 referenciaBancaria                 : contrato.referencia ? contrato.referencia.toUpperCase() : '',
                 clabe                              : contrato.clabe,
                 plazo                              : '12 MESES',
-                desempeño                          : fecha(desempenio.fecha),
+                desempeño                          : desempenio?fecha(desempenio.fecha):null,
                 caracteristicas                    : descripcion(contrato),
                 noDeVin                            : campo(contrato.numeroVin),
                 avaluo                             : contrato.valorDeCompra,
@@ -125,6 +145,10 @@ class ReporteService {
     def datosSucursal(Contrato contrato) {
         String cve = contrato.tipoFolio
         def sc = Sucursales.findByRegion(Regiones.findByClave(cve))
+        if (sc==null){
+            Usuario usuario=springSecurityService.getCurrentUser()
+            sc=usuario.sucursal
+        }
         String direccionSucursal = sc.direccion.toUpperCase() + ', ' + sc.colonia.toUpperCase() + ', ' + sc.ciudad.toUpperCase() + ', ' + sc.region.descripcion + '; C.P. ' + sc.codigoPostal.toUpperCase()
         String telefonoSucursal = sc.telefono.toUpperCase()
         String descripcionSucursal = sc.descripcion.toUpperCase()
@@ -215,7 +239,11 @@ class ReporteService {
         String nombres = contrato.nombres + ' ' + contrato.primerApellido + ' ' + contrato.segundoApellido
         String documento = IdentificacionesOficiales.getNombreById(contrato.documentoOficial)
         String documentoValor = contrato.claveElector
-        Direccion direccion = Direccion.findByContratoAndPrincipal(contrato, true)
+        def direccion = Direccion.findByContratoAndTipo(contrato, Combo.findByComboAndClave('TipoDireccion', '1').descripcion)
+        if (direccion == null){
+            direccion = Direccion.findByContratoAndPrincipal(contrato, true)
+        }
+
 
         return "EL SUSCRITO " + ftr(nombres.toUpperCase(), 'n') + " IDENTIFICÁNDOME CON " +
                 documento.toUpperCase() + " " + ftr(documentoValor.toUpperCase(), 'n') + " SEÑALANDO DOMICILIO" +
@@ -253,7 +281,7 @@ class ReporteService {
         def lista = Contrato.findAllByContratoPruebaAndEstatusAndFechaContratoBetween(false, 'F', fechaInicio, fechaFin).collect({
             [
                     numeroContrato: contratoFolio(it),
-                    titular       : it.razonesSociales ? it.razonesSociales.descLabel : it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido,
+                    titular       : getTitular(it),
                     representante : it.razonesSociales ? it.nombres + ' ' + it.primerApellido + ' ' + it.segundoApellido : '',
                     fechaContrato : it?.fechaContrato,
                     montoRequerido: it?.montoRequerido,
@@ -273,7 +301,7 @@ class ReporteService {
                     subtotal   : it.subtotal,
                     capital    : it.capital,
                     monitoreo  : it.monitoreo,
-                    contrato   : it.contrato.razonesSociales ? it.contrato.razonesSociales.descLabel.toUpperCase() : it.contrato.nombres.toUpperCase() + ' ' + it.contrato.primerApellido.toUpperCase() + ' ' + it.contrato.segundoApellido.toUpperCase(),
+                    contrato   : getTitular(it.contrato),
                     gps        : it.gps,
                     interes    : it.interes
 
@@ -284,22 +312,6 @@ class ReporteService {
     }
 
     def conciliaciones(Date fechaInicio, Date fechaFin) {
-//        def lista = Conciliaciones.findAllByFechaConciliacionBetween(fechaInicio, fechaFin).collect({
-//            [
-//                    parcialidad: it.parcialidad,
-//                    iva        : it.iva,
-//                    fechaRep   : it.fecha,
-//                    saldoFinal : it.saldoFinal,
-//                    subtotal   : it.subtotal,
-//                    capital    : it.capital,
-//                    monitoreo  : it.monitoreo,
-//                    contrato   : it.contrato.razonesSociales ? it.contrato.razonesSociales.descLabel.toUpperCase() : it.contrato.nombres.toUpperCase() + ' ' + it.contrato.primerApellido.toUpperCase() + ' ' + it.contrato.segundoApellido.toUpperCase(),
-//                    gps        : it.gps,
-//                    interes    : it.interes
-//
-//            ]
-//        })
-
         def conciliaciones = Conciliaciones.findAllByFechaConciliacionBetween(fechaInicio, fechaFin)
         def lista = ConciliacionesDetalles.findAllByConciliacionesInList(conciliaciones).collect({
             [
@@ -375,9 +387,7 @@ class ReporteService {
 
 
                 def pagos = ContratoDetalle.findAllByContratoNotInListAndConciliadoAndFechaBetween(excluidos, false, fechaInicio, fechaFin)
-                lista = pagos.collect({
-//                    log.error("contrato: " + it.contrato.numeroContrato + " montoConciliado: " + it.montoConciliado + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.montoConciliado - (it.subtotal + it.iva)) + " fecha: " + it.fecha)
-                    [
+                lista = pagos.collect({[
                             numeroContrato: contratoFolio(it.contrato.numeroContrato, it.contrato.tipoFolio),
                             titular       : getTitular(it.contrato),
                             generacion    : HistoricoExtensiones.findByContratoAndEsDefault(it.contrato, true)?.descripcion,
@@ -417,7 +427,6 @@ class ReporteService {
 
 
                 def pagos = ContratoDetalle.findAllByFechaBetweenAndContratoNotInListAndConciliado(
-//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
                         fechaInicio, fechaFin, excluidos, false
                 )
                 lista = pagos.collect({
@@ -461,7 +470,6 @@ class ReporteService {
 
 
                 def pagos = ContratoDetalle.findAllByFechaLessThanEqualsAndContratoNotInListAndConciliado(
-//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
                         fechaInicio, excluidos, false
                 )
                 lista = pagos.collect({
@@ -551,11 +559,7 @@ class ReporteService {
                 Date fechaFin = sdf.parse(sdf.format(calendar.getTime()));
 
 
-                def pagos = ContratoDetalle.findAllByFechaBetweenAndContratoNotInListAndConciliadoAndMontoConciliadoIsNotNull(
-//                        ContratoDetalle.executeQuery('SELECT id FROM ContratoDetalle where DATEDIFF(day,fecha,  getdate()) >= 1 and  DATEDIFF(day,fecha,  getdate()) < 30')
-                        fechaInicio, fechaFin
-                        , excluidos, true
-                )
+                def pagos = ContratoDetalle.findAllByFechaBetweenAndContratoNotInListAndConciliadoAndMontoConciliadoIsNotNull( fechaInicio, fechaFin , excluidos, true )
                 lista = pagos.collect({
                     log.error("contrato: " + it.contrato.numeroContrato + " montoConciliado: " + it.montoConciliado + " mensualidad: " + (it.subtotal + it.iva) + " adeudo: " + (it.montoConciliado - (it.subtotal + it.iva)) + " fecha: " + it.fecha)
                     if (it.contrato != null && it.montoConciliado >= (it.subtotal + it.iva) / 2 && it.montoConciliado <= (it.subtotal + it.iva) && it.montoConciliado - (it.subtotal + it.iva) < 0) {

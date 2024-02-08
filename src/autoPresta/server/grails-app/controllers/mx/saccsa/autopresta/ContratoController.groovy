@@ -22,6 +22,7 @@ class ContratoController extends RestfulController<Contrato> {
         super(Contrato)
     }
     def contratoService
+    def reporteService
     def folioService
     SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd')
 
@@ -53,7 +54,11 @@ class ContratoController extends RestfulController<Contrato> {
         })
 
         lista = lista.sort({ it.fechaContrato }).reverse()
-        respond(lista)
+        def data = [
+                data:getContratosEstatus(fechaInicio, fechaFin),
+                detalle:lista
+        ]
+        respond(data)
     }
 
     def getDirecciones(Contrato contrato) {
@@ -196,7 +201,11 @@ class ContratoController extends RestfulController<Contrato> {
                     total         : detalles,
             ]
         }).sort({ it.fechaContrato }).reverse()
-        respond(lista)
+        def data = [
+                data:getContratosEstatus(fechaInicio, fechaFin),
+                detalle:lista
+        ]
+        respond(data)
     }
 
     @Transactional
@@ -409,6 +418,15 @@ class ContratoController extends RestfulController<Contrato> {
         ])
     }
 
+    def getContratosEstatus(def inicio, def fin) {
+        def registrado = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('R', false, inicio, fin)
+        def impreso = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('I', false, inicio, fin)
+        def firmado = Contrato.countByEstatusNotInListAndContratoPruebaAndFechaContratoBetween(['R', 'I', 'C'], false, inicio, fin)
+        def cancelado = Contrato.countByEstatusAndContratoPruebaAndFechaContratoBetween('C', false, inicio, fin)
+        def total = registrado + impreso + firmado + cancelado
+        return [registrado: registrado, impreso   : impreso, firmado   : firmado, cancelado : cancelado, total     : total]
+    }
+
     def getEstatus(String estatus) {
         String label = ''
         if (estatus == 'C') {
@@ -600,13 +618,26 @@ class ContratoController extends RestfulController<Contrato> {
 
     def edicionContrato(Long id) {
         def contrato = Contrato.findById(id)
-        def detalles = ContratoDetalle.findAllByContrato(contrato)
-        def direcciones = Direccion.findAllByContrato(contrato)
+        def direcciones = Direccion.findAllByContrato(contrato) .collect({ [
+                id: it?.id,
+                contrato: it?.contrato?.id,
+                dirTrabajo: it?.dirTrabajo,
+                dirAdicional: it?.dirAdicional,
+                direccionPrincipal: it?.direccionPrincipal,
+                exterior: it?.exterior,
+                interior: it?.interior,
+                cp: reporteService.cpFormato(it.cp),
+                colonia: it?.colonia,
+                municipio: it?.municipio,
+                entidad: it?.entidad,
+                principal: it?.principal,
+                tipo: it?.tipo,
+        ]})
         if (contrato.razonesSociales != null) {
             def razonSocial = RazonesSociales.findById(contrato.razonesSociales.id)
-            respond contrato: contrato, detalles: detalles, direcciones: direcciones, razonSocial: razonSocial
+            respond contrato: contrato, direcciones: direcciones, razonSocial: razonSocial
         } else {
-            respond contrato: contrato, detalles: detalles, direcciones: direcciones
+            respond contrato: contrato, direcciones: direcciones
         }
     }
 
@@ -664,6 +695,16 @@ class ContratoController extends RestfulController<Contrato> {
         def instance = request.JSON
         Contrato contrato = Contrato.findById(params.id)
         bindData contrato, instance
+        if (contrato.numeroContrato=='Pendiente'||contrato.numeroContrato.contains('P')){
+            def folio = getFolioRecuperado(getClave(request.JSON.tipoFolio))
+            if (folio == 0) {
+                contrato.numeroContrato = request.JSON.tipoFolio== 'P' ? folioService.generaFolio(getClave(request.JSON.tipoFolio)).toString() + 'P' : folioService.generaFolio(getClave(request.JSON.tipoFolio)).toString()
+            } else {
+                contrato.numeroContrato = request.JSON.tipoFolio== 'P' ? folio.toString() + 'P' : folio.toString()
+                FoliosRecuperados foliosRecuperado = FoliosRecuperados.findByCveTipoAndFolio(getClave(request.JSON.tipoFolio), folio.toString())
+                foliosRecuperado.delete(flush: true, failOnError: true)
+            }
+        }
         contrato.save(flush: true, failOnError: true)
         def direcciones = []
         for (dir in request.JSON.direccion) {

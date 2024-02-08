@@ -37,8 +37,12 @@ export class RestService {
       }
     );
   }
+   changeData(data){
+     this.dataChange.next(data);
+   }
 
   index<T>(_controller?: string, _params?: { [key: string]: any; },  _action?: string) {
+    this.changeData([])
     const opts = this.globalService.getHttpOptions();
     let action = '';
     if (_params !== undefined) { opts['params'] = _params; }

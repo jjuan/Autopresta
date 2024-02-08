@@ -74,14 +74,20 @@ export class ContratacionesComponent implements OnInit {
   loadData() {
     const fechaInicio = this.datePipe.transform(this.formulario.get('fechaInicio').value, 'yyyy-MM-dd');
     const fechaFin = this.datePipe.transform(this.formulario.get('fechaFin').value, 'yyyy-MM-dd');
-    this.estatusContratos()
-    this.dataSource = new registros(this.restService, this.paginator, this.sort, this.datos.controlador, fechaInicio, fechaFin);
-    fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
-      if (!this.dataSource) {
-        return;
-      }
-      this.dataSource.filter = this.filter.nativeElement.value;
-    });
+    // this.estatusContratos()
+
+    this.restService.index<any>(this.datos.controlador, {fechaInicio: fechaInicio,fechaFin: fechaFin, 'max': 100}).subscribe(respuesta =>{
+
+      this.conciliacionOperaciones = respuesta.data
+      this.dataSource = new registros(this.restService, this.paginator, this.sort, respuesta.detalle);
+      fromEvent(this.filter.nativeElement, 'keyup').subscribe(() => {
+        if (!this.dataSource) {
+          return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
+      });
+
+    })
   }
 
   private refreshTable() {
@@ -152,6 +158,7 @@ export class ContratacionesComponent implements OnInit {
 
 export class registros extends DataSource<Contrataciones> {
   filterChange = new BehaviorSubject('');
+  data
 
   get filter(): string {
     return this.filterChange.value;
@@ -164,7 +171,7 @@ export class registros extends DataSource<Contrataciones> {
   filteredData: Contrataciones[] = [];
   renderedData: Contrataciones[] = [];
 
-  constructor(private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private controller: string, private fechaInicio, private fechaFin) {
+  constructor(private ds: RestService, private paginator: MatPaginator, private _sort: MatSort, private detalles) {
     super();
     this.filterChange.subscribe(() => (this.paginator.pageIndex = 0));
   }
@@ -177,10 +184,7 @@ export class registros extends DataSource<Contrataciones> {
     const displayDataChanges = [
       this.ds.dataChange, this._sort.sortChange, this.filterChange, this.paginator.page
     ];
-
-    this.ds.getAdvancedTable<any>(this.controller, {
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin, 'max': 100});
+    this.ds.changeData(this.detalles)
     // console.log(this.ds)
     return merge(...displayDataChanges).pipe(map(() => {
         this.filteredData = this.ds.data.slice().filter((campo: Contrataciones) => {

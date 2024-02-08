@@ -194,8 +194,8 @@ class ComboController {
         respond max: max
     }
 
-    def comboDir(Long cve) {
-        respond Combo.findAllByComboAndOrden('TipoDireccion', cve).collect({
+    def comboDir() {
+        respond Combo.findAllByCombo('TipoDireccion').collect({
             [
                     id         : it.clave,
                     descripcion: it.descripcion

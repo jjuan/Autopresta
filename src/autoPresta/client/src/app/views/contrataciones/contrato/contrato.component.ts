@@ -44,7 +44,10 @@ export class ContratoComponent implements OnInit {
   public regimenFiscalCombo: Combo[];
   public modelosCombo: Combo[];
   public marcasCombo: Combo[];
-  public direccion: FormGroup;
+  public direccion1: FormGroup;
+  public direccion2: FormGroup;
+  public direccion3: FormGroup;
+  public direccion4: FormGroup;
 
   costoMensualInteres = 0
   costoMensualMonitoreo = 0
@@ -65,7 +68,10 @@ export class ContratoComponent implements OnInit {
   public respuesta: Contrato;
   public estadosCombo: Combo[];
   public keyword = 'descripcion';
-  public coloniasCombo: Combo[];
+  public coloniasCombo1: Combo[];
+  public coloniasCombo2: Combo[];
+  public coloniasCombo3: Combo[];
+  public coloniasCombo4: Combo[];
   public coloniasMoralCombo: Combo[];
   public coacreditado = false
   public aniosCombo: Combo[] = [
@@ -143,8 +149,8 @@ export class ContratoComponent implements OnInit {
         this.documentoOficialValidator(datos.contrato.documentoOficial, false)
         this.calcularMaximoAutorizado(datos.contrato.valorDeCompra)
         if (datos.direcciones.length == 1) {
-          this.cargarDatos((datos.direcciones[0].cp.toString()).length == 4 ? '0' + datos.direcciones[0].cp : datos.direcciones[0].cp, false)
-          this.direccion.patchValue({
+          this.cargarDatos(datos.direcciones[0].cp.toString(), 1)
+          this.direccion1.patchValue({
             id: datos.direcciones[0].id,
             dirTrabajo: datos.direcciones[0].dirTrabajo,
             dirAdicional: datos.direcciones[0].dirAdicional,
@@ -156,24 +162,77 @@ export class ContratoComponent implements OnInit {
             municipio: datos.direcciones[0].municipio,
             principal: datos.direcciones[0].principal,
             entidad: datos.direcciones[0].entidad,
-            tipo: datos.direcciones[0].tipo,
+            tipo: 'Domicilio casa cliente',
           })
         } else {
-          for (let dir of datos.direcciones) {
-            this.direcciones.push({
-              id: dir.id,
-              dirTrabajo: dir.dirTrabajo,
-              dirAdicional: dir.dirAdicional,
-              direccionPrincipal: dir.direccionPrincipal,
-              exterior: dir.exterior,
-              interior: dir.interior,
-              cp: (dir.cp.toString()).length == 4 ? '0' + dir.cp : dir.cp,
-              colonia: dir.colonia,
-              municipio: dir.municipio,
-              entidad: dir.entidad,
-              principal: dir.principal,
-              tipo: dir.tipo,
-            });
+          console.log(datos.direcciones.length)
+          if (datos.direcciones.length >= 1) {
+            this.cargarDatos(datos.direcciones[0].cp.toString(), 1)
+            this.direccion1.patchValue({
+              id: datos.direcciones[0].id,
+              dirTrabajo: datos.direcciones[0].dirTrabajo,
+              dirAdicional: datos.direcciones[0].dirAdicional,
+              direccionPrincipal: datos.direcciones[0].direccionPrincipal,
+              exterior: datos.direcciones[0].exterior,
+              interior: datos.direcciones[0].interior,
+              cp: (datos.direcciones[0].cp.toString()).length == 4 ? '0' + datos.direcciones[0].cp : datos.direcciones[0].cp,
+              colonia: datos.direcciones[0].colonia,
+              municipio: datos.direcciones[0].municipio,
+              principal: datos.direcciones[0].principal,
+              entidad: datos.direcciones[0].entidad,
+              tipo: 'Domicilio casa cliente',
+            })
+          }
+          if (datos.direcciones.length >= 2) {
+            this.cargarDatos(datos.direcciones[1].cp.toString(), 2)
+            this.direccion2.patchValue({
+              id: datos.direcciones[1].id,
+              dirTrabajo: datos.direcciones[1].dirTrabajo,
+              dirAdicional: datos.direcciones[1].dirAdicional,
+              direccionPrincipal: datos.direcciones[1].direccionPrincipal,
+              exterior: datos.direcciones[1].exterior,
+              interior: datos.direcciones[1].interior,
+              cp: (datos.direcciones[1].cp.toString()).length == 4 ? '0' + datos.direcciones[1].cp : datos.direcciones[1].cp,
+              colonia: datos.direcciones[1].colonia,
+              municipio: datos.direcciones[1].municipio,
+              principal: datos.direcciones[1].principal,
+              entidad: datos.direcciones[1].entidad,
+              tipo: 'Domicilio donde se sitúa el auto',
+            })
+          }
+          if (datos.direcciones.length >= 3) {
+            this.cargarDatos(datos.direcciones[2].cp.toString(), 3)
+            this.direccion3.patchValue({
+              id: datos.direcciones[2].id,
+              dirTrabajo: datos.direcciones[2].dirTrabajo,
+              dirAdicional: datos.direcciones[2].dirAdicional,
+              direccionPrincipal: datos.direcciones[2].direccionPrincipal,
+              exterior: datos.direcciones[2].exterior,
+              interior: datos.direcciones[2].interior,
+              cp: (datos.direcciones[2].cp.toString()).length == 4 ? '0' + datos.direcciones[2].cp : datos.direcciones[2].cp,
+              colonia: datos.direcciones[2].colonia,
+              municipio: datos.direcciones[2].municipio,
+              principal: datos.direcciones[2].principal,
+              entidad: datos.direcciones[2].entidad,
+              tipo: 'Domicilio laboral',
+            })
+          }
+          if (datos.direcciones.length == 4) {
+            this.cargarDatos(datos.direcciones[3].cp.toString(), 4)
+            this.direccion4.patchValue({
+              id: datos.direcciones[3].id,
+              dirTrabajo: datos.direcciones[3].dirTrabajo,
+              dirAdicional: datos.direcciones[3].dirAdicional,
+              direccionPrincipal: datos.direcciones[3].direccionPrincipal,
+              exterior: datos.direcciones[3].exterior,
+              interior: datos.direcciones[3].interior,
+              cp: (datos.direcciones[3].cp.toString()).length == 4 ? '0' + datos.direcciones[3].cp : datos.direcciones[3].cp,
+              colonia: datos.direcciones[3].colonia,
+              municipio: datos.direcciones[3].municipio,
+              principal: datos.direcciones[3].principal,
+              entidad: datos.direcciones[3].entidad,
+              tipo: '2do Domicilio donde radica',
+            })
           }
         }
         this.cargarModelos(datos.contrato.marca.id)
@@ -189,8 +248,7 @@ export class ContratoComponent implements OnInit {
 
   direccionFormulario() {
     this.genericRestService.combo<Combo[]>({cve: this.cveDir}, 'comboDir').subscribe(res => this.comboDir = res);
-    this.direccion = this.genericRestService.buildForm({
-      id: [''],
+    this.direccion1 = this.genericRestService.buildForm({
       dirTrabajo: [false],
       dirAdicional: [false],
       direccionPrincipal: ['', Validators.required],
@@ -199,9 +257,44 @@ export class ContratoComponent implements OnInit {
       cp: ['', Validators.required],
       colonia: ['', Validators.required],
       municipio: ['', Validators.required],
-      principal: [''],
       entidad: ['', Validators.required],
-      tipo: ['', Validators.required]
+      tipo: ['Domicilio casa cliente', Validators.required]
+    });
+    this.direccion2 = this.genericRestService.buildForm({
+      dirTrabajo: [false],
+      dirAdicional: [false],
+      direccionPrincipal: ['', Validators.required],
+      exterior: ['', Validators.required],
+      interior: [''],
+      cp: ['', Validators.required],
+      colonia: ['', Validators.required],
+      municipio: ['', Validators.required],
+      entidad: ['', Validators.required],
+      tipo: ['Domicilio donde se sitúa el auto', Validators.required]
+    });
+    this.direccion3 = this.genericRestService.buildForm({
+      dirTrabajo: [false],
+      dirAdicional: [false],
+      direccionPrincipal: ['', Validators.required],
+      exterior: ['', Validators.required],
+      interior: [''],
+      cp: ['', Validators.required],
+      colonia: ['', Validators.required],
+      municipio: ['', Validators.required],
+      entidad: ['', Validators.required],
+      tipo: ['Domicilio laboral', Validators.required]
+    });
+    this.direccion4 = this.genericRestService.buildForm({
+      dirTrabajo: [false],
+      dirAdicional: [false],
+      direccionPrincipal: ['', Validators.required],
+      exterior: ['', Validators.required],
+      interior: [''],
+      cp: ['', Validators.required],
+      colonia: ['', Validators.required],
+      municipio: ['', Validators.required],
+      entidad: ['', Validators.required],
+      tipo: ['2do Domicilio donde radica', Validators.required]
     });
   }
 
@@ -303,8 +396,9 @@ export class ContratoComponent implements OnInit {
       iva: [data ? data.iva : this.iva, Validators.required],
       costoMensualTotal: [data ? data.costoMensualTotal : this.costoMensualTotal, Validators.required],
       tipoContrato: [data ? data.tipoContrato : '', Validators.required],
+      tipoFolio: [data ? data.tipoContrato : '', Validators.required],
       referencia: [data ? data.referencia : ''],
-      clabe: [data ? data.clabe : ''],
+      clabe: [data ? data.clabe : '', [Validators.required, Validators.minLength(18), Validators.maxLength(18)]],
       coacreditado: [false],
       calificacionCliente: [data ? data.calificacionCliente : ''],
       contratoPrueba: [data ? data.contratoPrueba : ''],
@@ -323,6 +417,12 @@ export class ContratoComponent implements OnInit {
       this.agregarDireccion()
     }
     this.formulario.patchValue({direccion: this.direcciones})
+
+    if (this.direcciones.length==0){
+      this.formulario.patchValue({direccion: this.contratoEdicion.direcciones})
+    }
+
+    console.log(this.direcciones)
     const dialogRef = this.dialog.open(GeneracionContratoComponent, {
       data: {
         title: 'nombre', disableClose: true, data: {
@@ -357,6 +457,8 @@ export class ContratoComponent implements OnInit {
         fechaCompromiso: result.fechaCompromiso,
         referencia: result.referenciaBancariaBBVA,
         descuentosRetenciones: result.descuentosRetenciones,
+        numeroContrato: result.numeroContrato,
+        tipoFolio: result.tipoContrato,
       })
       this.genericRestService.update<Contrato>(this.contratoEdicion.contrato.id, this.formulario.value, this._datos._dominio).subscribe(data => {
         // this.ngOnInit();
@@ -406,21 +508,62 @@ export class ContratoComponent implements OnInit {
 
 
   agregarDireccion() {
-    this.direcciones.push({
-      id: this.direccion.get('id').value,
-      dirTrabajo: this.direccion.get('dirTrabajo').value,
-      dirAdicional: this.direccion.get('dirAdicional').value,
-      direccionPrincipal: this.direccion.get('direccionPrincipal').value,
-      exterior: this.direccion.get('exterior').value,
-      interior: this.direccion.get('interior').value,
-      cp: this.direccion.get('cp').value,
-      colonia: this.direccion.get('colonia').value,
-      municipio: this.direccion.get('municipio').value,
-      entidad: this.direccion.get('entidad').value,
-      principal: this.direccion.get('principal').value,
-      tipo: this.direccion.get('tipo').value
-    });
-    this.cveDir++;
+    if (this.direccion1.valid==true) {
+      this.direcciones.push({
+        dirTrabajo: this.direccion1.get('dirTrabajo').value,
+        dirAdicional: this.direccion1.get('dirAdicional').value,
+        direccionPrincipal: this.direccion1.get('direccionPrincipal').value,
+        exterior: this.direccion1.get('exterior').value,
+        interior: this.direccion1.get('interior').value,
+        cp: this.direccion1.get('cp').value,
+        colonia: this.direccion1.get('colonia').value,
+        municipio: this.direccion1.get('municipio').value,
+        entidad: this.direccion1.get('entidad').value,
+        tipo: this.direccion1.get('tipo').value
+      });
+    }
+    if (this.direccion2.valid==true) {
+      this.direcciones.push({
+        dirTrabajo: this.direccion2.get('dirTrabajo').value,
+        dirAdicional: this.direccion2.get('dirAdicional').value,
+        direccionPrincipal: this.direccion2.get('direccionPrincipal').value,
+        exterior: this.direccion2.get('exterior').value,
+        interior: this.direccion2.get('interior').value,
+        cp: this.direccion2.get('cp').value,
+        colonia: this.direccion2.get('colonia').value,
+        municipio: this.direccion2.get('municipio').value,
+        entidad: this.direccion2.get('entidad').value,
+        tipo: this.direccion2.get('tipo').value
+      });
+    }
+    if (this.direccion3.valid==true) {
+      this.direcciones.push({
+        dirTrabajo: this.direccion3.get('dirTrabajo').value,
+        dirAdicional: this.direccion3.get('dirAdicional').value,
+        direccionPrincipal: this.direccion3.get('direccionPrincipal').value,
+        exterior: this.direccion3.get('exterior').value,
+        interior: this.direccion3.get('interior').value,
+        cp: this.direccion3.get('cp').value,
+        colonia: this.direccion3.get('colonia').value,
+        municipio: this.direccion3.get('municipio').value,
+        entidad: this.direccion3.get('entidad').value,
+        tipo: this.direccion3.get('tipo').value
+      });
+    }
+    if (this.direccion4.valid==true) {
+      this.direcciones.push({
+        dirTrabajo: this.direccion4.get('dirTrabajo').value,
+        dirAdicional: this.direccion4.get('dirAdicional').value,
+        direccionPrincipal: this.direccion4.get('direccionPrincipal').value,
+        exterior: this.direccion4.get('exterior').value,
+        interior: this.direccion4.get('interior').value,
+        cp: this.direccion4.get('cp').value,
+        colonia: this.direccion4.get('colonia').value,
+        municipio: this.direccion4.get('municipio').value,
+        entidad: this.direccion4.get('entidad').value,
+        tipo: this.direccion4.get('tipo').value
+      });
+    }
     this.direccionFormulario();
   }
 
@@ -434,8 +577,8 @@ export class ContratoComponent implements OnInit {
 
   editarDireccion(c: direccion) {
     const indice = this.direcciones.indexOf(c);
-    this.cargarDatos(c.cp.toString(), false)
-    this.direccion.patchValue({
+    this.cargarDatos(c.cp.toString(), indice+1)
+    this.direccion1.patchValue({
       id: c.id,
       dirTrabajo: c.dirTrabajo,
       dirAdicional: c.dirAdicional,
@@ -473,12 +616,12 @@ export class ContratoComponent implements OnInit {
       let age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
       if (coacreditado) {
         this.formulario.patchValue({
-          generoCoacreditado: data[10] == 'H' ? 'M' : 'F',
+          generoCoacreditado: data[10] == 'H'|| data[10] == 'h' ? 'M' : 'F',
           edadCoacreditado: age,
           fechaNacimientoCoacreditado: newDate
         })
       } else {
-        this.formulario.patchValue({genero: data[10] == 'H' ? 'M' : 'F', edad: age, fechaNacimiento: newDate})
+        this.formulario.patchValue({genero: data[10] == 'H'|| data[10] == 'h' ? 'M' : 'F', edad: age, fechaNacimiento: newDate})
       }
     } else {
       if (coacreditado) {
@@ -493,62 +636,125 @@ export class ContratoComponent implements OnInit {
     }
   }
 
-  cargarDatos(value, moral: boolean) {
-    if (moral) {
-      if ((value.toString()).length == 5) {
-        this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
-            this.formulario.patchValue({
-              entidadMoral: r[0].estado,
-              municipioMoral: r[0].municipio,
-            })
+  cargarDatos(value: string, form: number) {
+    console.log('Codigo ' + value + ' del formulario: ' + form)
+    switch (form){
+      case 0:
+        if (value.length == 5) {
+          this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+              this.formulario.patchValue({
+                entidadMoral: r[0].estado,
+                municipioMoral: r[0].municipio,
+              })
 
-            this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
-              this.coloniasMoralCombo = res
-              if (this.coloniasMoralCombo.length == 1) {
-                this.formulario.patchValue({
-                  coloniaMoral: this.coloniasMoralCombo[0].id
-                })
-              } else {
-                this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
-              }
-            });
-          }
-        )
-      } else {
-        this.formulario.patchValue({
-          entidadMoral: '',
-          municipioMoral: '',
-          coloniaMoral: ''
-        })
-      }
-
-    } else {
-      if ((value.toString()).length == 5) {
-        this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
-            this.direccion.patchValue({
-              entidad: r[0].estado,
-              municipio: r[0].municipio,
-            })
-
-            this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
-              this.coloniasCombo = res
-              if (this.coloniasCombo.length == 1) {
-                this.direccion.patchValue({
-                  colonia: this.coloniasCombo[0].id
-                })
-              } else {
-                this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
-              }
-            });
-          }
-        )
-      } else {
-        this.direccion.patchValue({
-          entidad: '',
-          municipio: '',
-          colonia: ''
-        })
-      }
+              this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+                this.coloniasMoralCombo = res
+                if (this.coloniasMoralCombo.length == 1) {
+                  this.formulario.patchValue({
+                    coloniaMoral: this.coloniasMoralCombo[0].id
+                  })
+                } else {
+                  this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+                }
+              });
+            }
+          )
+        } else {
+          this.formulario.patchValue({
+            entidadMoral: '',
+            municipioMoral: '',
+            coloniaMoral: ''
+          })
+        }
+        break
+      case 1:
+        if (value.length == 5) {
+          this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+              this.direccion1.patchValue({ entidad: r[0].estado, municipio: r[0].municipio })
+              this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+                this.coloniasCombo1 = res
+                if (this.coloniasCombo1.length == 1) {
+                  this.direccion1.patchValue({ colonia: this.coloniasCombo1[0].id })
+                } else {
+                  this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+                }
+              });
+            }
+          )
+        } else {
+          this.direccion1.patchValue({
+            entidad: '',
+            municipio: '',
+            colonia: ''
+          })
+        }
+        break
+      case 2:
+        if (value.length == 5) {
+          this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+              this.direccion2.patchValue({ entidad: r[0].estado, municipio: r[0].municipio })
+              this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+                this.coloniasCombo2 = res
+                if (this.coloniasCombo2.length == 1) {
+                  this.direccion2.patchValue({ colonia: this.coloniasCombo2[0].id })
+                } else {
+                  this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+                }
+              });
+            }
+          )
+        } else {
+          this.direccion2.patchValue({
+            entidad: '',
+            municipio: '',
+            colonia: ''
+          })
+        }
+        break
+      case 3:
+        if (value.length == 5) {
+          this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+              this.direccion3.patchValue({ entidad: r[0].estado, municipio: r[0].municipio })
+              this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+                this.coloniasCombo3 = res
+                if (this.coloniasCombo3.length == 1) {
+                  this.direccion3.patchValue({ colonia: this.coloniasCombo3[0].id })
+                } else {
+                  this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+                }
+              });
+            }
+          )
+        } else {
+          this.direccion3.patchValue({
+            entidad: '',
+            municipio: '',
+            colonia: ''
+          })
+        }
+        break
+      case 4:
+        if (value.length == 5) {
+          this.genericRestService.index<_comboCp>('Cp', {cp: value}, 'cargarDatos').subscribe(r => {
+              this.direccion4.patchValue({ entidad: r[0].estado, municipio: r[0].municipio })
+              this.genericRestService.combo<Combo[]>({id: value}, 'comboColonias').subscribe(res => {
+                this.coloniasCombo4 = res
+                if (this.coloniasCombo4.length == 1) {
+                  this.direccion4.patchValue({ colonia: this.coloniasCombo4[0].id })
+                } else {
+                  this.showNotification('snackbar-success', 'Favor de seleccionar su colonia', 'bottom', 'center')
+                }
+              });
+            }
+          )
+        } else {
+          this.direccion4.patchValue({
+            entidad: '',
+            municipio: '',
+            colonia: ''
+          })
+        }
+        break
     }
   }
 
@@ -782,5 +988,9 @@ export class ContratoComponent implements OnInit {
       fechaCompromiso: datos.fechaCompromiso,
       descuentosRetenciones: datos.descuentosRetenciones,
     })
+  }
+
+  back() {
+    this,this.router.navigate(['Consultas/Contrataciones'])
   }
 }
