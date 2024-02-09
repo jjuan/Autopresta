@@ -18,7 +18,19 @@ class ReporteService {
     def conciliacionesService
 
     def colecion(Long id) {
+        String tipoContrato = 'ContratoAP'
         def contrato = Contrato.findById(id)
+
+        if (contrato.regimenFiscal.clave == 'PM'){
+            tipoContrato = tipoContrato + 'Moral'
+        } else {
+            if (contrato.nombresCoacreditado!=null || contrato.nombreLargoCoacreditado!=null){
+                tipoContrato = tipoContrato + 'FisicoCoacreditado'
+            } else {
+                tipoContrato = tipoContrato + 'Fisico'
+            }
+        }
+
         def listaDatos = []
         def montoTotal = 0
         def pagos = ContratoDetalle.findAllByContrato(contrato)
@@ -139,7 +151,7 @@ class ReporteService {
                 label                              : datosSucursal(contrato).label,
         ]
 
-        return lista
+        return [lista: lista, archivo: tipoContrato]
     }
 
     def datosSucursal(Contrato contrato) {

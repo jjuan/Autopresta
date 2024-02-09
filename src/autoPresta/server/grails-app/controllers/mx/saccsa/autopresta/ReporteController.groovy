@@ -17,11 +17,13 @@ class ReporteController {
         def listaDatos=reporteService.colecion(id)
         def contexto = grailsApplication.mainContext.getResource("${grailsApplication.config.jasper.dir.reports}")
         params.SUBREPORT_DIR = contexto.file.getAbsolutePath() + contexto.file.separator
-        params._file = 'ContratoAP'
+        log.error "Imprimiento contrato: " + listaDatos.archivo
+//        params._file = 'ContratoAP - mod'
+        params._file = listaDatos.archivo
         params._format = 'PDF'
         params._name = 'Contrato Auto Presta'
         params._reporteTitulo = 'Contrato Auto Presta'
-        generateReportService.createReport(request, response, params, [data: [listaDatos]])
+        generateReportService.createReport(request, response, params, [data: [listaDatos.lista]])
     }
 
     def contratosFirmados(){

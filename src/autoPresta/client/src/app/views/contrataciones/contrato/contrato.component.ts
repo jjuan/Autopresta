@@ -413,16 +413,6 @@ export class ContratoComponent implements OnInit {
   }
 
   save() {
-    if (this.direcciones.length == 0) {
-      this.agregarDireccion()
-    }
-    this.formulario.patchValue({direccion: this.direcciones})
-
-    if (this.direcciones.length==0){
-      this.formulario.patchValue({direccion: this.contratoEdicion.direcciones})
-    }
-
-    console.log(this.direcciones)
     const dialogRef = this.dialog.open(GeneracionContratoComponent, {
       data: {
         title: 'nombre', disableClose: true, data: {
@@ -446,6 +436,16 @@ export class ContratoComponent implements OnInit {
       if (!result) {
         return;
       }
+      if (this.direcciones.length == 0) {
+        this.agregarDireccion()
+      }
+      this.formulario.patchValue({direccion: this.direcciones})
+
+      if (this.direcciones.length==0){
+        this.formulario.patchValue({direccion: this.contratoEdicion.direcciones})
+      }
+
+      console.log(this.direcciones)
       this.formulario.patchValue({
         calificacionCliente: result.calificacionCliente,
         contratoPrueba: result.contratoPrueba,

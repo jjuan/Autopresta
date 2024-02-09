@@ -246,10 +246,6 @@ export class ContratoPersonaMoralComponent implements OnInit {
   }
 
   save() {
-    if (this.direcciones.length == 0) {
-      this.addNewBeneficiario()
-    }
-    this.formulario.patchValue({direccion: this.direcciones})
 
     const dialogRef = this.dialog.open(GeneracionContratoComponent, {
       data: {title: 'nombre', disableClose: true, data: 'result', action: 'Generar'}, height: 'auto', width: '40%'
@@ -258,6 +254,10 @@ export class ContratoPersonaMoralComponent implements OnInit {
       if (!result) {
         return;
       }
+      if (this.direcciones.length == 0) {
+        this.addNewBeneficiario()
+      }
+      this.formulario.patchValue({direccion: this.direcciones})
       this.formulario.patchValue({
         calificacionCliente: result.calificacionCliente,
         contratoPrueba: result.contratoPrueba,
