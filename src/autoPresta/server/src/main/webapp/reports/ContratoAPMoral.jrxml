@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.6.1  -->
-<!-- 2024-02-08T16:14:26 -->
+<!-- 2024-08-15T18:21:47 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexo" language="groovy" pageWidth="612" pageHeight="860" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3943bb9a-4398-4c2f-9d17-d84f3bce4aae">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -3141,9 +3141,9 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="103" y="500" width="346" height="20" uuid="7544b5b8-ee55-49a1-8781-e616ae8a6f3b"/>
+				<reportElement x="82" y="500" width="388" height="20" uuid="7544b5b8-ee55-49a1-8781-e616ae8a6f3b"/>
 				<textElement textAlignment="Center" markup="styled">
-					<font fontName="Arial" size="12" isBold="true"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
@@ -3185,7 +3185,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="330" y="470" width="200" height="20" uuid="4572ff53-d3d3-47d6-94aa-85b6f8d41907"/>
+				<reportElement x="290" y="470" width="280" height="20" uuid="4572ff53-d3d3-47d6-94aa-85b6f8d41907"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[____________________________________________]]></text>
 			</staticText>
@@ -3211,19 +3211,19 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{acuerdoCoacreditado}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="330" y="490" width="200" height="20" uuid="fb88cf75-9550-4468-af15-cc1c50fb339d"/>
+				<reportElement x="290" y="490" width="280" height="20" uuid="fb88cf75-9550-4468-af15-cc1c50fb339d"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="39" y="470" width="200" height="20" uuid="77460193-6f75-4fd6-9701-66fed4fadb09"/>
+				<reportElement x="-1" y="470" width="280" height="20" uuid="77460193-6f75-4fd6-9701-66fed4fadb09"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[____________________________________________]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="39" y="490" width="200" height="20" uuid="90014ef8-55a4-4eee-94a4-9a093b31f18f"/>
+				<reportElement x="-1" y="490" width="280" height="20" uuid="90014ef8-55a4-4eee-94a4-9a093b31f18f"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
@@ -3294,7 +3294,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[AP SERVICIOS FINANCIEROS, S.A. DE C.V.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="310" y="690" width="228" height="20" uuid="8a72d810-44cf-4b85-bb78-ffdd35552a56"/>
+				<reportElement x="284" y="690" width="280" height="20" uuid="8a72d810-44cf-4b85-bb78-ffdd35552a56"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
@@ -3305,7 +3305,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="310" y="678" width="228" height="20" uuid="0f194e9c-ca2d-4215-93ed-82b3cfaf0af3"/>
+				<reportElement x="284" y="678" width="280" height="20" uuid="0f194e9c-ca2d-4215-93ed-82b3cfaf0af3"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="10" isBold="false"/>
 				</textElement>
@@ -3327,7 +3327,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{acuerdoLiquidacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="30" y="678" width="220" height="20" uuid="2daaa4ae-30e9-40fc-ace5-1441dcfb71b5"/>
+				<reportElement x="4" y="678" width="272" height="20" uuid="2daaa4ae-30e9-40fc-ace5-1441dcfb71b5"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="10"/>
 				</textElement>
@@ -3342,7 +3342,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="30" y="690" width="220" height="20" uuid="14c0b9ab-e6ec-4ab3-bf21-8d13dcebbfc3"/>
+				<reportElement x="4" y="690" width="272" height="20" uuid="14c0b9ab-e6ec-4ab3-bf21-8d13dcebbfc3"/>
 				<textElement textAlignment="Center" markup="styled">
 					<font fontName="Arial" size="10"/>
 				</textElement>
@@ -3777,7 +3777,7 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				<text><![CDATA[NOTA: LA ÚLTIMA MENSUALIDAD SERÁ EL PAGO MENSUAL MÁS EL CAPITAL]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="101" y="740" width="346" height="20" uuid="c80e2794-4b12-47d8-a880-466958708a48">
+				<reportElement x="79" y="740" width="400" height="20" uuid="c80e2794-4b12-47d8-a880-466958708a48">
 					<property name="local_mesure_unity" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
