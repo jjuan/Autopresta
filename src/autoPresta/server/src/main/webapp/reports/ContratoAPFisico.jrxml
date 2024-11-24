@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 5.6.1.final using JasperReports Library version 5.6.1  -->
-<!-- 2024-02-08T16:41:18 -->
+<!-- 2024-09-06T15:37:13 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Anexo" language="groovy" pageWidth="612" pageHeight="838" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3943bb9a-4398-4c2f-9d17-d84f3bce4aae">
 	<property name="ireport.zoom" value="1.5"/>
 	<property name="ireport.x" value="0"/>
@@ -3794,6 +3794,93 @@ Leído que fue y una vez hecha la explicación de su alcance legal y contenido, 
 				</textElement>
 				<text><![CDATA[5.0%]]></text>
 			</staticText>
+		</band>
+		<band height="300">
+			<image>
+				<reportElement x="152" y="0" width="269" height="54" uuid="c39cda9a-ee58-4313-9dfe-2c1e09a2fb29">
+					<printWhenExpression><![CDATA[$F{plazo}.equals( "12 MESES" )]]></printWhenExpression>
+				</reportElement>
+				<imageExpression><![CDATA[$P{imagen}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="118" y="82" width="423" height="20" uuid="da4df75f-4098-4510-bd27-67a008674c8b"/>
+				<textElement>
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombres}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="82" width="96" height="20" uuid="f69a7f45-6528-4889-9f6d-e1e6be452c17"/>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Estimado Cliente: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="110" width="482" height="20" uuid="01beef30-b8fe-4762-b689-63242575ff1e">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[Razón social: AP SERVICIOS FINANCIEROS SA DE CV]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="140" width="287" height="70" uuid="db586ef9-361e-43ad-ae9a-cbc41596b87d">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12"/>
+				</textElement>
+				<text><![CDATA[Calle: Lava No. 232
+Colonia: Jardines del Pedregal 	CP: 01900
+Delegación: Álvaro Obregon 		CDMX
+RFC: ASF180724JE2
+Teléfono: (55) 7619 8801 ]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Transparent" x="22" y="220" width="308" height="20" forecolor="#000000" backcolor="#FFFFFF" uuid="95495b40-1b10-4aa9-9a46-2874fbc5b4a0">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box padding="0" topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0"/>
+				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="styled">
+					<font fontName="Arial" size="12" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<paragraph lineSpacing="Single" lineSpacingSize="1.0" firstLineIndent="0" leftIndent="0" rightIndent="0" spacingBefore="0" spacingAfter="0" tabStopWidth="40"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CLABE INTERBANCARIA: " +$F{clabe}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="22" y="250" width="287" height="20" uuid="ba7d21db-915a-4745-9b24-e2001b7b8879">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[BANCO: STP]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="280" width="152" height="20" uuid="d24f99fb-879e-4498-9d08-c4db9638f3e1">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[REFERENCIA BANCARIA:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="174" y="280" width="156" height="20" uuid="e5cd1a83-7d84-4aef-a54a-22f00bae5416">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement markup="styled">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{noContrato}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>
